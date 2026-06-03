@@ -3,10 +3,10 @@ id: SPR-021
 slug: inbound-email-tickets-t-0177
 title: Inbound email → tickets (T-0177)
 project: pm-tool-self
-state: in_progress
+state: completed
 order: 21504
 created: 2026-06-03T18:39:36Z
-updated: 2026-06-03T19:19:25Z
+updated: 2026-06-03T20:11:37Z
 committed_items:
   - T-0177
   - T-0180
@@ -22,6 +22,7 @@ capacity:
   total: 1
   unit: tickets
 velocity_committed: 1
+velocity_actual: 2
 ---
 
 # SPR-021: Inbound email → tickets (T-0177)

@@ -2,9 +2,9 @@
 id: T-0180
 title: Forward inbound tickets to agents + relay agent email replies (Zendesk-style shared inbox)
 type: feature
-state: triaged
+state: done
 created: 2026-06-03T19:18:22Z
-updated: 2026-06-03T19:21:55Z
+updated: 2026-06-03T20:11:23Z
 project: pm-tool-self
 section: null
 parent: null
@@ -67,3 +67,9 @@ Inbound support tickets (T-0177) land in pm-tool, but agents (zsolt@, austin@) d
 - Poller routes replies by sender: requester → needs-response; agent (in `forward_to`) → threaded + **relayed to the requester** + attention cleared; other internal sender → note only. Deduped by message id (no re-relay), no mail loops.
 
 **Blocker for the send side:** forward + relay (and the UI "Reply to requester") send from `support@`, so they need **Mail.Send** granted on the Graph app — currently only Mail.ReadWrite is granted, so intake/threading work but outbound sends will stub until Mail.Send + admin consent is added.
+
+---
+
+**2026-06-03 20:11 — you**
+
+All working as expected
