@@ -5,7 +5,7 @@ type: support
 state: inbox
 priority: p2
 created: 2026-06-03T18:59:38Z
-updated: 2026-06-03T19:01:19Z
+updated: 2026-06-03T19:01:53Z
 project: null
 section: null
 parent: null
@@ -28,7 +28,10 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention: null
+attention:
+  needed_by: human
+  reason: New reply from requester — needs response
+  since: 2026-06-03T19:01:53Z
 customer_impact: Test ticket via email Sent from Outlook for Mac
 intake_channel: email
 intake_mailbox: support@yahire.com
@@ -53,5 +56,28 @@ Sent from Outlook for Mac
 ---
 
 **2026-06-03 19:01 — support**
+
+Testing ticket reply from UI
+
+---
+
+**2026-06-03 18:59 — IT <it@yahire.com>**
+
+Test ticket via email
+
+Sent from Outlook for Mac
+
+---
+
+**2026-06-03 19:01 — IT <it@yahire.com>**
+
+Testing reply from user to ticket reply
+
+Sent from Outlook for Mac 
+
+From: Yahire Support <support@yahire.com>
+Date: Wednesday, 3 June 2026 at 20:01
+To: IT <it@yahire.com>
+Subject: RE: Test for ticket
 
 Testing ticket reply from UI
