@@ -2,9 +2,9 @@
 id: T-0189
 title: Split project data into its own repo (pm-data); stop tracking .pm/ in code
 type: chore
-state: review
+state: done
 created: 2026-06-03T22:23:09Z
-updated: 2026-06-03T22:23:09Z
+updated: 2026-06-03T22:43:26Z
 project: pm-tool-self
 section: null
 parent: null
@@ -43,10 +43,7 @@ agent_runs:
 labels:
   - backfill
   - infra
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-03T22:23:09Z
+attention: null
 ---
 
 ## Problem
@@ -59,3 +56,9 @@ Retroactive record of commits `4e56648`, `55403f4`, `a2db99d` (2026-06-03). Part
 ## Conversation
 
 **2026-06-03 22:23 claude-code:** Run run-20260603-2223 completed — Retroactive record. Shipped across 4e56648/55403f4/a2db99d on 2026-06-03; live. The code/data repo split that made the remote MCP possible (see TS-002).
+
+---
+
+**2026-06-03 22:43 — you**
+
+done

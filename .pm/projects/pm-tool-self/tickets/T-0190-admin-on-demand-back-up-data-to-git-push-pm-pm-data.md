@@ -2,9 +2,9 @@
 id: T-0190
 title: "Admin: on-demand back up data to git (push .pm → pm-data)"
 type: feature
-state: review
+state: done
 created: 2026-06-03T22:23:09Z
-updated: 2026-06-03T22:23:09Z
+updated: 2026-06-03T22:43:40Z
 project: pm-tool-self
 section: null
 parent: null
@@ -40,10 +40,7 @@ agent_runs:
     test_plan: As an admin on /me, make a .pm change then click backup → the pm-data repo gets a commit attributed to you; as a non-admin the card is absent.
 labels:
   - backfill
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-03T22:23:09Z
+attention: null
 ---
 
 ## Problem
@@ -56,3 +53,9 @@ Retroactive record of commit `bfbcdd7` (2026-06-03). Complements TS-002.
 ## Conversation
 
 **2026-06-03 22:23 claude-code:** Run run-20260603-2223 completed — Retroactive record. Shipped in bfbcdd7 on 2026-06-03; live. On-demand git backup for admins, complementing the 10-min timer.
+
+---
+
+**2026-06-03 22:43 — you**
+
+done
