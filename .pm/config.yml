@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 185
+  ticket: 186
   project: 6
   section: 13
 outbound_email:
