@@ -2,9 +2,9 @@
 id: T-0176
 title: "Force close-the-loop: finished agent runs + human closes must transition state and record an outcome"
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-03T17:41:05Z
-updated: 2026-06-03T17:41:05Z
+updated: 2026-06-03T18:08:03Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,9 @@ priority: p1
 reporter:
   kind: human
   name: austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - "pm_complete_run with status=completed moves the ticket in_progress→review, sets attention(needed_by:human), and records the run summary as a comment in the ticket's ## Conversation"
   - "CLI `pm record-run` mirrors complete-run: completed→review+attention+recorded summary, abandoned→ready+clear assignee; the interactive prompt no longer defaults to an open-ended in_progress run"
@@ -45,7 +47,12 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260603-1808
+    model: claude-code
+    started: 2026-06-03T18:08:03Z
+    status: in_progress
+    summary: Claimed via web UI
 labels:
   - dogfood
   - lifecycle
@@ -69,3 +76,21 @@ Reminders won't fix this — it's a tool default. Per ADR-003 the gate must bite
 ## Out of scope (deferred)
 
 - Git/merged-commit reconciliation for the "shipped to prod but never run through the loop" class (T-0162) — separate L-effort ticket.
+
+**2026-06-03 18:00 claude:** **Implementation complete & committed locally** (commit `ba49c1c` on master) — awaiting push + `sudo pm-deploy`, then review & close.
+
+**What shipped** (full sweep + human done-gate; `completed` → auto-review, per the decision):
+
+- **A1 (MCP)** — `pm_complete_run` `completed` now moves the ticket `in_progress`→`review`, sets a human attention flag, and records the run summary as a closing comment in `## Conversation`. Agents still cannot reach `done`.
+- **A2 (CLI)** — `pm record-run` mirrors A1 (`completed`→review+attention+comment; `abandoned`→ready + cleared assignee).
+- **D1 (done-gate)** — no human path can mark a ticket `done` without a closing note: CLI `pm state --note`, Kanban drag, StateSelector, WhatsNext approve, ReviewBanner. The note is written to `## Conversation`; attention is cleared on done. Enforced once in the shared state machine via `requiresClosingNote()`.
+- **B1 (linter)** — warn-level `STALECLOSE001` (in_progress with a finished latest run) + `STALEPROG001` (open run gone quiet > 24h); `progress[]` formalized in the agent-run schema; tests added.
+- **B2 (web)** — a "Dropped / stalled work" section on Today, finished-run tickets split out of "Agents working now", plus a board-card + WhatsNext "shipped but not closed" indicator.
+
+**Verification**: linter 19/19 + typecheck ✓ · cli/mcp typecheck ✓ · web typecheck + full `next build` ✓. (The CLI runtime smoke tests can't run in this checkout — they copy the now-removed local `.pm/`; pre-existing, unrelated to this change. Worth a follow-up to bundle a fixture seed.)
+
+**Deferred** (separate ticket): git/merged-commit reconciliation for the "shipped to prod but never run through the loop" class — i.e. T-0162.
+
+**Dogfood gap found**: an agent driving via MCP can't move a ticket `triaged`→`ready` (no MCP tool), so I couldn't claim/run T-0176 through the loop itself. Recorded here as a comment + review flag instead.
+
+**Hand-off**: push master → `sudo pm-deploy` → then close T-0176 (and the already-shipped T-0172 / T-0162) via the new done-gate, which will prompt you for a closing note.

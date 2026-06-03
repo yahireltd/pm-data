@@ -2,10 +2,10 @@
 id: T-0172
 title: "Multi-user: SSO login + stakeholder portal scoped to your projects"
 type: feature
-state: in_progress
+state: done
 priority: p2
 created: 2026-06-02T18:59:20Z
-updated: 2026-06-03T15:23:01Z
+updated: 2026-06-03T18:05:16Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,8 +18,8 @@ assignee:
 acceptance_criteria:
   - "[x] Microsoft SSO (Entra) login; getCurrentIdentity() resolves the signed-in person"
   - "[x] A logged-in stakeholder sees only the projects they are a stakeholder on (scoped by email)"
-  - Stakeholders can read + comment but cannot change PM-owned items (authz enforced)
-  - Hosted on AWS, secrets from AWS Secrets Manager
+  - "[x] Stakeholders can read + comment but cannot change PM-owned items (authz enforced)"
+  - "[x] Hosted on AWS, secrets from AWS Secrets Manager"
 out_of_scope: []
 code_anchors:
   - path: web/app/_lib/access.ts
@@ -116,3 +116,9 @@ Admin-only impersonation to verify what a member/stakeholder sees. getEffectiveI
 Closed the cross-project gap: requireTeam(slug) now checks canMutateProject (admin OR member of THAT project), not coarse team access. Every mutating action in projects.ts + meetings.ts threads its project slug (slug / projectSlug / input.project / found.project for meeting-stakeholder actions). Reads (getProjectForUI) ungated; createProject stays coarse (team). A member of A can no longer mutate B via a direct POST.
 
 RBAC epic essentially complete. Remaining: AWS hosting (deploy).
+
+## Conversation
+
+**2026-06-03 18:05 — you**
+
+Accepted as done
