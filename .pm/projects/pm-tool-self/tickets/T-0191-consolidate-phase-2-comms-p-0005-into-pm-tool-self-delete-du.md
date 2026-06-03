@@ -2,9 +2,9 @@
 id: T-0191
 title: Consolidate phase-2-comms (P-0005) into pm-tool-self; delete duplicate project
 type: chore
-state: review
+state: done
 created: 2026-06-03T22:23:10Z
-updated: 2026-06-03T22:23:10Z
+updated: 2026-06-03T22:44:14Z
 project: pm-tool-self
 section: null
 parent: null
@@ -40,10 +40,7 @@ agent_runs:
     test_plan: pm_list_projects returns only pm-tool-self; ADR-004 and ADR-005 exist in pm-tool-self; pm-lint clean.
 labels:
   - backfill
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-03T22:23:10Z
+attention: null
 ---
 
 ## Problem
@@ -56,3 +53,9 @@ Retroactive record of commit `a167f43` (2026-06-02).
 ## Conversation
 
 **2026-06-03 22:23 claude-code:** Run run-20260603-2223 completed — Retroactive record. Done in a167f43 on 2026-06-02; data migration consolidating P-0005 into pm-tool-self.
+
+---
+
+**2026-06-03 22:44 — you**
+
+done
