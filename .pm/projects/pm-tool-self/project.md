@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-03T18:28:45Z
+updated: 2026-06-03T18:41:45Z
 owner:
   kind: human
   name: austin
@@ -142,8 +142,23 @@ workflow_impact:
   new_workflow: "We now want to plan projects a lot more meticulously. We are to capture the problem with the users. Propose a solution, hold meetings to decide what is in scope and what is not. Organise user testing etc. Get the project over the line from start to finish + aftercare. We are shifting from devs (claude is now the main dev) to PM's /AI Ops "
   who_affected:
     - Developers
+    - austin@yahire.com
 team:
   - austin@yahire.com
+adoption_readiness:
+  audience:
+    - IT Dept
+  training:
+    - We will train by using the tool
+  success_metrics:
+    - success is usage of the tool and better project outcomes
+  feedback_channels:
+    - this tool
+environments:
+  - name: Local
+    purpose: Dev of the tools code
+    divergences:
+      - no remote MCP server
 ---
 
 # pm-tool — dogfood improvements
