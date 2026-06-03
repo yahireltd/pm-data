@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-03T17:54:50Z
-updated: 2026-06-03T17:57:15Z
+updated: 2026-06-03T18:14:30Z
 project: pm-tool-self
 section: null
 parent: null
@@ -29,6 +29,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
+backlog_status: confirmed_for_release
 ---
 
 We did have this somewhere in the scope but not sure if it has been done at all / partially. It was meant to allow us to recieve tickets via support\@yahire.com (from @yahire.com emails only) and allow us to respond via email (also saves to comments) and also via the UI - the requesting user should recieve a response via either the UI / email. The person responding should be the from user to the requesting user

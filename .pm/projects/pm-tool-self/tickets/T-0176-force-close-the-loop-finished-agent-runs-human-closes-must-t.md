@@ -2,9 +2,9 @@
 id: T-0176
 title: "Force close-the-loop: finished agent runs + human closes must transition state and record an outcome"
 type: feature
-state: in_progress
+state: done
 created: 2026-06-03T17:41:05Z
-updated: 2026-06-03T18:08:03Z
+updated: 2026-06-03T18:18:17Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,12 +18,12 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "pm_complete_run with status=completed moves the ticket in_progress→review, sets attention(needed_by:human), and records the run summary as a comment in the ticket's ## Conversation"
-  - "CLI `pm record-run` mirrors complete-run: completed→review+attention+recorded summary, abandoned→ready+clear assignee; the interactive prompt no longer defaults to an open-ended in_progress run"
-  - A warn-level lint rule flags in_progress tickets whose newest agent_run is completed/ended (STALECLOSE001) and in_progress tickets with no progress for > N hours (STALEPROG001), registered like the at_risk rule; the progress[] field is formalized in agent-run.schema.json
-  - The Today dashboard shows a 'Dropped / stalled work' section (shipped-unclosed + stale in_progress); finished-run tickets no longer appear in 'Agents working now'; board card + WhatsNext show a 'shipped but not closed' indicator
-  - "No human path can move a ticket to done (CLI pm state, Kanban drag, StateSelector, WhatsNext approve) without a closing note; the note is recorded to ## Conversation and the attention flag is cleared on done"
-  - Existing CLI/linter tests pass, the new linter rule has tests, and web typecheck + build are clean
+  - "[x] pm_complete_run with status=completed moves the ticket in_progress→review, sets attention(needed_by:human), and records the run summary as a comment in the ticket's ## Conversation"
+  - "[x] CLI `pm record-run` mirrors complete-run: completed→review+attention+recorded summary, abandoned→ready+clear assignee; the interactive prompt no longer defaults to an open-ended in_progress run"
+  - "[x] A warn-level lint rule flags in_progress tickets whose newest agent_run is completed/ended (STALECLOSE001) and in_progress tickets with no progress for > N hours (STALEPROG001), registered like the at_risk rule; the progress[] field is formalized in agent-run.schema.json"
+  - "[x] The Today dashboard shows a 'Dropped / stalled work' section (shipped-unclosed + stale in_progress); finished-run tickets no longer appear in 'Agents working now'; board card + WhatsNext show a 'shipped but not closed' indicator"
+  - "[x] No human path can move a ticket to done (CLI pm state, Kanban drag, StateSelector, WhatsNext approve) without a closing note; the note is recorded to ## Conversation and the attention flag is cleared on done"
+  - "[x] Existing CLI/linter tests pass, the new linter rule has tests, and web typecheck + build are clean"
 out_of_scope:
   - Git/merged-commit reconciliation for shipped-but-never-run tickets (T-0162 class)
   - Multi-tenant / per-user scoping
@@ -51,8 +51,16 @@ agent_runs:
   - id: run-20260603-1808
     model: claude-code
     started: 2026-06-03T18:08:03Z
-    status: in_progress
-    summary: Claimed via web UI
+    status: needs_review
+    summary: Implemented the close-the-loop forcing function — A1 (pm_complete_run completed→review+attention+closing comment), A2 (CLI record-run mirror), D1 (human done-gate via requiresClosingNote), B1 (STALECLOSE001/STALEPROG001 lint), B2 (Dropped/stalled-work dashboard surface) — in commit ba49c1c (already live), plus two review follow-ups in a6ec3fb (styled closing-note modal + pm_mark_ready MCP tool) awaiting deploy.
+    ended: 2026-06-03T18:16:25Z
+    test_plan: |-
+      After `git push origin master` + `sudo pm-deploy`:
+      1. **Agent close** — complete any run with `status=completed`: the ticket auto-moves to **review** with a closing comment in `## Conversation` (no more silent `in_progress`).
+      2. **Human done-gate** — drag a card to Done, or use "Approve & mark done": the **styled** closing-note modal appears (not the browser prompt); an empty note is rejected; the note is written to `## Conversation`; the attention flag clears on done.
+      3. **Dashboard** — an `in_progress` ticket whose latest run finished shows under **Dropped / stalled work**, not "Agents working now".
+      4. **Linter** — `pm-lint` warns `STALECLOSE001` / `STALEPROG001` on a stranded `in_progress` ticket.
+      5. **MCP** — `pm_mark_ready` on a triaged ticket (with acceptance criteria + code anchors) moves it to `ready`.
 labels:
   - dogfood
   - lifecycle
@@ -94,3 +102,18 @@ Reminders won't fix this — it's a tool default. Per ADR-003 the gate must bite
 **Dogfood gap found**: an agent driving via MCP can't move a ticket `triaged`→`ready` (no MCP tool), so I couldn't claim/run T-0176 through the loop itself. Recorded here as a comment + review flag instead.
 
 **Hand-off**: push master → `sudo pm-deploy` → then close T-0176 (and the already-shipped T-0172 / T-0162) via the new done-gate, which will prompt you for a closing note.
+
+**2026-06-03 18:16 claude-code:** **Round 2 committed** (`a6ec3fb`) — two refinements from your feedback, awaiting push + `sudo pm-deploy`:
+
+1. **Styled closing-note modal** — the done-gate note (and the send-back reason + claim-name prompts) no longer use the browser's native `window.prompt` (that ugly dialog in your screenshot). New root-mounted `TextPromptProvider` + `useTextPrompt()`, styled like the existing `ForceAdvanceDialog`. Wired into StateSelector, KanbanBoard, WhatsNext, ReviewBanner.
+2. **`pm_mark_ready` MCP tool** — moves a `triaged` ticket → `ready` over MCP (enforcing Definition of Ready); the counterpart to the UI's "Queue for agent". Fixes the dogfood gap where an agent on MCP couldn't queue a ticket to then claim it.
+
+Verified: mcp typecheck ✓ · web typecheck + full `next build` ✓.
+
+Note: the native-prompt screenshot was commit 1 (`ba49c1c`, already live) working — commit 2 styles it. Completing this run as **needs_review**: push + `sudo pm-deploy`, then approve to close (the close will use the new styled modal once deployed).
+
+## Conversation
+
+**2026-06-03 18:18 — you**
+
+Checked and approved
