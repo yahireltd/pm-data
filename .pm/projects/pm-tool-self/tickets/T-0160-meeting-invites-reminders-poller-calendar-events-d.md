@@ -2,10 +2,10 @@
 id: T-0160
 title: Meeting invites + reminders poller (calendar events + dedupe)
 type: feature
-state: triaged
+state: done
 priority: p2
 created: 2026-05-29T18:13:32Z
-updated: 2026-05-29T18:13:32Z
+updated: 2026-06-03T17:30:13Z
 project: pm-tool-self
 section: null
 parent: null
