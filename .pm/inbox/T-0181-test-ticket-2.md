@@ -2,10 +2,10 @@
 id: T-0181
 title: Test ticket 2
 type: support
-state: triaged
+state: done
 priority: p2
 created: 2026-06-03T19:19:09Z
-updated: 2026-06-03T19:25:00Z
+updated: 2026-06-03T19:39:43Z
 project: null
 section: null
 parent: null
@@ -71,3 +71,9 @@ Testing reply to reply from email doesn’t include the chain
 **2026-06-03 19:25 — support**
 
 Looks like no duplication
+
+---
+
+**2026-06-03 19:39 — you**
+
+testing new fix

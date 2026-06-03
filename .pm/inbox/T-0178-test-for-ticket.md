@@ -1,11 +1,11 @@
 ---
 id: T-0178
 title: Test for ticket
-type: support
+type: bug
 state: done
 priority: p2
 created: 2026-06-03T18:59:38Z
-updated: 2026-06-03T19:20:43Z
+updated: 2026-06-03T19:41:54Z
 project: null
 section: null
 parent: null
@@ -34,6 +34,7 @@ intake_channel: email
 intake_mailbox: support@yahire.com
 intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdIsI9OAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAEjjX12TwcFFg46HIwY77_4=
+defect_status: confirmed
 ---
 
 ## Request

@@ -2,10 +2,10 @@
 id: T-0182
 title: Testing FW to Zsolt & Austin
 type: support
-state: inbox
+state: done
 priority: p2
 created: 2026-06-03T19:28:41Z
-updated: 2026-06-03T19:28:41Z
+updated: 2026-06-03T19:39:06Z
 project: null
 section: null
 parent: null
@@ -28,10 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: Inbound email — needs triage
-  since: 2026-06-03T19:28:41Z
+attention: null
 customer_impact: Should be able to reply from our own inbox and still have it being picked up as a reply.
 intake_channel: email
 intake_mailbox: support@yahire.com
@@ -52,3 +49,9 @@ conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAGWex20
 **2026-06-03 19:28 — IT <it@yahire.com>**
 
 Should be able to reply from our own inbox and still have it being picked up as a reply.
+
+---
+
+**2026-06-03 19:39 — you**
+
+Fix in place needs to be tested

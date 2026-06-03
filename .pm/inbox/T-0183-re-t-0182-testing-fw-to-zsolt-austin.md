@@ -2,10 +2,10 @@
 id: T-0183
 title: "Re: [T-0182] Testing FW to Zsolt & Austin"
 type: support
-state: inbox
+state: done
 priority: p2
 created: 2026-06-03T19:29:39Z
-updated: 2026-06-03T19:29:39Z
+updated: 2026-06-03T19:39:24Z
 project: null
 section: null
 parent: null
@@ -28,10 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: Inbound email — needs triage
-  since: 2026-06-03T19:29:39Z
+attention: null
 customer_impact: Testing the reply from my email to the ticket.
 intake_channel: email
 intake_mailbox: support@yahire.com
@@ -52,3 +49,9 @@ conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAI0yKS-
 **2026-06-03 19:29 — Austin Pickering <austin@yahire.com>**
 
 Testing the reply from my email to the ticket.
+
+---
+
+**2026-06-03 19:39 — you**
+
+Fix in place need to test
