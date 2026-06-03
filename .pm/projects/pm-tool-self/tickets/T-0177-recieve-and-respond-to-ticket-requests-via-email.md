@@ -2,10 +2,10 @@
 id: T-0177
 title: Recieve and respond to ticket requests via email
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-03T17:54:50Z
-updated: 2026-06-03T18:26:04Z
+updated: 2026-06-03T18:46:27Z
 project: pm-tool-self
 section: null
 parent: null
@@ -33,10 +33,27 @@ agent_runs:
   - id: run-20260603-1821
     model: claude-code
     started: 2026-06-03T18:21:01Z
-    status: in_progress
-    summary: Claimed via web UI
+    status: needs_review
+    summary: 'Built the full inbound-email round-trip (commit b019343, sprint SPR-021): support@ mail → tickets, replies thread onto the originating ticket by Graph conversationId, quoted-chain/signature cleaning, @yahire.com sender allowlist, and a "Reply to requester" composer that threads via Graph createReply from the support mailbox. Most of the pipeline already existed but was dormant; this wires it up, fixes the schema so polled tickets pass lint, and adds threading + reply-out. Needs push + sudo pm-deploy, plus three ops prerequisites before it goes live (below).'
+    ended: 2026-06-03T18:46:27Z
+    test_plan: |-
+      Ship: `git push origin master` + `sudo pm-deploy`.
+
+      **Ops prerequisites (Austin):**
+      1. Grant the Graph app (client fa04e95a-…) **Mail.Read** (poll) + **Mail.ReadWrite & Mail.Send** (reply createReply/send) on **support@yahire.com**, and confirm that mailbox/alias exists.
+      2. Enable inbound in the live `pm-data` `.pm/config.yml` (see comms/README): mailbox `support@yahire.com`, `allow_domains: [yahire.com]`, `enabled: true`.
+      3. Install the `pm-comms-poll-inbox` systemd oneshot+timer (deploy-ubuntu.md), or run `bun comms/bin/pm-comms poll-inbox` once to smoke-test.
+
+      **Verify:**
+      1. Email support@ from a @yahire.com address → a clean ticket appears in /inbox (quoted chains/signatures stripped; reporter = sender; conversation_id set). A non-@yahire.com sender is skipped.
+      2. Reply to that thread → it appends to the SAME ticket's ## Conversation (no duplicate ticket), and the ticket flags attention "needs response".
+      3. On the ticket page, "Reply to requester" → requester receives a threaded email and the reply is logged to ## Conversation; plain Comments stay internal.
+      4. `pm-lint` passes on the generated tickets.
 labels: []
-attention: null
+attention:
+  needed_by: human
+  reason: Agent finished — needs review
+  since: 2026-06-03T18:46:27Z
 backlog_status: confirmed_for_release
 ---
 

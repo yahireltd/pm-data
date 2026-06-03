@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-03T18:41:45Z
+updated: 2026-06-03T18:42:36Z
 owner:
   kind: human
   name: austin
@@ -159,6 +159,11 @@ environments:
     purpose: Dev of the tools code
     divergences:
       - no remote MCP server
+  - name: Prod
+    purpose: Real usage of the tool
+    url: support.yahire.com
+go_live_target: 2026-06-30
+time_budget_hours: 120
 ---
 
 # pm-tool — dogfood improvements

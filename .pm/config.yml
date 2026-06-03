@@ -19,3 +19,16 @@ outbound_email:
 access:
   admins:
     - austin@yahire.com
+
+  inbound_email:
+    enabled: true
+    mailboxes:
+      - address: support@yahire.com
+        folder: Inbox
+        ticket_type: support
+    poll_interval_seconds: 300
+    allow_domains:
+      - yahire.com
+    ignore_senders:
+      - noreply@*
+      - mailer-daemon@*
