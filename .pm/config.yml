@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 181
+  ticket: 183
   project: 6
   section: 13
 outbound_email:
@@ -31,3 +31,6 @@ inbound_email:
   ignore_senders:
     - noreply@*
     - mailer-daemon@*
+  forward_to:
+    - zsolt@yahire.com
+    - austin@yahire.com

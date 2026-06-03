@@ -2,17 +2,19 @@
 id: T-0179
 title: Design overhaul on project view.
 type: feature
-state: ready
+state: in_progress
 priority: p2
 created: 2026-06-03T19:14:00Z
-updated: 2026-06-03T19:14:24Z
+updated: 2026-06-03T19:26:31Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 49152
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Austin likes the look and it feels less cluttered
 out_of_scope: []
@@ -22,7 +24,12 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260603-1926
+    model: claude-code
+    started: 2026-06-03T19:26:31Z
+    status: in_progress
+    summary: Claimed via web UI
 labels: []
 attention: null
 ---

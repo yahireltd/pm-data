@@ -5,7 +5,7 @@ type: support
 state: triaged
 priority: p2
 created: 2026-06-03T19:19:09Z
-updated: 2026-06-03T19:23:21Z
+updated: 2026-06-03T19:25:00Z
 project: null
 section: null
 parent: null
@@ -35,6 +35,9 @@ intake_channel: email
 intake_mailbox: support@yahire.com
 intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdIsI9QAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAAKjGg2x2nlAs08AaHFwlyk=
+intake_message_ids:
+  - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdIsI9QAAA=
+  - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdIsI9RAAA=
 ---
 
 ## Request
@@ -56,3 +59,15 @@ Sent from Outlook for Mac
 **2026-06-03 19:23 — support**
 
 Testing reply from ui doesnt contain initial email
+
+---
+
+**2026-06-03 19:24 — IT <it@yahire.com>**
+
+Testing reply to reply from email doesn’t include the chain
+
+---
+
+**2026-06-03 19:25 — support**
+
+Looks like no duplication
