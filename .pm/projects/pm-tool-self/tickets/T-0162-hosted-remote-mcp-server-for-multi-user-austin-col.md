@@ -2,10 +2,10 @@
 id: T-0162
 title: Hosted / remote MCP server for multi-user (Austin + colleague + Claude Code)
 type: feature
-state: triaged
+state: done
 priority: p2
 created: 2026-06-02T15:38:13Z
-updated: 2026-06-02T15:38:13Z
+updated: 2026-06-03T17:43:49Z
 project: pm-tool-self
 section: null
 parent: null
@@ -13,7 +13,8 @@ children: []
 order: 33792
 reporter: null
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - "[x] MCP server created on an AWS host"
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -27,6 +28,7 @@ attention: null
 backlog_status: in_review
 source: discovered
 ---
+
 # T-0162: Hosted / remote MCP server
 
 ## Problem
@@ -36,3 +38,9 @@ Today the MCP server runs **locally via stdio** — single machine, single user,
 ## Acceptance criteria
 
 _To define at sprint promotion._
+
+## Conversation
+
+**2026-06-03 17:43 — Austin Pickering**
+
+This was done today. The server support.yahire.com now has the MCP that claude deals with
