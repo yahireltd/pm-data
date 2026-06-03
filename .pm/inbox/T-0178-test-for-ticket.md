@@ -2,10 +2,10 @@
 id: T-0178
 title: Test for ticket
 type: support
-state: inbox
+state: done
 priority: p2
 created: 2026-06-03T18:59:38Z
-updated: 2026-06-03T19:01:53Z
+updated: 2026-06-03T19:20:43Z
 project: null
 section: null
 parent: null
@@ -28,10 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: New reply from requester — needs response
-  since: 2026-06-03T19:01:53Z
+attention: null
 customer_impact: Test ticket via email Sent from Outlook for Mac
 intake_channel: email
 intake_mailbox: support@yahire.com
@@ -66,6 +63,27 @@ Testing ticket reply from UI
 Test ticket via email
 
 Sent from Outlook for Mac
+
+---
+
+**2026-06-03 19:01 — IT <it@yahire.com>**
+
+Testing reply from user to ticket reply
+
+Sent from Outlook for Mac 
+
+From: Yahire Support <support@yahire.com>
+Date: Wednesday, 3 June 2026 at 20:01
+To: IT <it@yahire.com>
+Subject: RE: Test for ticket
+
+Testing ticket reply from UI
+
+---
+
+**2026-06-03 19:18 — you**
+
+Was only a test
 
 ---
 

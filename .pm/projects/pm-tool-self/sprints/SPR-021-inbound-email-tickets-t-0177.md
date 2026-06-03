@@ -6,9 +6,10 @@ project: pm-tool-self
 state: in_progress
 order: 21504
 created: 2026-06-03T18:39:36Z
-updated: 2026-06-03T18:39:47Z
+updated: 2026-06-03T19:19:25Z
 committed_items:
   - T-0177
+  - T-0180
 goal: "Ship T-0177: support@ emails become tickets, replies thread onto them, and devs reply to requesters via Microsoft Graph."
 velocity_history:
   - sprint: SPR-019
