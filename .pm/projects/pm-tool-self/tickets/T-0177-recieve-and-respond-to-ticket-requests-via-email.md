@@ -2,23 +2,26 @@
 id: T-0177
 title: Recieve and respond to ticket requests via email
 type: feature
-state: triaged
+state: in_progress
 priority: p2
 created: 2026-06-03T17:54:50Z
-updated: 2026-06-03T18:14:30Z
+updated: 2026-06-03T18:26:04Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 48128
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - an email sent to support@yahire.com from anyuser@yahire.com should become a ticket
   - devs / can respond via email / ui
   - all responses are logged in the ticket
   - a way to remove chained emails so a reply doesnt include the original request etc - also remove signatures if possible
   - we use microsoft graph which as full access to all users inbox / sent etc so we should have a way to link responses to tickets
+  - the person sending the ticket via email is automatically a stakeholder and any update should go to the stakeholder(s)
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -26,7 +29,12 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260603-1821
+    model: claude-code
+    started: 2026-06-03T18:21:01Z
+    status: in_progress
+    summary: Claimed via web UI
 labels: []
 attention: null
 backlog_status: confirmed_for_release

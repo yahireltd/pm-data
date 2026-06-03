@@ -4,13 +4,13 @@ slug: comms-trigger-and-inbound-cron
 title: Comms triggers via server-action hooks; inbound email via opt-in cron
 state: accepted
 decided: 2026-04-26
-decided_by: [austin]
+decided_by:
+  - austin
 project: pm-tool-self
-
 supersedes: null
 superseded_by: null
-
 tickets: []
+kind: dependency
 ---
 
 # ADR-005: Comms trigger model and inbound email loop
