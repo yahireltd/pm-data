@@ -2,22 +2,24 @@
 id: T-0184
 title: Testing replies from AP and ZT are received by reporting User
 type: support
-state: inbox
+state: done
 priority: p2
 created: 2026-06-03T19:43:21Z
-updated: 2026-06-03T19:43:21Z
-project: null
+updated: 2026-06-03T19:45:22Z
+project: pm-tool-self
 section: null
 parent: null
 children: []
-order: 1024
+order: 50176
 reporter:
   kind: customer
   name: IT
   channel: email
   contact: it@yahire.com
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - email reply from austin is recieved in IT and UI
+  - email reply from austin is recieved in IT and UI
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -28,16 +30,14 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: Inbound email — needs triage
-  since: 2026-06-03T19:43:21Z
+attention: null
 customer_impact: This should create a ticket. When I reply from Austin@ then IT should also get it and it should also show in the UI/
 intake_channel: email
 intake_mailbox: support@yahire.com
 intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdIsI9UAAA=
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdIsI9UAAA=
+  - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdIsI9VAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAAXbURzB_oxEjq-DaMZNBlk=
 ---
 
@@ -52,3 +52,15 @@ conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAAXbURz
 **2026-06-03 19:43 — IT <it@yahire.com>**
 
 This should create a ticket. When I reply from Austin@ then IT should also get it and it should also show in the UI/
+
+---
+
+**2026-06-03 19:44 — Austin Pickering <austin@yahire.com>**
+
+Testing reply from Austin@ - should be received in UI and in IT
+
+---
+
+**2026-06-03 19:45 — you**
+
+All working as expected

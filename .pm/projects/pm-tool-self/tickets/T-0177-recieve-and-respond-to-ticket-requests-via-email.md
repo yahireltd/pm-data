@@ -2,10 +2,10 @@
 id: T-0177
 title: Recieve and respond to ticket requests via email
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-03T17:54:50Z
-updated: 2026-06-03T18:46:27Z
+updated: 2026-06-03T19:46:07Z
 project: pm-tool-self
 section: null
 parent: null
@@ -50,11 +50,14 @@ agent_runs:
       3. On the ticket page, "Reply to requester" → requester receives a threaded email and the reply is logged to ## Conversation; plain Comments stay internal.
       4. `pm-lint` passes on the generated tickets.
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — needs review
-  since: 2026-06-03T18:46:27Z
+attention: null
 backlog_status: confirmed_for_release
 ---
 
 We did have this somewhere in the scope but not sure if it has been done at all / partially. It was meant to allow us to recieve tickets via support\@yahire.com (from @yahire.com emails only) and allow us to respond via email (also saves to comments) and also via the UI - the requesting user should recieve a response via either the UI / email. The person responding should be the from user to the requesting user
+
+## Conversation
+
+**2026-06-03 19:46 — you**
+
+all working as expected now
