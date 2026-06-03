@@ -2,15 +2,15 @@
 id: T-0186
 title: Email formatting
 type: feature
-state: inbox
+state: ready
 priority: p2
 created: 2026-06-03T21:47:29Z
-updated: 2026-06-03T21:48:09Z
-project: null
+updated: 2026-06-03T21:59:26Z
+project: pm-tool-self
 section: null
 parent: null
 children: []
-order: 3072
+order: 53248
 reporter: null
 assignee: null
 acceptance_criteria:
