@@ -1,0 +1,200 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# pm-tool playbook — the guided project-management process.
+#
+# This file defines the lifecycle the tool walks every project through, and what
+# it checks before letting a project advance from one phase to the next. It is
+# DATA, not code: edit it to tune the process without touching the tool.
+#
+# Distilled from the PM course — see docs/course-distillation/playbook.md.
+#
+# severity:
+#   force  — must be satisfied to advance (the tool blocks the transition)
+#   guide  — recommended; the tool warns but lets you proceed
+#
+# check keys (implemented by the playbook engine, cli/src/lib/playbook.ts):
+#   project.has:<field>            a project frontmatter field is present & non-empty
+#   milestones.exist               the project has >= 1 milestone
+#   milestones.have_criteria       every milestone has >= 1 non-empty criterion
+#   meeting.held:<kind>            a meeting of <kind> exists in state "held"
+#   meeting.held_substantive:<kind> a held <kind> meeting WITH real content
+#                                  (>= 1 agenda item AND a recorded outcome) —
+#                                  can't be ticked by an empty-shell meeting
+#   status.recent:<days>           a status note exists within <days> days
+#   decision.accepted:<tag>        an accepted ADR whose slug/title contains <tag>
+#   decision.accepted_kind:<kind>  an accepted ADR of variant <kind> exists
+#                                  (kind: generic|dependency|integration|
+#                                   deployment|change-control) — precise where
+#                                   decision.accepted:<tag> is a fuzzy match
+#   closure.recorded               a closure record exists
+#   handover.recorded              a handover artefact exists with a named
+#                                  support owner AND a recorded sign-off (the
+#                                  hypercare-exit "how this works now" doc)
+#   incidents.resolved[:critical]  no OPEN high/critical-severity incidents
+#                                  remain (default blocks on high+critical;
+#                                  ':critical' blocks only on critical)
+# ─────────────────────────────────────────────────────────────────────────────
+schema_version: 1
+
+phases:
+  - id: intake
+    name: Intake
+    question: Should we do this project at all, and what is the framing?
+    advance_to: planning
+    requirements:
+      - id: case
+        description: Written case — the problem(s) this project solves
+        check: project.has:problems
+        severity: force
+      - id: cost-of-inaction
+        description: Cost of inaction stated — what it costs us to NOT do this (the course's signature intake question)
+        check: project.has:cost_of_inaction
+        severity: force
+      - id: framing
+        description: Goals captured, with a rough go-live target or workflow impact noted
+        check: project.has:goals
+        severity: guide
+
+  - id: planning
+    name: Planning
+    question: What exactly are we building, in what order, and how will we know it is done?
+    advance_to: build
+    requirements:
+      - id: scope-in
+        description: What is in scope is written down
+        check: project.has:scope_in
+        severity: force
+      - id: scope-out
+        description: What is OUT of scope is written down (the single most useful framing for an agent)
+        check: project.has:scope_out
+        severity: force
+      - id: milestones
+        description: At least one milestone is defined
+        check: milestones.exist
+        severity: force
+      - id: milestone-criteria
+        description: Every milestone has acceptance criteria
+        check: milestones.have_criteria
+        severity: force
+      - id: kickoff
+        description: Kickoff meeting held — with a real agenda and recorded outcomes
+        check: meeting.held_substantive:kickoff
+        severity: force
+      - id: sme-scoping
+        description: Scoping session(s) held with the SMEs in the affected departments
+        check: meeting.held:scoping
+        severity: guide
+      - id: ownership
+        description: Workstream ownership assigned — who owns what
+        check: project.has:workstream_ownership
+        severity: guide
+
+  - id: build
+    name: Build
+    question: Ship the thing with quality, while preparing for everything that comes after.
+    advance_to: test
+    requirements:
+      - id: status-cadence
+        description: A status note has been written in the last 10 days (the load-bearing weekly ritual)
+        check: status.recent:10
+        severity: force
+      - id: progress-meeting
+        description: A progress meeting has been held
+        check: meeting.held:progress
+        severity: guide
+
+  - id: test
+    name: Test
+    question: Does it work, and have real users validated it? (SIT + UAT)
+    advance_to: ship
+    requirements:
+      - id: uat
+        description: User-acceptance testing session(s) held with real users, with a real agenda and recorded outcomes — the gate projects fall through
+        check: meeting.held_substantive:uat
+        severity: force
+      - id: test-plan
+        description: A test plan / test scenarios are written down (an accepted test-plan ADR)
+        check: decision.accepted:test
+        severity: guide
+      # The structured variant: a kind=test-plan ADR carries the MANDATORY
+      # scenarios section (enforced by ADRVAR005) plus entry/exit criteria.
+      # Guide today so existing fuzzy-matched test ADRs stay valid; can be
+      # promoted to force once authoring writes the kind.
+      - id: test-plan-adr-variant
+        description: The test plan is a structured test-plan ADR (kind=test-plan) with scenarios, entry/exit criteria, and sign-off
+        check: decision.accepted_kind:test-plan
+        severity: guide
+      - id: demo
+        description: The work has been demoed to stakeholders
+        check: meeting.held:demo
+        severity: guide
+
+  - id: ship
+    name: Ship
+    question: Get the thing in front of users safely.
+    advance_to: hypercare
+    requirements:
+      # Force gate stays on the fuzzy slug/title match so projects with an
+      # already-accepted "deployment" ADR (pre-W3, no `kind`) keep passing.
+      - id: deployment-plan
+        description: A deployment plan (with rollback steps) is accepted — no project ships without one
+        check: decision.accepted:deployment
+        severity: force
+      # Recommendation (W3 Feature 4): the deployment plan should be a real
+      # kind:deployment ADR variant — it carries the MANDATORY rollback section,
+      # smoke tests, cutover criteria, and sign-off. Guide today so existing
+      # data stays valid; can be promoted to force once authoring writes kinds.
+      - id: deployment-adr-variant
+        description: The deployment plan is a structured deployment ADR (kind=deployment) with rollback, smoke tests, cutover criteria, and sign-off
+        check: decision.accepted_kind:deployment
+        severity: guide
+      # Know where you're shipping TO — the environments are documented (purpose,
+      # how each diverges from prod, smoke tests, readiness). Guide: it informs a
+      # safe cutover but shouldn't block a ship on its own.
+      - id: environments-documented
+        description: The deployment environments are documented (prod + any test/staging it diverges from), each with its divergences and smoke tests
+        check: project.has:environments
+        severity: guide
+      # Don't ship into a vacuum — there's an adoption plan (audience, rollout,
+      # training, comms, how we'll know it's used). A great build nobody adopts
+      # is a failure. Guide: it shapes a safe launch but shouldn't block on its own.
+      - id: adoption-readiness
+        description: An adoption plan is documented (audience, rollout, training/comms, and how you'll measure real usage)
+        check: project.has:adoption_readiness
+        severity: guide
+
+  - id: hypercare
+    name: Hypercare
+    question: Watch closely while the system meets reality, then hand off to steady-state support.
+    advance_to: closure
+    requirements:
+      # Hypercare exit gate — UPGRADED off the W1 placeholder. The course gates
+      # exit on: incidents resolved/routed, no high-severity open, support model
+      # active, and a handover doc written. Now backed by REAL entities:
+      #   - a Handover artefact (HO-NNN) with a named support owner + sign-off,
+      #   - the project's Incident entities (INC-NNN) all high/critical resolved.
+      - id: handover
+        description: A handover is written and signed off — the canonical "how this works now" doc, with a named support owner (a Handover artefact)
+        check: handover.recorded
+        severity: force
+      - id: incidents-resolved
+        description: No high- or critical-severity incidents remain open — all resolved or routed to backlog
+        check: incidents.resolved
+        severity: force
+      - id: support-owner
+        description: A support owner is in place (workstream ownership assigned)
+        check: project.has:workstream_ownership
+        severity: guide
+
+  - id: closure
+    name: Closure
+    question: Declare it done and capture the lessons.
+    advance_to: null
+    requirements:
+      - id: closure-record
+        description: A closure record exists — what shipped vs what was scoped, variance, outstanding items
+        check: closure.recorded
+        severity: force
+      - id: lessons
+        description: Lessons learned captured (systemic vs personal)
+        check: project.has:lessons_learned
+        severity: guide

@@ -1,0 +1,25 @@
+schema_version: 1
+project_name: pm-tool dogfood
+created: 2026-04-26T22:20:00Z
+code_root: .
+defaults:
+  ticket:
+    state: inbox
+    type: feature
+    priority: p2
+  project:
+    state: planning
+id_counters:
+  ticket: 173
+  project: 6
+  section: 13
+outbound_email:
+  from: support@yahire.com
+  secret_name: outlookGraph
+# Access control (T-0172).
+#   admins — full access to EVERY project + the global pages.
+#   (per-project members live on each project's `team:` field; stakeholders on
+#    `stakeholders:`.)
+access:
+  admins:
+    - austin@yahire.com

@@ -1,0 +1,6 @@
+.pm/.index.sqlite
+.pm/.index.sqlite-*
+.pm/.comms-queue/
+.pm/.comms-log/
+.pm/.comms-state/
+.pm/.private/
