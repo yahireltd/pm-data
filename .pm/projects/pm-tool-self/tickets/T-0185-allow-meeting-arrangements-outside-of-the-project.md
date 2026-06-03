@@ -2,17 +2,19 @@
 id: T-0185
 title: Allow meeting arrangements outside of the project.
 type: feature
-state: triaged
+state: in_progress
 priority: p2
 created: 2026-06-03T21:35:57Z
-updated: 2026-06-03T21:37:12Z
+updated: 2026-06-03T22:09:57Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 51200
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - We can plan meetings not related to a project
   - we can invite attendees
@@ -25,7 +27,12 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260603-2209
+    model: claude
+    started: 2026-06-03T22:09:57Z
+    status: in_progress
+    summary: Claimed via web UI
 labels: []
 attention: null
 ---

@@ -2,17 +2,19 @@
 id: T-0186
 title: Email formatting
 type: feature
-state: ready
+state: in_progress
 priority: p2
 created: 2026-06-03T21:47:29Z
-updated: 2026-06-03T21:59:26Z
+updated: 2026-06-03T22:04:31Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 53248
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Emails need a nice template and contain relevant info from the ticket or the meeting
   - the syling of the emal should be html and match the feel of the system
@@ -23,7 +25,12 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260603-2204
+    model: claude-code
+    started: 2026-06-03T22:04:31Z
+    status: in_progress
+    summary: Claimed via web UI
 labels: []
 attention: null
 ---

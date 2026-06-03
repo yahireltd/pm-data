@@ -2,17 +2,19 @@
 id: T-0187
 title: Promote to project large.button not working / linking all tickets / add criteria button on ticket view does not dissappear when we have added criteria
 type: feature
-state: triaged
+state: in_progress
 priority: p2
 created: 2026-06-03T21:53:48Z
-updated: 2026-06-03T21:55:55Z
+updated: 2026-06-03T22:10:15Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 52224
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - The promote to project button is clickable and shows the modal that we can choose the project from
   - Anywhere we show a ticket number we should link to it - should be a very slight stye difference nothing heavy
@@ -23,7 +25,12 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260603-2210
+    model: claude
+    started: 2026-06-03T22:10:15Z
+    status: in_progress
+    summary: Claimed via web UI
 labels: []
 attention: null
 ---

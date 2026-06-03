@@ -2,10 +2,10 @@
 id: T-0179
 title: Design overhaul on project view.
 type: feature
-state: in_progress
+state: done
 priority: p2
 created: 2026-06-03T19:14:00Z
-updated: 2026-06-03T19:26:31Z
+updated: 2026-06-03T22:09:32Z
 project: pm-tool-self
 section: null
 parent: null
@@ -35,3 +35,9 @@ attention: null
 ---
 
 The project view (showing the project tabs) has many tabs and feels like "a lot" to look at. Is there any way we can be a bit better on the design and split it into relevant areas - maybe a submenu beneat the project in the left bar and categories by phase - you can use your intuition on this if i dont like it we can revert / iterate
+
+## Conversation
+
+**2026-06-03 22:09 — you**
+
+menu was simplified
