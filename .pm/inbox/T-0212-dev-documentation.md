@@ -2,10 +2,10 @@
 id: T-0212
 title: Dev documentation
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-04T02:07:55Z
-updated: 2026-06-04T02:46:07Z
+updated: 2026-06-04T03:15:40Z
 project: null
 section: null
 parent: null
@@ -35,10 +35,19 @@ agent_runs:
   - id: run-20260604-0208
     model: claude
     started: 2026-06-04T02:08:38Z
-    status: in_progress
-    summary: Claimed via web UI
+    status: completed
+    summary: "In-app dev wiki at /docs behind login (admin/member): 6 sections (overview, architecture, data model+schemas, two-repo deploy, MCP tool surface, conventions) distilled from the real repo docs. Nav link added; AGENTS.md §8 keeps content.ts in lockstep."
+    ended: 2026-06-04T03:15:40Z
+    test_plan: Visit /docs as admin/member -> the wiki renders all 6 sections. As a stakeholder -> redirected to /me.
 labels: []
-attention: null
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-04T03:15:40Z
 ---
 
 a complete documentation / wiki for logged in devs - to be added as a rule to update on edit
+
+## Conversation
+
+**2026-06-04 03:15 claude:** Run run-20260604-0208 completed — In-app dev wiki at /docs behind login (admin/member): 6 sections (overview, architecture, data model+schemas, two-repo deploy, MCP tool surface, conventions) distilled from the real repo docs. Nav link added; AGENTS.md §8 keeps content.ts in lockstep.

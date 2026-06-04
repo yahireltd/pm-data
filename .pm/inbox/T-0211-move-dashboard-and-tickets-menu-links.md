@@ -2,10 +2,10 @@
 id: T-0211
 title: Move dashboard and tickets menu links
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-04T02:04:38Z
-updated: 2026-06-04T02:46:07Z
+updated: 2026-06-04T03:15:40Z
 project: null
 section: null
 parent: null
@@ -35,10 +35,19 @@ agent_runs:
   - id: run-20260604-0205
     model: claude
     started: 2026-06-04T02:05:05Z
-    status: in_progress
-    summary: Claimed via web UI
+    status: completed
+    summary: Admin-only top bar for the global workflow links (Dashboard/Tickets/Inbox/Review/Ready/In-progress); sidebar decluttered for members/stakeholders; 'Your projects' renamed 'My work' (distinct from 'Projects'/all).
+    ended: 2026-06-04T03:15:40Z
+    test_plan: "As admin: the workflow links are in the top bar, not the sidebar. As a member/stakeholder: those links aren't shown. 'My work' (/me) and 'Projects' (/projects) are now distinct entries."
 labels: []
-attention: null
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-04T03:15:40Z
 ---
 
 we should add these to the top menu only only for admin users to not take up space in the side menu also your projects / meetings /conventions (is there a difference between prijects / your prijects can we consolodate
+
+## Conversation
+
+**2026-06-04 03:15 claude:** Run run-20260604-0205 completed — Admin-only top bar for the global workflow links (Dashboard/Tickets/Inbox/Review/Ready/In-progress); sidebar decluttered for members/stakeholders; 'Your projects' renamed 'My work' (distinct from 'Projects'/all).
