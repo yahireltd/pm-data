@@ -2,9 +2,9 @@
 id: T-0206
 title: pm_update_ticket MCP tool — edit an existing ticket's fields
 type: feature
-state: review
+state: done
 created: 2026-06-04T01:48:21Z
-updated: 2026-06-04T02:07:28Z
+updated: 2026-06-04T02:16:34Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,9 +15,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - pm_update_ticket can edit title, body, priority, type, labels, acceptance_criteria, out_of_scope, code_anchors, customer_impact, due on an existing ticket
-  - Only provided fields change; `updated` bumps; the result validates against the ticket schema
-  - state + id + created are NOT editable via this tool (use the state-transition tools)
+  - "[x] pm_update_ticket can edit title, body, priority, type, labels, acceptance_criteria, out_of_scope, code_anchors, customer_impact, due on an existing ticket"
+  - "[x] Only provided fields change; `updated` bumps; the result validates against the ticket schema"
+  - "[x] state + id + created are NOT editable via this tool (use the state-transition tools)"
 out_of_scope: []
 code_anchors:
   - path: mcp-server/src/tools/update-ticket.ts
@@ -39,10 +39,7 @@ agent_runs:
 labels:
   - mcp
   - dx
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-04T01:56:08Z
+attention: null
 ---
 
 ## Problem
@@ -62,3 +59,9 @@ Add `pm_update_ticket` (mcp-server) that patches the provided editable fields on
 **Adversarial** — all 10 abuse probes failed safe: `state`/`id`/`created` are non-editable (dropped); invalid priority/type and empty title rejected at the zod boundary (-32602); missing code_anchor.path, bad due format, no-op, and nonexistent-ticket all rejected by the handler. Critically `partial_write_leak=false` — a rejected edit left `updated`==`created`, proving zero partial writes.
 
 All three acceptance criteria met. (Test scratch tickets T-0209 + T-0210 were created and can be deleted.)
+
+---
+
+**2026-06-04 02:16 — you**
+
+agent confirmed edit was possible
