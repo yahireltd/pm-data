@@ -5,7 +5,7 @@ name: Logistics Route Planning rollout
 state: planning
 phase: test
 created: 2026-06-04T13:46:09Z
-updated: 2026-06-04T14:14:37Z
+updated: 2026-06-04T14:19:57Z
 owner:
   kind: human
   name: you

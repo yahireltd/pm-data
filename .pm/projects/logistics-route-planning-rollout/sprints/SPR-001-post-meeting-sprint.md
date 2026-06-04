@@ -6,9 +6,14 @@ project: logistics-route-planning-rollout
 state: planned
 order: 1024
 created: 2026-06-04T14:06:08Z
-updated: 2026-06-04T14:06:08Z
+updated: 2026-06-04T14:19:57Z
 committed_items:
   - T-0217
+  - T-0218
+  - T-0219
+  - T-0220
+  - T-0222
+  - T-0223
 ---
 
 # SPR-001: Post meeting sprint
