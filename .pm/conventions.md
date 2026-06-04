@@ -11,6 +11,7 @@ able to read this file and absorb how this team operates.
 - In YAML list items use ' - ' not ': ' — a colon-space makes the parser read the item as a map (SCHEMA001).
 - Secrets never live in files or env; fetch them from AWS Secrets Manager at runtime.
 - Exhaustive Record<Kind> types are load-bearing — they force every display surface to update when a variant is added.
+- check function callls whenever editing a function
 
 <!-- BEGIN: lessons (generated — do not edit by hand) -->
 ## Lessons from closed projects

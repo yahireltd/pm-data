@@ -4,7 +4,7 @@ slug: pm-tool-v2-kickoff
 title: pm-tool-v2 kickoff
 state: held
 created: 2026-05-28T19:23:26Z
-updated: 2026-06-03T23:56:50Z
+updated: 2026-06-04T00:03:50Z
 scheduled_at: 2026-05-28T20:25:00Z
 duration_minutes: 30
 location: TBD
@@ -26,6 +26,7 @@ agenda:
     duration_min: 20
   - topic: Agenda 1
   - topic: agenda 1
+  - topic: qqq
 outcomes:
   - description: the dog ate the food
     recorded_at: 2026-05-28T20:10:26Z
