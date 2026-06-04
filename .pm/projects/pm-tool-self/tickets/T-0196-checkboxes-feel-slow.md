@@ -2,10 +2,10 @@
 id: T-0196
 title: Checkboxes feel slow
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-03T23:51:23Z
-updated: 2026-06-03T23:52:02Z
+updated: 2026-06-04T01:00:49Z
 project: pm-tool-self
 section: null
 parent: null
@@ -28,10 +28,19 @@ agent_runs:
   - id: run-20260603-2352
     model: claude
     started: 2026-06-03T23:52:02Z
-    status: in_progress
-    summary: Claimed via web UI
+    status: completed
+    summary: Acceptance-criteria checkboxes are now optimistic (useOptimistic) — they flip instantly and revert on failure.
+    ended: 2026-06-04T01:00:49Z
+    test_plan: Tick a criterion -> it flips immediately with no lag; rapid clicks track correctly.
 labels: []
-attention: null
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-04T01:00:49Z
 ---
 
 when i tick a check box i often untick it as it is slow. It seems that it is doing the functionality. before updating the ui cac we update the ui first and then if the functtion fails untick it
+
+## Conversation
+
+**2026-06-04 01:00 claude:** Run run-20260603-2352 completed — Acceptance-criteria checkboxes are now optimistic (useOptimistic) — they flip instantly and revert on failure.

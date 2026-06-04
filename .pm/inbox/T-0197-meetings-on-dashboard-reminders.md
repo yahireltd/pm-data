@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-03T23:59:09Z
-updated: 2026-06-04T00:00:45Z
+updated: 2026-06-04T01:07:57Z
 project: null
 section: null
 parent: null
@@ -36,3 +36,9 @@ attention: null
 ---
 
 add upcomming meetings to dashboard, Also some reminders functionality - add to calendar as a checkbox
+
+## Conversation
+
+**2026-06-04 01:07 — Austin Pickering**
+
+T-0197
