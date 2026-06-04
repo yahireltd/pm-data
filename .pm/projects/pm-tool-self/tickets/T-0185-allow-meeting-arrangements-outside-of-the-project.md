@@ -2,10 +2,10 @@
 id: T-0185
 title: Allow meeting arrangements outside of the project.
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-03T21:35:57Z
-updated: 2026-06-04T01:00:47Z
+updated: 2026-06-04T01:18:25Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,10 +16,10 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - We can plan meetings not related to a project
-  - we can invite attendees
-  - we can record outcomes
-  - same functionality as meetings within projects
+  - "[x] We can plan meetings not related to a project"
+  - "[x] we can invite attendees"
+  - "[x] we can record outcomes"
+  - "[x] same functionality as meetings within projects"
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -36,10 +36,7 @@ agent_runs:
     ended: 2026-06-04T01:00:47Z
     test_plan: Create an org meeting via the Meetings nav; add agenda/stakeholders/outcomes — all persist; emails/calendar invites fire.
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-04T01:00:47Z
+attention: null
 ---
 
 We want to be able to plan meetings outside of a project also can we have a seperate area to do that with the same functionality to invite attendees with the email and calendar invites, record outcomes, add agenda etc
@@ -47,3 +44,9 @@ We want to be able to plan meetings outside of a project also can we have a sepe
 ## Conversation
 
 **2026-06-04 01:00 claude:** Run run-20260603-2209 completed — Meetings can now be planned outside a project (org-wide) with full parity — agenda, stakeholders, email + Graph calendar invites, outcomes — plus a shared org roster; fixed the M-NNN id-collision so org-meeting edits/stakeholders save.
+
+---
+
+**2026-06-04 01:18 — you**
+
+works as expected

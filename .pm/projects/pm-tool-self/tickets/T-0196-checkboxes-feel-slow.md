@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-03T23:51:23Z
-updated: 2026-06-04T01:00:49Z
+updated: 2026-06-04T01:14:36Z
 project: pm-tool-self
 section: null
 parent: null
@@ -34,9 +34,9 @@ agent_runs:
     test_plan: Tick a criterion -> it flips immediately with no lag; rapid clicks track correctly.
 labels: []
 attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-04T01:00:49Z
+  needed_by: agent
+  reason: still feels slow to respond and blocks input can we assume done untill we know otherwise?
+  since: 2026-06-04T01:14:36Z
 ---
 
 when i tick a check box i often untick it as it is slow. It seems that it is doing the functionality. before updating the ui cac we update the ui first and then if the functtion fails untick it

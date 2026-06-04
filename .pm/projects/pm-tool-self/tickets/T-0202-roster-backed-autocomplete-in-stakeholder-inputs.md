@@ -2,9 +2,9 @@
 id: T-0202
 title: Roster-backed autocomplete in stakeholder inputs
 type: feature
-state: review
+state: done
 created: 2026-06-04T01:00:50Z
-updated: 2026-06-04T01:00:50Z
+updated: 2026-06-04T01:12:09Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,9 +18,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Typing a name/email in the Add-stakeholder dialog suggests matching roster people
-  - Works across project, ticket, and meeting scopes
-  - Selecting fills name+channel+contact; free entry still allowed; people already on the entity are not suggested
+  - "[x] Typing a name/email in the Add-stakeholder dialog suggests matching roster people"
+  - "[x] Works across project, ticket, and meeting scopes"
+  - "[x] Selecting fills name+channel+contact; free entry still allowed; people already on the entity are not suggested"
 out_of_scope: []
 code_anchors:
   - path: web/app/_actions/roster.ts
@@ -41,10 +41,7 @@ agent_runs:
 labels:
   - roster
   - dx
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-04T01:00:50Z
+attention: null
 ---
 
 ## Problem
@@ -55,3 +52,9 @@ Roster-backed typeahead on the Add-stakeholder dialog across project/ticket/meet
 ## Conversation
 
 **2026-06-04 01:00 claude-code:** Run run-20260604-0100 completed — Roster-backed autocomplete in the Add-stakeholder dialog (every scope): typeahead on name/email sourced from .pm/roster.md; selecting fills name+channel+contact; dedupes people already on the entity; free entry preserved.
+
+---
+
+**2026-06-04 01:12 — you**
+
+works
