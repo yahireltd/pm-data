@@ -2,9 +2,9 @@
 id: T-0216
 title: Hard close-the-loop records gate — block close until records exist
 type: feature
-state: review
+state: done
 created: 2026-06-04T03:05:21Z
-updated: 2026-06-04T18:04:40Z
+updated: 2026-06-04T18:05:28Z
 project: pm-tool-self
 section: null
 parent: null
@@ -42,16 +42,13 @@ agent_runs:
     summary: "Hard close-the-loop records gate: complete_run + CLI + web setTicketState block reaching done until records are attested (docs / tech-session if decisions / status note if phase moved); 'none-needed' allowed per item; one shared gate in state-machine.ts consulted by all surfaces; web RecordsGateProvider checklist wired into ReviewBanner/StateSelector/WhatsNext/Kanban."
     test_plan: "complete_run with no records -> rejected; with records.tech_session=TS-999 -> rejected (unresolved); with valid none-needed/linked records -> succeeds. Web: Approve&done shows the 3-item checklist + blocks until answered; same gate from Kanban drag, StateSelector, WhatsNext."
     records:
-      docs: updated
-      tech_session: TS-006
+      docs: none-needed
+      tech_session: none-needed
       status_note: none-needed
 labels:
   - hygiene
   - force-gate
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-04T03:28:50Z
+attention: null
 ---
 
 ## Problem
@@ -63,3 +60,9 @@ A run/ticket cannot reach `done` until the agent confirms + links the records it
 ## Conversation
 
 **2026-06-04 03:28 claude-code:** Run run-20260604-0328 completed — Hard close-the-loop records gate: complete_run + CLI + web setTicketState block reaching done until records are attested (docs / tech-session if decisions / status note if phase moved); 'none-needed' allowed per item; one shared gate in state-machine.ts consulted by all surfaces; web RecordsGateProvider checklist wired into ReviewBanner/StateSelector/WhatsNext/Kanban.
+
+---
+
+**2026-06-04 18:05 — you**
+
+done

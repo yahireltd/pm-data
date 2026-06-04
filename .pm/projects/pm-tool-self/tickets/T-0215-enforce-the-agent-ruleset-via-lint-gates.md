@@ -2,9 +2,9 @@
 id: T-0215
 title: Enforce the agent ruleset via lint gates
 type: feature
-state: review
+state: done
 created: 2026-06-04T02:58:50Z
-updated: 2026-06-04T03:16:14Z
+updated: 2026-06-04T18:09:16Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,10 +15,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Lint rule: a meeting in state 'held' with no recorded outcomes is flagged (AGENTS.md §4)"
-  - "Lint rule: an active project past the intake phase whose latest status note is stale (>7d) or absent is flagged, mirroring RISK001 (AGENTS.md §6)"
-  - "Lint rule: a ticket in state 'done' whose acceptance_criteria are not all ticked ('[x] ') is flagged as closed-without-verify (AGENTS.md §1)"
-  - Rules follow the existing linter rule pattern + registry; severities are warn (not error) so existing data isn't broken; non-detectable rules remain documented-only
+  - "[x] Lint rule: a meeting in state 'held' with no recorded outcomes is flagged (AGENTS.md §4)"
+  - "[x] Lint rule: an active project past the intake phase whose latest status note is stale (>7d) or absent is flagged, mirroring RISK001 (AGENTS.md §6)"
+  - "[x] Lint rule: a ticket in state 'done' whose acceptance_criteria are not all ticked ('[x] ') is flagged as closed-without-verify (AGENTS.md §1)"
+  - "[x] Rules follow the existing linter rule pattern + registry; severities are warn (not error) so existing data isn't broken; non-detectable rules remain documented-only"
 out_of_scope: []
 code_anchors:
   - path: linter/src/rules/
@@ -39,13 +39,14 @@ agent_runs:
     ended: 2026-06-04T03:16:14Z
     summary: "Three warn-level lint gates enforce the detectable AGENTS.md rules: MEET006 (held meeting with no outcomes), RISK002 (active project past intake with a stale/absent status note), VERIFY001 (done ticket with unticked acceptance criteria). The non-detectable rules stay documented-only."
     test_plan: Run pm-lint across the data repo -> the three rules flag existing violations as warnings (not errors); nothing breaks.
+    records:
+      docs: updated
+      tech_session: TS-006
+      status_note: none-needed
 labels:
   - linter
   - hygiene
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-04T03:16:14Z
+attention: null
 ---
 
 ## Problem
@@ -57,3 +58,9 @@ Add lint rules for the parts a linter can actually detect. The non-detectable ru
 ## Conversation
 
 **2026-06-04 03:16 claude-code:** Run run-20260604-0316 completed — Three warn-level lint gates enforce the detectable AGENTS.md rules: MEET006 (held meeting with no outcomes), RISK002 (active project past intake with a stale/absent status note), VERIFY001 (done ticket with unticked acceptance criteria). The non-detectable rules stay documented-only.
+
+---
+
+**2026-06-04 18:09 — you**
+
+done
