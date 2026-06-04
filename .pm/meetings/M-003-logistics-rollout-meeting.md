@@ -4,7 +4,7 @@ slug: logistics-rollout-meeting
 title: Logistics Rollout meeting
 state: scheduled
 created: 2026-06-04T13:29:31Z
-updated: 2026-06-04T13:32:10Z
+updated: 2026-06-04T13:41:37Z
 scheduled_at: 2026-06-04T14:30:00Z
 duration_minutes: 30
 location: TBD
@@ -35,11 +35,17 @@ agenda:
 outcomes:
   - description: During the testing i noticed some things that were working when i have been testing that were working but didnt work every time when we were testing. (eg the loading of the live plan where there is some data)
     recorded_at: 2026-06-04T13:32:10Z
+  - description: Also noticed some supprises when copying the data from one to the other. Not sure if it was just rob using system vs the routingtest url - i dont think it was
+    recorded_at: 2026-06-04T13:38:38Z
 attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
 kind: uat
+suggested_features:
+  - feature: Do not show c1 / d1 on contracts that get copied to the run planner
+  - feature: Flag for vehicles on the master branch that will allow us to ignore vehicles with that flag (do not use hire vehicles) - maybe should be date specific as they may need to use hire vehicles on a particular date
+  - feature: Forcing the close of the run planner tab is overkill - we should be able to just take over without them closing it  and show the sketch planner active message on the run planner when sketch takes over
 ---
 
 # Logistics Rollout meeting
