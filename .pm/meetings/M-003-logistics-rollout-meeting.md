@@ -4,7 +4,7 @@ slug: logistics-rollout-meeting
 title: Logistics Rollout meeting
 state: scheduled
 created: 2026-06-04T13:29:31Z
-updated: 2026-06-04T13:41:37Z
+updated: 2026-06-04T13:44:13Z
 scheduled_at: 2026-06-04T14:30:00Z
 duration_minutes: 30
 location: TBD
@@ -46,6 +46,7 @@ suggested_features:
   - feature: Do not show c1 / d1 on contracts that get copied to the run planner
   - feature: Flag for vehicles on the master branch that will allow us to ignore vehicles with that flag (do not use hire vehicles) - maybe should be date specific as they may need to use hire vehicles on a particular date
   - feature: Forcing the close of the run planner tab is overkill - we should be able to just take over without them closing it  and show the sketch planner active message on the run planner when sketch takes over
+  - feature: Do not load today as the default date on sketch planner
 ---
 
 # Logistics Rollout meeting
