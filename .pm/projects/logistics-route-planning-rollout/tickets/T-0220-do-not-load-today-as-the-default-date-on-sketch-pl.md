@@ -2,10 +2,10 @@
 id: T-0220
 title: Do not load today as the default date on sketch planner
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-04T14:04:15Z
-updated: 2026-06-04T14:16:36Z
+updated: 2026-06-04T18:03:07Z
 project: logistics-route-planning-rollout
 section: null
 parent: null
@@ -32,7 +32,10 @@ agent_runs:
     status: in_progress
     summary: Claimed via web UI
 labels: []
-attention: null
+attention:
+  needed_by: human
+  reason: Implemented & committed (8b37aef5); ready for human review/testing — test steps in the Conversation.
+  since: 2026-06-04T18:03:07Z
 ---
 
 ## Problem
@@ -40,3 +43,13 @@ attention: null
 _Suggested feature from meeting M-003._
 
 Do not load today as the default date on sketch planner
+
+## Conversation
+
+**2026-06-04 18:02 claude-code:** **Done** — committed `8b37aef5`.
+
+`actionSketch` no longer defaults to today; with no `date`/`id`/`solver_run` it renders a bare date-picker landing (`sketch-pick-date.php`).
+
+**To test:**
+1. Open `/route-planner/sketch` with no params → should show a **"Select a date to plan"** picker, not today's plan.
+2. Pick a date → loads that date's plan. (Existing date links / the in-app date nav are unaffected.)

@@ -2,10 +2,10 @@
 id: T-0217
 title: Do not show c1 / d1 on contracts that get copied to the run planner
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-04T14:04:01Z
-updated: 2026-06-04T14:05:13Z
+updated: 2026-06-04T18:03:00Z
 project: logistics-route-planning-rollout
 section: null
 parent: null
@@ -33,7 +33,10 @@ agent_runs:
     status: in_progress
     summary: Claimed via web UI
 labels: []
-attention: null
+attention:
+  needed_by: human
+  reason: Implemented & committed (8b37aef5); ready for human review/testing — test steps in the Conversation.
+  since: 2026-06-04T18:03:00Z
 ---
 
 ## Problem
@@ -41,3 +44,13 @@ attention: null
 _Suggested feature from meeting M-003._
 
 Do not show c1 / d1 on contracts that get copied to the run planner
+
+## Conversation
+
+**2026-06-04 18:02 claude-code:** **Done** — committed `8b37aef5` on branch `PickingSketchSalesDashFriday` (not yet merged to master).
+
+`typeCount` is now left **NULL** for non-split jobs in both copy paths (`CopyPlanToRunService::createYaRunContract`, `SketchPlanService::finalize`). The run planner renders `(C1)/(D1)` whenever `typeCount` is non-null, so this removes the stray label.
+
+**To test:**
+1. Finalize a sketch containing a **non-split** contract → on the run planner that contract should show **no** `(C1)/(D1)` suffix.
+2. Finalize a sketch with a **split** contract (delivery split across 2 vehicles) → those pieces **should still** show `(D1)/(D2)`.

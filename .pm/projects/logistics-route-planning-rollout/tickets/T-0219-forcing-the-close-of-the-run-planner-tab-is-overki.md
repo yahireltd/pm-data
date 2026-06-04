@@ -2,10 +2,10 @@
 id: T-0219
 title: Forcing the close of the run planner tab is overkill - we should be able to just take over without them closing it  and show the sketch planner active message on the run planner when sketch takes over
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-04T14:04:09Z
-updated: 2026-06-04T14:14:37Z
+updated: 2026-06-04T18:03:04Z
 project: logistics-route-planning-rollout
 section: null
 parent: null
@@ -33,7 +33,10 @@ agent_runs:
     status: in_progress
     summary: Claimed via web UI
 labels: []
-attention: null
+attention:
+  needed_by: human
+  reason: Implemented & committed (8b37aef5); ready for human review/testing — test steps in the Conversation.
+  since: 2026-06-04T18:03:04Z
 ---
 
 ## Problem
@@ -41,3 +44,13 @@ attention: null
 _Suggested feature from meeting M-003._
 
 Forcing the close of the run planner tab is overkill - we should be able to just take over without them closing it  and show the sketch planner active message on the run planner when sketch takes over
+
+## Conversation
+
+**2026-06-04 18:02 claude-code:** **Done** — committed `8b37aef5`.
+
+The sketch now **supersedes** the run-planner session instead of asking you to close the tab (`PlannerEditingSession::acquireSession` releases the active `run` session when a `sketch` acquires). The run planner already polls session status and self-locks with a "Sketch Planner Active" modal. Entering edit also **mirrors the live run plan in place** (`actionSketchReopen` → `hydrateFromRuns`; applied via `applyPlanData()` in JS), so run-planner changes made while you were viewing are reflected.
+
+**To test:**
+1. Open the run planner for a date in one tab + the **finalized** sketch for the same date in another → click **Edit Plan** on the sketch → it should take over **without** a close-tab prompt, and the run-planner tab should show the read-only "Sketch Planner Active" modal within ~10s.
+2. With the sketch in **view** mode, make a change on the run planner, **then** click Edit Plan → the sketch should reflect that change.

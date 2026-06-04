@@ -4,7 +4,7 @@ title: Hard close-the-loop records gate — block close until records exist
 type: feature
 state: review
 created: 2026-06-04T03:05:21Z
-updated: 2026-06-04T03:28:50Z
+updated: 2026-06-04T18:04:40Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,10 +15,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - pm_complete_run requires a `records` attestation when status=completed (docs / tech-session / status-note — each either handled+linked or explicitly 'none-needed'); the run cannot complete without it
-  - If a tech-session id is supplied it is validated to exist
-  - The human close (review→done) blocks 'Approve & mark done' until the reviewer confirms the records checklist — mirrors the existing closing-note gate UX
-  - Gate logic lives in ONE shared place consulted by CLI + web + MCP (like requiresClosingNote); it is a hard block, but 'none-needed' is always an allowed answer
+  - "[x] pm_complete_run requires a `records` attestation when status=completed (docs / tech-session / status-note — each either handled+linked or explicitly 'none-needed'); the run cannot complete without it"
+  - "[x] If a tech-session id is supplied it is validated to exist"
+  - "[x] The human close (review→done) blocks 'Approve & mark done' until the reviewer confirms the records checklist — mirrors the existing closing-note gate UX"
+  - "[x] Gate logic lives in ONE shared place consulted by CLI + web + MCP (like requiresClosingNote); it is a hard block, but 'none-needed' is always an allowed answer"
 out_of_scope: []
 code_anchors:
   - path: mcp-server/src/tools/complete-run.ts
