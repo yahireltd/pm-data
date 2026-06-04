@@ -2,7 +2,7 @@
 id: ADR-011
 slug: two-repo-split-code-repo-vs-live-data-repo-at-pm-root-with-p
 title: "Two-repo split: code repo vs live data repo at PM_ROOT, with pm-deploy and the server build as the only typecheck"
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

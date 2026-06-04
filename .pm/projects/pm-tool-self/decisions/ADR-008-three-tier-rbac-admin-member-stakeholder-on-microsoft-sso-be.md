@@ -2,7 +2,7 @@
 id: ADR-008
 slug: three-tier-rbac-admin-member-stakeholder-on-microsoft-sso-be
 title: Three-tier RBAC (admin/member/stakeholder) on Microsoft SSO, behind a login wall
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

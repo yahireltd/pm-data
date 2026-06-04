@@ -2,7 +2,7 @@
 id: ADR-017
 slug: hand-rolled-inline-styled-html-email-shell-with-a-bespoke-ma
 title: Hand-rolled inline-styled HTML email shell with a bespoke markdown→HTML renderer
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

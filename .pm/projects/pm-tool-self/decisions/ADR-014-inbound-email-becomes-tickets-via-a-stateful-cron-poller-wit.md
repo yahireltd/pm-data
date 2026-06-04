@@ -2,7 +2,7 @@
 id: ADR-014
 slug: inbound-email-becomes-tickets-via-a-stateful-cron-poller-wit
 title: Inbound email becomes tickets via a stateful cron poller with conversation+subject-tag threading
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

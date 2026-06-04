@@ -2,7 +2,7 @@
 id: ADR-019
 slug: sprint-as-a-first-class-entity-with-product-backlog-and-spri
 title: Sprint as a first-class entity, with product-backlog and sprint-backlog as separate planning horizons
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

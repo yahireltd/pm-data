@@ -2,7 +2,7 @@
 id: ADR-027
 slug: optimistic-ui-as-the-cross-cutting-convention-for-instant-in
 title: Optimistic UI as the cross-cutting convention for instant in-place mutations
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

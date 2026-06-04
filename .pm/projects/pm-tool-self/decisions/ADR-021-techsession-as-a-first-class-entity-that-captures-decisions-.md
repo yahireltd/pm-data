@@ -2,7 +2,7 @@
 id: ADR-021
 slug: techsession-as-a-first-class-entity-that-captures-decisions-
 title: TechSession as a first-class entity that captures decisions, not transcripts
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

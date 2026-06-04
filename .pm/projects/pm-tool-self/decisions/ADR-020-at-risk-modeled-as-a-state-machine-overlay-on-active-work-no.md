@@ -2,7 +2,7 @@
 id: ADR-020
 slug: at-risk-modeled-as-a-state-machine-overlay-on-active-work-no
 title: at_risk modeled as a state-machine overlay on active work, not a separate flag
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

@@ -2,7 +2,7 @@
 id: ADR-015
 slug: zendesk-style-agent-forwarding-and-reply-relay-through-a-sin
 title: Zendesk-style agent forwarding and reply relay through a single shared support@ mailbox
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

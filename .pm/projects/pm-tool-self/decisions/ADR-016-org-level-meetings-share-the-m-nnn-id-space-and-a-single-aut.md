@@ -2,7 +2,7 @@
 id: ADR-016
 slug: org-level-meetings-share-the-m-nnn-id-space-and-a-single-aut
 title: Org-level meetings share the M-NNN id space and a single auto-accumulating roster
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

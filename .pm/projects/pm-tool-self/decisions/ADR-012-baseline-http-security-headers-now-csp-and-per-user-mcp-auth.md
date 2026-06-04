@@ -2,7 +2,7 @@
 id: ADR-012
 slug: baseline-http-security-headers-now-csp-and-per-user-mcp-auth
 title: Baseline HTTP security headers now; CSP and per-user MCP auth deferred as known, accepted gaps
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

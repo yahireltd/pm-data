@@ -2,7 +2,7 @@
 id: ADR-010
 slug: remote-mcp-over-http-bearer-token-secured-loopback-bound-beh
 title: Remote MCP over HTTP, bearer-token secured, loopback-bound behind Caddy TLS
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

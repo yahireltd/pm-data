@@ -2,7 +2,7 @@
 id: ADR-028
 slug: meetings-capture-suggested-features-as-gradable-convertible-
 title: Meetings capture suggested features as gradable, convertible scope items
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

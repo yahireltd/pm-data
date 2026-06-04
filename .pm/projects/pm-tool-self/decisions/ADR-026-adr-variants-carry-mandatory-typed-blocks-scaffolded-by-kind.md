@@ -2,7 +2,7 @@
 id: ADR-026
 slug: adr-variants-carry-mandatory-typed-blocks-scaffolded-by-kind
 title: ADR variants carry mandatory typed blocks scaffolded by kind
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

@@ -2,7 +2,7 @@
 id: ADR-022
 slug: force-the-close-the-loop-every-finished-run-and-every-human-
 title: "Force the close-the-loop: every finished run and every human close must transition state and record an outcome"
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

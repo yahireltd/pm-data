@@ -2,7 +2,7 @@
 id: ADR-024
 slug: review-send-back-has-two-distinct-legal-paths-review-ready-a
 title: "Review send-back has two distinct legal paths: review->ready and review->in_progress"
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

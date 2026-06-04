@@ -2,7 +2,7 @@
 id: ADR-007
 slug: agents-follow-a-pm-hygiene-ruleset-agents-md
 title: Agents follow a PM-hygiene ruleset (AGENTS.md)
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

@@ -2,7 +2,7 @@
 id: ADR-009
 slug: admin-preview-as-via-an-effective-identity-layer-impersonati
 title: Admin 'preview as' via an effective-identity layer (impersonation that can only restrict, never escalate)
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

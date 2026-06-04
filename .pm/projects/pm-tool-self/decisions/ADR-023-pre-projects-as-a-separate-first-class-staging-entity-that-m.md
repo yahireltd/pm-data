@@ -2,7 +2,7 @@
 id: ADR-023
 slug: pre-projects-as-a-separate-first-class-staging-entity-that-m
 title: Pre-Projects as a separate first-class staging entity that must pass intake/planning gates before converting to a project
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

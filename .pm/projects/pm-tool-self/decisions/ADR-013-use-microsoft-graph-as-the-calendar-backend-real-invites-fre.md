@@ -2,7 +2,7 @@
 id: ADR-013
 slug: use-microsoft-graph-as-the-calendar-backend-real-invites-fre
 title: Use Microsoft Graph as the calendar backend — real invites, free/busy clash check, and mailbox-scoped RSVP
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

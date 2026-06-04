@@ -2,7 +2,7 @@
 id: ADR-025
 slug: mcp-write-parity-agents-mutate-through-dedicated-tools-that-
 title: "MCP write-parity: agents mutate through dedicated tools that mirror web/CLI invariants exactly, not a generic file-write"
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code

@@ -2,7 +2,7 @@
 id: ADR-018
 slug: meeting-reminders-per-meeting-config-a-sent-ledger-keyed-to-
 title: "Meeting reminders: per-meeting config + a sent-ledger keyed to the scheduled time, fired by a poller that mirrors the inbound one"
-state: proposed
+state: accepted
 decided: 2026-06-04
 decided_by:
   - claude-code
