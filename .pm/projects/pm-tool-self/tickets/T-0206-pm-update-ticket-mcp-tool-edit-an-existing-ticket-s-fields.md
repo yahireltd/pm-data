@@ -4,7 +4,7 @@ title: pm_update_ticket MCP tool — edit an existing ticket's fields
 type: feature
 state: review
 created: 2026-06-04T01:48:21Z
-updated: 2026-06-04T01:56:08Z
+updated: 2026-06-04T02:07:28Z
 project: pm-tool-self
 section: null
 parent: null
@@ -54,3 +54,11 @@ Add `pm_update_ticket` (mcp-server) that patches the provided editable fields on
 ## Conversation
 
 **2026-06-04 01:56 claude-code:** Run run-20260604-0156 completed — Added pm_update_ticket (mcp-server): edits an existing ticket's fields (title/body/priority/type/labels/acceptance_criteria/out_of_scope/code_anchors/customer_impact/due). Only provided fields change; state/id/created are immutable. Verified live by editing T-0204's title. Also refreshed a pre-existing stale tools-list test (12 -> 38 tools).
+
+**2026-06-04 02:07 claude-code:** **Self-test: PASS** (adversarial, run against the live MCP).
+
+**Functional** — all 10 editable fields round-trip exactly (title, body, priority, type, labels, acceptance_criteria, out_of_scope, code_anchors, customer_impact, due); `updated` strictly bumps; a labels-only edit left every other field byte-identical (only-provided-change holds).
+
+**Adversarial** — all 10 abuse probes failed safe: `state`/`id`/`created` are non-editable (dropped); invalid priority/type and empty title rejected at the zod boundary (-32602); missing code_anchor.path, bad due format, no-op, and nonexistent-ticket all rejected by the handler. Critically `partial_write_leak=false` — a rejected edit left `updated`==`created`, proving zero partial writes.
+
+All three acceptance criteria met. (Test scratch tickets T-0209 + T-0210 were created and can be deleted.)

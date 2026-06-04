@@ -1,10 +1,10 @@
 ---
 id: T-0209
-title: "[SELF-TEST] pm_update_ticket adversarial"
+title: "[SELF-TEST artifact — safe to delete] pm_update_ticket adversarial"
 type: chore
 state: triaged
 created: 2026-06-04T02:01:25Z
-updated: 2026-06-04T02:01:25Z
+updated: 2026-06-04T02:07:28Z
 project: pm-tool-self
 section: null
 parent: null
