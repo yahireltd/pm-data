@@ -4,7 +4,7 @@ slug: test-independent-meeting
 title: Test independent meeting
 state: scheduled
 created: 2026-06-03T23:54:13Z
-updated: 2026-06-04T00:13:20Z
+updated: 2026-06-04T00:27:29Z
 scheduled_at: 2026-06-04T00:55:00Z
 duration_minutes: 30
 location: IT
