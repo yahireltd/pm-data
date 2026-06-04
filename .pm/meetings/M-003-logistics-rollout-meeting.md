@@ -4,7 +4,7 @@ slug: logistics-rollout-meeting
 title: Logistics Rollout meeting
 state: scheduled
 created: 2026-06-04T13:29:31Z
-updated: 2026-06-04T14:04:01Z
+updated: 2026-06-04T14:04:28Z
 scheduled_at: 2026-06-04T14:30:00Z
 duration_minutes: 30
 location: TBD
@@ -46,11 +46,17 @@ suggested_features:
   - feature: Do not show c1 / d1 on contracts that get copied to the run planner
     ticket: T-0217
   - feature: Flag for vehicles on the master branch that will allow us to ignore vehicles with that flag (do not use hire vehicles) - maybe should be date specific as they may need to use hire vehicles on a particular date
+    ticket: T-0218
   - feature: Forcing the close of the run planner tab is overkill - we should be able to just take over without them closing it  and show the sketch planner active message on the run planner when sketch takes over
+    ticket: T-0219
   - feature: Do not load today as the default date on sketch planner
+    ticket: T-0220
   - feature: look into half luton splitting - potential better way to split if they get re-combined anyway on finalise.
+    ticket: T-0221
   - feature: vehicles used more than once should be distinguished with some icon / colour tone.
+    ticket: T-0222
   - feature: When finalisng can we sort the sketch planner the same way we sort the run planner on load- also introduce a sort runs on the sketch planner
+    ticket: T-0223
 ---
 
 # Logistics Rollout meeting
