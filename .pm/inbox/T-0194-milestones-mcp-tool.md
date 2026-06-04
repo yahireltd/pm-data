@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-03T23:06:12Z
-updated: 2026-06-04T01:10:53Z
+updated: 2026-06-04T01:27:15Z
 project: null
 section: null
 parent: null
@@ -35,9 +35,9 @@ agent_runs:
     test_plan: Restart the MCP, then pm_create_milestone for pm-tool-self; confirm it appears and passes pm-lint.
 labels: []
 attention:
-  needed_by: agent
-  reason: I have left a comment- we need to try the backfill to see if it worked
-  since: 2026-06-04T01:06:16Z
+  needed_by: human
+  reason: Backfill confirmed — MS-007/008/009 created + set to hit. Ready to close.
+  since: 2026-06-04T01:27:15Z
 ---
 
 claude can not update milestones as there is no tool to do it. Add this tool and any other helpful tools so claude can do what is necessary
@@ -53,3 +53,5 @@ claude can not update milestones as there is no tool to do it. Add this tool and
 * we havent backfilled the milestones to prove it worked - try that then we can review again
 
 **2026-06-04 01:10 claude-code:** Backfilled the milestones with the new pm_create_milestone tool to prove T-0194: created MS-007, MS-008, MS-009 (project pm-tool-self), each set to `hit` via pm_update_milestone_state. The tool works end-to-end (create + list + update_state). Ready for re-review. Separately fixed the send-back bug you hit (review->in_progress now; review->ready was illegal).
+
+**2026-06-04 01:27 claude-code:** Yes — all the milestones we'd flagged as un-recorded are backfilled: **MS-007** Hosted & remotely drivable, **MS-008** Multi-user access control, **MS-009** Two-way comms — each created via pm_create_milestone and set to `hit`. The project now has 9 milestones (MS-001–006 already existed from earlier work). So every threshold from the Jun 2–3 reconciliation is now a milestone. If you want one for the SPR-022 batch too, say the word. Re-requesting review.

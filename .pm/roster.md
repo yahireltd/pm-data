@@ -8,6 +8,22 @@ stakeholders:
       kind: human
       name: Austin Pickering
     added_at: 2026-06-03T23:56:50Z
+  - name: Austin
+    channel: email
+    contact: austin@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-04T01:26:11Z
+    role: Dev
+    notify_on:
+      - comment_added
+      - state_change
+      - meeting_held
+      - outcome_recorded
+      - assigned
+      - meeting_scheduled
 ---
 
 # Org roster

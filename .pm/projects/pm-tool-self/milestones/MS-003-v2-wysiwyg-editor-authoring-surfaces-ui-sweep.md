@@ -3,10 +3,10 @@ id: MS-003
 slug: v2-wysiwyg-editor-authoring-surfaces-ui-sweep
 title: "v2: WYSIWYG editor + authoring surfaces + UI sweep"
 project: pm-tool-self
-state: in_progress
+state: hit
 order: 3072
 created: 2026-05-29T13:27:52Z
-updated: 2026-05-29T13:27:52Z
+updated: 2026-06-04T01:28:42Z
 acceptance_criteria:
   - Milkdown editor round-trips cleanly to .md (frontmatter preserved)
   - Web authoring for status notes

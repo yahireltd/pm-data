@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T00:08:35Z
-updated: 2026-06-04T00:10:50Z
+updated: 2026-06-04T01:31:17Z
 project: pm-tool-self
 section: null
 parent: null
@@ -19,6 +19,7 @@ acceptance_criteria:
   - pre-project view and menu link needed
   - pre-projects need to be forced through the kickoff and planning stages
   - we need to be able to make a pre-project a project and carry over the data
+  - we want to be able to recieve a ticket - make it a pre-project, then do the kick off and scoptin and make it a real project then continue the workflow
 out_of_scope: []
 code_anchors: []
 relates: []
