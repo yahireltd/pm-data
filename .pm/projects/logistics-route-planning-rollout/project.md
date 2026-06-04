@@ -3,9 +3,9 @@ id: P-0007
 slug: logistics-route-planning-rollout
 name: Logistics Route Planning rollout
 state: planning
-phase: planning
+phase: test
 created: 2026-06-04T13:46:09Z
-updated: 2026-06-04T13:52:22Z
+updated: 2026-06-04T14:04:01Z
 owner:
   kind: human
   name: you
@@ -46,6 +46,9 @@ scope_in:
   - issues preventing them using it in real world
 scope_out:
   - Nice to have features that are not vital to the usage
+workstream_ownership:
+  - workstream: All
+    owner: Austin
 ---
 
 # Logistics Route Planning rollout
