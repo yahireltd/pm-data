@@ -5,7 +5,7 @@ type: support
 state: inbox
 priority: p2
 created: 2026-06-04T18:11:10Z
-updated: 2026-06-04T18:11:10Z
+updated: 2026-06-04T18:12:48Z
 project: null
 section: null
 parent: null
@@ -30,14 +30,15 @@ labels:
   - inbound-email
 attention:
   needed_by: human
-  reason: Inbound email — needs triage
-  since: 2026-06-04T18:11:10Z
+  reason: New reply from requester — needs response
+  since: 2026-06-04T18:12:48Z
 customer_impact: Testing a ticket submission to see email formatting of response
 intake_channel: email
 intake_mailbox: support@yahire.com
 intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdIsI9bAAA=
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdIsI9bAAA=
+  - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdIsI9cAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQANVJ94eXr2RDoxO1MQZkoM4=
 ---
 
@@ -52,3 +53,9 @@ conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQANVJ94e
 **2026-06-04 18:11 — Austin Pickering <austin@yahire.com>**
 
 Testing a ticket submission to see email formatting of response
+
+---
+
+**2026-06-04 18:12 — Austin Pickering <austin@yahire.com>**
+
+Im not doing this ticket!
