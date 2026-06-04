@@ -4,7 +4,7 @@ slug: test-independent-meeting
 title: Test independent meeting
 state: scheduled
 created: 2026-06-03T23:54:13Z
-updated: 2026-06-03T23:54:13Z
+updated: 2026-06-04T00:13:20Z
 scheduled_at: 2026-06-04T00:55:00Z
 duration_minutes: 30
 location: IT
@@ -13,7 +13,10 @@ organizer:
   kind: human
   name: unknown
 stakeholders: []
-agenda: []
+agenda:
+  - topic: test
+  - topic: discuss ticket
+    ticket: t-180
 outcomes: []
 attachments: []
 calendar:
