@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T02:07:55Z
-updated: 2026-06-04T02:08:38Z
+updated: 2026-06-04T02:46:07Z
 project: null
 section: null
 parent: null
@@ -16,9 +16,16 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - after adding agent rules create a complete dev doc then keep updated when editing via agent
+  - "A complete dev documentation / wiki for logged-in devs exists: architecture, data model + schemas, the two-repo deploy flow (ADR-011), the MCP tool surface, and conventions"
+  - Surfaced in-app behind login (a /docs or dev-wiki page) and/or a repo doc
+  - AGENTS.md carries a rule that agents keep the dev doc updated when they change what it documents
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: web/app/
+    note: new logged-in /docs (dev wiki) page
+  - path: AGENTS.md
+    note: keep-dev-docs-updated rule
+  - path: README.md
 relates: []
 blocks: []
 blocked_by: []

@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T02:30:42Z
-updated: 2026-06-04T02:31:24Z
+updated: 2026-06-04T02:46:07Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,9 +16,11 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - agents rules should  get them to create / upate milestones - ask user first to confirm
+  - AGENTS.md milestone rule (§5) updated so agents create/update milestones as part of hygiene — but CONFIRM with the user before creating or changing a milestone (not autonomous)
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: AGENTS.md
+    note: "milestone rule: add 'ask the user to confirm first'"
 relates: []
 blocks: []
 blocked_by: []

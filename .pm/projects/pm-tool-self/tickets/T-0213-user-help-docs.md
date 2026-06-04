@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T02:09:55Z
-updated: 2026-06-04T02:10:15Z
+updated: 2026-06-04T02:46:07Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,9 +16,17 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - follow description
+  - Contextual help / tooltips on the main pages explaining what each surface + key control does (user-facing, not dev)
+  - A reusable tooltip/help-hint component used across pages
+  - AGENTS.md carries a rule that agents keep the user help/tooltips updated when a page or behaviour changes
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: web/app/_components/
+    note: reusable Tooltip/HelpHint component
+  - path: web/app/
+    note: page-level help text
+  - path: AGENTS.md
+    note: keep-user-help-updated rule
 relates: []
 blocks: []
 blocked_by: []

@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T02:04:38Z
-updated: 2026-06-04T02:05:05Z
+updated: 2026-06-04T02:46:07Z
 project: null
 section: null
 parent: null
@@ -16,9 +16,16 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - satisfy description
+  - "Admin-only top menu: move Dashboard + Tickets (and the workflow links Inbox/Review/Ready/In-progress) out of the left sidebar into a top bar shown only to admins, so members/stakeholders get a decluttered sidebar"
+  - Resolve 'Projects' vs 'Your projects' — consolidate to one entry, or clearly differentiate their purpose so the nav isn't redundant
+  - A non-admin's sidebar shows only what's relevant to their role
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: web/app/_components/Sidebar.tsx
+    note: current nav source
+  - path: web/app/_components/SidebarNav.tsx
+  - path: web/app/layout.tsx
+    note: top-bar placement + admin gate
 relates: []
 blocks: []
 blocked_by: []
