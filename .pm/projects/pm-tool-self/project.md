@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-05T13:39:29Z
+updated: 2026-06-05T13:54:20Z
 owner:
   kind: human
   name: austin
@@ -66,7 +66,7 @@ success_measures:
   - Stakeholders post async responses to >50% of meetings within 24h of the meeting being scheduled
   - PM, Dev, and Stakeholder roles each have a distinct view that's actually used (track which routes each role hits)
   - Time-budget vs actual-spent visible on every project page; projects exceeding 150% of budget surface in Review automatically
-phase: build
+phase: test
 scope_in:
   - The guided phase-gated lifecycle engine driven by .pm/playbook.yml
   - Milestone + status-note entities and charter-completion fields
