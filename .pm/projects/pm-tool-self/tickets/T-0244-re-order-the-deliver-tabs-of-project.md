@@ -2,10 +2,10 @@
 id: T-0244
 title: re-order the deliver tabs of project
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-05T19:01:36Z
-updated: 2026-06-05T19:14:44Z
+updated: 2026-06-05T19:21:37Z
 project: pm-tool-self
 section: null
 parent: null
@@ -31,18 +31,18 @@ agent_runs:
     model: claude
     started: 2026-06-05T19:05:35Z
     status: completed
-    summary: The tabs in a project's Deliver section now run Sprints, Backlog, List, Board — the order you asked for — instead of leading with the Board. So the views you use most to drive delivery come first. The sidebar's Deliver entry follows the same order.
-    ended: 2026-06-05T19:12:01Z
-    test_plan: "Open any project and look at the Deliver tabs (and the Deliver group in the left sidebar): they read Sprints, Backlog, List, Board, left to right. Each still opens its view; the Board is still the project's default landing page."
+    summary: "Two parts now: (1) the Deliver tabs are ordered Sprints, Backlog, List, Board — your requested order; (2) opening a project now lands on the Sprints tab by default instead of the Board. The Board is still one click away (its own tab) and remains reachable directly; we just changed where you arrive so the view you use most to drive delivery is front and centre."
+    ended: 2026-06-05T19:21:37Z
+    test_plan: Open any project from the projects list or sidebar — you arrive on the Sprints tab (not the Board). The Deliver tabs read Sprints, Backlog, List, Board. Click Board — it shows the Kanban board. Hard-refresh if a tab was open from before the deploy.
     records:
       docs: none-needed
       tech_session: none-needed
       status_note: none-needed
 labels: []
 attention:
-  needed_by: agent
-  reason: works fine but need to have sprint as default selected tab
-  since: 2026-06-05T19:14:44Z
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-05T19:21:37Z
 ---
 
 1. sprints
@@ -53,3 +53,9 @@ attention:
 ## Conversation
 
 **2026-06-05 19:12 claude:** Run run-20260605-1905 completed — The tabs in a project's Deliver section now run Sprints, Backlog, List, Board — the order you asked for — instead of leading with the Board. So the views you use most to drive delivery come first. The sidebar's Deliver entry follows the same order.
+
+---
+
+**2026-06-05 19:21 — you**
+
+works fine now
