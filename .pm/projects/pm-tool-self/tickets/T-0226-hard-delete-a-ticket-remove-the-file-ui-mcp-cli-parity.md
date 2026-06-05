@@ -4,7 +4,7 @@ title: Hard-delete a ticket (remove the file) — UI + MCP + CLI parity
 type: feature
 state: triaged
 created: 2026-06-05T13:37:13Z
-updated: 2026-06-05T13:37:13Z
+updated: 2026-06-05T13:59:14Z
 project: pm-tool-self
 section: null
 parent: null
@@ -58,3 +58,20 @@ Add a **hard delete** that removes the ticket markdown file entirely (chosen ove
 
 - Admin-only (web RBAC); confirmation required before the irreversible removal.
 - Consider warning when the ticket is referenced by links (duplicate_of/parent/related) so we don't leave dangling refs.
+
+## Conversation
+
+**2026-06-05 13:59 claude-code:** Shipped across all four surfaces and deployed to prod.
+
+**Commits** (pushed to master, `pm-deploy` green twice):
+- `3e1263f` — hard-delete across web (admin-only `deleteTicket` action + two-step `DeleteTicketButton` in the ticket sidebar Danger zone), MCP (`pm_delete_ticket`, guarded by `confirm:true`), and CLI (`pm delete <id> --force`). All three strip dangling references to the deleted id out of other tickets' link fields before unlinking.
+- `926d70d` — fix: the `pm delete` HELP line used backticks inside the backtick-delimited HELP template literal, a syntax error that crashed the `pm` CLI binary (web/MCP services were unaffected — separate codepaths, which is why the web build type-gate passed on the first push). Caught during CLI smoke-test.
+
+**Verification:**
+- Web build (the type-gate) compiled clean both times; `pm-tool` + `pm-mcp` restarted active.
+- CLI: `pm help` renders the delete line, and `pm delete T-0209` (no `--force`, against live PM_ROOT) gives the graceful refusal `Refusing to delete T-0209 without confirmation...` with the resolved file path. Destructive path not exercised on real data.
+- MCP `pm_delete_ticket` is registered and deployed; it won't hot-load into an existing MCP client session until a restart (known gotcha).
+
+**Design notes:** hard delete (file removal) was chosen over soft-dispose-only — junk should leave no card. This forfeits the ADR-001 filesystem audit trail for deleted tickets by design, so the web path is admin-only via effective identity (an admin previewing-as a non-admin is correctly blocked per ADR-009). Soft-dispose (`wontfix`/`duplicate`) on the StateSelector is untouched.
+
+Ready for human review/close. Scratch tickets T-0207/T-0205/T-0209 can now be cleaned up.
