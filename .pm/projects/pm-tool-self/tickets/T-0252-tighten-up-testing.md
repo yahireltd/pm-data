@@ -2,18 +2,21 @@
 id: T-0252
 title: TIghten up testing
 type: feature
-state: inbox
+state: in_progress
 priority: p2
 created: 2026-06-05T21:38:52Z
-updated: 2026-06-05T21:38:52Z
-project: null
+updated: 2026-06-05T21:59:16Z
+project: pm-tool-self
 section: null
 parent: null
 children: []
-order: 16384
+order: 80896
 reporter: null
-assignee: null
-acceptance_criteria: []
+assignee:
+  kind: agent
+  name: claude
+acceptance_criteria:
+  - add the various testing criteria and.tighten up the testing parts of both tickets and projects
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -21,7 +24,12 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260605-2159
+    model: claude
+    started: 2026-06-05T21:59:16Z
+    status: in_progress
+    summary: Claimed via web UI
 labels: []
 attention: null
 ---

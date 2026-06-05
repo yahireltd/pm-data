@@ -2,9 +2,9 @@
 id: T-0251
 title: Per-page help + tooltips across the app
 type: feature
-state: review
+state: done
 created: 2026-06-05T21:25:01Z
-updated: 2026-06-05T21:51:40Z
+updated: 2026-06-05T22:01:47Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,10 +15,10 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - Every main page has a short contextual help blurb (reuse the existing HelpHint pattern in PageHeader)
-  - Non-obvious fields/controls get a tooltip explaining what they are and why they matter (plain language)
-  - Coverage is consistent — a pass across dashboard, projects (overview/charter/phase/deliver), pre-projects, meetings, dev-tickets, inbox, review, tickets
-  - Help text is jargon-free and aimed at a non-technical PM/stakeholder
+  - "[x] Every main page has a short contextual help blurb (reuse the existing HelpHint pattern in PageHeader)"
+  - "[x] Non-obvious fields/controls get a tooltip explaining what they are and why they matter (plain language)"
+  - "[x] Coverage is consistent — a pass across dashboard, projects (overview/charter/phase/deliver), pre-projects, meetings, dev-tickets, inbox, review, tickets"
+  - "[x] Help text is jargon-free and aimed at a non-technical PM/stakeholder"
 out_of_scope: []
 code_anchors:
   - path: web/app/projects/[slug]/overview/page.tsx
@@ -47,10 +47,7 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-05T21:51:40Z
+attention: null
 ---
 
 ## Problem
@@ -64,3 +61,9 @@ Reuse the existing `HelpHint` (web/app/_components/ui) for page-level help and a
 ## Conversation
 
 **2026-06-05 21:51 claude:** Run run-20260605-2151 completed — Added in-app help across the main pages so the tool explains itself, especially for non-technical people. Each page now has a short "what this page is for" note, and the less-obvious fields and buttons have little hover explanations. Covered: the project Overview (state, owner, code repository, and the AI agent permissions, plus a "project details" intro), the Phase view (what phases are, what a required gate is, what "advance anyway" and "revert" do), Dev Tickets, Meetings (scheduled vs held, where reminders live), the Inbox (promote to a project / move to dev tickets), Review (accept or send back), the Tickets filters, and Pre-projects (what "convert" means). All written in plain language. Reused the existing hover-help component so it looks consistent everywhere.
+
+---
+
+**2026-06-05 22:01 — you**
+
+Help has been added in places- will revisit for more of a manual style - the dev wiki hasnt hit the mark
