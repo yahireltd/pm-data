@@ -2,9 +2,9 @@
 id: T-0249
 title: Security review / hardening pass
 type: spike
-state: triaged
+state: ready
 created: 2026-06-05T21:24:45Z
-updated: 2026-06-05T21:24:45Z
+updated: 2026-06-05T21:44:02Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,7 +20,12 @@ acceptance_criteria:
   - Note the agent-policy guardrails (T-0247) + recommend GitHub branch protection on production branches
   - "Output: a prioritised findings list (severity) with concrete fixes, filed as follow-up tickets"
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: web/auth.ts
+  - path: web/middleware.ts
+  - path: web/app/_lib/access.ts
+  - path: web/app/_actions/backup.ts
+  - path: mcp-server/src/http.ts
 relates: []
 blocks: []
 blocked_by: []

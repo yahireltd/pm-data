@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 251
+  ticket: 258
   project: 8
   section: 13
 outbound_email:
@@ -19,6 +19,7 @@ outbound_email:
 access:
   admins:
     - austin@yahire.com
+    - ben@yahire.com
 inbound_email:
   enabled: true
   mailboxes:
@@ -34,3 +35,4 @@ inbound_email:
   forward_to:
     - zsolt@yahire.com
     - austin@yahire.com
+    - ben@yahire.com
