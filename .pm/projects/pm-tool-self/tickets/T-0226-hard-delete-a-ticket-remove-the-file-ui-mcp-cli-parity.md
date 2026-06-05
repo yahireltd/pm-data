@@ -2,9 +2,9 @@
 id: T-0226
 title: Hard-delete a ticket (remove the file) — UI + MCP + CLI parity
 type: feature
-state: triaged
+state: review
 created: 2026-06-05T13:37:13Z
-updated: 2026-06-05T13:59:14Z
+updated: 2026-06-05T15:41:41Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,9 @@ priority: p2
 reporter:
   kind: human
   name: austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - A ticket can be permanently deleted (its markdown file is removed) from the web UI, behind an admin-only control with a confirmation step
   - The same delete is available over MCP via a pm_delete_ticket tool and at CLI parity
@@ -30,11 +32,25 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260605-1541
+    model: claude-opus-4-8
+    started: 2026-06-05T15:41:30Z
+    status: completed
+    ended: 2026-06-05T15:41:41Z
+    summary: "You can now permanently delete a junk ticket. Until now there was no way to remove a ticket at all — the closest was marking it \"won't fix\", which still left it cluttering the board. Now an admin can delete a throwaway ticket outright, with a confirmation step, and it's available everywhere: in the app, through the agent tools, and on the command line. We used it to clear three leftover test tickets. The deliberate trade-off is that a deleted ticket is gone for good rather than archived, which is why it's limited to admins and asks for confirmation first."
+    test_plan: As an admin, open a scratch ticket and use Delete in the Danger zone — confirm the prompt, then it disappears and you're returned to the home screen. As a non-admin, confirm there is no delete control. On the command line, `pm delete <id>` refuses unless you add --force. Deleting a ticket that other tickets linked to should leave no broken links.
+    records:
+      docs: none-needed
+      tech_session: TS-007
+      status_note: none-needed
 labels:
   - dogfood
   - meta
-attention: null
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-05T15:41:41Z
 ---
 
 ## Problem
@@ -75,3 +91,5 @@ Add a **hard delete** that removes the ticket markdown file entirely (chosen ove
 **Design notes:** hard delete (file removal) was chosen over soft-dispose-only — junk should leave no card. This forfeits the ADR-001 filesystem audit trail for deleted tickets by design, so the web path is admin-only via effective identity (an admin previewing-as a non-admin is correctly blocked per ADR-009). Soft-dispose (`wontfix`/`duplicate`) on the StateSelector is untouched.
 
 Ready for human review/close. Scratch tickets T-0207/T-0205/T-0209 can now be cleaned up.
+
+**2026-06-05 15:41 claude:** Run run-20260605-1541 completed — You can now permanently delete a junk ticket. Until now there was no way to remove a ticket at all — the closest was marking it "won't fix", which still left it cluttering the board. Now an admin can delete a throwaway ticket outright, with a confirmation step, and it's available everywhere: in the app, through the agent tools, and on the command line. We used it to clear three leftover test tickets. The deliberate trade-off is that a deleted ticket is gone for good rather than archived, which is why it's limited to admins and asks for confirmation first.
