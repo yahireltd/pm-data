@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-05T13:52:54Z
-updated: 2026-06-05T13:54:20Z
+updated: 2026-06-05T17:44:30Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,7 +20,10 @@ acceptance_criteria:
   - Grey icons are made colourful
   - add more icons on buttons where you see fit
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: web/app/globals.css
+  - path: web/app/_components/SidebarNav.tsx
+  - path: web/app/_components/TopNavLinks.tsx
 relates: []
 blocks: []
 blocked_by: []

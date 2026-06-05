@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-05T17:32:40Z
+updated: 2026-06-05T17:39:20Z
 owner:
   kind: human
   name: austin
