@@ -2,10 +2,10 @@
 id: T-0243
 title: code repositpory path should be githib url and branch
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T18:24:02Z
-updated: 2026-06-05T20:33:09Z
+updated: 2026-06-05T20:54:56Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,9 +16,9 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - code path should be github url
-  - branch should be needed
-  - auth may need to be considered to view branches (read only should be used for this)
+  - "[x] code path should be github url"
+  - "[x] branch should be needed"
+  - "[x] auth may need to be considered to view branches (read only should be used for this)"
 out_of_scope: []
 code_anchors:
   - path: schemas/project.schema.json
@@ -54,10 +54,7 @@ agent_runs:
       status_note: none-needed
       docs_note: ADR-032 records the GitHub-repo-reference + read-only-token decision (now via the pmToolGithub AWS secret, env fallback). New fields in the project schema JSON (repo_url, branch).
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-05T20:33:09Z
+attention: null
 ---
 
 So we are crystal clear which branch and project we are working on we should implent this
@@ -67,3 +64,9 @@ So we are crystal clear which branch and project we are working on we should imp
 **2026-06-05 20:22 claude:** Run run-20260605-2022 completed — A project's "Code repository" is now a GitHub repo URL + branch instead of a local folder path — so it's clear exactly which repo and branch a project (including the new system projects) is working on. On a project's Overview you paste the GitHub URL and set the branch; click "Load branches" to pick it from the live list, which needs a read-only GitHub token on the server (without one, you just type the branch — everything else still works). A ticket's code references (code anchors) now become clickable links that open the file on GitHub at that branch. The old local path still exists for any project that prefers an on-disk check, but GitHub is now the default way to point at code.
 
 Heads-up for it to light up fully: a read-only GitHub token (fine-grained, Contents + Metadata read on the org repos) needs to be set as GITHUB_TOKEN on the server. Until then the branch is free-text. Want me to /schedule a reminder to wire that token, or will you set it?
+
+---
+
+**2026-06-05 20:54 — you**
+
+working nicely
