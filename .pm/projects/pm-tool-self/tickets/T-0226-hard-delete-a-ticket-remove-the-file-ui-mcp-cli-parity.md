@@ -4,7 +4,7 @@ title: Hard-delete a ticket (remove the file) — UI + MCP + CLI parity
 type: feature
 state: review
 created: 2026-06-05T13:37:13Z
-updated: 2026-06-05T15:41:41Z
+updated: 2026-06-05T16:01:50Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,10 +18,10 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - A ticket can be permanently deleted (its markdown file is removed) from the web UI, behind an admin-only control with a confirmation step
-  - The same delete is available over MCP via a pm_delete_ticket tool and at CLI parity
-  - After delete, the ticket no longer appears in any list/board and the project ticket counts are revalidated
-  - Deletion is rejected (or clearly warned) for a non-existent id, and dangling link references are handled or surfaced
+  - "[x] A ticket can be permanently deleted (its markdown file is removed) from the web UI, behind an admin-only control with a confirmation step"
+  - "[x] The same delete is available over MCP via a pm_delete_ticket tool and at CLI parity"
+  - "[x] After delete, the ticket no longer appears in any list/board and the project ticket counts are revalidated"
+  - "[x] Deletion is rejected (or clearly warned) for a non-existent id, and dangling link references are handled or surfaced"
 out_of_scope: []
 code_anchors:
   - path: web/app/_actions/tickets.ts
@@ -47,10 +47,7 @@ agent_runs:
 labels:
   - dogfood
   - meta
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-05T15:41:41Z
+attention: null
 ---
 
 ## Problem

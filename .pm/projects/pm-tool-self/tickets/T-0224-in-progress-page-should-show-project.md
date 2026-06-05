@@ -5,18 +5,19 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T14:25:13Z
-updated: 2026-06-04T14:25:49Z
-project: null
+updated: 2026-06-05T16:07:16Z
+project: pm-tool-self
 section: null
 parent: null
 children: []
-order: 15360
+order: 66560
 reporter: null
 assignee:
   kind: agent
   name: claude
 acceptance_criteria:
   - On the In progress page, the project should be shown with the ticket
+  - review page should also show the project
 out_of_scope: []
 code_anchors: []
 relates: []

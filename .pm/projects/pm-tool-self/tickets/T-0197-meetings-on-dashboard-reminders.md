@@ -5,12 +5,12 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-03T23:59:09Z
-updated: 2026-06-04T01:07:57Z
-project: null
+updated: 2026-06-05T16:04:37Z
+project: pm-tool-self
 section: null
 parent: null
 children: []
-order: 6144
+order: 67584
 reporter: null
 assignee:
   kind: agent

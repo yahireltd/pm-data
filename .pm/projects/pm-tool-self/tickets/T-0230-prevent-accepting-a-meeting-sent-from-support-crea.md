@@ -1,23 +1,24 @@
 ---
 id: T-0230
-title: "Accepted: Logistics Rollout meeting"
+title: "Prevent accepting a meeting sent from support creating a ticket "
 type: support
-state: inbox
+state: triaged
 priority: p2
 created: 2026-06-05T15:23:19Z
-updated: 2026-06-05T16:00:30Z
-project: null
+updated: 2026-06-05T16:11:26Z
+project: pm-tool-self
 section: null
 parent: null
 children: []
-order: 1024
+order: 68608
 reporter:
   kind: customer
   name: Austin Pickering
   channel: email
   contact: austin@yahire.com
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - prevent accepting a meeting creating a ticket
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -38,14 +39,17 @@ intake_message_ids:
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAJhsYViIFzZBtoJQ2qrHjTc=
 ---
 
-## Request
+Accepting a meeting creates a ticket incorrectly see below - i accepted a meeting and that then generated a ticket. We need to prevent this\
+\
+Request
+-------
 
-**From:** Austin Pickering <austin@yahire.com>  
-**Subject:** Accepted: Logistics Rollout meeting  
+**From:** Austin Pickering <austin@yahire.com>\
+**Subject:** Accepted: Logistics Rollout meeting\
 **Received:** 2026-06-05T15:23:19Z
 
 ## Conversation
 
-**2026-06-05 15:23 — Austin Pickering <austin@yahire.com>**
+**2026-06-05 15:23 — Austin Pickering** **<austin@yahire.com>**
 
 _(empty body)_
