@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T00:08:35Z
-updated: 2026-06-04T01:31:17Z
+updated: 2026-06-05T13:39:29Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,6 +20,8 @@ acceptance_criteria:
   - pre-projects need to be forced through the kickoff and planning stages
   - we need to be able to make a pre-project a project and carry over the data
   - we want to be able to recieve a ticket - make it a pre-project, then do the kick off and scoptin and make it a real project then continue the workflow
+  - we need to be able to plan the required meetings
+  - the stakeholders need to use the same roster and have emails that we can use to invite to meetings as we do in the standalone meetings and project meeting
 out_of_scope: []
 code_anchors: []
 relates: []

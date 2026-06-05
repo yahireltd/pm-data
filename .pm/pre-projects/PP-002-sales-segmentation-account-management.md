@@ -4,7 +4,7 @@ slug: sales-segmentation-account-management
 title: Sales Segmentation / Account Management
 state: draft
 created: 2026-06-05T12:25:32Z
-updated: 2026-06-05T12:43:46Z
+updated: 2026-06-05T13:40:42Z
 stakeholders:
   - name: Ben
     role: Business SME
@@ -55,6 +55,9 @@ milestones: []
 workstream_ownership: []
 kickoff_held: false
 scoping_held: false
+owner:
+  kind: human
+  name: Ben
 ---
 
 # PP-002: Sales Segmentation / Account Management
