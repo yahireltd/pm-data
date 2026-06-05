@@ -2,9 +2,9 @@
 id: T-0210
 title: "[SELF-TEST artifact — safe to delete] pm_update_ticket functional"
 type: spike
-state: triaged
+state: done
 created: 2026-06-04T02:01:30Z
-updated: 2026-06-04T02:07:28Z
+updated: 2026-06-05T12:47:08Z
 project: pm-tool-self
 section: null
 parent: null
@@ -36,3 +36,15 @@ due: 2026-07-15
 ## Heading
 
 Some **markdown** body text.
+
+## Conversation
+
+**2026-06-05 12:47 — you**
+
+test
+
+---
+
+**2026-06-05 12:47 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

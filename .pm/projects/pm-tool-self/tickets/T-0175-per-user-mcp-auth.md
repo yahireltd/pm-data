@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-03T17:08:13Z
-updated: 2026-06-03T17:08:13Z
+updated: 2026-06-05T12:48:18Z
 project: pm-tool-self
 section: null
 parent: null

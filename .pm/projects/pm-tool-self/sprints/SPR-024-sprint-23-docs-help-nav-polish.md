@@ -3,10 +3,10 @@ id: SPR-024
 slug: sprint-23-docs-help-nav-polish
 title: Sprint 23 — docs, help & nav polish
 project: pm-tool-self
-state: in_progress
+state: completed
 order: 24576
 created: 2026-06-04T02:52:16Z
-updated: 2026-06-04T02:52:16Z
+updated: 2026-06-05T12:47:27Z
 committed_items:
   - T-0211
   - T-0212
@@ -25,6 +25,7 @@ capacity:
   total: 4
   unit: tickets
 velocity_committed: 4
+velocity_actual: 4
 ---
 
 # SPR-024: Sprint 23 — docs, help & nav polish
