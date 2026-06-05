@@ -4,7 +4,7 @@ slug: logistics-rollout-meeting
 title: Logistics Rollout meeting
 state: scheduled
 created: 2026-06-04T13:29:31Z
-updated: 2026-06-04T14:04:28Z
+updated: 2026-06-05T15:18:50Z
 scheduled_at: 2026-06-04T14:30:00Z
 duration_minutes: 30
 location: TBD
@@ -37,6 +37,8 @@ outcomes:
     recorded_at: 2026-06-04T13:32:10Z
   - description: Also noticed some supprises when copying the data from one to the other. Not sure if it was just rob using system vs the routingtest url - i dont think it was
     recorded_at: 2026-06-04T13:38:38Z
+  - description: Logistics were left with a list of specific things to test and report back on and agreed to spend some time on this
+    recorded_at: 2026-06-05T15:18:50Z
 attachments: []
 calendar:
   graph_event_id: null
