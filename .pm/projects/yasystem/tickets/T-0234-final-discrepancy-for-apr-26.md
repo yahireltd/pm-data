@@ -5,7 +5,7 @@ type: support
 state: triaged
 priority: p2
 created: 2026-06-05T15:47:35Z
-updated: 2026-06-05T19:54:49Z
+updated: 2026-06-05T20:30:29Z
 project: yasystem
 section: null
 parent: null
@@ -38,6 +38,7 @@ intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdKEFn9AAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQACO9uG1iJK9EsWpqvlcY9xU=
 department: Accounts
+backlog_status: in_review
 ---
 
 ## Request

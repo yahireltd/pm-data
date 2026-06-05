@@ -2,10 +2,10 @@
 id: P-0008
 slug: yasystem
 name: Yasystem
-state: planning
+state: active
 phase: intake
 created: 2026-06-05T19:54:47Z
-updated: 2026-06-05T19:54:49Z
+updated: 2026-06-05T20:30:29Z
 owner:
   kind: human
   name: you
@@ -19,6 +19,7 @@ key_decisions: []
 labels: []
 order: 1024
 category: system
+repo_url: https://github.com/yahireltd/Ya-Hire-Management
 ---
 
 # Yasystem
