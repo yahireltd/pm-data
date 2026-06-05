@@ -4,7 +4,7 @@ title: "[security] Auth & session hardening (AUTH_SECRET, middleware, preview-as
 type: chore
 state: triaged
 created: 2026-06-05T21:42:22Z
-updated: 2026-06-05T21:42:22Z
+updated: 2026-06-05T22:36:17Z
 project: pm-tool-self
 section: null
 parent: null
@@ -36,3 +36,15 @@ Security review (T-0249) HIGH: AUTH_SECRET falls back to a known string (forgeab
 ## Context
 
 Files: web/auth.ts (secret fallback), web/middleware.ts (cookie presence check), web/app/_lib/access.ts (PREVIEW_COOKIE), web/app/_lib/identity.ts (silent catch fallback).
+
+## Conversation
+
+**2026-06-05 22:36 claude:** **Progress — AUTH_SECRET hardened; the riskier parts deliberately deferred.**
+
+**What we did:** the login system used to fall back to a *published* secret string for signing sessions if no real secret was configured — meaning anyone who'd seen the source could forge a logged-in session. It now uses a random per-process secret instead (and logs a warning), so that hole is closed with no outage risk. (If a stable secret is already configured, behaviour is unchanged.)
+
+**Still to do — a careful, not-late-at-night pass (both can take login down if done wrong):**
+1. The middleware should validate the session token's *signature/expiry*, not just that a cookie is present.
+2. The "preview as" cookie should be *signed + time-limited* so it can't be set via XSS.
+
+Leaving this ticket open for those two.

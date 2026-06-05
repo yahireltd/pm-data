@@ -6,7 +6,7 @@ project: pm-tool-self
 state: in_progress
 order: 25600
 created: 2026-06-05T14:02:00Z
-updated: 2026-06-05T22:29:01Z
+updated: 2026-06-05T22:41:07Z
 committed_items:
   - T-0198
   - T-0226
@@ -27,7 +27,6 @@ committed_items:
   - T-0240
   - T-0244
   - T-0243
-  - T-0245
   - T-0246
   - T-0251
   - T-0258
