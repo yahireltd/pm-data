@@ -2,9 +2,9 @@
 id: T-0236
 title: Close-the-loop dialog re-asks for records the agent already recorded
 type: feature
-state: review
+state: done
 created: 2026-06-05T16:08:36Z
-updated: 2026-06-05T16:36:37Z
+updated: 2026-06-05T16:50:07Z
 project: pm-tool-self
 section: null
 parent: null
@@ -47,10 +47,7 @@ agent_runs:
 labels:
   - dogfood
   - meta
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-05T16:36:37Z
+attention: null
 ---
 
 ## Problem
@@ -86,5 +83,11 @@ Next step to confirm: hard-refresh the page (Cmd/Ctrl + Shift + R) and try closi
 ---
 
 **2026-06-05 16:32 — you**
+
+done
+
+---
+
+**2026-06-05 16:50 — you**
 
 done

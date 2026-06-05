@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-05T13:57:52Z
-updated: 2026-06-05T14:03:56Z
+updated: 2026-06-05T16:52:55Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,7 @@ order: 62464
 reporter: null
 assignee: null
 acceptance_criteria:
-  - when clicking a ticket in the backlog or sprint area that ticket opens
+  - "[x] when clicking a ticket in the backlog or sprint area that ticket opens"
 out_of_scope: []
 code_anchors: []
 relates: []
