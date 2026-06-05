@@ -6,7 +6,7 @@ project: pm-tool-self
 state: in_progress
 order: 25600
 created: 2026-06-05T14:02:00Z
-updated: 2026-06-05T16:12:47Z
+updated: 2026-06-05T17:05:41Z
 committed_items:
   - T-0198
   - T-0226
@@ -20,6 +20,9 @@ committed_items:
   - T-0232
   - T-0235
   - T-0233
+  - T-0238
+  - T-0237
+  - T-0239
 goal: Pre-project functionality parity with full projects
 velocity_history:
   - sprint: SPR-024

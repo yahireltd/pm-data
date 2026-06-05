@@ -1,23 +1,22 @@
 ---
-id: T-0237
-title: project filter on the reveiw page (persist last worked on project and filter by that by default)
+id: T-0239
+title: Hard delete meetings
 type: feature
 state: in_progress
 priority: p2
-created: 2026-06-05T16:51:28Z
-updated: 2026-06-05T17:07:32Z
+created: 2026-06-05T17:04:49Z
+updated: 2026-06-05T17:07:43Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
-order: 69632
+order: 71680
 reporter: null
 assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - we can filter by project
-  - last worked on prokect (link clicked on the projects list) is the default sort / filter
+  - A meeting can be deleted
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -28,11 +27,11 @@ duplicate_of: null
 agent_runs:
   - id: run-20260605-1707
     model: claude
-    started: 2026-06-05T17:07:32Z
+    started: 2026-06-05T17:07:43Z
     status: in_progress
     summary: Claimed via web UI
 labels: []
 attention: null
 ---
 
-On the review page and anywhre else that lists out tickets we need a project filter
+Admins need to have a way to hard delete meetings.
