@@ -4,7 +4,7 @@ slug: logistics-rollout-meeting
 title: Logistics Rollout meeting
 state: scheduled
 created: 2026-06-04T13:29:31Z
-updated: 2026-06-05T15:18:50Z
+updated: 2026-06-05T15:23:06Z
 scheduled_at: 2026-06-04T14:30:00Z
 duration_minutes: 30
 location: TBD
@@ -41,8 +41,9 @@ outcomes:
     recorded_at: 2026-06-05T15:18:50Z
 attachments: []
 calendar:
-  graph_event_id: null
+  graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdKEE4zAAA=
   ics_url: null
+  organizer_mailbox: support@yahire.com
 kind: uat
 suggested_features:
   - feature: Do not show c1 / d1 on contracts that get copied to the run planner
