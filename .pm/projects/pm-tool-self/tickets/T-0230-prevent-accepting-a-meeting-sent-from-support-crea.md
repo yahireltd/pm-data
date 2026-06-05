@@ -5,7 +5,7 @@ type: support
 state: in_progress
 priority: p2
 created: 2026-06-05T15:23:19Z
-updated: 2026-06-05T16:12:55Z
+updated: 2026-06-05T16:57:12Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,3 +55,9 @@ Request
 **2026-06-05 15:23 — Austin Pickering** **<austin@yahire.com>**
 
 _(empty body)_
+
+**2026-06-05 16:57 claude-code:** Fix shipped (live now). The inbound email handler now ignores calendar mail — meeting accept/decline/tentative/cancel notices — so responding to a meeting invite no longer opens a ticket. It detects these two ways: Microsoft Graph tags meeting mails with a calendar type (works regardless of language), and as a backup we match the standard subject prefixes ("Accepted:", "Declined:", "Tentative:", "Canceled:").
+
+To confirm: accept a calendar invite sent to support@ — no ticket should be created (and the skip is logged). A normal support email still becomes a ticket as before.
+
+This is your ticket (assigned to you, from your inbound report), so I've left it for you to close once you've confirmed. Code: comms/src/inbound/graph-poll.ts.
