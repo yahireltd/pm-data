@@ -5,7 +5,7 @@ name: Logistics Route Planning rollout
 state: planning
 phase: test
 created: 2026-06-04T13:46:09Z
-updated: 2026-06-04T14:19:57Z
+updated: 2026-06-05T21:17:57Z
 owner:
   kind: human
   name: you
@@ -49,6 +49,12 @@ scope_out:
 workstream_ownership:
   - workstream: All
     owner: Austin
+repo_url: https://github.com/yahireltd/Ya-Hire-Management
+branch: PickingSketchSalesDashFriday
+agent_policy:
+  allow_commit: true
+  allow_push: false
+  note: working branch of a production system proceed with caution
 ---
 
 # Logistics Route Planning rollout

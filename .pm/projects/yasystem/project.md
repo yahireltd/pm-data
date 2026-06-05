@@ -5,7 +5,7 @@ name: Yasystem Main Branch
 state: active
 phase: intake
 created: 2026-06-05T19:54:47Z
-updated: 2026-06-05T20:49:26Z
+updated: 2026-06-05T21:16:34Z
 owner:
   kind: human
   name: you
@@ -25,6 +25,10 @@ branch: master
 team:
   - austin@yahire.com
   - zsolt@yahire.com
+agent_policy:
+  allow_commit: false
+  allow_push: false
+  note: Main branch proceed with caution - ask user in terminal before any pushes or commits
 ---
 
 # Yasystem
