@@ -5,7 +5,7 @@ type: support
 state: inbox
 priority: p2
 created: 2026-06-05T15:23:19Z
-updated: 2026-06-05T15:23:19Z
+updated: 2026-06-05T16:00:30Z
 project: null
 section: null
 parent: null
@@ -28,10 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: Inbound email — needs triage
-  since: 2026-06-05T15:23:19Z
+attention: null
 customer_impact: "Accepted: Logistics Rollout meeting"
 intake_channel: email
 intake_mailbox: support@yahire.com
