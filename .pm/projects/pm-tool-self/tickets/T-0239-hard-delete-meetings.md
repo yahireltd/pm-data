@@ -2,10 +2,10 @@
 id: T-0239
 title: Hard delete meetings
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T17:04:49Z
-updated: 2026-06-05T17:15:16Z
+updated: 2026-06-05T17:26:47Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - A meeting can be deleted
+  - "[x] A meeting can be deleted"
 out_of_scope: []
 code_anchors:
   - path: web/app/_actions/meetings.ts
@@ -41,10 +41,7 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-05T17:15:16Z
+attention: null
 ---
 
 Admins need to have a way to hard delete meetings.
@@ -52,3 +49,9 @@ Admins need to have a way to hard delete meetings.
 ## Conversation
 
 **2026-06-05 17:15 claude:** Run run-20260605-1707 completed — Admins can now permanently delete a meeting. There's a Delete button on the meeting page — admin-only, with a confirm step — and an agent tool for it too. This is for scratch or test meetings that shouldn't stick around. Like deleting a ticket, a deleted meeting is gone for good, which is why it's limited to admins and asks you to confirm first.
+
+---
+
+**2026-06-05 17:26 — you**
+
+works

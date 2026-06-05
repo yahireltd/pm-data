@@ -2,10 +2,10 @@
 id: T-0237
 title: project filter on the reveiw page (persist last worked on project and filter by that by default)
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T16:51:28Z
-updated: 2026-06-05T17:23:00Z
+updated: 2026-06-05T17:27:25Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,8 +16,8 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - we can filter by project
-  - last worked on prokect (link clicked on the projects list) is the default sort / filter
+  - "[x] we can filter by project"
+  - "[x] last worked on prokect (link clicked on the projects list) is the default sort / filter"
 out_of_scope: []
 code_anchors:
   - path: web/app/review/page.tsx
@@ -42,10 +42,7 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-05T17:23:00Z
+attention: null
 ---
 
 On the review page and anywhre else that lists out tickets we need a project filter
@@ -53,3 +50,9 @@ On the review page and anywhre else that lists out tickets we need a project fil
 ## Conversation
 
 **2026-06-05 17:23 claude:** Run run-20260605-1707 completed — The Review page now has a project filter, and it remembers the project you were last working in and shows that project's items by default — so you land on what's relevant to what you're working on, instead of every project's attention items at once. "All projects" switches back to seeing everything, and picking a project filters to it. The current project is remembered automatically whenever you open a project, so the default just follows where you've been.
+
+---
+
+**2026-06-05 17:27 — you**
+
+works fine
