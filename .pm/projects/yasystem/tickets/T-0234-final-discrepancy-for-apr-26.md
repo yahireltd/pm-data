@@ -2,11 +2,11 @@
 id: T-0234
 title: Final discrepancy for apr 26
 type: support
-state: inbox
+state: triaged
 priority: p2
 created: 2026-06-05T15:47:35Z
-updated: 2026-06-05T15:52:05Z
-project: null
+updated: 2026-06-05T19:54:49Z
+project: yasystem
 section: null
 parent: null
 children: []
@@ -37,6 +37,7 @@ intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdKEFn8AAA=
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdKEFn9AAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQACO9uG1iJK9EsWpqvlcY9xU=
+department: Accounts
 ---
 
 ## Request

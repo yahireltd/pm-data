@@ -11,7 +11,7 @@ defaults:
     state: planning
 id_counters:
   ticket: 246
-  project: 7
+  project: 8
   section: 13
 outbound_email:
   from: support@yahire.com
