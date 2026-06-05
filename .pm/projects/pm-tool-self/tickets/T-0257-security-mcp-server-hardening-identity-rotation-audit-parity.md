@@ -4,7 +4,7 @@ title: "[security] MCP server hardening (identity, rotation, audit, parity)"
 type: chore
 state: triaged
 created: 2026-06-05T21:43:06Z
-updated: 2026-06-05T21:43:06Z
+updated: 2026-06-05T23:03:49Z
 project: pm-tool-self
 section: null
 parent: null
@@ -23,7 +23,7 @@ code_anchors: []
 relates: []
 blocks: []
 blocked_by: []
-duplicates: []
+duplicates: [T-0175]
 duplicate_of: null
 agent_runs: []
 labels: []

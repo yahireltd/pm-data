@@ -2,10 +2,10 @@
 id: T-0175
 title: Per user MCP auth
 type: feature
-state: triaged
+state: duplicate
 priority: p2
 created: 2026-06-03T17:08:13Z
-updated: 2026-06-05T12:48:18Z
+updated: 2026-06-05T23:03:49Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,7 +20,7 @@ relates: []
 blocks: []
 blocked_by: []
 duplicates: []
-duplicate_of: null
+duplicate_of: T-0257
 agent_runs: []
 labels: []
 attention: null
