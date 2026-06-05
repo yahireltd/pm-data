@@ -1,16 +1,17 @@
 ---
 id: P-0008
 slug: yasystem
-name: Yasystem
+name: Yasystem Main Branch
 state: active
 phase: intake
 created: 2026-06-05T19:54:47Z
-updated: 2026-06-05T20:30:29Z
+updated: 2026-06-05T20:49:26Z
 owner:
   kind: human
   name: you
-goal: ""
-success_criteria: []
+goal: Ops system for the entire company
+success_criteria:
+  - Long existing system. This project is to track work / evolution on it
 parent_project: null
 related_projects: []
 parent_ticket: null
@@ -20,6 +21,10 @@ labels: []
 order: 1024
 category: system
 repo_url: https://github.com/yahireltd/Ya-Hire-Management
+branch: master
+team:
+  - austin@yahire.com
+  - zsolt@yahire.com
 ---
 
 # Yasystem

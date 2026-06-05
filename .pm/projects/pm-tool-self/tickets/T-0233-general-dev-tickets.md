@@ -2,10 +2,10 @@
 id: T-0233
 title: General Dev Tickets
 type: feature
-state: in_progress
+state: done
 priority: p2
 created: 2026-06-05T15:47:52Z
-updated: 2026-06-05T19:57:45Z
+updated: 2026-06-05T20:52:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -53,10 +53,7 @@ agent_runs:
       status_note: none-needed
       docs_note: ADR-031 records the systems-as-projects decision; the new fields are documented in the project/ticket schema JSON descriptions (category, department).
 labels: []
-attention:
-  needed_by: agent
-  reason: I cant see a way to set the project git url and the branch for that project
-  since: 2026-06-05T19:57:44Z
+attention: null
 ---
 
 We need an area for general dev tickets linked in the left side bar. This will link to a page that shows the dev tickets categorised as described below. When adding to this area we need to mark which system. Yahire Website, Chair hire london website, Yasystem,  Add new site option that saves. The general dev tickets should then be categorised by system and then  further categorised by department, Accounts, Customer Service, Logistics, Warehouse, Drivers, Catering, Sales
@@ -64,3 +61,9 @@ We need an area for general dev tickets linked in the left side bar. This will l
 ## Conversation
 
 **2026-06-05 19:53 claude:** Run run-20260605-1549 completed — There's a new "Dev Tickets" area in the sidebar for development work on the company's systems. Each system — Yahire Website, Chair Hire London, Yasystem, or a new site you add — is its own project, and a dev ticket is filed against a system and tagged with a department (Accounts, Customer Service, Logistics, Warehouse, Drivers, Catering, Sales). The Dev Tickets page lists every system with its open tickets grouped by department, so you can see all the work for a site at a glance. To put a ticket there: on the Inbox click the new spanner icon on a row, or on any ticket use "Move to Dev Tickets" — pick the system (or add a new one) and the department. Systems are kept out of the normal Projects list and the dashboard so they don't clutter the delivery view.
+
+---
+
+**2026-06-05 20:52 — you**
+
+all working well
