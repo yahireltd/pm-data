@@ -2,9 +2,9 @@
 id: PP-002
 slug: sales-segmentation-account-management
 title: Sales Segmentation / Account Management
-state: draft
+state: planning
 created: 2026-06-05T12:25:32Z
-updated: 2026-06-05T13:40:42Z
+updated: 2026-06-05T14:49:31Z
 stakeholders:
   - name: Ben
     role: Business SME
