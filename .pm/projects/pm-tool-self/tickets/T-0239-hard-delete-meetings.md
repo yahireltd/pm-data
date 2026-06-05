@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T17:04:49Z
-updated: 2026-06-05T17:26:47Z
+updated: 2026-06-05T21:23:53Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,3 +55,11 @@ Admins need to have a way to hard delete meetings.
 **2026-06-05 17:26 — you**
 
 works
+
+**2026-06-05 21:23 claude:** **What we did** — Added a way for admins to permanently delete a meeting, with a Delete button on the meeting page that asks you to confirm first.
+
+**Why** — Scratch and test meetings were piling up with no way to remove them, cluttering the meetings list.
+
+**What would have happened if we did nothing** — Those throwaway meetings would have stayed forever, making it harder to find the meetings that actually matter.
+
+**The benefit** — Admins can now keep the meetings list clean. Because a deleted meeting is gone for good, it's limited to admins and requires a confirmation step to prevent accidental loss.

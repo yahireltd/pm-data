@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T17:13:27Z
-updated: 2026-06-05T19:15:26Z
+updated: 2026-06-05T21:24:09Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,3 +55,11 @@ When project exists we should be able to promote to any unclosed sprint
 **2026-06-05 19:15 — you**
 
 verified it works
+
+**2026-06-05 21:24 claude:** **What we did** — You can now add a ticket to one of its project's open sprints directly from the ticket page, using a small picker in the sidebar. There's no need to switch over to the project's separate planning screen first.
+
+**Why** — Previously, the only way to pull a piece of work into a sprint was to leave the ticket and go to the project's planning view, which added friction to a very common action.
+
+**What would have happened if we did nothing** — People would keep bouncing between screens every time they wanted to schedule a ticket, making sprint planning slower and easier to skip.
+
+**The benefit** — Scheduling work is faster and happens right where you're already looking. As a safeguard, a ticket still needs clear success criteria before it can be added, so unfinished or vague work can't quietly slip into a sprint. This helps anyone planning or organizing the team's work.

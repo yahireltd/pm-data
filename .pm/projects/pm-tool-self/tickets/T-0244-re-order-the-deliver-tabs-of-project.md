@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T19:01:36Z
-updated: 2026-06-05T19:41:59Z
+updated: 2026-06-05T21:24:09Z
 project: pm-tool-self
 section: null
 parent: null
@@ -62,3 +62,11 @@ works fine now
 **2026-06-05 19:41 — you**
 
 working fine
+
+**2026-06-05 21:24 claude:** **What we did** — We put the tabs you see inside a project in the order you asked for: Sprints, then Backlog, then List, then Board. We also made it so that opening a project takes you straight to Sprints instead of the Board. The Board is still right there as its own tab whenever you want it.
+
+**Why** — The tabs led with the Board, but that wasn't the first thing you reach for. You wanted the views you use most to run a project to come first.
+
+**What would have happened if we did nothing** — Every time you opened a project you'd land on the wrong view and have to click over to where you actually work, adding a small bit of friction again and again.
+
+**The benefit** — The project now opens to the view you use most, with the tabs in a natural left-to-right order. It's a smoother start for anyone working day to day on delivery.

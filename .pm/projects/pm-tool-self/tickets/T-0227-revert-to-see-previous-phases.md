@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T13:49:51Z
-updated: 2026-06-05T18:13:23Z
+updated: 2026-06-05T21:24:03Z
 project: pm-tool-self
 section: null
 parent: null
@@ -58,3 +58,11 @@ once we progress to the next phase we can not go back, We can also not see the p
 **2026-06-05 18:13 — you**
 
 now works
+
+**2026-06-05 21:24 claude:** **What we did** — You can now step a project back to an earlier phase, and you can click any earlier phase along the top to look at it read-only.
+
+**Why** — Once a project moved forward to the next phase, there was no way to go back, and no way to look at the phases you'd already passed.
+
+**What would have happened if we did nothing** — Anyone who advanced a project too soon would be stuck in the wrong phase, with no way to correct the mistake or even review earlier stages.
+
+**The benefit** — Reverting only moves the phase marker back and deletes nothing, so all the later work stays put and moving forward again loses nothing. A clear confirmation makes that safe. This helps anyone who advances a project ahead of schedule and wants to set it right.

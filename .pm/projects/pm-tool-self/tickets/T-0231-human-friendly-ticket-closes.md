@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T15:28:06Z
-updated: 2026-06-05T16:14:42Z
+updated: 2026-06-05T21:23:48Z
 project: pm-tool-self
 section: null
 parent: null
@@ -53,3 +53,11 @@ We want to say what we did, What problem did it solve or why we did it. What wou
 **2026-06-05 16:14 — you**
 
 done
+
+**2026-06-05 21:23 claude:** **What we did** — Agents now write the notes people actually read, like ticket updates, closing notes, and session records, in plain everyday language instead of technical shorthand. Every write-up now covers four simple points: what we did, why, what would have happened if we did nothing, and the benefit.
+
+**Why** — Stakeholders who are not developers were seeing technical jargon they could not follow, so it was hard for them to understand what was happening in their own projects.
+
+**What would have happened if we did nothing** — People outside the technical team would have kept getting updates they could not really make sense of, leaving them out of the loop on their own work.
+
+**The benefit** — Non-technical stakeholders can now follow along clearly and stay informed. To make this stick, the rule lives in the agent guide and also shows up right in the fields agents fill in, so it is hard to forget.

@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-04T14:25:13Z
-updated: 2026-06-05T17:03:55Z
+updated: 2026-06-05T21:23:47Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,3 +55,11 @@ We should show the project on the progress page as contains things from differen
 **2026-06-05 17:03 — you**
 
 done as expected
+
+**2026-06-05 21:23 claude:** **What we did** — The In-progress page and the Review page now clearly show which project each piece of work belongs to, with a project label on every row.
+
+**Why** — These pages mix work from all projects together, so when several projects were active it was hard to tell at a glance where any given item came from.
+
+**What would have happened if we did nothing** — People would have kept guessing which project each item belonged to, wasting time and risking confusion or mistakes when reviewing or tracking progress.
+
+**The benefit** — Anyone scanning these pages can now instantly see the project behind each item, making it faster and easier to follow work across multiple projects. This helps everyone reviewing or managing progress.

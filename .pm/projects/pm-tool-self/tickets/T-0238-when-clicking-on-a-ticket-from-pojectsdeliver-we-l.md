@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T17:01:20Z
-updated: 2026-06-05T17:32:40Z
+updated: 2026-06-05T21:23:59Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,3 +55,11 @@ if i click a ticket from the sprint list it opens that ticket we need to keep th
 **2026-06-05 17:32 — you**
 
 works
+
+**2026-06-05 21:23 claude:** **What we did** — When you open a ticket from inside a project, the project's menu now stays open and highlighted instead of collapsing, and we added a Back button to return you to the list you came from.
+
+**Why** — Opening a ticket used to drop you out of the project menu, so you lost your place and it was hard to find your way back.
+
+**What would have happened if we did nothing** — People working inside a project would keep losing their place every time they opened a ticket, making navigation slow and frustrating.
+
+**The benefit** — Working inside a project now feels continuous: you stay oriented and can easily step back to where you were. This helps anyone managing tickets within a project move faster with less friction.

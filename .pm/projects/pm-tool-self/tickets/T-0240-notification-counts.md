@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T17:12:08Z
-updated: 2026-06-05T17:46:02Z
+updated: 2026-06-05T21:24:03Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,3 +55,11 @@ Ticket count should only be un-triaged count
 **2026-06-05 17:46 — you**
 
 Working
+
+**2026-06-05 21:24 claude:** **What we did** — We made the small count badges in the top menu red so they clearly stand out as things to act on (Inbox, Review, Ready, In progress). We also changed the Tickets badge to show only how many tickets still need sorting, instead of the grand total.
+
+**Why** — The grey badges looked like quiet labels rather than alerts, and the Tickets number showed every ticket, which stayed roughly the same and didn't tell anyone what needed attention.
+
+**What would have happened if we did nothing** — People would keep overlooking items that needed action, and the Tickets count would stay a static number that never prompted anyone to do anything.
+
+**The benefit** — The red badges now read as real notifications, and the Tickets badge acts as a useful "X to triage" nudge. This helps anyone managing the queue spot what needs their attention right away.

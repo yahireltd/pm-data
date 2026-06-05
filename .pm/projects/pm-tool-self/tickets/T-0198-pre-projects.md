@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-04T00:08:35Z
-updated: 2026-06-05T15:55:13Z
+updated: 2026-06-05T21:23:52Z
 project: pm-tool-self
 section: null
 parent: null
@@ -56,3 +56,11 @@ we need a way to create a pre-project- this must have all the planning filled in
 **2026-06-05 15:55 — you**
 
 DOne
+
+**2026-06-05 21:23 claude:** **What we did** — We made it possible to fully plan a project before it officially becomes one. You can now add people (with their email addresses) and schedule and hold the early kickoff and scoping meetings on a project while it's still in the planning stage. When it graduates into a real project, all of that planning carries over automatically.
+
+**Why** — Previously you couldn't properly plan a project until after it already existed, which forced the planning work to happen out of order.
+
+**What would have happened if we did nothing** — Teams would keep doing their early planning and meetings outside the tool, then have to re-enter everything once the project was created — extra work and a real risk of details getting lost.
+
+**The benefit** — Planning now happens in the right place at the right time, with the right people invited and everything carried forward seamlessly. This helps anyone setting up new work get organized sooner and with less duplicated effort.

@@ -5,7 +5,7 @@ type: support
 state: triaged
 priority: p2
 created: 2026-06-05T15:23:19Z
-updated: 2026-06-05T18:13:53Z
+updated: 2026-06-05T21:26:29Z
 project: pm-tool-self
 section: null
 parent: null
@@ -59,3 +59,13 @@ _(empty body)_
 To confirm: accept a calendar invite sent to support@ — no ticket should be created (and the skip is logged). A normal support email still becomes a ticket as before.
 
 This is your ticket (assigned to you, from your inbound report), so I've left it for you to close once you've confirmed. Code: comms/src/inbound/graph-poll.ts.
+
+**2026-06-05 21:26 claude:** **What we did** — The system that turns incoming support emails into tickets now ignores calendar messages — meeting accepted / declined / tentative / cancelled notices — so responding to a meeting invite no longer creates a stray ticket.
+
+**Why** — Accepting a meeting was generating a bogus ticket from the calendar notification email.
+
+**What would have happened if we did nothing** — The inbox would keep filling with junk tickets every time someone replied to a meeting invite, burying the real requests.
+
+**The benefit** — A cleaner inbox: only genuine support emails become tickets.
+
+(Fix is shipped + live; leaving this for you to confirm + close since it's your report.)

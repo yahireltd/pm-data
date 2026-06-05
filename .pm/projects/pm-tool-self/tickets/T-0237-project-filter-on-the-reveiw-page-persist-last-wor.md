@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T16:51:28Z
-updated: 2026-06-05T17:27:25Z
+updated: 2026-06-05T21:23:48Z
 project: pm-tool-self
 section: null
 parent: null
@@ -56,3 +56,11 @@ On the review page and anywhre else that lists out tickets we need a project fil
 **2026-06-05 17:27 — you**
 
 works fine
+
+**2026-06-05 21:23 claude:** **What we did** — Added a project filter to the Review page, and made it remember the last project you were working in so it shows that project's items by default. You can still switch to "All projects" to see everything, or pick any single project to focus on.
+
+**Why** — The Review page showed every project's attention items all at once, even when you were focused on just one project, making it harder to find what was relevant to you.
+
+**What would have happened if we did nothing** — People would keep scanning through a mixed list of items from every project, wasting time and risking missing the things that actually needed their attention.
+
+**The benefit** — When you open Review, you now land directly on the project you were last in, so you see what matters to your current work right away. This helps anyone juggling multiple projects stay focused, while still letting them see everything when they need to.

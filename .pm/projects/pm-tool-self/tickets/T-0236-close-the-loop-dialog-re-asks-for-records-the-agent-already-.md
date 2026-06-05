@@ -4,7 +4,7 @@ title: Close-the-loop dialog re-asks for records the agent already recorded
 type: feature
 state: done
 created: 2026-06-05T16:08:36Z
-updated: 2026-06-05T16:50:07Z
+updated: 2026-06-05T21:23:50Z
 project: pm-tool-self
 section: null
 parent: null
@@ -91,3 +91,11 @@ done
 **2026-06-05 16:50 — you**
 
 done
+
+**2026-06-05 21:23 claude:** **What we did** — When someone closes a finished ticket, the closing dialog now shows the answers that were already recorded earlier, ready to confirm in a glance, instead of presenting a blank form to fill in again. We also made it unmistakable when those answers are "not applicable," so the form clearly reads as already answered rather than empty.
+
+**Why** — The answers were already on file from when the work was finished, but the closing step ignored them and asked the same questions all over again. That turned a quick confirmation into repetitive data entry.
+
+**What would have happened if we did nothing** — People would keep re-typing answers that were already recorded. Over time that busywork gets rubber-stamped, which defeats the whole point of the check meant to make sure nothing gets forgotten.
+
+**The benefit** — The closing check is now recorded once and confirmed in one glance, with the option to change any answer first. It saves time for whoever closes tickets and keeps the safeguard meaningful instead of a box people click through.

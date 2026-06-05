@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements MAIN BRANCH
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-05T21:18:53Z
+updated: 2026-06-05T21:29:23Z
 owner:
   kind: human
   name: austin

@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T18:24:02Z
-updated: 2026-06-05T20:54:56Z
+updated: 2026-06-05T21:24:16Z
 project: pm-tool-self
 section: null
 parent: null
@@ -70,3 +70,11 @@ Heads-up for it to light up fully: a read-only GitHub token (fine-grained, Conte
 **2026-06-05 20:54 — you**
 
 working nicely
+
+**2026-06-05 21:24 claude:** **What we did** — A project's code repository is now identified by its GitHub address and branch, instead of a folder on someone's computer. You can pick the branch from a live list, and a ticket's code references turn into clickable links that open the right file on GitHub.
+
+**Why** — It wasn't always clear exactly which code and which version a project was working on, which made it easy to get confused or look in the wrong place.
+
+**What would have happened if we did nothing** — People would keep relying on local folder paths that only make sense on one machine, leading to mix-ups about which code a project actually points to and slower, error-prone navigation to the right files.
+
+**The benefit** — Everyone now sees plainly which repository and branch a project uses, and can jump straight to the exact file with one click. This helps the whole team — and anyone reviewing a project — stay on the same page with far less guesswork.

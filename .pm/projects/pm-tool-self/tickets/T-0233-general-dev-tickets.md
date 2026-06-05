@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T15:47:52Z
-updated: 2026-06-05T20:52:00Z
+updated: 2026-06-05T21:24:13Z
 project: pm-tool-self
 section: null
 parent: null
@@ -67,3 +67,11 @@ We need an area for general dev tickets linked in the left side bar. This will l
 **2026-06-05 20:52 — you**
 
 all working well
+
+**2026-06-05 21:24 claude:** **What we did** — Added a new "Dev Tickets" area in the sidebar where work on our own systems (the Yahire Website, Chair Hire London, Yasystem, or any new site you add) is kept together. Each ticket is filed under a system and tagged by department (Accounts, Customer Service, Logistics, Warehouse, Drivers, Catering, Sales), and you can move a ticket there from the Inbox or from any ticket.
+
+**Why** — Internal system work had no home of its own and got mixed in with regular client and delivery work, making it hard to see all the outstanding work for a given site or department.
+
+**What would have happened if we did nothing** — System tasks would have stayed scattered across the normal lists and dashboards, cluttering the delivery view and making it easy to lose track of what each site needs.
+
+**The benefit** — Anyone can now open one place and see every system's open work grouped by department at a glance, while the main Projects list and dashboard stay clean and focused on delivery. This helps both the people running each system and anyone tracking overall progress.

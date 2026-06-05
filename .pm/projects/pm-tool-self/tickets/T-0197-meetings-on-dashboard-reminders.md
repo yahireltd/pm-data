@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-03T23:59:09Z
-updated: 2026-06-05T19:40:16Z
+updated: 2026-06-05T21:24:09Z
 project: pm-tool-self
 section: null
 parent: null
@@ -62,3 +62,11 @@ T-0197
 **2026-06-05 19:40 — you**
 
 works fine
+
+**2026-06-05 21:24 claude:** **What we did** — Added an "Upcoming meetings" section to the dashboard that lists the next few scheduled meetings across every project, soonest first, with each meeting's time, location, project, and attendees' contact details. From a meeting you can add it to your calendar (which invites the attendees) and set or send reminders.
+
+**Why** — People needed to see what meetings were coming up the moment they opened the tool, and to reach attendees and get meetings onto a calendar without hunting around.
+
+**What would have happened if we did nothing** — Upcoming meetings would stay hidden, so people would miss them or have to dig through projects to find them and look up who to contact.
+
+**The benefit** — Meetings are now visible at a glance with attendee contact info at hand, and getting one on a calendar or reminding attendees is a single click. This helps anyone coordinating or attending meetings stay on top of their schedule.

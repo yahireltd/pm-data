@@ -4,7 +4,7 @@ title: Per-project agent guardrails (branch + commit/push policy)
 type: feature
 state: done
 created: 2026-06-05T21:04:45Z
-updated: 2026-06-05T21:18:53Z
+updated: 2026-06-05T21:24:18Z
 project: pm-tool-self
 section: null
 parent: null
@@ -78,3 +78,11 @@ See ADR (to be filed) + the plan. Builds on T-0243 (repo_url + branch) and ADR-0
 **2026-06-05 21:18 — you**
 
 all done
+
+**2026-06-05 21:24 claude:** **What we did** — We added per-project rules that control what an AI assistant is allowed to do in a project's code, including which working area it uses and whether it may save or publish changes. Each project's Overview now has simple on/off switches plus a note, and shows a clear "Protected" badge when a project is locked down.
+
+**Why** — Some projects move fast and benefit from staying open, while important ones (like a live website) need to be handled carefully. Until now there was no way to set those expectations per project, and nothing reminded or limited the assistant.
+
+**What would have happened if we did nothing** — The assistant could make and publish changes to sensitive projects without any guardrails, and people would have to rely on memory and manual care to keep that from going wrong.
+
+**The benefit** — Teams can now decide, project by project, how much freedom the assistant has. Fast projects stay quick, while protected projects make the assistant pause and get explicit confirmation before acting (and on locked projects it prepares the change and hands it to a person instead). This helps both the people building quickly and the people protecting important, live work.

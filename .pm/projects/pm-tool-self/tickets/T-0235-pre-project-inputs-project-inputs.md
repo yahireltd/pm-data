@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-05T15:58:23Z
-updated: 2026-06-05T18:59:56Z
+updated: 2026-06-05T21:24:06Z
 project: pm-tool-self
 section: null
 parent: null
@@ -60,3 +60,11 @@ Some of the text areas for the pre-projects and projects are just plain text are
 **2026-06-05 18:59 — you**
 
 all working now
+
+**2026-06-05 21:24 claude:** **What we did** — We turned the remaining plain text boxes on both pre-projects and projects (problems, goals, in scope, out of scope, and the success field) into the same easy formatting editor used for the main body, so you can type, paste, and format with headings, bullets, and numbered lists.
+
+**Why** — Those boxes were basic plain text, and the formatting didn't match between a pre-project and the real project it became, which was a worry when content was carried over.
+
+**What would have happened if we did nothing** — People would keep wrestling with unformatted text, and the way content looked could change when a pre-project was promoted to a full project, causing confusion and rework.
+
+**The benefit** — Everything now reads and edits the same way across pre-projects and projects, existing content is preserved, and content carries over and displays identically when a pre-project becomes a project. This helps anyone planning or reviewing project ideas.

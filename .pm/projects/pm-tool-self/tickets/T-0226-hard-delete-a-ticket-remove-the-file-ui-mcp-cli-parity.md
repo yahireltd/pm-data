@@ -4,7 +4,7 @@ title: Hard-delete a ticket (remove the file) — UI + MCP + CLI parity
 type: feature
 state: done
 created: 2026-06-05T13:37:13Z
-updated: 2026-06-05T16:53:39Z
+updated: 2026-06-05T21:23:47Z
 project: pm-tool-self
 section: null
 parent: null
@@ -96,3 +96,11 @@ Ready for human review/close. Scratch tickets T-0207/T-0205/T-0209 can now be cl
 **2026-06-05 16:53 — you**
 
 done
+
+**2026-06-05 21:23 claude:** **What we did** — We added the ability to permanently delete a junk or throwaway ticket, with a confirmation step so it can't happen by accident. It works everywhere: in the app, through the agent tools, and on the command line. We used it to clear three leftover test tickets.
+
+**Why** — Until now there was no way to remove a ticket at all. The closest option was marking it "won't fix," which still left it sitting on the board.
+
+**What would have happened if we did nothing** — Throwaway and test tickets would keep piling up and cluttering the board, with no way to tidy them out.
+
+**The benefit** — Admins can now keep the board clean by deleting tickets that don't belong, while the confirmation step keeps it safe. The trade-off is that a deleted ticket is gone for good rather than archived, which is why it's limited to admins and asks for confirmation first.
