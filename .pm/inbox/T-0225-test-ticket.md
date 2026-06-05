@@ -2,10 +2,10 @@
 id: T-0225
 title: Test ticket
 type: support
-state: inbox
+state: done
 priority: p2
 created: 2026-06-04T18:11:10Z
-updated: 2026-06-04T18:12:48Z
+updated: 2026-06-05T11:12:24Z
 project: null
 section: null
 parent: null
@@ -28,10 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: New reply from requester — needs response
-  since: 2026-06-04T18:12:48Z
+attention: null
 customer_impact: Testing a ticket submission to see email formatting of response
 intake_channel: email
 intake_mailbox: support@yahire.com
@@ -59,3 +56,15 @@ Testing a ticket submission to see email formatting of response
 **2026-06-04 18:12 — Austin Pickering <austin@yahire.com>**
 
 Im not doing this ticket!
+
+---
+
+**2026-06-05 11:12 — you**
+
+test
+
+---
+
+**2026-06-05 11:12 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
