@@ -2,9 +2,9 @@
 id: T-0236
 title: Close-the-loop dialog re-asks for records the agent already recorded
 type: feature
-state: in_progress
+state: review
 created: 2026-06-05T16:08:36Z
-updated: 2026-06-05T16:19:05Z
+updated: 2026-06-05T16:25:15Z
 project: pm-tool-self
 section: null
 parent: null
