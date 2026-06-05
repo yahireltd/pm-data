@@ -2,10 +2,10 @@
 id: T-0244
 title: re-order the deliver tabs of project
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T19:01:36Z
-updated: 2026-06-05T19:21:37Z
+updated: 2026-06-05T19:41:59Z
 project: pm-tool-self
 section: null
 parent: null
@@ -39,10 +39,7 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-05T19:21:37Z
+attention: null
 ---
 
 1. sprints
@@ -59,3 +56,9 @@ attention:
 **2026-06-05 19:21 — you**
 
 works fine now
+
+---
+
+**2026-06-05 19:41 — you**
+
+working fine
