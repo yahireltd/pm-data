@@ -2,10 +2,10 @@
 id: T-0227
 title: Revert to / see previous phases
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T13:49:51Z
-updated: 2026-06-05T18:04:52Z
+updated: 2026-06-05T18:13:23Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - A way to revert the phase to the pevious
+  - "[x] A way to revert the phase to the pevious"
   - "[x] a way to view previous phases (link the phase buttons)"
 out_of_scope: []
 code_anchors:
@@ -36,18 +36,15 @@ agent_runs:
     model: claude
     started: 2026-06-05T13:50:39Z
     status: completed
-    summary: Projects move through phases (Intake → Planning → Build → …). Until now you could only go forward and couldn't look back. Now the phase buttons along the top are clickable — click any earlier phase to see its checklist read-only, with a clear "you're viewing the X phase — back to current" banner. And there's a "Revert to <previous phase>" button (with a confirm step) that steps the project back a phase if you advanced too soon. Reverting is treated as a deliberate step back, so it doesn't trip the phase gates or leave a "forced" mark on the project.
-    ended: 2026-06-05T18:03:23Z
-    test_plan: "On a project's Phase view: click an earlier phase button — it shows that phase's checklist read-only, with a \"viewing … / back to current\" banner and no advance/close controls. Click \"Back to current\" to return. On the current phase, click \"Revert to <previous>\" and confirm — the project moves back one phase and you land on the current-phase view. At the first phase (Intake) there's no revert option. A closed project shows no revert."
+    summary: "Updated after your send-back — you can now actually revert, from the phase you navigate to. Open an earlier phase in the rail and click \"Revert the project to this phase\" (e.g. while viewing Build, send a Test-phase project back to Build); the current phase also has a \"Revert to <previous>\" button. A confirmation makes the key point clear: reverting only moves the phase marker back — it deletes nothing. All the later stages' work (decisions, milestones, meetings, status notes) stays on the project, so advancing forward again loses nothing. Viewing earlier phases (read-only) works as before."
+    ended: 2026-06-05T18:13:15Z
+    test_plan: "On a project past Intake: click an earlier phase in the top rail to view it, then click \"Revert the project to this phase\" and confirm — the project's phase moves back to that one (e.g. Test → Build) and every later-stage item (decisions/milestones/meetings/status) is still present. The current-phase \"Revert to <previous>\" also reverts one step. At Intake there is no revert. Confirm the confirm-bar text states no data is lost."
     records:
       docs: none-needed
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-05T18:03:23Z
+attention: null
 ---
 
 once we progress to the next phase we can not go back, We can also not see the previous phases
@@ -55,3 +52,9 @@ once we progress to the next phase we can not go back, We can also not see the p
 ## Conversation
 
 **2026-06-05 18:03 claude:** Run run-20260605-1350 completed — Projects move through phases (Intake → Planning → Build → …). Until now you could only go forward and couldn't look back. Now the phase buttons along the top are clickable — click any earlier phase to see its checklist read-only, with a clear "you're viewing the X phase — back to current" banner. And there's a "Revert to <previous phase>" button (with a confirm step) that steps the project back a phase if you advanced too soon. Reverting is treated as a deliberate step back, so it doesn't trip the phase gates or leave a "forced" mark on the project.
+
+---
+
+**2026-06-05 18:13 — you**
+
+now works

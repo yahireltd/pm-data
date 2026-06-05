@@ -2,10 +2,10 @@
 id: T-0230
 title: "Prevent accepting a meeting sent from support creating a ticket "
 type: support
-state: in_progress
+state: triaged
 priority: p2
 created: 2026-06-05T15:23:19Z
-updated: 2026-06-05T16:57:12Z
+updated: 2026-06-05T18:13:53Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,9 +16,7 @@ reporter:
   name: Austin Pickering
   channel: email
   contact: austin@yahire.com
-assignee:
-  kind: human
-  name: Austin Pickering
+assignee: null
 acceptance_criteria:
   - prevent accepting a meeting creating a ticket
 out_of_scope: []
