@@ -2,10 +2,10 @@
 id: T-0235
 title: Pre Project Inputs / Project Inputs
 type: feature
-state: review
+state: in_progress
 priority: p2
 created: 2026-06-05T15:58:23Z
-updated: 2026-06-05T18:21:48Z
+updated: 2026-06-05T18:28:06Z
 project: pm-tool-self
 section: null
 parent: null
@@ -42,9 +42,9 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-05T18:21:48Z
+  needed_by: agent
+  reason: we didnt implement the wysyig on all inputs it was only on the first one and only seems to be on pre projects not full projects - if we carry over the data the inputs and fields should match or they may not display correctly
+  since: 2026-06-05T18:28:05Z
 ---
 
 Some of the text areas for the pre-projects and projects are just plain text areas. Can we make these like the body with the MD wysiwyg editors
