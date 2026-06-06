@@ -4,8 +4,8 @@ slug: logistics-rollout-meeting
 title: Logistics Rollout meeting
 state: scheduled
 created: 2026-06-04T13:29:31Z
-updated: 2026-06-05T15:23:06Z
-scheduled_at: 2026-06-04T14:30:00Z
+updated: 2026-06-06T01:43:51Z
+scheduled_at: 2026-06-11T14:30:00Z
 duration_minutes: 30
 location: TBD
 project: null
