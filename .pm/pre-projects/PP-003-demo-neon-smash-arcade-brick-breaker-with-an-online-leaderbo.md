@@ -2,9 +2,9 @@
 id: PP-003
 slug: demo-neon-smash-arcade-brick-breaker-with-an-online-leaderbo
 title: "DEMO — Neon Smash: arcade brick-breaker with an online leaderboard"
-state: planning
+state: converted
 created: 2026-06-06T00:17:36Z
-updated: 2026-06-06T00:19:58Z
+updated: 2026-06-06T00:23:21Z
 stakeholders:
   - name: Austin
     channel: email
@@ -57,6 +57,66 @@ goals:
   - "Set the quality bar for scoping: every build ticket carries acceptance criteria, code anchors, and design notes an agent could act on cold."
   - "Show the human-agent handoff clearly: the agent claims, records progress, and completes into review; a human verifies and closes."
 cost_of_inaction: We keep re-explaining the process by hand at every onboarding and every demo. Scoping quality stays uneven, demos stay vague, and the discipline the tool is meant to enforce looks like overhead instead of obviously paying off — which quietly slows adoption of the tool itself. Each instance is a small cost, but it never stops.
+scope_in:
+  - "A playable single-screen brick-breaker: a paddle you control, a ball that bounces, a wall of bricks to clear, lives, and clear win/lose states."
+  - Scoring with a combo multiplier, plus at least two power-ups (e.g. multi-ball and a wider paddle).
+  - "'Juice' that makes it feel good: particle bursts when bricks break, a short screen shake, and sound effects on key events."
+  - "A global top-10 leaderboard: enter three initials, submit your score, see the table; scores survive a server restart."
+  - A title/menu screen, a how-to-play, responsive down to phone width, and a single documented command to run it locally at 60fps.
+scope_out:
+  - No accounts, logins, or user profiles — three initials only on the leaderboard.
+  - No multiplayer and no real-time play against other people.
+  - No level editor, no multi-level campaign, and no saving an in-progress game.
+  - No monetisation, ads, analytics, or any user tracking.
+  - No native mobile app and no app-store packaging — it runs in a browser.
+  - No production or cloud hosting — local run only.
+  - "No serious anti-cheat: scores are lightly signed, but a determined forger is accepted risk for a demo."
+success_criteria:
+  - A newcomer can open the project and understand the whole pm-tool workflow in under 10 minutes, without a guided tour.
+  - Every build-sprint ticket meets Definition of Ready (acceptance criteria + code anchors) and reads as something an agent could pick up cold.
+  - "The game is genuinely fun to demo: smooth 60fps, satisfying juice, and a working leaderboard."
+  - At least one ticket has travelled the full loop — agent-claimed, completed into review, human-closed — so the handoff is visible in the record.
+milestones:
+  - title: M1 · Playable core loop
+    acceptance_criteria:
+      - The ball bounces correctly off the paddle, the walls, and the bricks.
+      - Missing the ball costs a life; reaching zero lives ends the game.
+      - Clearing every brick wins the game.
+      - The game holds a steady 60fps on a typical laptop.
+    target_date: 2026-06-19
+  - title: M2 · Game feel & scoring
+    acceptance_criteria:
+      - Hitting bricks in a row without losing the ball builds a visible combo multiplier.
+      - At least two power-ups drop and work (e.g. multi-ball and a wider paddle).
+      - Breaking a brick produces particles and a brief screen shake.
+      - Key events (bounce, break, power-up, life lost) play sound effects.
+    target_date: 2026-07-03
+  - title: M3 · Online leaderboard
+    acceptance_criteria:
+      - After game over, the player can enter three initials and submit their score.
+      - The top-10 table is shown and updates immediately after a submit.
+      - Scores persist across a restart of the leaderboard service.
+      - If the leaderboard is unreachable, the game still plays and shows a friendly 'offline' message.
+    target_date: 2026-07-03
+  - title: "M4 · Ship: one-command local deploy & polish"
+    acceptance_criteria:
+      - A single documented command builds and serves the game locally.
+      - Title screen, how-to-play, and game-over screen are all present.
+      - It's playable on a phone-width screen.
+      - The README explains clearly how to run it.
+    target_date: 2026-07-10
+workstream_ownership:
+  - workstream: Game client — rendering, physics, juice
+    owner: Claude (under Austin's direction)
+  - workstream: Leaderboard service & API
+    owner: Claude (under Austin's direction)
+  - workstream: Product, scope & acceptance
+    owner: Austin
+  - workstream: Playtest & UAT — voice of the player
+    owner: Jordan Lee + Austin
+kickoff_held: true
+scoping_held: true
+project: demo-neon-smash
 ---
 
 # PP-003: DEMO — Neon Smash: arcade brick-breaker with an online leaderboard
