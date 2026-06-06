@@ -2,9 +2,9 @@
 id: T-0271
 title: 'Plain-language user help: a "?" on every screen plus a browsable /help user guide'
 type: feature
-state: review
+state: done
 created: 2026-06-06T00:24:59Z
-updated: 2026-06-06T00:47:38Z
+updated: 2026-06-06T01:11:14Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,11 +18,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Every main screen has a "?" in its header that opens plain-language help written for that exact screen
-  - A browsable user guide gathers all the help in one place, grouped by area, and opens with a "How we work" overview of the working model
-  - The user guide and the per-screen "?" are reachable by everyone signed in (including read-only stakeholders), and remain behind the secure sign-in wall — a signed-out person cannot reach them
-  - "All help is in plain, everyday language for the person using the tool: no jargon, no technical file or function names"
-  - A written rule requires a screen's help to be updated in the same change as the screen, so the help never describes a screen that no longer exists
+  - '[x] Every main screen has a "?" in its header that opens plain-language help written for that exact screen'
+  - '[x] A browsable user guide gathers all the help in one place, grouped by area, and opens with a "How we work" overview of the working model'
+  - '[x] The user guide and the per-screen "?" are reachable by everyone signed in (including read-only stakeholders), and remain behind the secure sign-in wall — a signed-out person cannot reach them'
+  - "[x] All help is in plain, everyday language for the person using the tool: no jargon, no technical file or function names"
+  - "[x] A written rule requires a screen's help to be updated in the same change as the screen, so the help never describes a screen that no longer exists"
 out_of_scope:
   - Per-screen help for the developer wiki itself (it stays the developer-facing reference)
   - Translating the help into other languages
@@ -68,10 +68,7 @@ agent_runs:
       status_note: none-needed
       docs_note: Updated the agent ruleset and the in-app developer wiki to require each screen's plain-language help be updated in the same change as the screen, so help can't drift from the UI.
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-06T00:47:38Z
+attention: null
 ---
 
 ## Problem
@@ -97,3 +94,9 @@ Anyone — including a non-technical colleague — can open any screen, press "?
 Why it mattered: until now you couldn't learn the tool from inside the tool. The only in-app documentation was written for developers, so anyone non-technical felt locked out — one of this project's named problems. Without this, every new person would stay dependent on someone explaining each screen by hand.
 
 The benefit: anyone, including a non-technical colleague, can open any screen, press Help, and understand what it is for and what their part is versus the AI's. The help sits behind the same secure sign-in as everything else, and there is now a standing rule that a screen's help is updated whenever that screen changes, so it can't drift out of date. A follow-up tweak fixed a visual glitch where two help symbols appeared side by side; help now shows as a single tidy button.
+
+---
+
+**2026-06-06 01:11 — you**
+
+very good work on the ticket and detialed close all good!

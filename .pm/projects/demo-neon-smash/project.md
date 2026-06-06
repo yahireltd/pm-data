@@ -5,7 +5,7 @@ name: "DEMO — Neon Smash: arcade brick-breaker with an online leaderboard"
 state: planning
 phase: build
 created: 2026-06-06T00:23:21Z
-updated: 2026-06-06T00:46:36Z
+updated: 2026-06-06T01:11:24Z
 owner:
   kind: human
   name: Austin
