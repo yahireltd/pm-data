@@ -2,9 +2,9 @@
 id: T-0286
 title: "More power-ups: laser paddle, slow-mo, sticky paddle"
 type: feature
-state: triaged
+state: ready
 created: 2026-06-06T01:11:30Z
-updated: 2026-06-06T01:11:30Z
+updated: 2026-06-06T01:18:23Z
 project: demo-neon-smash
 section: null
 parent: null
@@ -14,8 +14,11 @@ priority: p3
 reporter:
   kind: human
   name: Austin
-assignee: null
-acceptance_criteria: []
+assignee:
+  kind: agent
+  name: claude
+acceptance_criteria:
+  - lots of silly powerups and sound effects
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -23,11 +26,18 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260606-0118
+    model: claude
+    started: 2026-06-06T01:18:11Z
+    status: in_progress
+    summary: Claimed via web UI
 labels:
   - backlog
   - future
 attention: null
+backlog_status: confirmed_for_release
+source: discovered
 ---
 
 ## Idea

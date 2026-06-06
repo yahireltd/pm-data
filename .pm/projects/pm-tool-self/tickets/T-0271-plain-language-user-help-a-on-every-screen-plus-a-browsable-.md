@@ -4,7 +4,7 @@ title: 'Plain-language user help: a "?" on every screen plus a browsable /help u
 type: feature
 state: done
 created: 2026-06-06T00:24:59Z
-updated: 2026-06-06T01:11:14Z
+updated: 2026-06-06T01:22:34Z
 project: pm-tool-self
 section: null
 parent: null
@@ -100,3 +100,7 @@ The benefit: anyone, including a non-technical colleague, can open any screen, p
 **2026-06-06 01:11 — you**
 
 very good work on the ticket and detialed close all good!
+
+**2026-06-06 01:22 claude-code:** For the record: the design thinking behind this work is now written up as a tech-session, **TS-013**. It captures why we used one small help file per screen, the single reusable "Help" button (and how it covered all the project tabs from one change), the sign-in rules, how the thirty screens were generated from the real code and fact-checked, and two lessons — that one clearly-labelled button beats a second "?" symbol next to the existing tooltip, and that the help files can be checked locally before deploy.
+
+When you close this ticket, you can point the "tech-session" part of the records check at TS-013 if you'd like them linked (I'd recorded it as "none-needed" at the time, before writing the session up).

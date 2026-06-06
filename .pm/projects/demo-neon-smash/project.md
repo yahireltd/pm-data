@@ -5,7 +5,7 @@ name: "DEMO — Neon Smash: arcade brick-breaker with an online leaderboard"
 state: planning
 phase: build
 created: 2026-06-06T00:23:21Z
-updated: 2026-06-06T01:11:24Z
+updated: 2026-06-06T01:21:45Z
 owner:
   kind: human
   name: Austin
@@ -69,30 +69,6 @@ stakeholders:
     notify_on:
       - state:review
       - outcome_recorded
-  - name: Sam Patel
-    channel: email
-    contact: sam@ya-hire.example
-    internal: true
-    added_by:
-      kind: agent
-      name: claude
-    added_at: 2026-06-06T00:19:58Z
-    role: Engineering — dev colleague, reviews agent work
-    notify_on:
-      - assigned
-      - state_change
-  - name: Jordan Lee
-    channel: email
-    contact: jordan@example.com
-    internal: false
-    added_by:
-      kind: agent
-      name: claude
-    added_at: 2026-06-06T00:19:58Z
-    role: Playtester — voice of the player (external)
-    notify_on:
-      - meeting_held
-      - state:done
 ---
 
 # DEMO — Neon Smash: arcade brick-breaker with an online leaderboard

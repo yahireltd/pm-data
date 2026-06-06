@@ -4,7 +4,7 @@ title: Daily seeded 'challenge' brick layout
 type: feature
 state: triaged
 created: 2026-06-06T01:11:27Z
-updated: 2026-06-06T01:11:27Z
+updated: 2026-06-06T01:13:13Z
 project: demo-neon-smash
 section: null
 parent: null
@@ -28,6 +28,8 @@ labels:
   - backlog
   - future
 attention: null
+backlog_status: parked
+source: discovered
 ---
 
 ## Idea

@@ -4,7 +4,7 @@ title: Theme/skin selector & gamepad support
 type: feature
 state: triaged
 created: 2026-06-06T01:11:34Z
-updated: 2026-06-06T01:11:34Z
+updated: 2026-06-06T01:13:16Z
 project: demo-neon-smash
 section: null
 parent: null
@@ -28,6 +28,8 @@ labels:
   - backlog
   - future
 attention: null
+backlog_status: parked
+source: discovered
 ---
 
 ## Idea

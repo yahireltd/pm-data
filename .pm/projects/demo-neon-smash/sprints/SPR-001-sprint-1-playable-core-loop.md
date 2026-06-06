@@ -3,10 +3,10 @@ id: SPR-001
 slug: sprint-1-playable-core-loop
 title: Sprint 1 · Playable core loop
 project: demo-neon-smash
-state: planned
+state: in_progress
 order: 1024
 created: 2026-06-06T01:04:05Z
-updated: 2026-06-06T01:09:01Z
+updated: 2026-06-06T01:16:05Z
 committed_items:
   - T-0272
   - T-0273
