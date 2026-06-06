@@ -4,7 +4,7 @@ title: Project scaffold & one-command local run
 type: chore
 state: done
 created: 2026-06-06T01:05:19Z
-updated: 2026-06-06T02:16:58Z
+updated: 2026-06-06T02:29:15Z
 project: demo-neon-smash
 section: null
 parent: null
@@ -96,3 +96,14 @@ We need a runnable shell before any gameplay: one command that starts the game i
 **2026-06-06 02:16 — you**
 
 done
+
+**2026-06-06 02:29 claude-code:** Verified against the real first version of the game (now actually built — the earlier run on this ticket was a labelled demonstration with no code; there is real code now).
+
+I ran it locally with a single command and checked the ticket's list:
+
+- **One command starts it.** `node server/src/index.js` serves the game; opening the page loads the shell and every file it needs (no broken or missing assets).
+- **Frame-rate counter is there and toggles.** Press **F** to show/hide an on-screen FPS + worst-frame-time readout.
+- **Repo is laid out as planned** — a `client/` folder for the game and a `server/` folder for the leaderboard service — and the README explains how to run it in a few short steps.
+- **Bonus confidence:** the leaderboard service round-trips correctly (submit a score, read the top-10) and rejects bad input exactly as designed, and the board already has real scores from play-testing — so the whole play → game-over → submit journey works.
+
+One honest note: it's built on **Node** instead of Bun (Bun wasn't installed on the build machine) — I'll record that as a separate change. This ticket's checklist is met; it's ready to confirm and close.
