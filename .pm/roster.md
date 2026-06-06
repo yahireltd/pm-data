@@ -33,6 +33,51 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:25:30Z
     role: Marketing / Sales Ops
+  - name: ben
+    channel: email
+    contact: ben@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-06T01:44:37Z
+    role: SME
+  - name: Rob Souse
+    channel: email
+    contact: rob@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-06T01:46:23Z
+    role: Logistics Manager (Logistics SME)
+  - name: Orfield Dash
+    channel: email
+    contact: orfield@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-06T01:47:03Z
+    role: Logistics Planner (Logistics SME)
+  - name: Nana The Master Planna
+    channel: email
+    contact: nana@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-06T01:47:34Z
+    role: Planning SME
+  - name: Zac Lesle
+    channel: email
+    contact: zac@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-06T01:48:39Z
+    role: Operations Director / Geography Teacher
 ---
 
 # Org roster

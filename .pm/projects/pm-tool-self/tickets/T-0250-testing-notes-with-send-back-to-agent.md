@@ -2,18 +2,19 @@
 id: T-0250
 title: Testing notes with send back to agent
 type: feature
-state: inbox
+state: triaged
 priority: p2
 created: 2026-06-05T21:24:51Z
-updated: 2026-06-05T21:24:51Z
-project: null
+updated: 2026-06-06T01:53:27Z
+project: pm-tool-self
 section: null
 parent: null
 children: []
-order: 15360
+order: 89088
 reporter: null
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - as per description
 out_of_scope: []
 code_anchors: []
 relates: []
