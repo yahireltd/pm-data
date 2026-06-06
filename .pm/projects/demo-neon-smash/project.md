@@ -5,7 +5,7 @@ name: "DEMO — Smash The Granny Out Of It: arcade brick-breaker with an online 
 state: planning
 phase: build
 created: 2026-06-06T00:23:21Z
-updated: 2026-06-06T03:14:33Z
+updated: 2026-06-06T03:28:22Z
 owner:
   kind: human
   name: Austin

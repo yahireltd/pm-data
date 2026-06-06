@@ -6,7 +6,7 @@ project: demo-neon-smash
 state: planned
 order: 2048
 created: 2026-06-06T01:04:05Z
-updated: 2026-06-06T02:33:43Z
+updated: 2026-06-06T03:20:52Z
 committed_items:
   - T-0279
   - T-0280
@@ -16,6 +16,7 @@ committed_items:
   - T-0284
   - T-0286
   - T-0294
+  - T-0297
 goal: Make it feel great and put scores online — combos, power-ups, particles, sound, and the top-10 leaderboard.
 start_date: 2026-06-22
 end_date: 2026-07-03
