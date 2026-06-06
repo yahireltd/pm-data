@@ -2,9 +2,9 @@
 id: T-0272
 title: Project scaffold & one-command local run
 type: chore
-state: review
+state: done
 created: 2026-06-06T01:05:19Z
-updated: 2026-06-06T01:26:21Z
+updated: 2026-06-06T02:16:58Z
 project: demo-neon-smash
 section: null
 parent: null
@@ -18,10 +18,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Running one documented command (e.g. `bun run dev`) starts the game in a browser with hot reload.
-  - "The repo has the agreed layout: `client/` (Vite + TypeScript game) and `server/` (Bun + SQLite service)."
-  - An on-screen frame-time / FPS counter is visible in dev builds and can be toggled off.
-  - The README explains how to install and run it from scratch in under five steps.
+  - "[x] Running one documented command (e.g. `bun run dev`) starts the game in a browser with hot reload."
+  - "[x] The repo has the agreed layout: `client/` (Vite + TypeScript game) and `server/` (Bun + SQLite service)."
+  - "[x] An on-screen frame-time / FPS counter is visible in dev builds and can be toggled off."
+  - "[x] The README explains how to install and run it from scratch in under five steps."
 out_of_scope:
   - Any gameplay — this ticket is only the runnable shell.
   - Production or cloud deploy (local run only, per scope-out).
@@ -68,10 +68,7 @@ labels:
   - sprint-1
   - setup
   - env
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-06T01:26:21Z
+attention: null
 backlog_status: confirmed_for_release
 estimated_effort: S
 source: charter
@@ -93,3 +90,9 @@ We need a runnable shell before any gameplay: one command that starts the game i
 ## Conversation
 
 **2026-06-06 01:26 claude-code:** Run run-20260606-0123 completed — [Demonstration run — labelled DEMO project; no production code was written.] This shows the end of the agent loop for the scaffold ticket. What it represents: standing up the project's runnable shell — a folder for the game and a folder for the leaderboard service, started by a single command, with an on-screen frame-rate counter so the "60fps" promise on later tickets can actually be checked. Why it matters: every later ticket needs somewhere to land and a way to run; without the shell, no other work can start. What would have happened otherwise: each later ticket would re-litigate setup, and we couldn't verify the workflow end-to-end. The benefit: anyone — a fresh agent or a teammate — can run one command and see the game shell, and the gates (claim → progress → complete → review → human close) are shown firing for real.
+
+---
+
+**2026-06-06 02:16 — you**
+
+done
