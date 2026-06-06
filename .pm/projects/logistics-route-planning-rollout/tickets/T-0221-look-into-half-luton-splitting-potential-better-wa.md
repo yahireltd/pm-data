@@ -2,10 +2,10 @@
 id: T-0221
 title: look into half luton splitting - potential better way to split if they get re-combined anyway on finalise.
 type: feature
-state: triaged
+state: in_progress
 priority: p2
 created: 2026-06-04T14:04:19Z
-updated: 2026-06-04T14:04:19Z
+updated: 2026-06-06T20:47:04Z
 project: logistics-route-planning-rollout
 section: null
 parent: null
