@@ -1,11 +1,11 @@
 ---
 id: P-0009
 slug: demo-neon-smash
-name: "DEMO — Neon Smash: arcade brick-breaker with an online leaderboard"
+name: "DEMO — Smash The Granny Out Of It: arcade brick-breaker with an online leaderboard"
 state: planning
 phase: build
 created: 2026-06-06T00:23:21Z
-updated: 2026-06-06T02:33:43Z
+updated: 2026-06-06T03:04:30Z
 owner:
   kind: human
   name: Austin
