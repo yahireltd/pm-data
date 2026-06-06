@@ -2,10 +2,10 @@
 id: T-0289
 title: sprints need to be in number order
 type: feature
-state: triaged
+state: ready
 priority: p2
 created: 2026-06-06T01:22:28Z
-updated: 2026-06-06T01:22:56Z
+updated: 2026-06-06T01:23:04Z
 project: pm-tool-self
 section: null
 parent: null

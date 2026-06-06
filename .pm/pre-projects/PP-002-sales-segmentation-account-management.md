@@ -4,15 +4,15 @@ slug: sales-segmentation-account-management
 title: Sales Segmentation / Account Management
 state: planning
 created: 2026-06-05T12:25:32Z
-updated: 2026-06-05T15:56:40Z
+updated: 2026-06-06T01:25:30Z
 stakeholders:
   - name: Ben
-    role: Business SME
+    role: Business SME & Systems Architect
     channel: email
     contact: ben@yahire.com
     internal: true
   - name: Austin
-    role: Developer
+    role: Developer & System SME
     channel: email
     contact: austin@yahire.com
     internal: true
@@ -24,12 +24,12 @@ stakeholders:
       - meeting_held
       - outcome_recorded
   - name: Zsolt
-    role: Developer
+    role: Developer & System SME
     channel: email
     contact: zsolt@yahire.com
     internal: true
   - name: Taran
-    role: Sales SME
+    role: Sales & Marketing SME
     channel: email
     contact: taran@yahire.com
     internal: true
@@ -39,10 +39,19 @@ stakeholders:
     contact: nathan@yahire.com
     internal: true
   - name: Sam
-    role: Business Development Manager
+    role: Business Development Manager SME
     channel: email
     contact: sam@yahire.com
     internal: true
+  - name: Thanos
+    channel: email
+    contact: athanasios@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-06T01:25:30Z
+    role: Marketing / Sales Ops
 source_tickets: []
 summary: |-
   1. Sales Workflow Redesign

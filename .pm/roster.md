@@ -24,6 +24,15 @@ stakeholders:
       - outcome_recorded
       - assigned
       - meeting_scheduled
+  - name: Thanos
+    channel: email
+    contact: athanasios@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-06T01:25:30Z
+    role: Marketing / Sales Ops
 ---
 
 # Org roster
