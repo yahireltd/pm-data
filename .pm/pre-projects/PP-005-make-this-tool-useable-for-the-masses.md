@@ -1,10 +1,10 @@
 ---
 id: PP-005
 slug: make-this-tool-useable-for-the-masses
-title: Make this tool useable for the masses
+title: Make this tool useable for the masses - Project Jeevs - PM tool for 2026 workflows
 state: draft
 created: 2026-06-06T01:31:11Z
-updated: 2026-06-06T01:41:11Z
+updated: 2026-06-06T02:53:57Z
 stakeholders: []
 source_tickets: []
 summary: Currently specialised with Yahires set up. we need to make it scalable
