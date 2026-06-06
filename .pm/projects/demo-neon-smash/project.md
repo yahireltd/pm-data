@@ -5,11 +5,11 @@ name: "DEMO — Smash The Granny Out Of It: arcade brick-breaker with an online 
 state: planning
 phase: build
 created: 2026-06-06T00:23:21Z
-updated: 2026-06-06T03:04:30Z
+updated: 2026-06-06T03:14:33Z
 owner:
   kind: human
   name: Austin
-goal: "A small, self-contained arcade game built to demonstrate how we run a project end-to-end in pm-tool. Players bounce a ball off a paddle to smash a wall of neon bricks, chain combos for a high score, and post that score to a global top-10 leaderboard. The game is just the vehicle — the real deliverable is a worked example of the full human↔agent workflow: charter, milestones, decisions, meetings, sprints, and tightly-scoped tickets, run by the course playbook. Labelled DEMO; not a real product."
+goal: "A small, self-contained arcade game built to demonstrate how we run a project end-to-end in pm-tool. Players bounce a ball off a paddle to smash a wall of neon bricks, An old lady is trapped behind the bricks hence the name. chain combos for a high score, and post that score to a global top-10 leaderboard. The game is just the vehicle — the real deliverable is a worked example of the full human↔agent workflow: charter, milestones, decisions, meetings, sprints, and tightly-scoped tickets, run by the course playbook. Labelled DEMO; not a real product."
 success_criteria:
   - A newcomer can open the project and understand the whole pm-tool workflow in under 10 minutes, without a guided tour.
   - Every build-sprint ticket meets Definition of Ready (acceptance criteria + code anchors) and reads as something an agent could pick up cold.
