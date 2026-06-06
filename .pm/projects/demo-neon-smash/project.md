@@ -5,7 +5,7 @@ name: "DEMO — Neon Smash: arcade brick-breaker with an online leaderboard"
 state: planning
 phase: build
 created: 2026-06-06T00:23:21Z
-updated: 2026-06-06T01:21:45Z
+updated: 2026-06-06T02:14:04Z
 owner:
   kind: human
   name: Austin
@@ -69,6 +69,7 @@ stakeholders:
     notify_on:
       - state:review
       - outcome_recorded
+repo_url: https://github.com/yahireltd/neon-smash-demo-project
 ---
 
 # DEMO — Neon Smash: arcade brick-breaker with an online leaderboard
