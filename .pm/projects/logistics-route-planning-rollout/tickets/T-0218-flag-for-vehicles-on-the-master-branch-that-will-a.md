@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-04T14:04:06Z
-updated: 2026-06-04T18:03:02Z
+updated: 2026-06-08T12:11:20Z
 project: logistics-route-planning-rollout
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - In the master branch (the current live db that gets copied over test nightly) we need to add a field  (do not use on sketch planner) that will prevent the solver using said vehicles. Or alternatively be able to mark as a hire vehicle that we can add to the pool for a particular day (when we get busy we do use hired vehicles)
+  - "[x] In the master branch (the current live db that gets copied over test nightly) we need to add a field  (do not use on sketch planner) that will prevent the solver using said vehicles. Or alternatively be able to mark as a hire vehicle that we can add to the pool for a particular day (when we get busy we do use hired vehicles)"
 out_of_scope: []
 code_anchors: []
 relates:
