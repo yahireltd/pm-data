@@ -2,10 +2,10 @@
 id: T-0289
 title: sprints need to be in number order
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-06T01:22:28Z
-updated: 2026-06-08T16:37:40Z
+updated: 2026-06-08T17:06:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - order the sprints view correctly
+  - "[x] order the sprints view correctly"
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/SprintsList.tsx
@@ -43,10 +43,7 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Fixed the ordering — sprints now sort strictly by number (newest first), no status grouping, so "25, 27, 26" becomes "27, 26, 25" (commit bb3a459). Needs a deploy, then confirm + close. Can flip to oldest-first if you prefer.
-  since: 2026-06-08T16:37:40Z
+attention: null
 ---
 
 sprints lists 3 before 2 and after 1
@@ -64,3 +61,9 @@ sprints lists 3 before 2 and after 1
 **What would have happened if we did nothing:** The sprints tab would keep showing numbers out of sequence whenever sprints sat in different statuses — the very thing this ticket set out to fix.
 
 **The benefit:** Sprints now read in plain number order top to bottom (27, 26, 25, …), so the list is predictable however the sprints are spread across statuses. (It's newest-first — say the word if you'd prefer oldest-first and it's a one-line flip.)
+
+---
+
+**2026-06-08 17:06 — you**
+
+all working now in the correct order
