@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-04T00:08:35Z
-updated: 2026-06-05T21:23:52Z
+updated: 2026-06-08T15:25:16Z
 project: pm-tool-self
 section: null
 parent: null
@@ -43,6 +43,13 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention: null
+attachments:
+  - key: tickets/T-0198/1780932314787-Screenshot_2026-06-03_at_20.30.20.png
+    filename: Screenshot 2026-06-03 at 20.30.20.png
+    content_type: image/png
+    size: 319262
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-06-08T15:25:16Z
 ---
 
 we need a way to create a pre-project- this must have all the planning filled in before becomming a project. We should be able to make a pre-project out of tickets or add to pre-project

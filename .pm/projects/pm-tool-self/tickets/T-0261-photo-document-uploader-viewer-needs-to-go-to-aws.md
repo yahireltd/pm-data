@@ -2,10 +2,10 @@
 id: T-0261
 title: Photo / Document uploader / viewer needs to go to aws s3
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T22:17:11Z
-updated: 2026-06-08T15:20:59Z
+updated: 2026-06-08T15:29:47Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,8 +16,8 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - we can upload and view documents of all types
-  - we can download / view these docs - images in particular need advanced zoom as ther are some big flow diagrams
+  - "[x] we can upload and view documents of all types"
+  - "[x] we can download / view these docs - images in particular need advanced zoom as ther are some big flow diagrams"
 out_of_scope: []
 code_anchors:
   - path: comms/src/lib/s3.ts
@@ -55,11 +55,13 @@ agent_runs:
       - With no PM_S3_BUCKET set, the Files section shows "No files attached" and Upload returns "Attachments storage isn't set up yet" — the rest of the ticket page works normally.
 
       Notes: bundling verified (`next build` compiles; the aws-CLI lib stays server-side, not in the browser). ADR-036 records the design. Uploads route through the Next server (25 MB cap).
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — needs review
-  since: 2026-06-08T15:07:38Z
+attention: null
+attachments: []
 ---
 
 ## Problem
@@ -100,3 +102,9 @@ sudo systemctl restart pm-tool
 Then re-try uploading a file on a ticket. If it still errors after that, the role's S3 permission needs to include **PutObject, GetObject and DeleteObject** on `pm-tool-103898497059-eu-west-2-an/*` (a read-only S3 policy wouldn't allow uploads).
 
 I've also added `PM_S3_BUCKET` to the deploy doc (commit 0779831) so it's recorded for next time.
+
+---
+
+**2026-06-08 15:29 — you**
+
+Alll working as expected

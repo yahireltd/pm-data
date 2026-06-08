@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-05T22:20:31Z
-updated: 2026-06-08T14:51:48Z
+updated: 2026-06-08T15:30:31Z
 project: pm-tool-self
 section: null
 parent: null
@@ -56,6 +56,9 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-08T14:51:48Z
+collaborators:
+  - kind: human
+    name: austin
 ---
 
 from any of the admin or project team for asignee. Zsolt may be working on somehing with his agent at the same time as me with my agent
