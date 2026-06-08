@@ -3,10 +3,10 @@ id: SPR-025
 slug: bug-fixes-found-in-usage-testing
 title: Bug. fixes found in usage / testing
 project: pm-tool-self
-state: in_progress
+state: completed
 order: 25600
 created: 2026-06-05T14:02:00Z
-updated: 2026-06-08T13:27:54Z
+updated: 2026-06-08T17:48:10Z
 committed_items:
   - T-0198
   - T-0226
@@ -51,6 +51,7 @@ capacity:
   total: 5
   unit: tickets
 velocity_committed: 5
+velocity_actual: 31
 ---
 
 # SPR-025: Bug. fixes found in usage / testing
