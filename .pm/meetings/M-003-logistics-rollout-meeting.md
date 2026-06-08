@@ -4,7 +4,7 @@ slug: logistics-rollout-meeting
 title: Logistics Rollout meeting followup
 state: scheduled
 created: 2026-06-04T13:29:31Z
-updated: 2026-06-08T12:15:24Z
+updated: 2026-06-08T13:43:39Z
 scheduled_at: 2026-06-15T14:30:00Z
 duration_minutes: 30
 location: TBD
@@ -56,7 +56,7 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:47:03Z
     role: Logistics Planner (Logistics SME)
-  - name: Nana The Top Plana
+  - name: Nana
     channel: email
     contact: nana@yahire.com
     internal: true
