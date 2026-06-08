@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-05T21:38:52Z
-updated: 2026-06-08T18:28:39Z
+updated: 2026-06-08T18:40:33Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,10 +16,10 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - At review, the agent's hand-off includes a SPECIFIC, thorough 'what to test' checklist for the human — the exact things to click/try, the happy path, AND the edge cases — not a vague note.
-  - "The checklist calls out cross-impact explicitly: if a shared function/component/model was changed, it names the other places that use it for the human to re-check."
-  - AGENTS.md sets this as the required standard for a run's test_plan, so it's an expectation every run meets, not left to chance.
-  - Where automated test coverage around the changed area is thin, the agent adds/extends tests as part of the work.
+  - "[x] At review, the agent's hand-off includes a SPECIFIC, thorough 'what to test' checklist for the human — the exact things to click/try, the happy path, AND the edge cases — not a vague note."
+  - "[x] The checklist calls out cross-impact explicitly: if a shared function/component/model was changed, it names the other places that use it for the human to re-check."
+  - "[x] AGENTS.md sets this as the required standard for a run's test_plan, so it's an expectation every run meets, not left to chance."
+  - "[x] Where automated test coverage around the changed area is thin, the agent adds/extends tests as part of the work."
 out_of_scope:
   - A CI / pre-deploy automated-test gate (decided out — 'just write more tests', no blocking gate).
   - Automated cross-impact / caller-analysis tooling — cross-impact is handled by the agent naming affected callers in the test checklist, not by a tool.
