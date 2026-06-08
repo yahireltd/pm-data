@@ -2,10 +2,10 @@
 id: T-0258
 title: seperate dev projects from projects - different menu label and sub menu
 type: feature
-state: review
+state: in_progress
 priority: p2
 created: 2026-06-05T21:43:28Z
-updated: 2026-06-08T14:33:56Z
+updated: 2026-06-08T15:54:19Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - dev projects are seperated
+  - "[x] dev projects are seperated"
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/Sidebar.tsx
@@ -47,9 +47,9 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-08T14:33:56Z
+  needed_by: agent
+  reason: Can we make this Existing Projects and Projects In Development and we also need a way to set them as such
+  since: 2026-06-08T15:54:18Z
 ---
 
 We have the dev project showing up on the top of our projects sepeate dev projects from others

@@ -2,9 +2,9 @@
 id: T-0290
 title: Private / confidential projects — visible only to the owner and invited people, hidden from other admins
 type: feature
-state: review
+state: done
 created: 2026-06-06T01:37:53Z
-updated: 2026-06-08T14:59:59Z
+updated: 2026-06-08T15:52:54Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,11 +18,11 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - A project can be marked private and given an invited list (the owner plus invited people)
-  - In the WEB app, a private project is hidden from and access-refused to anyone not in its allowed set (invited + team + stakeholders) — other admins included — across menus, projects list, dashboard, and direct project URLs, enforced server-side (not merely hidden links)
-  - Turning on privacy doesn't lock out the person doing it (they're auto-added to the invited list)
-  - The control states plainly this is Phase 1 — hidden in the web app, NOT yet confidential from the automation interface or the shared data files
-  - The storage approach for true confidentiality is decided in an ADR before Phase 2 (ADR-035); Phase 2 itself is tracked separately (T-0310)
+  - "[x] A project can be marked private and given an invited list (the owner plus invited people)"
+  - "[x] In the WEB app, a private project is hidden from and access-refused to anyone not in its allowed set (invited + team + stakeholders) — other admins included — across menus, projects list, dashboard, and direct project URLs, enforced server-side (not merely hidden links)"
+  - "[x] Turning on privacy doesn't lock out the person doing it (they're auto-added to the invited list)"
+  - "[x] The control states plainly this is Phase 1 — hidden in the web app, NOT yet confidential from the automation interface or the shared data files"
+  - "[x] The storage approach for true confidentiality is decided in an ADR before Phase 2 (ADR-035); Phase 2 itself is tracked separately (T-0310)"
 out_of_scope:
   - Phase 2 — true confidentiality from the automation (MCP) interface and at-rest files (tracked as T-0310, blocked on per-user MCP auth)
   - Hiding a private project from the person who operates the server / infrastructure
@@ -61,10 +61,10 @@ agent_runs:
       status_note: none-needed
       docs_note: ADR-035 records the phased decision + storage direction; schema descriptions document private/invited. Phase 2 split out as T-0310.
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-08T14:59:59Z
+attention: null
+collaborators:
+  - kind: human
+    name: austin
 ---
 
 ## Problem
@@ -99,3 +99,9 @@ How private projects are stored so the shared data repository doesn't expose the
 ## Conversation
 
 **2026-06-08 14:59 claude:** Run run-20260608-1459 completed — You can now mark a project "private" so it's hidden from other admins, and choose exactly who's allowed in. On a private project's overview there's a privacy switch and an invite-by-email list; once it's private, everyone except the people you invite (plus the project's own team and stakeholders) stops seeing it — it disappears from their menus, project list, dashboard and search, and the server actually refuses to open its pages by direct link, not just hides the link. Crucially this now applies to other admins too, who could previously see every project. Turning privacy on automatically keeps you on the invite list so you can't lock yourself out. We were deliberately honest about the limits: the control says in plain words that this is "hidden, not yet sealed" — it hides the project inside this web app, but it is NOT yet confidential from the agent/automation interface or from anyone who can read the shared data files. Making it truly confidential (a separate secure store and per-person checks on the automation side) is a larger second phase, written up in a decision record (ADR-035) and tracked as its own ticket (T-0310), because it depends on giving each person their own identity on the automation interface. This phase delivers real "declutter + privacy from other admins in the app" today without over-promising secrecy.
+
+---
+
+**2026-06-08 15:52 — you**
+
+all done
