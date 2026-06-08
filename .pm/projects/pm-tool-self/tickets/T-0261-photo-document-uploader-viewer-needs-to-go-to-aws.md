@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-05T22:17:11Z
-updated: 2026-06-08T15:07:38Z
+updated: 2026-06-08T15:20:59Z
 project: pm-tool-self
 section: null
 parent: null
@@ -69,3 +69,34 @@ _What's wrong / what's needed?_
 ## Context
 
 ## Design notes
+
+## Conversation
+
+**2026-06-08 15:17 — Austin Pickering**
+
+Bucket created at [pm-tool-103898497059-eu-west-2-an](https://eu-west-2.console.aws.amazon.com/s3/buckets/pm-tool-103898497059-eu-west-2-an?region=eu-west-2)
+
+The webserver IAM role has secrets manager and s3 access
+
+---
+
+**2026-06-08 15:18 — Austin Pickering**
+
+Attachments storage isn't set up yet (no S3 bucket configured).
+
+**2026-06-08 15:20 claude:** Thanks — bucket + role look right. The "not set up yet" message is because the app only learns the bucket name from a setting called `PM_S3_BUCKET`, and that isn't set on the live web service yet (the region, eu-west-2, already is and matches your bucket).
+
+**One step to finish, on the server:** add the bucket name to the web service and restart it:
+
+```
+sudo systemctl edit --full pm-tool
+# add under [Service], next to the existing AWS_REGION line:
+Environment=PM_S3_BUCKET=pm-tool-103898497059-eu-west-2-an
+# save, then:
+sudo systemctl daemon-reload
+sudo systemctl restart pm-tool
+```
+
+Then re-try uploading a file on a ticket. If it still errors after that, the role's S3 permission needs to include **PutObject, GetObject and DeleteObject** on `pm-tool-103898497059-eu-west-2-an/*` (a read-only S3 policy wouldn't allow uploads).
+
+I've also added `PM_S3_BUCKET` to the deploy doc (commit 0779831) so it's recorded for next time.
