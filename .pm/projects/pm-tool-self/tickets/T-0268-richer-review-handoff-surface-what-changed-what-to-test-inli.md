@@ -4,7 +4,7 @@ title: Richer review handoff — surface what changed + what to test inline at r
 type: feature
 state: triaged
 created: 2026-06-05T22:53:16Z
-updated: 2026-06-05T22:53:16Z
+updated: 2026-06-08T19:10:03Z
 project: pm-tool-self
 section: null
 parent: null
@@ -13,11 +13,19 @@ order: 1024
 priority: p2
 assignee: null
 acceptance_criteria:
-  - At review, the human sees the change summary + a what-to-test checklist inline (not just a state badge)
-  - Clear confirm vs send-back-with-a-comment
-  - Reduces the manual "paste a test plan + comment" an agent does today
-out_of_scope: []
-code_anchors: []
+  - On the /review LIST, each review-state ticket shows a small marker that a change summary + test plan are available, so it's discoverable without clicking in blind.
+  - The marker links through to the ticket detail page, where ReviewBanner already surfaces the summary, files changed, acceptance-criteria checklist, and test_plan (no rebuild of that).
+  - Confirm the detail-page ReviewBanner remains the review surface and still shows all of the above.
+out_of_scope:
+  - Inline /review list-row expansion or a click-to-open drawer (decided out — the detail page is the review surface).
+  - Auto-posting the test_plan as a conversation comment.
+code_anchors:
+  - path: web/app/review/page.tsx
+    symbol: list marker for review-state rows
+  - path: web/app/_components/TicketRow.tsx
+    symbol: review-state indicator
+  - path: web/app/_components/ReviewBanner.tsx
+    symbol: existing detail surface (no change)
 relates: []
 blocks: []
 blocked_by: []
@@ -28,10 +36,14 @@ labels: []
 attention: null
 ---
 
-## Problem
+## Re-scoped 2026-06-08 — mostly already built
 
-When an agent finishes (→ review), the human’s job is "confirm or send back" but the change summary + test steps aren’t front-and-centre (the run’s test_plan exists but is buried). Surfacing them inline makes the human’s verification fast + reliable.
+The review hand-off is **already surfaced on the ticket detail page**: `ReviewBanner` shows the run summary, files changed, the acceptance-criteria checklist, and the test_plan. So the original "it's buried" concern is largely solved.
 
-## Context
+## What's left (decided: detail page is enough — shrink)
 
-Relates to T-0252 (risk-scaled rigor). Surfaced dogfooding on 2026-06-05.
+The only gap: the **/review LIST** doesn't indicate that this rich change-info exists, so you click in blind. Add a small marker on each review-state row that a summary + test plan are available, linking through to the detail page. That's the whole remaining job.
+
+## Out of scope
+
+Inline list-row expansion or a click-to-open drawer (the detail page is the review surface); auto-posting the test_plan as a comment.
