@@ -2,10 +2,10 @@
 id: T-0242
 title: A way to edit existing conventions
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T17:49:55Z
-updated: 2026-06-08T16:11:41Z
+updated: 2026-06-08T16:33:23Z
 project: pm-tool-self
 section: null
 parent: null
@@ -51,10 +51,7 @@ agent_runs:
       status_note: none-needed
       docs_note: Updated /help conventions content to document the new Edit action.
 labels: []
-attention:
-  needed_by: human
-  reason: WYSIWYG editing added per your note (commit 574561b) — editing conventions now uses the visual editor, not raw markdown. Needs a deploy to see live, then confirm + close.
-  since: 2026-06-08T15:41:30Z
+attention: null
 ---
 
 no way to edit conventions
@@ -76,3 +73,9 @@ Note: this is a fresh code change (commit 574561b) — it needs a deploy before 
 **What would have happened if we did nothing:** Anyone amending the conventions would have to hand-write markdown by eye — fiddly, easy to get wrong, and off-putting.
 
 **The benefit:** You can format conventions visually (headings, bold, bullet lists) with no markdown knowledge. It still saves to the same place, and the automatically-gathered "Lessons from closed projects" section underneath is still left untouched.
+
+---
+
+**2026-06-08 16:33 — you**
+
+working

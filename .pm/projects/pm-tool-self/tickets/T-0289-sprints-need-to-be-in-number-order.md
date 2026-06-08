@@ -2,10 +2,10 @@
 id: T-0289
 title: sprints need to be in number order
 type: feature
-state: review
+state: in_progress
 priority: p2
 created: 2026-06-06T01:22:28Z
-updated: 2026-06-08T14:15:36Z
+updated: 2026-06-08T16:35:01Z
 project: pm-tool-self
 section: null
 parent: null
@@ -44,9 +44,9 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-08T14:15:36Z
+  needed_by: agent
+  reason: The sprints tab on projects/deliver is showing sprint 25 then sprint 27 then sprint 26
+  since: 2026-06-08T16:35:00Z
 ---
 
 sprints lists 3 before 2 and after 1

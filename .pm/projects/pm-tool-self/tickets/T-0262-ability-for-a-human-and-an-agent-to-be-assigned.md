@@ -2,10 +2,10 @@
 id: T-0262
 title: ability for a human and an agent to be assigned
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T22:20:31Z
-updated: 2026-06-08T15:30:31Z
+updated: 2026-06-08T16:33:02Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - allow human and agent to both be assigned - give us stronger icons and fonts anywhere we display user and stakeholders
+  - "[x] allow human and agent to both be assigned - give us stronger icons and fonts anywhere we display user and stakeholders"
 out_of_scope: []
 code_anchors:
   - path: schemas/ticket.schema.json
@@ -52,10 +52,7 @@ agent_runs:
       status_note: none-needed
       docs_note: Documented the new collaborators field in SCHEMA.md; ADR-034 records the design.
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-08T14:51:48Z
+attention: null
 collaborators:
   - kind: human
     name: austin
@@ -66,3 +63,9 @@ from any of the admin or project team for asignee. Zsolt may be working on someh
 ## Conversation
 
 **2026-06-08 14:51 claude:** Run run-20260608-1451 completed — A ticket can now show more than one person working on it — for example you and your AI agent, or you and a colleague and their agent — instead of just a single name. We kept the existing "main owner" (the one the tool uses to track who claimed the work and ran it) and added an optional "Also on this" list beside it, where you can add other people or agents and remove them. Anyone you add is for visibility only; it doesn't change how the work is claimed or closed, so nothing about the existing workflow breaks. We also made the little person icons throughout the app much clearer: agents now carry a small robot mark, customers a help mark, with colour rings and bolder names, so at a glance you can tell a human apart from an agent wherever names appear. Why it matters: when two people (each with their own agent) are working around the same ticket, the board now reflects that reality instead of hiding everyone but one name. The approach was written up as a decision record (ADR-034) so the "one main owner + collaborators" choice is on the record.
+
+---
+
+**2026-06-08 16:33 — you**
+
+all done and working
