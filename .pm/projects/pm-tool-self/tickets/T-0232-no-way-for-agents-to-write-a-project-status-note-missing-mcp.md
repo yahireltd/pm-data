@@ -2,9 +2,9 @@
 id: T-0232
 title: No way for agents to write a project status note (missing MCP tool)
 type: feature
-state: review
+state: done
 created: 2026-06-05T15:42:56Z
-updated: 2026-06-08T15:08:39Z
+updated: 2026-06-08T15:36:04Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,9 +18,9 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - An agent can create a project status note through an MCP tool (overall RAG, date, author, and the shipped/at-risk/next body)
-  - The tool writes the same status-note shape the web and CLI produce (one validation/source path)
-  - It appears in the project's status history like a web/CLI-written note
+  - "[x] An agent can create a project status note through an MCP tool (overall RAG, date, author, and the shipped/at-risk/next body)"
+  - "[x] The tool writes the same status-note shape the web and CLI produce (one validation/source path)"
+  - "[x] It appears in the project's status history like a web/CLI-written note"
 out_of_scope: []
 code_anchors:
   - path: mcp-server/src/server.ts
@@ -47,10 +47,7 @@ agent_runs:
 labels:
   - dogfood
   - meta
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-08T15:08:39Z
+attention: null
 ---
 
 ## Problem
@@ -73,3 +70,9 @@ If the heartbeat is the one record an agent can't write, it silently rots — th
 ## Conversation
 
 **2026-06-08 15:08 claude:** Run run-20260608-1508 completed — Reconciliation — no new code. This feature was already built and shipped in an earlier session (the pm_create_status_note tool, commit fde364b, now live), but the ticket was left in "triaged" and never closed — exactly the shipped-but-unclosed gap. Agents driving the tool remotely can now write a project status note (the weekly "what shipped / what's at risk / what's next" heartbeat) through the automation interface, the same way they already record runs, decisions and tech-sessions — using the same validation as the web and command-line, so it shows up in the project's status history identically. This run simply closes the loop on that already-delivered work so it's recorded properly. Routed to review so you can confirm and close it in the sweep.
+
+---
+
+**2026-06-08 15:36 — you**
+
+verified

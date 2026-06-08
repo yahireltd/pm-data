@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-05T17:49:55Z
-updated: 2026-06-08T14:45:02Z
+updated: 2026-06-08T15:41:30Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - we can amemnd conventions via the ui
+  - "[x] we can amemnd conventions via the ui"
 out_of_scope: []
 code_anchors:
   - path: cli/src/lib/conventions.ts
@@ -53,8 +53,8 @@ agent_runs:
 labels: []
 attention:
   needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-08T14:45:02Z
+  reason: WYSIWYG editing added per your note (commit 574561b) — editing conventions now uses the visual editor, not raw markdown. Needs a deploy to see live, then confirm + close.
+  since: 2026-06-08T15:41:30Z
 ---
 
 no way to edit conventions
@@ -62,3 +62,7 @@ no way to edit conventions
 ## Conversation
 
 **2026-06-08 14:45 claude:** Run run-20260608-1444 completed — You can now edit the team conventions, not just add to them. Before, the Conventions page only let you tack a new rule onto the end — if a convention was worded badly, out of date, or needed removing, there was no way to change it from the app. Now there's an "Edit" button that opens the whole hand-written conventions section as editable text; you can reword, reorder, or delete rules and save. The automatically-gathered "Lessons from closed projects" section underneath is left completely alone, so editing your rules can never accidentally wipe the lessons rolled up from finished projects. This keeps the "how we work" document accurate and tidy over time instead of only ever growing.
+
+**2026-06-08 15:41 claude:** Done — editing conventions now uses the visual (WYSIWYG) editor instead of a raw-markdown box. It's the same editor you get on project and ticket descriptions, so you format conventions visually (headings, bold, bullets) without seeing any markdown syntax; ⌘/Ctrl+Enter saves. Behind the scenes it still saves to the same place, and the automatically-gathered "Lessons from closed projects" section underneath is still left untouched.
+
+Note: this is a fresh code change (commit 574561b) — it needs a deploy before it shows up on the live site. Sending back to review.
