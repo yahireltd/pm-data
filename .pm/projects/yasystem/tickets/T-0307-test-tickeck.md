@@ -1,11 +1,11 @@
 ---
 id: T-0307
-title: test tickeck
+title: test ticket
 type: feature
 state: in_progress
 priority: p2
 created: 2026-06-08T12:39:57Z
-updated: 2026-06-08T12:41:07Z
+updated: 2026-06-08T13:37:47Z
 project: yasystem
 section: null
 parent: null
