@@ -2,29 +2,63 @@
 id: T-0242
 title: A way to edit existing conventions
 type: feature
-state: triaged
+state: review
 priority: p2
 created: 2026-06-05T17:49:55Z
-updated: 2026-06-05T17:50:20Z
+updated: 2026-06-08T14:45:02Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 74752
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - we can amemnd conventions via the ui
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: cli/src/lib/conventions.ts
+    symbol: writeConventionsHand
+  - path: web/app/_actions/conventions.ts
+    symbol: setConventionsAction
+  - path: web/app/_components/ConventionsControls.tsx
+  - path: web/app/conventions/page.tsx
 relates: []
 blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260608-1444
+    model: claude-opus-4-8
+    started: 2026-06-08T14:44:41Z
+    status: completed
+    ended: 2026-06-08T14:45:02Z
+    summary: You can now edit the team conventions, not just add to them. Before, the Conventions page only let you tack a new rule onto the end — if a convention was worded badly, out of date, or needed removing, there was no way to change it from the app. Now there's an "Edit" button that opens the whole hand-written conventions section as editable text; you can reword, reorder, or delete rules and save. The automatically-gathered "Lessons from closed projects" section underneath is left completely alone, so editing your rules can never accidentally wipe the lessons rolled up from finished projects. This keeps the "how we work" document accurate and tidy over time instead of only ever growing.
+    test_plan: |-
+      1. Open the Conventions page. Add a couple of conventions if the list is empty.
+      2. Click "Edit" → the hand-written section opens as an editable markdown box pre-filled with the current conventions (the generated lessons block is NOT shown).
+      3. Reword/reorder/remove a line, then "Save conventions" → the page re-renders with your changes.
+      4. Confirm the "Lessons from closed projects" section beneath is unchanged after saving.
+      5. Click Edit then Cancel → no changes are made.
+      6. Try saving an empty box → it's refused with a clear message.
+      7. Open /help → the Conventions section now mentions the Edit action.
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
+      docs_note: Updated /help conventions content to document the new Edit action.
 labels: []
-attention: null
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-08T14:45:02Z
 ---
 
 no way to edit conventions
+
+## Conversation
+
+**2026-06-08 14:45 claude:** Run run-20260608-1444 completed — You can now edit the team conventions, not just add to them. Before, the Conventions page only let you tack a new rule onto the end — if a convention was worded badly, out of date, or needed removing, there was no way to change it from the app. Now there's an "Edit" button that opens the whole hand-written conventions section as editable text; you can reword, reorder, or delete rules and save. The automatically-gathered "Lessons from closed projects" section underneath is left completely alone, so editing your rules can never accidentally wipe the lessons rolled up from finished projects. This keeps the "how we work" document accurate and tidy over time instead of only ever growing.
