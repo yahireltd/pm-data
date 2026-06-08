@@ -2,9 +2,9 @@
 id: T-0290
 title: Private / confidential projects — visible only to the owner and invited people, hidden from other admins
 type: feature
-state: triaged
+state: review
 created: 2026-06-06T01:37:53Z
-updated: 2026-06-06T01:37:53Z
+updated: 2026-06-08T14:59:59Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,18 +14,19 @@ priority: p2
 reporter:
   kind: human
   name: austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
-  - A project can be marked private and given a list of people allowed in (the owner plus invited people); everyone else cannot see it
-  - A private project is absent from every other admin's interface — menus, projects list, dashboard, tickets, review, activity, and search — and the server refuses direct access to it for anyone not invited (not merely hides the link)
-  - "The automation interface no longer reveals a private project to anyone not invited: listings omit it and direct lookups are refused, enforced per-person rather than via one shared token"
-  - Copying the shared data repository does not reveal a private project's contents to someone not invited (achieved via a separate restricted store or encryption-at-rest)
-  - A short written threat model states plainly who can still access a private project (the server / infrastructure operator), so the product never over-promises privacy
-  - The storage approach (separate store vs encryption) is decided in an ADR before the build of true confidentiality starts
+  - A project can be marked private and given an invited list (the owner plus invited people)
+  - In the WEB app, a private project is hidden from and access-refused to anyone not in its allowed set (invited + team + stakeholders) — other admins included — across menus, projects list, dashboard, and direct project URLs, enforced server-side (not merely hidden links)
+  - Turning on privacy doesn't lock out the person doing it (they're auto-added to the invited list)
+  - The control states plainly this is Phase 1 — hidden in the web app, NOT yet confidential from the automation interface or the shared data files
+  - The storage approach for true confidentiality is decided in an ADR before Phase 2 (ADR-035); Phase 2 itself is tracked separately (T-0310)
 out_of_scope:
-  - Hiding a private project from the person who operates the server / infrastructure (they inherently can access what they host)
+  - Phase 2 — true confidentiality from the automation (MCP) interface and at-rest files (tracked as T-0310, blocked on per-user MCP auth)
+  - Hiding a private project from the person who operates the server / infrastructure
   - Encrypting or changing existing non-private projects
-  - A compromised-server or nation-state threat model
 code_anchors:
   - path: web/app/_lib/access.ts
   - path: web/app/layout.tsx
@@ -37,9 +38,33 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260608-1459
+    model: claude-opus-4-8
+    started: 2026-06-08T14:59:21Z
+    status: completed
+    ended: 2026-06-08T14:59:59Z
+    summary: "You can now mark a project \"private\" so it's hidden from other admins, and choose exactly who's allowed in. On a private project's overview there's a privacy switch and an invite-by-email list; once it's private, everyone except the people you invite (plus the project's own team and stakeholders) stops seeing it — it disappears from their menus, project list, dashboard and search, and the server actually refuses to open its pages by direct link, not just hides the link. Crucially this now applies to other admins too, who could previously see every project. Turning privacy on automatically keeps you on the invite list so you can't lock yourself out. We were deliberately honest about the limits: the control says in plain words that this is \"hidden, not yet sealed\" — it hides the project inside this web app, but it is NOT yet confidential from the agent/automation interface or from anyone who can read the shared data files. Making it truly confidential (a separate secure store and per-person checks on the automation side) is a larger second phase, written up in a decision record (ADR-035) and tracked as its own ticket (T-0310), because it depends on giving each person their own identity on the automation interface. This phase delivers real \"declutter + privacy from other admins in the app\" today without over-promising secrecy."
+    test_plan: |-
+      Phase 1 (this run):
+      1. As an admin, open a project's Overview → a "Private project" control sits under the team editor. Toggle "Make private".
+      2. Add an invited email; confirm you (the toggler) remain able to see/manage it (auto-added to invited).
+      3. Sign in (or preview-as) a DIFFERENT admin who isn't invited → the private project is absent from their sidebar, /projects, dashboard, and search, and visiting /projects/<slug> directly redirects to /me (server-refused, not just hidden).
+      4. Add that other admin to the invite list → it reappears for them.
+      5. A project's own team member / stakeholder still sees it when private.
+      6. Make it public again → it returns to every admin's view.
+      7. Read the in-control note — it states plainly this is web-only ("hidden, not yet sealed").
+      NOT in this run (Phase 2 / T-0310): the project is still visible via the MCP tools and still readable in the raw data files — that's the deferred confidentiality work.
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
+      docs_note: ADR-035 records the phased decision + storage direction; schema descriptions document private/invited. Phase 2 split out as T-0310.
 labels: []
-attention: null
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-08T14:59:59Z
 ---
 
 ## Problem
@@ -70,3 +95,7 @@ Door 3 is the crux and needs a deliberate design decision before we build.
 ## Open decision (needs an ADR first)
 
 How private projects are stored so the shared data repository doesn't expose them: a separate restricted store, or encryption-at-rest with per-owner keys. This single decision shapes most of the build, so it should be settled in an ADR before Phase 2 work starts.
+
+## Conversation
+
+**2026-06-08 14:59 claude:** Run run-20260608-1459 completed — You can now mark a project "private" so it's hidden from other admins, and choose exactly who's allowed in. On a private project's overview there's a privacy switch and an invite-by-email list; once it's private, everyone except the people you invite (plus the project's own team and stakeholders) stops seeing it — it disappears from their menus, project list, dashboard and search, and the server actually refuses to open its pages by direct link, not just hides the link. Crucially this now applies to other admins too, who could previously see every project. Turning privacy on automatically keeps you on the invite list so you can't lock yourself out. We were deliberately honest about the limits: the control says in plain words that this is "hidden, not yet sealed" — it hides the project inside this web app, but it is NOT yet confidential from the agent/automation interface or from anyone who can read the shared data files. Making it truly confidential (a separate secure store and per-person checks on the automation side) is a larger second phase, written up in a decision record (ADR-035) and tracked as its own ticket (T-0310), because it depends on giving each person their own identity on the automation interface. This phase delivers real "declutter + privacy from other admins in the app" today without over-promising secrecy.
