@@ -6,7 +6,7 @@ project: pm-tool-self
 state: planned
 order: 27648
 created: 2026-06-05T22:52:16Z
-updated: 2026-06-05T22:56:16Z
+updated: 2026-06-08T18:55:23Z
 committed_items:
   - T-0265
   - T-0266
@@ -14,9 +14,6 @@ committed_items:
   - T-0268
   - T-0269
   - T-0264
-  - T-0252
-  - T-0257
-  - T-0232
 goal: "Improve the human<->agent working dynamic and fix the dogfood frictions surfaced in the 2026-06-05 build session: agent identity/audit, a manual human queue, a risk/rigor dial, richer review handoff, and a tighter dev loop (cross-package typecheck, deploy refresh, ticket linking)."
 velocity_history:
   - sprint: SPR-024
