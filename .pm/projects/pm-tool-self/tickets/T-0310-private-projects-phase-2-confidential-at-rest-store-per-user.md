@@ -4,7 +4,7 @@ title: "Private projects — Phase 2: confidential at-rest store + per-user MCP 
 type: feature
 state: triaged
 created: 2026-06-08T14:58:31Z
-updated: 2026-06-08T14:58:31Z
+updated: 2026-06-08T18:01:12Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,7 +15,11 @@ reporter:
   kind: agent
   name: claude
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - A private project is omitted from MCP listings and refused on direct MCP lookup for anyone not invited — enforced per-person, not via the shared token
+  - Copying the shared data repository does not reveal a private project's contents (separate restricted store or encryption-at-rest)
+  - The in-product 'hidden, not yet sealed' note is upgraded to reflect real confidentiality once it's in place
+  - Depends on per-user MCP identity from T-0257; storage approach confirmed per ADR-035 before build
 out_of_scope: []
 code_anchors: []
 relates: []
