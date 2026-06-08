@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-05T17:49:55Z
-updated: 2026-06-08T15:41:30Z
+updated: 2026-06-08T16:11:41Z
 project: pm-tool-self
 section: null
 parent: null
@@ -66,3 +66,13 @@ no way to edit conventions
 **2026-06-08 15:41 claude:** Done — editing conventions now uses the visual (WYSIWYG) editor instead of a raw-markdown box. It's the same editor you get on project and ticket descriptions, so you format conventions visually (headings, bold, bullets) without seeing any markdown syntax; ⌘/Ctrl+Enter saves. Behind the scenes it still saves to the same place, and the automatically-gathered "Lessons from closed projects" section underneath is still left untouched.
 
 Note: this is a fresh code change (commit 574561b) — it needs a deploy before it shows up on the live site. Sending back to review.
+
+**2026-06-08 16:11 claude:** **Closing summary — follow-up change (WYSIWYG editing)**
+
+**What we did:** Editing the team conventions now opens the same visual (WYSIWYG) editor used for project and ticket descriptions, instead of a raw-markdown text box.
+
+**Why we did it:** You asked for a WYSIWYG when editing. Editing raw markdown means knowing markdown syntax, which isn't friendly for a non-developer PM.
+
+**What would have happened if we did nothing:** Anyone amending the conventions would have to hand-write markdown by eye — fiddly, easy to get wrong, and off-putting.
+
+**The benefit:** You can format conventions visually (headings, bold, bullet lists) with no markdown knowledge. It still saves to the same place, and the automatically-gathered "Lessons from closed projects" section underneath is still left untouched.

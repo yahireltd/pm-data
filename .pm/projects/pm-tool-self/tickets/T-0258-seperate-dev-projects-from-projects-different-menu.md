@@ -2,10 +2,10 @@
 id: T-0258
 title: seperate dev projects from projects - different menu label and sub menu
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T21:43:28Z
-updated: 2026-06-08T15:59:05Z
+updated: 2026-06-08T16:15:03Z
 project: pm-tool-self
 section: null
 parent: null
@@ -46,10 +46,7 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Renamed the nav groups to "Existing Projects" / "Projects In Development" and added a per-project "Project stage" toggle on the Overview to set which group it's in (commit af5bef3). Needs a deploy, then confirm + close.
-  since: 2026-06-08T15:59:05Z
+attention: null
 ---
 
 We have the dev project showing up on the top of our projects sepeate dev projects from others
@@ -64,3 +61,19 @@ We have the dev project showing up on the top of our projects sepeate dev projec
 2. There's now an explicit way to set which group a project is in: on a project's **Overview** there's a **"Project stage"** toggle — **Existing** or **In development** — instead of it being driven by a hidden tag. Flip it and the project moves between the two sidebar groups. (Your existing dogfood project stays under "In Development" automatically, so nothing's lost.)
 
 Needs a deploy before it shows on the live site. Sending back to review.
+
+**2026-06-08 16:11 claude:** **Closing summary — follow-up change (sidebar grouping rework)**
+
+**What we did:** Renamed the two left-hand project groups to **"Existing Projects"** and **"Projects In Development"**, and added a simple **"Project stage"** toggle on each project's Overview so you can set which group a project belongs to.
+
+**Why we did it:** The first version decided the grouping from a hidden "meta" tag that you couldn't see or change, and the headings ("Projects" / "Dev projects") weren't clear. You asked for plainer names and a way to set a project's stage yourself.
+
+**What would have happened if we did nothing:** Grouping would stay controlled by an invisible tag only an agent could set — you'd have no way to move a project between "existing" and "in development", and the headings would stay ambiguous.
+
+**The benefit:** You can now sort any project into Existing or In Development in one click from its Overview, and the sidebar says plainly what each group is. (Your dogfood project stays under "In Development" automatically, so nothing was lost.)
+
+---
+
+**2026-06-08 16:15 — you**
+
+All done
