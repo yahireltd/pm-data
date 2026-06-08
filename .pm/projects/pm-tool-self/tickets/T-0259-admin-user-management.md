@@ -2,10 +2,10 @@
 id: T-0259
 title: Admin / user management
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-05T22:05:52Z
-updated: 2026-06-08T12:24:29Z
+updated: 2026-06-08T12:27:30Z
 project: pm-tool-self
 section: null
 parent: null
@@ -54,7 +54,10 @@ agent_runs:
       5. **Access control**: sign in (or preview-as) a non-admin → `/settings` should redirect to /me, and the Settings link should not appear.
       6. Click the "?" on the Settings page → the Users & roles help drawer opens; it's also browsable at /help.
 labels: []
-attention: null
+attention:
+  needed_by: human
+  reason: Implemented, committed (fb0e1fc) and pushed to master. Admin-only Settings → Users & roles console (global admins + per-project members) is ready for human review/testing once deployed — test steps are in the run's test_plan. Typecheck clean; not yet visually verified (local has no .pm data).
+  since: 2026-06-08T12:27:30Z
 ---
 
 We should have a way to update users and admins (any logged in admin can do this)

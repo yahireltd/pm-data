@@ -20,6 +20,7 @@ access:
   admins:
     - austin@yahire.com
     - ben@yahire.com
+    - zsolt@yahire.com
 inbound_email:
   enabled: true
   mailboxes:
