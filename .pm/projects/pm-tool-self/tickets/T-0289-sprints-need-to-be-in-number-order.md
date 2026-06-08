@@ -2,10 +2,10 @@
 id: T-0289
 title: sprints need to be in number order
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-06T01:22:28Z
-updated: 2026-06-08T16:35:01Z
+updated: 2026-06-08T16:37:40Z
 project: pm-tool-self
 section: null
 parent: null
@@ -44,9 +44,9 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention:
-  needed_by: agent
-  reason: The sprints tab on projects/deliver is showing sprint 25 then sprint 27 then sprint 26
-  since: 2026-06-08T16:35:00Z
+  needed_by: human
+  reason: Fixed the ordering — sprints now sort strictly by number (newest first), no status grouping, so "25, 27, 26" becomes "27, 26, 25" (commit bb3a459). Needs a deploy, then confirm + close. Can flip to oldest-first if you prefer.
+  since: 2026-06-08T16:37:40Z
 ---
 
 sprints lists 3 before 2 and after 1
@@ -54,3 +54,13 @@ sprints lists 3 before 2 and after 1
 ## Conversation
 
 **2026-06-08 14:15 claude:** Run run-20260608-1414 completed — The list of sprints now appears in a predictable number order instead of a jumbled one. Before, sprints could show out of sequence (for example sprint 1, then 3, then 2) because they were ordered by an internal manual field that didn't follow the sprint numbering. Now, within each status group (active, planned, completed, cancelled), they're ordered by sprint number with the newest first — so anyone scanning the sprints view can find the one they want at a glance. Without this, the sprint history stayed confusing to read, which makes planning and reviewing past sprints harder than it should be.
+
+**2026-06-08 16:37 claude:** **Closing summary — follow-up fix (ordering)**
+
+**What we did:** Made the sprints list order strictly by sprint number (newest first), and removed the status grouping that was getting in the way.
+
+**Why we did it:** The first version sorted by number but *grouped by status first* (active, then planned, then completed). When sprints were in different statuses that pushed them out of numeric order — exactly the "25, then 27, then 26" you saw (25 active, 27 planned, 26 completed).
+
+**What would have happened if we did nothing:** The sprints tab would keep showing numbers out of sequence whenever sprints sat in different statuses — the very thing this ticket set out to fix.
+
+**The benefit:** Sprints now read in plain number order top to bottom (27, 26, 25, …), so the list is predictable however the sprints are spread across statuses. (It's newest-first — say the word if you'd prefer oldest-first and it's a one-line flip.)
