@@ -2,10 +2,10 @@
 id: T-0252
 title: 'Tighten testing: agent hands the human a detailed "what to test" checklist at review'
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T21:38:52Z
-updated: 2026-06-08T18:40:33Z
+updated: 2026-06-08T18:42:55Z
 project: pm-tool-self
 section: null
 parent: null
@@ -62,10 +62,7 @@ agent_runs:
       status_note: none-needed
       docs_note: AGENTS.md §1 gains the test_plan-as-review-checklist standard; mirrored in the pm_complete_run test_plan field description (mcp-server/src/tools/complete-run.ts).
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-08T18:28:39Z
+attention: null
 ---
 
 ## Problem
@@ -92,3 +89,9 @@ Re-scoped from the original broad "tighten up testing" (per Austin, 2026-06-08) 
 ## Conversation
 
 **2026-06-08 18:28 claude:** Run run-20260608-1826 completed — What we did: set a clear standard that, when an agent finishes a piece of work, the "how to test this" hand-off it gives you must be a proper, specific checklist — the exact things to click and try, the normal path AND the edge cases, and (importantly) a callout of any knock-on areas: if the agent changed something shared, it now has to name the other screens that use it so you re-check those too. We also told the agent tool to ask for that same standard at the point the agent writes it, and to top up automated tests where they're thin around a change. Why: we move fast, and the weakest link is verification — a vague "looks fine, test it" leaves you guessing what to check, and regressions slip through in places nobody obviously touched. What would have happened if we did nothing: review would stay a guessing game and the "I changed a shared function and a different screen quietly broke" class of bug would keep getting through. The benefit: every review now comes with a do-this list you can follow top-to-bottom, so you can sign off with real confidence and catch knock-on breakage before it ships.
+
+---
+
+**2026-06-08 18:42 — you**
+
+done

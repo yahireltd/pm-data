@@ -2,9 +2,9 @@
 id: T-0310
 title: "Private projects — Phase 2: confidential at-rest store + per-user MCP enforcement"
 type: feature
-state: triaged
+state: done
 created: 2026-06-08T14:58:31Z
-updated: 2026-06-08T18:01:12Z
+updated: 2026-06-08T18:44:55Z
 project: pm-tool-self
 section: null
 parent: null
@@ -54,3 +54,15 @@ Phase 1 of private projects (T-0290, shipped) hides a private project in the **w
 - Hiding a private project from the server/infrastructure operator (inherent, per T-0290).
 
 See ADR-035 for the phased decision and the storage recommendation. Blocked on per-user MCP auth.
+
+## Conversation
+
+**2026-06-08 18:44 — you**
+
+already done
+
+---
+
+**2026-06-08 18:44 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
