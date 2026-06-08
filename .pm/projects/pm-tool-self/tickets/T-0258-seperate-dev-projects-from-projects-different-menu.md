@@ -2,10 +2,10 @@
 id: T-0258
 title: seperate dev projects from projects - different menu label and sub menu
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-05T21:43:28Z
-updated: 2026-06-08T15:54:19Z
+updated: 2026-06-08T15:59:05Z
 project: pm-tool-self
 section: null
 parent: null
@@ -47,9 +47,9 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention:
-  needed_by: agent
-  reason: Can we make this Existing Projects and Projects In Development and we also need a way to set them as such
-  since: 2026-06-08T15:54:18Z
+  needed_by: human
+  reason: Renamed the nav groups to "Existing Projects" / "Projects In Development" and added a per-project "Project stage" toggle on the Overview to set which group it's in (commit af5bef3). Needs a deploy, then confirm + close.
+  since: 2026-06-08T15:59:05Z
 ---
 
 We have the dev project showing up on the top of our projects sepeate dev projects from others
@@ -57,3 +57,10 @@ We have the dev project showing up on the top of our projects sepeate dev projec
 ## Conversation
 
 **2026-06-08 14:33 claude:** Run run-20260608-1433 completed — Work on the tool itself no longer clutters the list of your real projects in the left-hand menu. Before, the pm-tool dogfood project sat right at the top of the projects list, mixed in with the actual work projects. Now the menu has a separate "Dev projects" heading underneath the normal "Projects" list, and any project marked as a development/meta project drops into that section instead. This keeps the main project list focused on real work while still letting you reach the dev project in one click. The grouping uses the existing "meta" tag a project already carries, so nothing had to be re-entered, and the extra heading only appears when there's at least one dev project to show.
+
+**2026-06-08 15:59 claude:** Done — two changes (commit af5bef3):
+
+1. The two sidebar groups are now labelled **"Existing Projects"** and **"Projects In Development"**.
+2. There's now an explicit way to set which group a project is in: on a project's **Overview** there's a **"Project stage"** toggle — **Existing** or **In development** — instead of it being driven by a hidden tag. Flip it and the project moves between the two sidebar groups. (Your existing dogfood project stays under "In Development" automatically, so nothing's lost.)
+
+Needs a deploy before it shows on the live site. Sending back to review.
