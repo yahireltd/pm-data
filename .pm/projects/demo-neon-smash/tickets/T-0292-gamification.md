@@ -2,15 +2,15 @@
 id: T-0292
 title: Gamification
 type: feature
-state: inbox
+state: triaged
 priority: p2
 created: 2026-06-06T02:21:57Z
-updated: 2026-06-06T02:22:45Z
-project: null
+updated: 2026-06-08T13:26:04Z
+project: demo-neon-smash
 section: null
 parent: null
 children: []
-order: 15360
+order: 6144
 reporter: null
 assignee: null
 acceptance_criteria:

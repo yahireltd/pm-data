@@ -2,10 +2,10 @@
 id: T-0259
 title: Admin / user management
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-05T22:05:52Z
-updated: 2026-06-08T12:27:30Z
+updated: 2026-06-08T13:20:40Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - user Rbac managment
+  - "[x] user Rbac managment"
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -53,11 +53,18 @@ agent_runs:
       4. **Project membership**: add/remove a member on a project card → reflected on that project, and in the "Everyone with access" summary.
       5. **Access control**: sign in (or preview-as) a non-admin → `/settings` should redirect to /me, and the Settings link should not appear.
       6. Click the "?" on the Settings page → the Users & roles help drawer opens; it's also browsable at /help.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Implemented, committed (fb0e1fc) and pushed to master. Admin-only Settings → Users & roles console (global admins + per-project members) is ready for human review/testing once deployed — test steps are in the run's test_plan. Typecheck clean; not yet visually verified (local has no .pm data).
-  since: 2026-06-08T12:27:30Z
+attention: null
 ---
 
 We should have a way to update users and admins (any logged in admin can do this)
+
+## Conversation
+
+**2026-06-08 13:20 — you**
+
+working as expected
