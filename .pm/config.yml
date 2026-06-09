@@ -16,6 +16,7 @@ id_counters:
   perProject:
     pm-tool-self:
       decision: 38
+      status_note: 6
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
