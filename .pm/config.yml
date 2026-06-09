@@ -20,6 +20,8 @@ id_counters:
       tech_session: 16
     yasystem:
       sprint: 3
+    org:
+      meeting: 5
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph

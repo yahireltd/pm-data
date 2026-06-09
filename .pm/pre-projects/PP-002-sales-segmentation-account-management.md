@@ -4,7 +4,7 @@ slug: sales-segmentation-account-management
 title: Sales Segmentation / Account Management
 state: planning
 created: 2026-06-05T12:25:32Z
-updated: 2026-06-09T23:45:38Z
+updated: 2026-06-09T23:52:32Z
 stakeholders:
   - name: Ben
     role: Business SME & Systems Architect
@@ -140,13 +140,25 @@ milestones:
     acceptance_criteria:
       - A named non-salesperson steward owns system-managed revenue with pool KPIs
       - Leakage and conformance dashboards exist, each tied to its named decision, and are reviewed in management meetings
-workstream_ownership: []
-kickoff_held: false
-scoping_held: false
+workstream_ownership:
+  - workstream: Programme lead / facilitation (Humanness 'Sales Coherence' journey)
+    owner: Axel Ferreyrolles
+  - workstream: Prototype 1 — Handover process & customer-type flow / codified customer handling (project owner)
+    owner: Ben
+  - workstream: Prototype 1 — business ownership
+    owner: Sam
+  - workstream: Prototype 1 — technical ownership (Yasystem integration, quick-win build)
+    owner: Austin
+  - workstream: Prototype 2 — Governance & roles/responsibilities (to be created Thu 12 Jun)
+    owner: TBC at workshop
+  - workstream: Sales franchise / manager cadence design
+    owner: Nathan + Sam (drafted at Apr workshop)
+kickoff_held: true
+scoping_held: true
 owner:
   kind: human
   name: Ben
-version: 2
+version: 3
 ---
 
 # PP-002: Sales Segmentation / Account Management
