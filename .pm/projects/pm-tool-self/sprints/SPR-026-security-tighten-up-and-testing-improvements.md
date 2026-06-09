@@ -6,7 +6,7 @@ project: pm-tool-self
 state: in_progress
 order: 26624
 created: 2026-06-05T21:39:57Z
-updated: 2026-06-09T15:11:24Z
+updated: 2026-06-09T16:41:50Z
 committed_items:
   - T-0252
   - T-0253
@@ -15,7 +15,6 @@ committed_items:
   - T-0256
   - T-0270
   - T-0260
-  - T-0250
 goal: To make sure we audit security  & Improve our testing rigidity & expansiveness
 velocity_history:
   - sprint: SPR-024
