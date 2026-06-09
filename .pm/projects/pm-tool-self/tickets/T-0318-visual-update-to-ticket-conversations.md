@@ -2,10 +2,10 @@
 id: T-0318
 title: Visual update to ticket conversations
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-09T16:54:26Z
-updated: 2026-06-09T17:35:08Z
+updated: 2026-06-09T17:58:29Z
 project: pm-tool-self
 section: null
 parent: null
@@ -48,9 +48,9 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention:
-  needed_by: agent
-  reason: claude code is not using its avatar also users advatars are all grey they should get a random one that persists and have the ability to change in settings
-  since: 2026-06-09T17:35:06Z
+  needed_by: human
+  reason: "All three follow-up points done: agent authors show their icon, human avatars get distinct persistent colours (no more grey), and there's a server-side avatar-colour picker on /me that everyone sees. Committed locally only — not pushed, since another agent is on this branch. Please pull/coordinate the push, redeploy, and confirm."
+  since: 2026-06-09T17:58:29Z
 attachments:
   - key: tickets/T-0318/1781024079665-Screenshot_2026-06-09_at_17-53-28_pm-tool.png
     filename: Screenshot 2026-06-09 at 17-53-28 pm-tool.png
@@ -81,3 +81,13 @@ the conversaitons need a bit of a visual update to seperate user comments. Bette
 **2026-06-09 17:30 claude-code:** Thanks — both screenshots pointed at the same root cause. Comments get written in two slightly different shapes depending on whether they come from the website or from an automated agent action (like a "run completed" note). The new design only recognised the website shape, so an agent-written comment either showed as plain unstyled text (your first screenshot) or, when it sat alongside a website comment, didn't appear as its own card at all (your second screenshot).
 
 Fixed so both shapes are recognised — every comment now renders as its own card with avatar and UK date, regardless of who or what wrote it. Pushed; please pull/redeploy and re-check the two cases from your screenshots.
+
+**2026-06-09 17:58 claude-code:** All three points addressed:
+
+1. Agent avatars — automated authors (like claude-code) now show their proper icon in the thread instead of plain grey initials.
+2. Grey avatars — people's circles now get a distinct colour drawn from their name, so two people no longer look identical. The same person always gets the same colour.
+3. Change in settings — added an "Avatar colour" picker on the My work (/me) page. You pick a colour (or "Auto"); it's saved on the server, so the colour you choose shows on your comments for everyone, not just on your own screen.
+
+One scope note for transparency: the custom colour you pick currently shows on the comment threads (the focus of this ticket). Other spots that show a small avatar — the assignee chip, the top-bar — still use the automatic by-name colour (now colourful, not grey); wiring your custom pick through those too is a small follow-on if you want it.
+
+Changes are committed locally but NOT pushed yet — you mentioned another agent is working on this branch, so I held off to avoid colliding with their in-flight work. Ready to push whenever you give the word (or you can pull my commits in).
