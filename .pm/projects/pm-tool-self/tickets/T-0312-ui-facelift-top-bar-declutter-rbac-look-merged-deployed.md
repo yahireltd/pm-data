@@ -2,9 +2,9 @@
 id: T-0312
 title: UI facelift + top-bar declutter (rbac-look) — merged & deployed
 type: chore
-state: triaged
+state: done
 created: 2026-06-09T13:27:52Z
-updated: 2026-06-09T13:27:52Z
+updated: 2026-06-09T16:03:08Z
 project: pm-tool-self
 section: null
 parent: null
@@ -52,3 +52,15 @@ The `facelift/rbac-look` branch merged to `master` and deployed to production to
 Merged as `0dbe14f`, deployed 2026-06-09 (rode in alongside the auth-bypass fix on T-0254). The facelift itself came from the colleague's `facelift/rbac-look` branch; the top-bar tweaks and the deploy were done in this session.
 
 It's already live — this ticket is the record. Close it once you've eyeballed prod.
+
+## Conversation
+
+**2026-06-09 16:03 — you**
+
+Done after the merge from zsolts design facelift  top menu had scrollbar due to font increase
+
+---
+
+**2026-06-09 16:03 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

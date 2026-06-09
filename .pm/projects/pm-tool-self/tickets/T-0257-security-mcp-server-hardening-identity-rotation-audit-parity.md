@@ -4,7 +4,7 @@ title: "[security] MCP server hardening (identity, rotation, audit, parity)"
 type: chore
 state: in_progress
 created: 2026-06-05T21:43:06Z
-updated: 2026-06-09T15:20:18Z
+updated: 2026-06-09T16:08:38Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,13 +15,22 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - Per-request identity in the MCP transport (so write-tool authz from the authz ticket can be enforced)
-  - Token rotation/revocation without a full rebuild + a documented incident procedure for a leaked token
-  - Audit logging of MCP write requests (who/when/what), correlatable with data changes
-  - "Documented policy: which MCP tools are admin-only / restricted vs universal, kept in parity with the web (e.g. delete is admin-only on web)"
-  - GitHub read-only token least-privilege documented (Contents + Metadata read only)
-out_of_scope: []
-code_anchors: []
+  - "Per-user MCP tokens (pmMcpTokens secret: email->token) resolve to the dev at the transport; unknown token -> 401"
+  - Legacy shared token still accepted during migration (resolves to 'shared'); retired once all admins migrate (-> T-0257b)
+  - "Every authenticated MCP write logged to the pm-mcp journal: who (dev) / when / what (tool + target)"
+  - All three admins provisioned with their own tokens and migrated off the shared token
+  - Attribution only - no per-project authz (all MCP users are admins); ADR-010 transport invariants preserved
+out_of_scope:
+  - Per-project RBAC (all MCP users are admins - nothing to restrict)
+  - Token rotation/revocation + leaked-token runbook (T-0257b)
+  - GitHub token least-privilege (T-0257c)
+  - OAuth/OIDC per-user auth (future, larger lift)
+  - Per-record in-data attribution + read auditing (would need the principal threaded through every tool)
+code_anchors:
+  - path: mcp-server/src/http.ts
+    symbol: resolvePrincipal
+  - path: mcp-server/src/http.ts
+    symbol: auditWrite
 relates: []
 blocks: []
 blocked_by: []
@@ -40,8 +49,16 @@ attention: null
 
 ## Problem
 
-Security review (T-0249) HIGH/MEDIUM: the remote MCP uses one shared bearer token with no per-request identity, no rotation/revocation, no audit logging, and write tools that diverge from the web threat model (e.g. delete needs no admin). A leaked token = full, untraceable data access.
+Security review (T-0249) HIGH/MEDIUM: the remote MCP used ONE shared bearer token with no per-request identity, no rotation/revocation, and no audit logging. A leaked token = full, untraceable data access — and you can't tell which dev's agent did what.
+
+## Scope (decided 2026-06-09 — see the "Per-user MCP tokens + write audit log" ADR)
+
+Every MCP user is a project admin, so per-project authorization buys nothing. This ticket is **attribution, not RBAC**: per-user tokens that resolve to the dev, plus a write audit log. Token rotation/revocation moved to **T-0257b**; GitHub least-privilege to **T-0257c**.
+
+## Approach (this ticket)
+
+`mcp-server/src/http.ts` resolves each bearer token to a principal — per-user tokens from the `pmMcpTokens` secret (email -> token) resolve to that dev; the legacy shared token still works (resolves to "shared") so migration breaks nothing. Every authenticated write is logged to the pm-mcp journal `{ ts, dev, agent, tool, target }`. Constant-time compare + all ADR-010 transport invariants preserved.
 
 ## Context
 
-Files: mcp-server/src/http.ts (token, no identity/logging), mcp-server/src/tools/* (no authz — see the authz ticket), delete-ticket.ts (confirm-only vs web admin-only). ADR-010/012/025.
+Files: `mcp-server/src/http.ts`. Decisions: ADR-010 (remote transport), ADR-012 (deferred per-user MCP auth — closed by this), ADR-025 (write parity).
