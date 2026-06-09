@@ -2,9 +2,9 @@
 id: T-0316
 title: Race-safe id allocation (no duplicate ids on concurrent creates)
 type: bug
-state: triaged
+state: ready
 created: 2026-06-09T16:51:21Z
-updated: 2026-06-09T16:51:21Z
+updated: 2026-06-09T17:08:11Z
 project: pm-tool-self
 section: null
 parent: null
@@ -21,8 +21,14 @@ acceptance_criteria:
   - "Verified by a concurrent-create test: fire N creates at once -> N distinct ids, no lost increments"
 out_of_scope: []
 code_anchors:
-  - path: cli/src/lib
-  - path: mcp-server/src/tools/create-ticket.ts
+  - path: cli/src/lib/ids.ts
+    symbol: allocateId
+  - path: cli/src/lib/ids.ts
+    symbol: allocateMeetingId
+  - path: mcp-server/src/lib/ids.ts
+    symbol: nextTicketId
+  - path: cli/src/lib/io.ts
+    symbol: atomicWrite
 relates: []
 blocks: []
 blocked_by: []

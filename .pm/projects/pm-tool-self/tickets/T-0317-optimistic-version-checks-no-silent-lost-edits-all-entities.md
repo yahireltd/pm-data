@@ -4,7 +4,7 @@ title: Optimistic version checks — no silent lost edits (all entities)
 type: feature
 state: triaged
 created: 2026-06-09T16:51:53Z
-updated: 2026-06-09T16:51:53Z
+updated: 2026-06-09T17:04:23Z
 project: pm-tool-self
 section: null
 parent: null
@@ -24,9 +24,12 @@ out_of_scope:
   - Auto-merge of conflicting same-field edits / a merge UI (the deferred 'conflict UX' polish, option d)
   - Real-time collaborative editing (CRDT / OT)
 code_anchors:
-  - path: cli/src/lib
-  - path: web/app/_actions/tickets.ts
+  - path: cli/src/lib/io.ts
+    symbol: writeMarkdown
+  - path: mcp-server/src/lib/io.ts
+    symbol: writeMarkdownAtomic
   - path: web/app/_components/EditableField.tsx
+  - path: schemas
 relates: []
 blocks: []
 blocked_by: []

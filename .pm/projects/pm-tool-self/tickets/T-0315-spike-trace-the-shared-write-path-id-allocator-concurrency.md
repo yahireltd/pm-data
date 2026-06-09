@@ -2,9 +2,9 @@
 id: T-0315
 title: "Spike: trace the shared write path + id allocator (concurrency)"
 type: spike
-state: ready
+state: review
 created: 2026-06-09T16:50:45Z
-updated: 2026-06-09T16:59:53Z
+updated: 2026-06-09T17:04:20Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,9 @@ priority: p1
 reporter:
   kind: human
   name: austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Determine whether all entity mutations funnel through ONE shared read-modify-write function, or each surface (web server actions / CLI / MCP tools) writes files independently
   - Locate the id allocator and how creates read/increment/write the counter across all id spaces (T- global, plus per-project M-/MS-/ADR-/SPR-/TS-)
@@ -29,10 +31,32 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260609-1703
+    model: claude-opus-4-8
+    started: 2026-06-09T17:03:16Z
+    status: completed
+    ended: 2026-06-09T17:04:20Z
+    summary: "We checked how the tool saves data, to size the concurrency work before building it — so we build the right thing without surprises and don't over-engineer. Findings: the save logic lives in two near-identical copies (one used by the website and command line, one for the AI/agent connection), so fixes land in two clear places rather than scattered everywhere. The id-numbering can hand the same number to two things created at the same instant. Every save rewrites the whole record. And there is no \"has this changed since you opened it?\" check at all today. The upshot: the planned \"make it safe\" work — race-proof id numbering plus a change-detection check — is about a week, and the cheap, independent id fix can go first."
+    test_plan: |-
+      ## Findings (verify against code)
+      - **Write path = two near-duplicate libs:** `cli/src/lib/io.ts` (`writeMarkdown`/`atomicWrite`) is imported by web **and** CLI; `mcp-server/src/lib/io.ts` (`writeMarkdownAtomic`) is a near-copy for the MCP. So a+b lands in **2 places**, not one chokepoint, not 3x.
+      - **ID allocation is racy:** `cli/src/lib/ids.ts` `allocateId()` does read-config → +1 → write-config (race window); ~9 per-project allocators rescan the dir for max+1 (`nextDecisionId`, `allocateMeetingId`, …); plus the `mcp-server/src/lib/ids.ts` duplicate (`nextTicketId`/`nextProjectId`). Fix = a lock (or persistent atomic counters) around allocate+write, in both libs. **~2 days.**
+      - **Version check:** add a `version` frontmatter field + reject-on-stale in `writeMarkdown` (cli) and `writeMarkdownAtomic` (mcp). This catches concurrent *server-side* saves for free (the version rides in the loaded record). The **human stale-edit** also needs the loaded version carried through the web edit path — likely a few shared pieces (`EditableField` + the field-setter actions), not every form. **~3–5 days.**
+      - Writes are whole-file; `cli/src/lib/io.ts atomicWrite` lacks fsync (the MCP has it) — add for crash-safety.
+      - **Smell:** the cli↔mcp lib duplication (`io.ts` + `ids.ts`) is a parity risk worth unifying separately.
+
+      ## Estimate: a+b ≈ ~1–1.5 weeks. Recommend T-0316 (atomic ids) first — cheap, independent, kills the id-collision risk that has actually bitten us.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - concurrency
-attention: null
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-09T17:04:20Z
 ---
 
 ## Problem
@@ -46,3 +70,7 @@ A short map of the write path + the id allocator, a firmed a+b estimate, and any
 ## Context
 
 Decomposed from T-0270 (concurrent user editing); this sprint takes the "a+b — make it safe" approach (race-safe ids + optimistic version checks), not real-time collaborative editing.
+
+## Conversation
+
+**2026-06-09 17:04 claude-code:** Run run-20260609-1703 completed — We checked how the tool saves data, to size the concurrency work before building it — so we build the right thing without surprises and don't over-engineer. Findings: the save logic lives in two near-identical copies (one used by the website and command line, one for the AI/agent connection), so fixes land in two clear places rather than scattered everywhere. The id-numbering can hand the same number to two things created at the same instant. Every save rewrites the whole record. And there is no "has this changed since you opened it?" check at all today. The upshot: the planned "make it safe" work — race-proof id numbering plus a change-detection check — is about a week, and the cheap, independent id fix can go first.
