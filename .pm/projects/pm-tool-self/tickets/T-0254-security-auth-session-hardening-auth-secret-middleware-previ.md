@@ -2,9 +2,9 @@
 id: T-0254
 title: "[security] Auth & session hardening (AUTH_SECRET, middleware, preview-as cookie)"
 type: chore
-state: review
+state: done
 created: 2026-06-05T21:42:22Z
-updated: 2026-06-09T15:05:18Z
+updated: 2026-06-09T15:10:25Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,10 +15,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - 'AUTH_SECRET fails closed: no hardcoded "pm-tool-dev-insecure-secret-change-me" fallback — error at startup if unset (web/auth.ts)'
-  - Middleware validates the session JWT signature + expiry, not just cookie presence (web/middleware.ts); the pm_identity fallback is dev-only + clearly gated
-  - preview-as cookie is signed/encrypted + time-bounded (web/app/_lib/access.ts); document the can-only-restrict invariant
-  - CSRF strategy documented (Next.js server-action protection) with a note for any custom endpoints
+  - '[x] AUTH_SECRET fails closed: no hardcoded "pm-tool-dev-insecure-secret-change-me" fallback — error at startup if unset (web/auth.ts)'
+  - "[x] Middleware validates the session JWT signature + expiry, not just cookie presence (web/middleware.ts); the pm_identity fallback is dev-only + clearly gated"
+  - "[x] preview-as cookie is signed/encrypted + time-bounded (web/app/_lib/access.ts); document the can-only-restrict invariant"
+  - "[x] CSRF strategy documented (Next.js server-action protection) with a note for any custom endpoints"
 out_of_scope: []
 code_anchors:
   - path: web/app/_lib/identity.ts
@@ -62,10 +62,7 @@ agent_runs:
       status_note: none-needed
       docs_note: "Added docs/security.md (auth/RBAC/CSRF/headers/secrets model, incl. the CSRF item). Updated it + docs/development.md for the edge JWT validation: how the prod web/.env.local carries AUTH_SECRET + PM_EDGE_AUTH_ENFORCE, the authSecret-rotation footgun, and the one-line rollback."
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-09T15:05:18Z
+attention: null
 ---
 
 ## Problem
@@ -102,4 +99,17 @@ This closes the **"pm_identity fallback dev-only + gated"** half of criterion 2.
 
 Shipped in commit `0dbe14f`. Files: `web/app/_lib/identity.ts` (the fallback gate), `web/middleware.ts` (still presence-only — the remaining item).
 
-**2026-06-09 15:05 claude-code:** Run run-20260609-1341 completed — Finished hardening how the tool confirms you're really signed in — the last and biggest item from June's security review. Four parts are now live: (1) login sessions can no longer be forged from a published secret; (2) the admin "view as another user" feature uses a tamper-proof, self-expiring token instead of a plain cookie; (3) the tool's cross-site-request defences are written up; and (4) the front-door login check now cryptographically verifies your session is genuine and unexpired, instead of merely noticing a cookie is present — so a forged session cookie can no longer slip past the front door (a deeper check always caught it, but the front door was weak). Why it matters: as more people get access, these are the gaps that would let someone impersonate a colleague or an admin; left alone they'd have stayed open on a live, in-use system. The change went out to the live site with no downtime and nobody logged out, and it's built to fail safe — if the check is ever misconfigured it quietly falls back to the old behaviour rather than locking anyone out.
+**2026-06-09 15:05 claude-code:** Run run-20260609-1341 completed — Finished hardening how the tool confirms you're really signed in — the last and biggest item from June's security review. Four parts are now live:
+
+1. Login sessions can no longer be forged from a published secret.
+2. The admin "view as another user" feature uses a tamper-proof, self-expiring token instead of a plain cookie.
+3. The tool's cross-site-request defences are written up.
+4. The front-door login check now cryptographically verifies your session is genuine and unexpired, instead of merely noticing a cookie is present — so a forged session cookie can no longer slip past the front door (a deeper check always caught it, but the front door was weak).
+
+Why it matters: as more people get access, these are the gaps that would let someone impersonate a colleague or an admin; left alone they'd have stayed open on a live, in-use system. The change went out to the live site with no downtime and nobody logged out, and it's built to fail safe — if the check is ever misconfigured it quietly falls back to the old behaviour rather than locking anyone out.
+
+---
+
+**2026-06-09 15:10 — you**
+
+Tested and working correctly

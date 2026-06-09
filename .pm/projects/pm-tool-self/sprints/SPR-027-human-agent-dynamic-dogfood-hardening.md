@@ -3,10 +3,10 @@ id: SPR-027
 slug: human-agent-dynamic-dogfood-hardening
 title: Human-agent dynamic + dogfood hardening
 project: pm-tool-self
-state: planned
+state: in_progress
 order: 27648
 created: 2026-06-05T22:52:16Z
-updated: 2026-06-08T18:55:23Z
+updated: 2026-06-09T15:11:13Z
 committed_items:
   - T-0265
   - T-0266
