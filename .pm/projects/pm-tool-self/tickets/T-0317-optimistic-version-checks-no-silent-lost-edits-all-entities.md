@@ -4,7 +4,7 @@ title: Optimistic version checks — no silent lost edits (all entities)
 type: feature
 state: in_progress
 created: 2026-06-09T16:51:53Z
-updated: 2026-06-09T18:41:10Z
+updated: 2026-06-09T18:59:43Z
 project: pm-tool-self
 section: null
 parent: null
@@ -45,9 +45,12 @@ agent_runs:
     progress:
       - at: 2026-06-09T18:41:10Z
         note: "Scoped + designed. Mechanism: a `version` integer per record; readMarkdown returns it; writeMarkdown (both io libs) locks the file, re-reads the current version, and (when enforcement is on) rejects a write whose version != current (someone saved in between), else writes version+1. The version rides IN the frontmatter, so server-side load->mutate->write (CLI/MCP/in-request web) carries it for free — no threading through ~100 call sites; only the HUMAN stale-edit (open form -> someone else saves -> you save over them) needs the browser's loaded version sent back through the web edit path (EditableField + field-setter actions) + a conflict UX (keep the user's typed text, \"this changed, reload\"). Scoping found: the 15 entity schemas are strict (additionalProperties:false) + validated on write, so `version` must be added to ~13 schemas (decision already has it); the write chokepoint is the 2 duplicated io libs (cli + mcp). Staged rollout (mirrors edge-auth): (1) add version to schemas + maintain it in read/write (stamp version+1, NO reject) — backward-compatible; (2) add the reject behind a flag (PM_VERSION_ENFORCE), deploy off, shadow-log would-be conflicts, then enable; (3) web conflict UX. ~3-5 days; HIGH blast radius (changes every write)."
+      - at: 2026-06-09T18:59:43Z
+        note: "Step 1 SHIPPED + verified (f02aa8e). Every entity now carries a `version` number maintained by the write layer: all 12 entity schemas declare it, and both write chokepoints (cli writeMarkdown = web+CLI, mcp writeMarkdownAtomic) stamp version = max(on-disk, in-memory) + 1 on every save. Stamp-only — nothing is rejected yet, fully backward-compatible. Validated: typechecks + web build clean; smoke: create->1, edit->2, stale write stays monotonic, non-entity files untouched; this very progress note is the live test (it should stamp a version onto the T-0317 ticket file). Found + logged for step 2: comms is a THIRD write path (bare writeFileSync in remind.ts reminders_sent + graph-poll.ts email->ticket) — no stamping, not atomic; must route through the shared writer before enforcement or its writes bypass the version check. Next: step 2 — rejection behind PM_VERSION_ENFORCE with shadow-logging first, then step 3 the web conflict UX (keep unsaved text)."
 labels:
   - concurrency
 attention: null
+version: 1
 ---
 
 ## Problem
