@@ -4,7 +4,7 @@ title: "Refund guard: block refunds that exceed what the contract actually holds
 type: feature
 state: triaged
 created: 2026-06-09T19:14:46Z
-updated: 2026-06-09T19:14:46Z
+updated: 2026-06-09T19:27:38Z
 project: yasystem
 section: null
 parent: null
@@ -48,7 +48,10 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 1
+version: 2
+backlog_status: confirmed_for_release
+estimated_effort: M
+source: discovered
 ---
 
 ## Problem
