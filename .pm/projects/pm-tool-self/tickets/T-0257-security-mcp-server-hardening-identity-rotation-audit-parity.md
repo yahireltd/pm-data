@@ -2,16 +2,18 @@
 id: T-0257
 title: "[security] MCP server hardening (identity, rotation, audit, parity)"
 type: chore
-state: triaged
+state: in_progress
 created: 2026-06-05T21:43:06Z
-updated: 2026-06-05T23:03:49Z
+updated: 2026-06-09T15:20:18Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
 priority: p1
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - Per-request identity in the MCP transport (so write-tool authz from the authz ticket can be enforced)
   - Token rotation/revocation without a full rebuild + a documented incident procedure for a leaked token
@@ -23,9 +25,15 @@ code_anchors: []
 relates: []
 blocks: []
 blocked_by: []
-duplicates: [T-0175]
+duplicates:
+  - T-0175
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260609-1520
+    model: claude
+    started: 2026-06-09T15:20:18Z
+    status: in_progress
+    summary: Claimed via web UI
 labels: []
 attention: null
 ---
