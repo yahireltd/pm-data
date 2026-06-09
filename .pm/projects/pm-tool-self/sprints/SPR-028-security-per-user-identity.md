@@ -3,10 +3,10 @@ id: SPR-028
 slug: security-per-user-identity
 title: Security & per-user identity
 project: pm-tool-self
-state: in_progress
+state: completed
 order: 28672
 created: 2026-06-08T18:00:39Z
-updated: 2026-06-08T18:03:22Z
+updated: 2026-06-09T16:30:21Z
 committed_items:
   - T-0257
   - T-0254
@@ -25,6 +25,7 @@ capacity:
   total: 3
   unit: tickets
 velocity_committed: 3
+velocity_actual: 3
 ---
 
 # SPR-028: Security & per-user identity
