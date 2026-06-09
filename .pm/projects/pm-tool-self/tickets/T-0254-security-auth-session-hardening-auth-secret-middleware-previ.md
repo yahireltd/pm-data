@@ -4,7 +4,7 @@ title: "[security] Auth & session hardening (AUTH_SECRET, middleware, preview-as
 type: chore
 state: in_progress
 created: 2026-06-05T21:42:22Z
-updated: 2026-06-09T13:41:33Z
+updated: 2026-06-09T13:44:17Z
 project: pm-tool-self
 section: null
 parent: null
@@ -38,6 +38,9 @@ agent_runs:
     model: claude-opus-4-8
     started: 2026-06-09T13:41:33Z
     status: in_progress
+    progress:
+      - at: 2026-06-09T13:44:17Z
+        note: "Item 4 (CSRF) done: documented the model in a new docs/security.md — web changes go through Next.js server actions (framework CSRF-protected), the only custom route is the sign-in handler, and the agent (MCP) connection uses a bearer token in the header rather than cookies, so it can't be triggered cross-site. Now on item 3: making the admin \"preview as\" cookie signed + self-expiring so it can't be forged or planted. Item 2 (the login check validating the token itself, not just that a cookie is present) is the one that can affect sign-in, so I'm holding it until we can test against a real local sign-in."
 labels: []
 attention: null
 ---
