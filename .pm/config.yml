@@ -10,13 +10,15 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 319
+  ticket: 321
   project: 9
   section: 13
   perProject:
     pm-tool-self:
       decision: 38
       status_note: 6
+    yasystem:
+      sprint: 2
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
