@@ -4,7 +4,7 @@ title: "[security] Auth & session hardening (AUTH_SECRET, middleware, preview-as
 type: chore
 state: in_progress
 created: 2026-06-05T21:42:22Z
-updated: 2026-06-09T13:44:17Z
+updated: 2026-06-09T13:56:58Z
 project: pm-tool-self
 section: null
 parent: null
@@ -41,6 +41,8 @@ agent_runs:
     progress:
       - at: 2026-06-09T13:44:17Z
         note: "Item 4 (CSRF) done: documented the model in a new docs/security.md — web changes go through Next.js server actions (framework CSRF-protected), the only custom route is the sign-in handler, and the agent (MCP) connection uses a bearer token in the header rather than cookies, so it can't be triggered cross-site. Now on item 3: making the admin \"preview as\" cookie signed + self-expiring so it can't be forged or planted. Item 2 (the login check validating the token itself, not just that a cookie is present) is the one that can affect sign-in, so I'm holding it until we can test against a real local sign-in."
+      - at: 2026-06-09T13:56:58Z
+        note: "Shipped two more items to production (commit 8dd867d): (1) the admin \"preview as\" cookie is now signed and self-expiring after an hour — a forged or planted one is ignored, so it can't be abused via a cross-site script; (2) the security model (sign-in, who-can-do-what, CSRF protection, response headers, secrets) is now written up in docs/security.md. Verified the live site is healthy and the earlier login bypass stays closed. One item left on this ticket: the login middleware checking the session token's signature + expiry itself (not just that a cookie is present). That's the one that can take sign-in down if done wrong, so I'm holding it until we have a real local sign-in to test the success path against — Austin is wiring up local SSO for exactly that."
 labels: []
 attention: null
 ---
