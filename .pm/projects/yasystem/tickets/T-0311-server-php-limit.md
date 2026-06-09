@@ -5,7 +5,7 @@ type: support
 state: triaged
 priority: p2
 created: 2026-06-09T12:18:07Z
-updated: 2026-06-09T12:28:39Z
+updated: 2026-06-09T12:29:18Z
 project: yasystem
 section: null
 parent: null
@@ -31,10 +31,7 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: Inbound email — needs triage
-  since: 2026-06-09T12:18:07Z
+attention: null
 customer_impact: Check the memory limit on yasystem main server, ben can not run more than 6mo on the revenue splitter.
 intake_channel: email
 intake_mailbox: support@yahire.com
