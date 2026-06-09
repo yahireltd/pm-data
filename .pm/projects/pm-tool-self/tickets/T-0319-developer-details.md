@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-09T17:05:07Z
-updated: 2026-06-09T20:39:04Z
+updated: 2026-06-09T20:48:41Z
 project: pm-tool-self
 section: null
 parent: null
@@ -25,8 +25,9 @@ duplicate_of: null
 agent_runs: []
 labels:
   - concurrency-demo
+  - round-2
 attention: null
-version: 1
+version: 3
 ---
 
 In the help section of tickets there is the following text: \
@@ -35,6 +36,8 @@ In the help section of tickets there is the following text: \
 * **Developer details** — tucked away behind a click: the history of attempts, the related work, and the exact spots in the code that were touched.
 
 I can not see this but it would be a very useful feature do we have the feature already and if not can we look into building it
+
+test
 
 ## Conversation
 
