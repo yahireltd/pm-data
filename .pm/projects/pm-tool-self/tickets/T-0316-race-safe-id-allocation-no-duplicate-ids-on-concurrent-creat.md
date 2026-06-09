@@ -2,9 +2,9 @@
 id: T-0316
 title: Race-safe id allocation (no duplicate ids on concurrent creates)
 type: bug
-state: ready
+state: in_progress
 created: 2026-06-09T16:51:21Z
-updated: 2026-06-09T17:08:11Z
+updated: 2026-06-09T17:13:06Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,9 @@ priority: p1
 reporter:
   kind: human
   name: austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Concurrent creates (web / CLI / MCP, same or different process) never allocate the same id; the counter read-increment-write is atomic (file lock or atomic rename)
   - "Covers every id space: T- (global) and the per-project M- / MS- / ADR- / SPR- / TS- / PP- / SN- counters"
@@ -34,7 +36,14 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260609-1710
+    model: claude-opus-4-8
+    started: 2026-06-09T17:10:24Z
+    status: in_progress
+    progress:
+      - at: 2026-06-09T17:13:06Z
+        note: "Reading the actual code refined the scope. The per-project id allocation is MORE scattered than the spike showed: it's reimplemented inside each MCP create tool (e.g. create-decision.ts scans the decisions dir itself), alongside the cli pure functions (ids.ts) and the two global allocators — which are even inconsistent (cli allocateId does max(counter, scan)+1; mcp nextTicketId does counter+1, no scan). So the robust fix is one cross-process file lock + a unified counter-based allocator that every create routes through. Realistic effort ~2-3 days (a touch above the spike's 2), and it's the live write path so it ships staged + tested. Sequence: (1) a lock helper + the GLOBAL allocator (tickets/projects — highest volume, self-contained) first, tested + deployed; (2) unify the per-project allocation and route the create tools through it."
 labels:
   - concurrency
 attention: null
