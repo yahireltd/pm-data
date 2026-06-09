@@ -2,29 +2,42 @@
 id: T-0254
 title: "[security] Auth & session hardening (AUTH_SECRET, middleware, preview-as cookie)"
 type: chore
-state: triaged
+state: in_progress
 created: 2026-06-05T21:42:22Z
-updated: 2026-06-09T13:27:45Z
+updated: 2026-06-09T13:41:33Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
 priority: p1
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - 'AUTH_SECRET fails closed: no hardcoded "pm-tool-dev-insecure-secret-change-me" fallback — error at startup if unset (web/auth.ts)'
   - Middleware validates the session JWT signature + expiry, not just cookie presence (web/middleware.ts); the pm_identity fallback is dev-only + clearly gated
   - preview-as cookie is signed/encrypted + time-bounded (web/app/_lib/access.ts); document the can-only-restrict invariant
   - CSRF strategy documented (Next.js server-action protection) with a note for any custom endpoints
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: web/app/_lib/identity.ts
+    symbol: getCurrentIdentity
+  - path: web/middleware.ts
+  - path: web/app/_lib/access.ts
+    symbol: PREVIEW_COOKIE
+  - path: web/app/_actions/preview.ts
+  - path: web/auth.ts
 relates: []
 blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260609-1341
+    model: claude-opus-4-8
+    started: 2026-06-09T13:41:33Z
+    status: in_progress
 labels: []
 attention: null
 ---
