@@ -3,10 +3,10 @@ id: SPR-026
 slug: security-tighten-up-and-testing-improvements
 title: Security Tighten Up and Testing Improvements
 project: pm-tool-self
-state: in_progress
+state: completed
 order: 26624
 created: 2026-06-05T21:39:57Z
-updated: 2026-06-09T16:41:50Z
+updated: 2026-06-09T16:50:31Z
 committed_items:
   - T-0252
   - T-0253
@@ -27,6 +27,7 @@ capacity:
   total: 5
   unit: tickets
 velocity_committed: 5
+velocity_actual: 5
 ---
 
 # SPR-026: Security Tighten Up and Testing Improvements

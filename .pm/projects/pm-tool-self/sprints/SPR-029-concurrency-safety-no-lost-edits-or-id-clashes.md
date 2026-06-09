@@ -3,11 +3,14 @@ id: SPR-029
 slug: concurrency-safety-no-lost-edits-or-id-clashes
 title: Concurrency safety — no lost edits or id clashes
 project: pm-tool-self
-state: planned
+state: in_progress
 order: 29696
 created: 2026-06-09T16:49:34Z
-updated: 2026-06-09T16:49:34Z
-committed_items: []
+updated: 2026-06-09T16:52:40Z
+committed_items:
+  - T-0315
+  - T-0316
+  - T-0317
 goal: "Make concurrent edits safe across web / CLI / MCP: race-safe id allocation, plus optimistic version checks so two people (or an agent) can't silently overwrite each other's changes."
 start_date: 2026-06-09
 end_date: 2026-06-20
