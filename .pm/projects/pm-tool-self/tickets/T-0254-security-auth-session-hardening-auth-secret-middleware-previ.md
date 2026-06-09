@@ -4,7 +4,7 @@ title: "[security] Auth & session hardening (AUTH_SECRET, middleware, preview-as
 type: chore
 state: triaged
 created: 2026-06-05T21:42:22Z
-updated: 2026-06-05T22:36:17Z
+updated: 2026-06-09T13:27:45Z
 project: pm-tool-self
 section: null
 parent: null
@@ -48,3 +48,17 @@ Files: web/auth.ts (secret fallback), web/middleware.ts (cookie presence check),
 2. The "preview as" cookie should be *signed + time-limited* so it can't be set via XSS.
 
 Leaving this ticket open for those two.
+
+**2026-06-09 13:27 claude-code:** **The deferred `pm_identity` gating turned out to be live-exploitable on production — fixed, shipped and verified.**
+
+While spinning up the `facelift/rbac-look` branch locally to review it, we tested the auth and found the deferred risk in this ticket was real on the live site: with no Microsoft sign-in, setting two cookies in a browser — a plain `pm_identity` holding an admin's email, plus any cookie merely *named* like a session token — granted **full admin** on support.yahire.com. The login system was trusting that unsigned, anyone-can-set cookie whenever there was no real session, with no environment guard.
+
+**What we did:** gated that dev-only fallback so it can never be honoured in production — it now needs an explicit local flag *and* a non-production build, and the server sets neither, so it's unreachable there (fail-safe). Merged to `master` and deployed.
+
+**Why it mattered:** admin emails are just `firstname@yahire.com`, so anyone could have guessed one and read or changed everything on the live board, including managing users. Left as-is it was a standing full-compromise of the ops system.
+
+**Verified:** re-ran the exact attack against production right after the deploy — the cookies now bounce to the sign-in page (they were full admin twenty minutes earlier).
+
+This closes the **"pm_identity fallback dev-only + gated"** half of criterion 2. **Still open on this ticket** — and clearly worth prioritising now that one of these has actually been exploited: the middleware validating the session token's *signature + expiry* (not just its presence), the signed/time-limited preview-as cookie, and the CSRF note. Leaving the ticket open for those three.
+
+Shipped in commit `0dbe14f`. Files: `web/app/_lib/identity.ts` (the fallback gate), `web/middleware.ts` (still presence-only — the remaining item).
