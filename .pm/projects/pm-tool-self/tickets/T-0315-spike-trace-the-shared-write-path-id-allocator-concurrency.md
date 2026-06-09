@@ -4,7 +4,7 @@ title: "Spike: trace the shared write path + id allocator (concurrency)"
 type: spike
 state: review
 created: 2026-06-09T16:50:45Z
-updated: 2026-06-09T17:04:20Z
+updated: 2026-06-09T22:26:54Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,9 +18,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Determine whether all entity mutations funnel through ONE shared read-modify-write function, or each surface (web server actions / CLI / MCP tools) writes files independently
-  - Locate the id allocator and how creates read/increment/write the counter across all id spaces (T- global, plus per-project M-/MS-/ADR-/SPR-/TS-)
-  - "Output: a short write-path + id-allocator map, a firmed a+b estimate, and any scope tweaks for the atomic-id and version-check tickets"
+  - "[x] Determine whether all entity mutations funnel through ONE shared read-modify-write function, or each surface (web server actions / CLI / MCP tools) writes files independently"
+  - "[x] Locate the id allocator and how creates read/increment/write the counter across all id spaces (T- global, plus per-project M-/MS-/ADR-/SPR-/TS-)"
+  - "[x] Output: a short write-path + id-allocator map, a firmed a+b estimate, and any scope tweaks for the atomic-id and version-check tickets"
 out_of_scope: []
 code_anchors:
   - path: cli/src/lib
@@ -57,6 +57,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-09T17:04:20Z
+version: 5
 ---
 
 ## Problem

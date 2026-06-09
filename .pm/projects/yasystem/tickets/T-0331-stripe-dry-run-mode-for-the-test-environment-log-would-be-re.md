@@ -4,7 +4,7 @@ title: Stripe dry-run mode for the test environment (log would-be requests, neve
 type: feature
 state: in_progress
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-09T22:21:56Z
+updated: 2026-06-09T22:34:37Z
 project: yasystem
 section: null
 parent: null
@@ -31,18 +31,30 @@ out_of_scope:
   - The replay/diff harness itself (build once dry-run mode exists, if still wanted)
   - The deposit refund service
 code_anchors:
+  - path: common/services/StripeGateway.php
+    symbol: StripeGateway interface
+  - path: common/services/LiveStripeGateway.php
+    symbol: LiveStripeGateway
+  - path: common/services/DryRunStripeGateway.php
+    symbol: DryRunStripeGateway
+  - path: common/services/StripeGatewayFactory.php
+    symbol: create / mustDryRun
+  - path: common/models/StripeDryrunRequests.php
+    symbol: StripeDryrunRequests
+  - path: console/migrations/m260609_220000_create_stripe_dryrun_requests_table.php
   - path: common/services/RefundPlanner.php
-    symbol: refundablePence — charges->retrieve
+    symbol: refundablePence — now takes the gateway
     lines: 25-50
   - path: common/services/RefundExecutor.php
-    symbol: execute — refunds->create
-    lines: 96-138
+    symbol: execute — createRefund via gateway
   - path: backend/controllers/ContractsController.php
-    symbol: actionProcessContractRefunds — StripeClient construction
-    lines: 1836-1842
+    symbol: actionProcessContractRefunds — factory wiring
+    lines: 1836-1852
+  - path: common/tests/unit/services/StripeGatewayFactoryTest.php
+  - path: common/tests/unit/services/DryRunStripeGatewayTest.php
   - path: backend/config/main.php
-    symbol: sandbox flag / secretKey from Secrets Manager
-    lines: 11-80
+    symbol: sandbox flag
+    lines: 11-21
 relates: []
 blocks: []
 blocked_by: []
@@ -58,13 +70,16 @@ agent_runs:
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-06-09T22:21:56Z
+    progress:
+      - at: 2026-06-09T22:34:05Z
+        note: "Code written, NOT yet run anywhere (per Austin's instruction — code only for now). On branch refund-hardening-t0331-stripe-dryrun, uncommitted pending Austin's go-ahead (protected project). Built: the gateway interface, live passthrough, dry-run implementation (charge state synthesized from local stripe_payments + stripe_refunds rows, both confirmed to store consistent units; would-be refunds logged to a new stripe_dryrun_requests table via migration), the fail-safe factory (sandbox flag forces dry-run unconditionally; optional stripeDryRun param forces it elsewhere), rewired the planner/executor/controller to use it, and two test files: factory wiring tests (DB-free) and gateway behaviour tests (DB-dependent, marked to run on the test box only). All files pass PHP syntax lint. FINDING for follow-up: an inventory of remaining direct Stripe client constructions shows the deposit-refund service, the manual refund form, the year-end refund handler, the refunds controller, and the deprecated old refund endpoint still bypass the gateway — the test box stays live-armed through those paths until they are routed through the factory too."
 labels:
   - refunds
   - payments
   - testing
   - incident-c090586
 attention: null
-version: 5
+version: 7
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
