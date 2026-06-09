@@ -4,7 +4,7 @@ title: "[security] Auth & session hardening (AUTH_SECRET, middleware, preview-as
 type: chore
 state: in_progress
 created: 2026-06-05T21:42:22Z
-updated: 2026-06-09T13:56:58Z
+updated: 2026-06-09T14:51:47Z
 project: pm-tool-self
 section: null
 parent: null
@@ -43,6 +43,8 @@ agent_runs:
         note: "Item 4 (CSRF) done: documented the model in a new docs/security.md — web changes go through Next.js server actions (framework CSRF-protected), the only custom route is the sign-in handler, and the agent (MCP) connection uses a bearer token in the header rather than cookies, so it can't be triggered cross-site. Now on item 3: making the admin \"preview as\" cookie signed + self-expiring so it can't be forged or planted. Item 2 (the login check validating the token itself, not just that a cookie is present) is the one that can affect sign-in, so I'm holding it until we can test against a real local sign-in."
       - at: 2026-06-09T13:56:58Z
         note: "Shipped two more items to production (commit 8dd867d): (1) the admin \"preview as\" cookie is now signed and self-expiring after an hour — a forged or planted one is ignored, so it can't be abused via a cross-site script; (2) the security model (sign-in, who-can-do-what, CSRF protection, response headers, secrets) is now written up in docs/security.md. Verified the live site is healthy and the earlier login bypass stays closed. One item left on this ticket: the login middleware checking the session token's signature + expiry itself (not just that a cookie is present). That's the one that can take sign-in down if done wrong, so I'm holding it until we have a real local sign-in to test the success path against — Austin is wiring up local SSO for exactly that."
+      - at: 2026-06-09T14:51:47Z
+        note: "Built the last item — the login middleware now cryptographically validates the session token (signature + expiry) at the edge via getToken, not just checking a cookie is present. It's fail-safe: if the signing secret isn't available to the edge or validation errors, it falls back to the old presence check (the server-side layout stays the final authority), so it can never lock anyone out; and actually redirecting an invalid session is gated behind a flag (PM_EDGE_AUTH_ENFORCE) so we can verify on production before trusting it. Tested locally against a real Microsoft sign-in: a valid session passes, while no-cookie and forged-cookie requests are now rejected right at the edge (previously a forged cookie slipped through to the layout). Rolling out to prod in stages: deploy the code dormant (no behaviour change), make the secret available to the edge, shadow-verify a real prod session validates, then enable enforcement — with one-line rollback at each step."
 labels: []
 attention: null
 ---
