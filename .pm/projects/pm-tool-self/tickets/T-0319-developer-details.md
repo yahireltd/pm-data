@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-09T17:05:07Z
-updated: 2026-06-09T17:22:38Z
+updated: 2026-06-09T20:39:04Z
 project: pm-tool-self
 section: null
 parent: null
@@ -23,8 +23,10 @@ blocked_by: []
 duplicates: []
 duplicate_of: null
 agent_runs: []
-labels: []
+labels:
+  - concurrency-demo
 attention: null
+version: 1
 ---
 
 In the help section of tickets there is the following text: \
