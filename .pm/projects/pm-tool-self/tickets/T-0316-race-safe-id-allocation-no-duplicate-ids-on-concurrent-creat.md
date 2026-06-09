@@ -2,9 +2,9 @@
 id: T-0316
 title: Race-safe id allocation (no duplicate ids on concurrent creates)
 type: bug
-state: review
+state: done
 created: 2026-06-09T16:51:21Z
-updated: 2026-06-09T18:35:21Z
+updated: 2026-06-09T22:15:30Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,9 +18,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Concurrent creates (web / CLI / MCP, same or different process) never allocate the same id; the counter read-increment-write is atomic (file lock or atomic rename)
-  - "Covers every id space: T- (global) and the per-project M- / MS- / ADR- / SPR- / TS- / PP- / SN- counters"
-  - "Verified by a concurrent-create test: fire N creates at once -> N distinct ids, no lost increments"
+  - "[x] Concurrent creates (web / CLI / MCP, same or different process) never allocate the same id; the counter read-increment-write is atomic (file lock or atomic rename)"
+  - "[x] Covers every id space: T- (global) and the per-project M- / MS- / ADR- / SPR- / TS- / PP- / SN- counters"
+  - "[x] Verified by a concurrent-create test: fire N creates at once -> N distinct ids, no lost increments"
 out_of_scope: []
 code_anchors:
   - path: cli/src/lib/ids.ts
@@ -69,10 +69,8 @@ agent_runs:
       status_note: written
 labels:
   - concurrency
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-09T18:35:21Z
+attention: null
+version: 5
 ---
 
 ## Problem
@@ -90,3 +88,9 @@ The "b" of the a+b approach (T-0270 / SPR-029). Exact allocator location confirm
 ## Conversation
 
 **2026-06-09 18:35 claude-code:** Run run-20260609-1710 completed — We made the tool's id numbering safe when several people — or a person and an AI agent — create things at the same moment. Before, two simultaneous creates could read the same "last number used" and both be handed the same id; this had already happened once with a meeting. Now every id — tickets, projects, and every per-project item (decisions, meetings, milestones, sprints, tech-sessions, status notes, incidents, handovers, pre-projects) — is handed out behind a short cross-process lock backed by a saved counter, so each create gets its own number no matter how many happen at once. If we'd done nothing, the tool would keep risking duplicate ids and clashing records as more people and agents use it at the same time. The benefit: everyone can work in parallel without standing on each other's numbering. The design is recorded as ADR-038 and shipped in small, separately-tested deploys.
+
+---
+
+**2026-06-09 22:15 — you**
+
+close

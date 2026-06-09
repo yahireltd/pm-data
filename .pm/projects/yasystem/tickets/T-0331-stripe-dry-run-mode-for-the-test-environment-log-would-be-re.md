@@ -2,9 +2,9 @@
 id: T-0331
 title: Stripe dry-run mode for the test environment (log would-be requests, never call Stripe)
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-09T19:52:42Z
+updated: 2026-06-09T22:21:56Z
 project: yasystem
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Austin
   channel: claude-code
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - "With the sandbox flag on, no code path in the payment-refund flow can reach Stripe's refund-creation endpoint (verified by test: the live client is never constructed in sandbox mode)"
   - In dry-run mode, processing a refund writes one log row per would-be Stripe request capturing charge reference, amount in pence, idempotency key, contract, and user, and the on-screen flow completes as normal
@@ -46,14 +48,23 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260609-2221
+    model: claude-fable-5
+    started: 2026-06-09T22:21:56Z
+    status: in_progress
+    policy_ack:
+      branch: master
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-06-09T22:21:56Z
 labels:
   - refunds
   - payments
   - testing
   - incident-c090586
 attention: null
-version: 3
+version: 5
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered

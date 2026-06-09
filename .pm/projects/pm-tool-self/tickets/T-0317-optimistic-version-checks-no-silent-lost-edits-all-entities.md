@@ -2,9 +2,9 @@
 id: T-0317
 title: Optimistic version checks — no silent lost edits (all entities)
 type: feature
-state: review
+state: done
 created: 2026-06-09T16:51:53Z
-updated: 2026-06-09T22:08:20Z
+updated: 2026-06-09T22:14:40Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,10 +18,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Each entity carries a version (hash or counter); a write includes the version it was based on, and the shared write path re-reads + rejects a stale write so a concurrent change is never silently overwritten -- across ALL entity types (tickets, meetings, decisions, sprints, milestones, status notes, etc.)
-  - The read-modify-write is serialized per entity so two simultaneous saves can't interleave (web / CLI / MCP)
-  - Web edit forms capture the version on load and send it; on a stale reject the form PRESERVES the user's unsaved text and shows 'this changed since you opened it' so they re-apply over the latest without retyping
-  - Agent (MCP) writes are covered by the server-side serialization + version check; verified by a concurrent-edit test (two saves from the same stale base -> the second is rejected, nothing lost)
+  - "[x] Each entity carries a version (hash or counter); a write includes the version it was based on, and the shared write path re-reads + rejects a stale write so a concurrent change is never silently overwritten -- across ALL entity types (tickets, meetings, decisions, sprints, milestones, status notes, etc.)"
+  - "[x] The read-modify-write is serialized per entity so two simultaneous saves can't interleave (web / CLI / MCP)"
+  - "[x] Web edit forms capture the version on load and send it; on a stale reject the form PRESERVES the user's unsaved text and shows 'this changed since you opened it' so they re-apply over the latest without retyping"
+  - "[x] Agent (MCP) writes are covered by the server-side serialization + version check; verified by a concurrent-edit test (two saves from the same stale base -> the second is rejected, nothing lost)"
 out_of_scope:
   - Auto-merge of conflicting same-field edits / a merge UI (the deferred 'conflict UX' polish, option d)
   - Real-time collaborative editing (CRDT / OT)
@@ -81,11 +81,8 @@ agent_runs:
       docs_note: "docs/development.md gained a Concurrency safety section: the two protection layers, the agent re-read-before-write gotcha, and the PM_VERSION_ENFORCE enable/disable/watch runbook."
 labels:
   - concurrency
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-09T22:08:20Z
-version: 6
+attention: null
+version: 12
 ---
 
 ## Problem
@@ -103,3 +100,9 @@ The "a" of the a+b approach (T-0270 / SPR-029). Scope = all entity types; confli
 ## Conversation
 
 **2026-06-09 22:08 claude-code:** Run run-20260609-1840 completed — We made simultaneous editing safe. Before, if two people — or a person and an AI agent — had the same record open and both saved, the second save silently wiped the first with no warning; with the team and agents now genuinely working in parallel, losing each other's work was a matter of time. What we did: every record now carries a hidden revision number maintained automatically on every save; a save based on an out-of-date copy is refused instead of applied, and on the website the refusal keeps your typed text on screen with a plain note — "this was changed by someone else after you opened it, your text is kept here, reload and re-apply". This covers tickets, decisions, meetings and projects, every saving surface (website, command line, agents, and the automated email/reminder jobs), and was switched on in production only after a full day of silent dry-run produced zero false alarms. We proved it with a real race: an agent and Austin edited the same ticket at the same moment, and the stale save was caught with the text preserved — that first test also exposed a gap (records that had never been saved since the feature shipped weren't protected) which we fixed and re-proved the same hour. If we'd done nothing, parallel work would keep risking silent data loss that nobody notices until something important is missing. The benefit: everyone can work on the same project at once without overwriting each other.
+
+---
+
+**2026-06-09 22:14 — you**
+
+complete
