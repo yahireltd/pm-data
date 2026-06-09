@@ -4,7 +4,7 @@ title: Optimistic version checks — no silent lost edits (all entities)
 type: feature
 state: in_progress
 created: 2026-06-09T16:51:53Z
-updated: 2026-06-09T19:19:54Z
+updated: 2026-06-09T20:56:18Z
 project: pm-tool-self
 section: null
 parent: null
@@ -51,10 +51,12 @@ agent_runs:
         note: "Step 2 SHIPPED in shadow mode (8c86b2d). The write layer now detects stale saves: every entity write is serialized per file (lock), the claimed base version is compared against disk, conflicts are always journal-logged, and with PM_VERSION_ENFORCE=1 a stale save is rejected with StaleWriteError (file left intact) instead of silently overwriting. Deployed with the flag UNSET = shadow mode — we watch the journal for false conflicts during normal use before flipping enforcement on (one-line server env change). BONUS closures: comms was a third, unguarded write path — its meeting-reminder ledger and email->ticket writes now go through the shared atomic+stamped writer, and its private ticket-id allocator (a missed T-0316 race — raw config.yml read-modify-write) now takes the shared lock. Validated: typechecks, comms 38 tests, web build, full conflict matrix smoke (shadow allows+logs, enforce rejects+file intact, fresh edits + versionless legacy writes pass in both modes, no leftover locks). Remaining: let shadow soak, enable PM_VERSION_ENFORCE on the server, then step 3 — web edit forms carry the loaded version and keep the user's unsaved text on a stale reject."
       - at: 2026-06-09T19:19:54Z
         note: "Step 3 SHIPPED for tickets (e74615e) — the pilot entity for the conflict UX. The ticket page now sends the version it rendered with on every inline edit (title, type, priority, assignee, due, estimate) and on body saves; the server rejects a stale edit instead of silently overwriting, and the control keeps the user's typed text open with a plain \"this changed since you opened it — your text is kept here, reload and re-apply\" note. The body editor (the highest-stakes lost-edit: long prose) stays open with the full text on a reject. Versionless callers are untouched. This check is deterministic at the action layer — it works NOW, independent of the io-level PM_VERSION_ENFORCE backstop (still in shadow, 0 conflicts logged so far). REMAINING on T-0317: (1) extend the same form wiring to the other entities (decisions, meetings, projects, milestones, sprints — same mechanical pattern as the ticket pilot); (2) flip PM_VERSION_ENFORCE on after the shadow soak (one-line server env change). VERIFY (human, ~2 min): open the same ticket in two browser tabs; edit + save the title in tab A; then in tab B edit the description and save — tab B must show the red \"changed since you opened it\" note with your text still in the editor; reload tab B and re-apply — saves fine."
+      - at: 2026-06-09T20:56:18Z
+        note: "LIVE VERIFIED with a real agent-vs-human race (with Austin, on T-0319). Round 1 exposed a genuine hole: a record never written since versioning shipped carries no version, so the page made no claim and the concurrent agent edit went undetected (most existing records were in that state). Fixed + deployed (1666d53): a versionless page claims version 0, so any stamped write in between is caught — first-touch races included. Round 2 PASSED end-to-end: Austin opened T-0319 in the browser, the agent saved a label change over MCP behind the tab's back, Austin then saved a description edit — the save was rejected with the keep-your-text message (\"changed by someone else after you opened it... your text is kept here\") and his text stayed in the editor. The exact scenario this ticket was opened for, demonstrated working in production."
 labels:
   - concurrency
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
