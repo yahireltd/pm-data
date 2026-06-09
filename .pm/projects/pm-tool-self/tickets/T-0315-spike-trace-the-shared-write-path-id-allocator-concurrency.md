@@ -2,9 +2,9 @@
 id: T-0315
 title: "Spike: trace the shared write path + id allocator (concurrency)"
 type: spike
-state: review
+state: done
 created: 2026-06-09T16:50:45Z
-updated: 2026-06-09T22:26:54Z
+updated: 2026-06-09T23:09:31Z
 project: pm-tool-self
 section: null
 parent: null
@@ -53,11 +53,8 @@ agent_runs:
       status_note: none-needed
 labels:
   - concurrency
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-09T17:04:20Z
-version: 5
+attention: null
+version: 7
 ---
 
 ## Problem
@@ -83,3 +80,9 @@ Decomposed from T-0270 (concurrent user editing); this sprint takes the "a+b —
 **What would have happened if we did nothing:** We would have built blind. The save logic lives in two near-identical copies (one for the website + command line, one for the AI/agent connection), id numbering could hand the same number to two things created at the same instant, every save rewrites the whole record, and there was no "has this changed since you opened it?" check at all — fixes aimed at the wrong place would have missed surfaces.
 
 **The benefit:** A clear map and a firm ~1-week plan: ship the cheap, independent id fix first, then the change-detection layer — each in the two known chokepoints.
+
+---
+
+**2026-06-09 23:09 — you**
+
+done

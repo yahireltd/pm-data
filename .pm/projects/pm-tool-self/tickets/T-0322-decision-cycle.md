@@ -2,15 +2,15 @@
 id: T-0322
 title: Decision cycle
 type: feature
-state: inbox
+state: triaged
 priority: p2
 created: 2026-06-09T19:20:55Z
-updated: 2026-06-09T21:54:34Z
-project: null
+updated: 2026-06-09T23:10:10Z
+project: pm-tool-self
 section: null
 parent: null
 children: []
-order: 15360
+order: 95232
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -24,7 +24,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 3
 attachments:
   - key: tickets/T-0322/1781042073447-Screenshot_2026-06-09_at_22-54-25_Sales_process_analysis_framework_-_Claude.png
     filename: Screenshot 2026-06-09 at 22-54-25 Sales process analysis framework - Claude.png
