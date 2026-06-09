@@ -4,7 +4,7 @@ slug: sales-segmentation-account-management
 title: Sales Segmentation / Account Management
 state: planning
 created: 2026-06-05T12:25:32Z
-updated: 2026-06-06T01:25:30Z
+updated: 2026-06-09T23:27:31Z
 stakeholders:
   - name: Ben
     role: Business SME & Systems Architect
@@ -77,10 +77,21 @@ problems:
   - 7.	We systematically develop people as well as customers
   - (‘becoming the best versions of ourselves’ is aiming for something tangible and improving who we were yesterday)
   - 8.	Things automate and systemise, but people by from people
-goals: []
+goals:
+  - Every customer has an accountable owner — human, or the named steward of the system-managed pool. No unowned revenue.
+  - Every new lead is scored and routed to a right-sized conversion process (system-only / quick / in-depth / lifetime / manager escalation) instead of uniform handling.
+  - Every assigned account sits at a defined level (system / incubation / account-managed / strategic) with visible actual-vs-potential momentum, governed by quarterly transfer windows.
+  - Every screen, score or dashboard we build is tied to a named decision, the action it drives, and a review loop — the decision-cycle scoping method (T-0322). Visibility with no decision attached doesn't get built.
+  - "Results are reviewed and iterated routinely at three levels: company/trend, system steward, and individual."
 scope_in: []
 scope_out: []
-success_criteria: []
+success_criteria:
+  - "Lead routing live: every new account is auto-scored and routed; score accuracy and conversion-by-route are reviewed on a set cadence, and human corrections feed back into the scoring."
+  - "Stop-chasing works: quotes a salesperson stops are picked up by system follow-up and still convert at near-zero handling cost; the stopped-pool conversion rate is reviewed."
+  - "Big-fish alerting: high-potential arrivals alert a manager immediately and stay on a worked list until a convert-or-cease decision is recorded."
+  - "Account levels live: every assigned account carries a level and an actual-vs-potential position; quarterly transfer windows demonstrably move accounts up and down."
+  - "System estate owned: a named non-salesperson steward owns system-managed revenue with KPIs (closing rate, repeat rate) reviewed regularly."
+  - "Conformance visible: leakage / process-conformance dashboards exist and are reviewed in management meetings — each one tied to the decision it exists to drive."
 cost_of_inaction: |-
   We will not be maximising the potential of each of our customers.
   Risk of losing key business if not managed properly
@@ -92,6 +103,7 @@ scoping_held: false
 owner:
   kind: human
   name: Ben
+version: 1
 ---
 
 # PP-002: Sales Segmentation / Account Management
