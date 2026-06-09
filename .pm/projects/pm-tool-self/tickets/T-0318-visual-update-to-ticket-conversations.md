@@ -2,10 +2,10 @@
 id: T-0318
 title: Visual update to ticket conversations
 type: feature
-state: review
+state: in_progress
 priority: p2
 created: 2026-06-09T16:54:26Z
-updated: 2026-06-09T17:14:56Z
+updated: 2026-06-09T17:25:07Z
 project: pm-tool-self
 section: null
 parent: null
@@ -48,9 +48,9 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-09T17:14:56Z
+  needed_by: agent
+  reason: have added 2 more screenshots- it looks like in this ticket (one comment by claude) no visual formatting at all. And in the other screenshot with multiple comments only one comment is detected not the second claude one
+  since: 2026-06-09T17:25:06Z
 attachments:
   - key: tickets/T-0318/1781024079665-Screenshot_2026-06-09_at_17-53-28_pm-tool.png
     filename: Screenshot 2026-06-09 at 17-53-28 pm-tool.png
@@ -58,6 +58,18 @@ attachments:
     size: 107357
     uploaded_by: austin@yahire.com
     uploaded_at: 2026-06-09T16:54:40Z
+  - key: tickets/T-0318/1781025833565-Screenshot_2026-06-09_at_18-23-43_pm-tool.png
+    filename: Screenshot 2026-06-09 at 18-23-43 pm-tool.png
+    content_type: image/png
+    size: 103783
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-06-09T17:23:54Z
+  - key: tickets/T-0318/1781025840232-Screenshot_2026-06-09_at_18-23-25_pm-tool.png
+    filename: Screenshot 2026-06-09 at 18-23-25 pm-tool.png
+    content_type: image/png
+    size: 159868
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-06-09T17:24:01Z
 ---
 
 the conversaitons need a bit of a visual update to seperate user comments. Better more modern visual styling. uk date format and user icons - see attached screenshot (in ticket attachements) to see current look.
