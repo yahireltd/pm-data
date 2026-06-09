@@ -4,7 +4,7 @@ title: Stripe dry-run mode for the test environment (log would-be requests, neve
 type: feature
 state: in_progress
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-09T22:34:37Z
+updated: 2026-06-09T22:59:17Z
 project: yasystem
 section: null
 parent: null
@@ -73,13 +73,15 @@ agent_runs:
     progress:
       - at: 2026-06-09T22:34:05Z
         note: "Code written, NOT yet run anywhere (per Austin's instruction — code only for now). On branch refund-hardening-t0331-stripe-dryrun, uncommitted pending Austin's go-ahead (protected project). Built: the gateway interface, live passthrough, dry-run implementation (charge state synthesized from local stripe_payments + stripe_refunds rows, both confirmed to store consistent units; would-be refunds logged to a new stripe_dryrun_requests table via migration), the fail-safe factory (sandbox flag forces dry-run unconditionally; optional stripeDryRun param forces it elsewhere), rewired the planner/executor/controller to use it, and two test files: factory wiring tests (DB-free) and gateway behaviour tests (DB-dependent, marked to run on the test box only). All files pass PHP syntax lint. FINDING for follow-up: an inventory of remaining direct Stripe client constructions shows the deposit-refund service, the manual refund form, the year-end refund handler, the refunds controller, and the deprecated old refund endpoint still bypass the gateway — the test box stays live-armed through those paths until they are routed through the factory too."
+      - at: 2026-06-09T22:59:17Z
+        note: "Multi-agent adversarial review of the first commit confirmed two blockers, both now fixed, committed (84444136d on branch refund-hardening-t0331-stripe-dryrun) and pushed with Austin's authorisation. Blocker 1: the recorded Stripe payment amounts are stored in pence, not pounds — the dry-run charge synthesis would have reported every charge 100x too large; verified against the site checkout writer (it stores the exact value sent to Stripe) and fixed, with tests moved to pence fixtures. Blocker 2: the year-end refund handler still built the planner/executor with a raw Stripe client, which the new type would crash on — it now goes through the gateway factory, which as a bonus brings year-end refunds under the sandbox fail-safe (one item of T-0333 done early). Also hardened: failed/cancelled refund records no longer shrink the synthesized refundable balance, would-be requests are additionally written to the file log so audit evidence survives a transaction rollback, and the user lookup is console-safe. Remaining for this ticket: apply the migration on the test box, run both test files there, end-to-end dry-run refund check, and confirm which Stripe secret the test server loads."
 labels:
   - refunds
   - payments
   - testing
   - incident-c090586
 attention: null
-version: 7
+version: 8
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered

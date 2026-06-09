@@ -99,7 +99,15 @@ The "a" of the a+b approach (T-0270 / SPR-029). Scope = all entity types; confli
 
 ## Conversation
 
-**2026-06-09 22:08 claude-code:** Run run-20260609-1840 completed — We made simultaneous editing safe. Before, if two people — or a person and an AI agent — had the same record open and both saved, the second save silently wiped the first with no warning; with the team and agents now genuinely working in parallel, losing each other's work was a matter of time. What we did: every record now carries a hidden revision number maintained automatically on every save; a save based on an out-of-date copy is refused instead of applied, and on the website the refusal keeps your typed text on screen with a plain note — "this was changed by someone else after you opened it, your text is kept here, reload and re-apply". This covers tickets, decisions, meetings and projects, every saving surface (website, command line, agents, and the automated email/reminder jobs), and was switched on in production only after a full day of silent dry-run produced zero false alarms. We proved it with a real race: an agent and Austin edited the same ticket at the same moment, and the stale save was caught with the text preserved — that first test also exposed a gap (records that had never been saved since the feature shipped weren't protected) which we fixed and re-proved the same hour. If we'd done nothing, parallel work would keep risking silent data loss that nobody notices until something important is missing. The benefit: everyone can work on the same project at once without overwriting each other.
+**2026-06-09 22:08 claude-code:** Run run-20260609-1840 completed —
+
+**What we did:** Every record now carries a hidden revision number maintained automatically on every save. A save based on an out-of-date copy is refused instead of applied, and on the website the refusal keeps your typed text on screen with a plain note — "this was changed by someone else after you opened it, your text is kept here, reload and re-apply". This covers tickets, decisions, meetings and projects, on every saving surface (website, command line, agents, and the automated email/reminder jobs). It was switched on in production only after a full day of silent dry-run produced zero false alarms, and we proved it live: an agent and Austin edited the same ticket at the same moment and the stale save was caught with the text preserved. That first live test also exposed a gap — records never saved since the feature shipped weren't protected — which we fixed and re-proved the same hour.
+
+**Why:** If two people — or a person and an AI agent — had the same record open and both saved, the second save silently wiped the first with no warning. With the team and agents now genuinely working in parallel, losing each other's work was a matter of time.
+
+**What would have happened if we did nothing:** Parallel work would keep risking silent data loss that nobody notices until something important is missing.
+
+**The benefit:** Everyone can work on the same project at once without overwriting each other.
 
 ---
 

@@ -74,4 +74,12 @@ Decomposed from T-0270 (concurrent user editing); this sprint takes the "a+b —
 
 ## Conversation
 
-**2026-06-09 17:04 claude-code:** Run run-20260609-1703 completed — We checked how the tool saves data, to size the concurrency work before building it — so we build the right thing without surprises and don't over-engineer. Findings: the save logic lives in two near-identical copies (one used by the website and command line, one for the AI/agent connection), so fixes land in two clear places rather than scattered everywhere. The id-numbering can hand the same number to two things created at the same instant. Every save rewrites the whole record. And there is no "has this changed since you opened it?" check at all today. The upshot: the planned "make it safe" work — race-proof id numbering plus a change-detection check — is about a week, and the cheap, independent id fix can go first.
+**2026-06-09 17:04 claude-code:** Run run-20260609-1703 completed —
+
+**What we did:** We mapped exactly how the tool saves data and hands out id numbers, before building the concurrency protections.
+
+**Why:** To size the work properly and put the fixes in the right places — without surprises or over-engineering.
+
+**What would have happened if we did nothing:** We would have built blind. The save logic lives in two near-identical copies (one for the website + command line, one for the AI/agent connection), id numbering could hand the same number to two things created at the same instant, every save rewrites the whole record, and there was no "has this changed since you opened it?" check at all — fixes aimed at the wrong place would have missed surfaces.
+
+**The benefit:** A clear map and a firm ~1-week plan: ship the cheap, independent id fix first, then the change-detection layer — each in the two known chokepoints.

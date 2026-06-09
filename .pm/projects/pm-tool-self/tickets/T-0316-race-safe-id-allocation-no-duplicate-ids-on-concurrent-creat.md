@@ -87,7 +87,15 @@ The "b" of the a+b approach (T-0270 / SPR-029). Exact allocator location confirm
 
 ## Conversation
 
-**2026-06-09 18:35 claude-code:** Run run-20260609-1710 completed — We made the tool's id numbering safe when several people — or a person and an AI agent — create things at the same moment. Before, two simultaneous creates could read the same "last number used" and both be handed the same id; this had already happened once with a meeting. Now every id — tickets, projects, and every per-project item (decisions, meetings, milestones, sprints, tech-sessions, status notes, incidents, handovers, pre-projects) — is handed out behind a short cross-process lock backed by a saved counter, so each create gets its own number no matter how many happen at once. If we'd done nothing, the tool would keep risking duplicate ids and clashing records as more people and agents use it at the same time. The benefit: everyone can work in parallel without standing on each other's numbering. The design is recorded as ADR-038 and shipped in small, separately-tested deploys.
+**2026-06-09 18:35 claude-code:** Run run-20260609-1710 completed —
+
+**What we did:** Every id — tickets, projects, and every per-project item (decisions, meetings, milestones, sprints, tech-sessions, status notes, incidents, handovers, pre-projects) — is now handed out behind a short cross-process lock backed by a saved counter, on every surface (website, command line, agents, and inbound email). The design is recorded as ADR-038 and it shipped in small, separately-tested deploys.
+
+**Why:** Two simultaneous creates could read the same "last number used" and both be handed the same id — this had already really happened with a meeting, and the collision overwrote real data.
+
+**What would have happened if we did nothing:** As more people and agents work in parallel, duplicate ids and clashing records would keep happening — quietly corrupting data each time.
+
+**The benefit:** Everyone can create things at the same moment without standing on each other's numbering — proven by tests firing hundreds of simultaneous creates with zero duplicates.
 
 ---
 
