@@ -5,7 +5,7 @@ name: Yasite
 state: active
 phase: intake
 created: 2026-06-10T09:42:11Z
-updated: 2026-06-10T09:45:29Z
+updated: 2026-06-10T09:51:17Z
 owner:
   kind: human
   name: unknown
@@ -18,7 +18,7 @@ code_surfaces: []
 key_decisions: []
 labels: []
 order: 1024
-version: 7
+version: 9
 agent_policy:
   allow_commit: false
   allow_push: false
