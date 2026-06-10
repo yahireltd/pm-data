@@ -4,7 +4,7 @@ title: Stripe dry-run mode for the test environment (log would-be requests, neve
 type: feature
 state: in_progress
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-10T16:49:05Z
+updated: 2026-06-10T16:58:33Z
 project: yasystem
 section: null
 parent: null
@@ -81,7 +81,7 @@ labels:
   - testing
   - incident-c090586
 attention: null
-version: 16
+version: 17
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -177,3 +177,12 @@ This satisfies the replay acceptance criterion's most important datapoint and es
 Remaining for this ticket: 2–4 more replay datapoints from ordinary recent refunds, exercise the two converted flows (Process Deposit Refunds on a deposit-held contract; manual refund form with Stripe method), and the live-dashboard spot check.
 
 **2026-06-10 16:49 claude-code:** **Live Stripe dashboard check: CLEAN (2026-06-10).** Austin confirmed zero refund activity on the live Stripe account for all three charges exercised today (ch_3TeH66…, ch_3SuEqn…, ch_3TWFmu… — the latter being the C090586 incident charge replayed at full £1,255.85). Combined with the dry-run log rows and file audit trail, the integration acceptance criteria are met: the flow completes normally, writes its records, logs exactly what it would have sent, and provably never reaches Stripe. Remaining before closing this ticket: 2–4 replay datapoints from ordinary recent refunds, and one exercise each of the two converted flows (Process Deposit Refunds; manual refund form, Stripe method).
+
+**2026-06-10 16:58 claude-code:** **Replay set complete (2026-06-10): 5/5 replays match live to the penny.** Beyond the C090586 incident replay, four ordinary refunds were reconstructed (artefacts snapshotted to /home/ubuntu/replay-snapshots-20260610.json on the test box, then deleted) and re-clicked in dry-run:
+
+- **C090897** (£791.88, Stripe + credit-note, deposit held, yesterday): MATCH — 79188p on ch_3TZA8w…, CR 76174 allocation identical.
+- **C091790** (£618.00, Stripe + credit-note, no deposit): MATCH — 61800p on ch_3TdqDx…, CR 75737 identical.
+- **C087727** (£468.00, BACS-only, overpayment-backed, different operator userID 3): MATCH — BACS leg + overpayment link identical, and correctly ZERO dry-run Stripe rows.
+- **C089519** (two BACS legs £6.00/£36.91, mixed overpayment + credit-note backing, six weeks old): MATCH — both legs, both backings identical.
+
+Every leg matched on source payment, amount, method, and backing structure; BR references fresh-random as designed. Coverage note: no SC (sales) contract refund exists in the recent live population, so that edge stays untested until one occurs — recorded as a known gap, not a failure. Acceptance criterion "replay 3–5 recent real refunds and match live's recorded Stripe refunds" is satisfied (5 replays incl. the incident). All of today's test data self-cleans in tonight's restore. Remaining for this ticket: one Process Deposit Refunds exercise and one manual-refund-form (Stripe method) exercise through the newly-converted gateway paths.
