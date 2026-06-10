@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements MAIN BRANCH
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-10T12:04:54Z
+updated: 2026-06-10T14:21:45Z
 owner:
   kind: human
   name: austin
@@ -129,14 +129,15 @@ stakeholders:
       - outcome_recorded
       - assigned
       - meeting_scheduled
-  - name: TEst
+  - name: Zsolt
     channel: email
-    contact: test@yahire.com
+    contact: zsolt@yahire.com
     internal: true
     added_by:
       kind: human
       name: Austin Pickering
     added_at: 2026-06-03T14:03:52Z
+    role: Dev
 workflow_impact:
   current_workflow: "We used to work on projects with very little planning. Ben would capture the problem from the user- come up with an idea to solve it and ask us devs to create the solution. "
   new_workflow: "We now want to plan projects a lot more meticulously. We are to capture the problem with the users. Propose a solution, hold meetings to decide what is in scope and what is not. Organise user testing etc. Get the project over the line from start to finish + aftercare. We are shifting from devs (claude is now the main dev) to PM's /AI Ops "
@@ -166,7 +167,7 @@ go_live_target: 2026-06-30
 time_budget_hours: 120
 repo_url: https://github.com/yahireltd/pm-tool
 branch: master
-version: 33
+version: 44
 ---
 
 # pm-tool — dogfood improvements

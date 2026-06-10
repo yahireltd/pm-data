@@ -2,10 +2,10 @@
 id: T-0348
 title: Private project not private
 type: bug
-state: review
+state: done
 priority: p1
 created: 2026-06-10T12:03:10Z
-updated: 2026-06-10T12:37:25Z
+updated: 2026-06-10T14:21:45Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,10 +16,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "A private project and ALL its data (tickets, sprints, meetings agenda items, activity) are invisible to admins not in its allowed set (invited/team/stakeholders) on every web page: dashboard, all-tickets, ready queue, watch, review list, projects list, sidebar, inbox pickers, dev-tickets, meeting pickers"
-  - Opening a private project's URL directly (project pages, ticket detail) returns not-found for a non-allowed user — no leak via deep link
-  - Allowed users (creator/invited/team/stakeholders) still see the private project everywhere they did before
-  - Non-private projects are unaffected for everyone
+  - "[x] A private project and ALL its data (tickets, sprints, meetings agenda items, activity) are invisible to admins not in its allowed set (invited/team/stakeholders) on every web page: dashboard, all-tickets, ready queue, watch, review list, projects list, sidebar, inbox pickers, dev-tickets, meeting pickers"
+  - "[x] Opening a private project's URL directly (project pages, ticket detail) returns not-found for a non-allowed user — no leak via deep link"
+  - "[x] Allowed users (creator/invited/team/stakeholders) still see the private project everywhere they did before"
+  - "[x] Non-private projects are unaffected for everyone"
 out_of_scope: []
 code_anchors:
   - path: web/app/_lib/access.ts
@@ -72,11 +72,9 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-10T12:37:25Z
-version: 9
+attention: null
+version: 19
+defect_status: rejected
 ---
 
 The project StockPredictionsEngine is marked private and is visible to other admins, as are its tickets in various ready/review lists.
@@ -96,3 +94,9 @@ The MCP server is a single bearer identity today, so MCP listings are not per-us
 ## Conversation
 
 **2026-06-10 12:37 claude-code:** Run run-20260610-1225 completed — We fixed the hole where a project marked private was still visible to other admins. The privacy rule itself was correct, but most pages of the app built their lists by reading every project and every ticket directly, skipping that rule — so a private project's name, tickets, and progress leaked into the dashboard, the All tickets / Ready / In progress / Review pages, the sidebar, the counts in the top bar, the project pickers, and even the user-roles screen. If we did nothing, anything you tried to keep private (like StockPredictionsEngine) would stay effectively public to every admin. Now every one of those places lists only what the signed-in person is allowed to see, and opening a direct link to a private project's ticket shows "not found" unless you're invited. The benefit: private projects are actually private — you can run your own projects in the tool without other admins seeing them — while everyone you do invite sees everything exactly as before.
+
+---
+
+**2026-06-10 14:21 — you**
+
+all working

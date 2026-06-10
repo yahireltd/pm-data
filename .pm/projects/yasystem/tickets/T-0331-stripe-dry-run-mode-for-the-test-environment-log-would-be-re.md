@@ -4,7 +4,7 @@ title: Stripe dry-run mode for the test environment (log would-be requests, neve
 type: feature
 state: in_progress
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-10T13:55:37Z
+updated: 2026-06-10T14:27:49Z
 project: yasystem
 section: null
 parent: null
@@ -81,7 +81,7 @@ labels:
   - testing
   - incident-c090586
 attention: null
-version: 9
+version: 10
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -126,3 +126,24 @@ Check the test server's local params file to confirm which Stripe secret it curr
 **2026-06-10 13:55 claude-code:** **Test-box safety gap relevant to this ticket's remaining work (2026-06-10 branch audit):** even once this branch is deployed to the test server, the box stays **live-armed** through three refund-creating paths that bypass the gateway factory: `ContractsController::actionProcessContractRefundsOld` (direct `refunds->create` at lines 1587 and 1694 — endpoint still routable), `DepositRefundService` (lines 189 and 316 — the end-of-hire refund modal path via actionProcessRefund/actionProcessBatchRefund), and `ManualRefundForm` (line 98). `RefundsController:130` also constructs a raw client but is retrieve-only (no money movement). YearEndRefundHandler is already fixed (commit 84444136). Recommendation: before any sprint integration testing on the test box, either route these three through `StripeGatewayFactory` (the pattern is established; each is a small change) or disable the old endpoint — otherwise a mis-click during testing can still send real money exactly as the original risk statement warned.
 
 Status reminder of this ticket's outstanding items: apply migration m260609_220000 on the test box, run the two test files there, one end-to-end dry-run refund, and confirm which Stripe secret the test server loads (record finding here).
+
+**2026-06-10 14:27 claude-code:** **Test-box safety gap closed (2026-06-10):** the three refund-creating bypass paths flagged in the previous comment (DepositRefundService x2, ManualRefundForm, old refund endpoint x2) are now routed through the gateway factory on this branch — see T-0333 for the full conversion record. With these changes, on a sandbox box **no code path can create a Stripe refund**: `refunds->create` exists only inside `LiveStripeGateway`, which the factory never returns when `params['sandbox']` is set.
+
+**Dry-run log review (acceptance criterion "documented way to review the log"):**
+```sql
+-- everything the flow would have asked Stripe to do, newest first
+SELECT id, created, endpoint, chargeRef, amount AS pence, contractID, userID,
+       wouldExceedRefundable, idempotencyKey
+FROM stripe_dryrun_requests ORDER BY id DESC;
+```
+`wouldExceedRefundable = 1` marks requests live Stripe would reject as exceeding the charge's refundable balance (new column, added before the migration has been applied anywhere). The same requests are mirrored to the file log (category `stripe.dryrun`) so evidence survives a transaction rollback.
+
+**Test-server walkthrough for Austin (in order):**
+1. Confirm `params['sandbox']` is true in the test box's params-local AND record which Stripe secret it loads (acceptance criterion — flag immediately if it is the live key).
+2. Copy the branch across; run `php yii migrate` (applies m260609_220000 including the new column).
+3. Run the unit tests on the test box: `vendor/bin/codecept run unit services/StripeGatewayFactoryTest` (DB-free) and `vendor/bin/codecept run unit services/DryRunStripeGatewayTest` (DB-dependent, @group db).
+4. End-to-end: pick a real contract from the nightly copy with a modest genuine credit due → Process Payment Refunds → flow completes, refund/allocation rows written, dry-run log rows present, LIVE Stripe dashboard shows zero refund activity in the window.
+5. Also exercise the newly-converted paths once each: Process Deposit Refunds on a deposit-held contract, and a manual refund with the Stripe method — same assertions.
+6. Replay 3–5 recent real refunds (reconstruct-replay-diff, technique A on T-0332) — logged requests must match live's stripe_refunds to the penny.
+
+Caveat for step 4/5: if a contract's stripe_payments row has chargeRef but NULL paymentIntentID, dry-run fails loudly with 'Refund Didnt save to Stripe Refunds Table!' — that's the synthetic-payment_intent limitation, not a regression; pick another contract.
