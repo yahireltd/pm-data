@@ -4,7 +4,7 @@ title: Stripe dry-run mode for the test environment (log would-be requests, neve
 type: feature
 state: in_progress
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-10T16:09:29Z
+updated: 2026-06-10T16:49:05Z
 project: yasystem
 section: null
 parent: null
@@ -81,7 +81,7 @@ labels:
   - testing
   - incident-c090586
 attention: null
-version: 14
+version: 16
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -165,3 +165,15 @@ The sandbox key override is amended accordingly in `857a474e` (replacing the bla
 Acceptance criterion status: test server secret checked — **test key confirmed** — and the config now enforces that invariant going forward rather than trusting it.
 
 **2026-06-10 16:09 claude-code:** **Migration/nightly-cron note (2026-06-10):** this branch adds exactly ONE migration (m260609_220000_create_stripe_dryrun_requests_table — purely additive, one new table). The test server's nightly 06:00 `yii migrate --interactive=0` cron handles it automatically: each restore removes both the table and its migration-history row together, and the cron re-creates it every morning while the test box is checked out on this branch. Consequences: (1) dry-run evidence rows in stripe_dryrun_requests are wiped nightly — capture same-day or use the file log (`stripe.dryrun` category in runtime logs), which survives restores; (2) confirm the restore completes before 06:00, else the table is missing until the next cron (manual migrate fixes it); (3) **live deploy checklist item: run `yii migrate` once on the main server when this branch merges** — after that the restored copy carries the table and the cron's involvement ends. First-time setup today is manual: `/usr/bin/php8.3 /var/www/yasystem/yii migrate --interactive=0`, then verify with `SHOW COLUMNS FROM stripe_dryrun_requests LIKE 'wouldExceedRefundable'`.
+
+**2026-06-10 16:44 claude-code:** **Integration testing milestone (2026-06-10, test box): the C090586 incident replayed in dry-run, matching live to the penny.**
+
+Sequence: unit tests green (factory 4/4 incl. the sandbox-always-dry-run fail-safe; gateway 11/11 incl. the wouldExceedRefundable cases) → two clean end-to-end dry-run refunds (C091852 £8.38, C088514 £56.40 — every artefact matched prediction; file audit log verified working after the log-target fix in 3576b98b and the cookie-dump fix in 285a04c4) → **incident fixture created** (the 25-05 refund artefacts deleted from the test DB with a full snapshot; phantom allocation 48031, £0 row 48262 and both credit notes restored to their 14:37 pre-click state) → Austin re-performed Jahzel's exact click (Stripe option).
+
+Replay result vs the real 25-05 refund: Stripe leg £1,255.85 / 125585 pence on ch_3TWFmuKYqp01XEip1FmKBptS (identical), BACS legs £6.00 + £138.00 anchored to payment 47215 (identical; BR references fresh-random as designed), overpayment link and credit-note allocations structurally identical, total £1,399.85 — and the screen showed "£138" before the click, reproducing the T-0324 display/execution mismatch on current code. wouldExceedRefundable=0, correctly: the request exactly equals the charge's refundable balance — the over-refund is at contract level, which only the T-0320 guard can catch. Zero Stripe API traffic (dry-run; Austin to spot-check the live dashboard for ch_3TeH66/ch_3SuEqn/ch_3TWFmu over today's window).
+
+This satisfies the replay acceptance criterion's most important datapoint and establishes the canonical T-0320 fixture: guard-in-shadow must log planned £1,399.85 vs cap £138 on this exact state; guard-enforced must block it. The fixture is recreatable any day (nightly restore brings the artefacts back; the reset script recipe is recorded in this run).
+
+Remaining for this ticket: 2–4 more replay datapoints from ordinary recent refunds, exercise the two converted flows (Process Deposit Refunds on a deposit-held contract; manual refund form with Stripe method), and the live-dashboard spot check.
+
+**2026-06-10 16:49 claude-code:** **Live Stripe dashboard check: CLEAN (2026-06-10).** Austin confirmed zero refund activity on the live Stripe account for all three charges exercised today (ch_3TeH66…, ch_3SuEqn…, ch_3TWFmu… — the latter being the C090586 incident charge replayed at full £1,255.85). Combined with the dry-run log rows and file audit trail, the integration acceptance criteria are met: the flow completes normally, writes its records, logs exactly what it would have sent, and provably never reaches Stripe. Remaining before closing this ticket: 2–4 replay datapoints from ordinary recent refunds, and one exercise each of the two converted flows (Process Deposit Refunds; manual refund form, Stripe method).
