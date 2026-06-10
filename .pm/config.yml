@@ -10,12 +10,12 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 349
+  ticket: 354
   project: 16
   section: 13
   perProject:
     pm-tool-self:
-      decision: 38
+      decision: 39
       status_note: 7
       tech_session: 16
     yasystem:

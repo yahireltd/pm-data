@@ -5,7 +5,7 @@ name: "DEMO — Smash The Granny Out Of It: arcade brick-breaker with an online 
 state: planning
 phase: build
 created: 2026-06-06T00:23:21Z
-updated: 2026-06-08T16:03:41Z
+updated: 2026-06-10T15:07:42Z
 owner:
   kind: human
   name: Austin
@@ -75,10 +75,11 @@ agent_policy:
   allow_commit: true
   allow_push: true
   note: New project so. no risk build fast and explore ideas
-private: false
+private: true
 invited:
   - austin@yahire.com
 in_development: true
+version: 1
 ---
 
 # DEMO — Neon Smash: arcade brick-breaker with an online leaderboard
