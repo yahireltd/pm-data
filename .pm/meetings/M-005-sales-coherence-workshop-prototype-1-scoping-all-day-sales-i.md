@@ -114,7 +114,7 @@ The 29 Apr workshop selected **Prototype 1: "Handover Process & Customer-Type Fl
 ## What IT brings
 
 **Already live in the system:**
-- **Teresa** — automated follow-ups on unconverted/stopped quotes (hourly, frequency caps, A/B-tested discounts). Most of the board's "system-only follow-up" lane runs today.
+- **Teresa** — automated follow-ups on unconverted/stopped quotes (hourly, frequency caps, A/B-tested discounts). **Important caveat: it runs, but it has NOT been effective — full replacement is on the table.** The mechanism exists; the outcome was never delivered, and there is no reporting on the stopped pool that would have shown this. Treat it as infrastructure + a cautionary tale, not a solved lane. **Evidence available:** a stats page exists (/marketing/teresa-stats, default 90 days, ?days=365 for the year) — but note it measures the UPSELL NUDGES (scenarios, discount reminders, slot-widening, min-order suggestions), not quote-level conversion: there is no Teresa-touched vs untouched comparison, no booking attribution, no revenue line. The system's longest-running automation cannot report whether it works — that measurement gap is itself the strongest exhibit for the steward role + stopped-pool reporting.
 - Stop-quote infrastructure (reasons, could-still-go-ahead, can-still-email).
 - **Customer tiers** with change history — the skeleton for account levels.
 - Lead-scoring foundations + a trained quote-conversion model (offline) + rich sales dashboards.
@@ -156,7 +156,7 @@ The April workshop's #1 circled issue was **Visibility**, and its "Explore an In
 | # | Cycle | On master today | Built, unreleased | Genuinely missing |
 |---|---|---|---|---|
 | 1 | Lead scoring + routing | Lead scores, pending-quotes assignment UI, offline conversion classifier | Scoring v2, prioritisation dashboard, quote API + AI assistant | Real-time score on the quote; routing-rules engine; auto-assignment |
-| 2 | Stop-chasing handover | **Teresa ≈ 80% of this cycle** | Forecasts to enrich timing | Stop state machine (stopped→nurturing→exhausted), multi-touch sequences, stopped-pool reporting |
+| 2 | Stop-chasing handover | Teresa runs (hourly follow-ups, A/B discounts) but has NOT been effective — mechanism present, outcome unproven | Forecasts to enrich timing | Effectiveness review + an extend-or-replace decision made on data; stop state machine, multi-touch sequences, and the stopped-pool reporting whose absence hid the ineffectiveness |
 | 3 | Big-fish alerting | Key-account request stub | Daily AI alert/insight infrastructure (pattern reusable) | Threshold alerts on arrival; manager worklist to convert-or-cease |
 | 4 | Segmentation + levels | Customer types, **tiers + change log** | Venue cohort views | Ownership vocabulary + workflow; actual-vs-potential; transfer windows |
 | 5 | System estate + remarketing | Teresa for unassigned; campaign infra | **Self-service portals, quote widget, AI assistant** | Membership product (nothing exists); pool KPIs; named steward |
@@ -198,7 +198,7 @@ Technical owner of Prototype 1. The quick win (segment detection + confirm tick-
 - **Commission/reward** — ownership levels will instantly raise "what does this mean for my commission?" Park it explicitly: reward design belongs to the Franchise work, later.
 - **Two offices, one team** — pitch review rituals (transfer windows, steward reviews) as *shared meetings*, a cohesion mechanism, not reports read alone.
 - **Over-promising** — the unreleased portals are real but: exhibition needs a runtime test + has a Xero gap; account portal can't provision logins yet. Say "built and close", not "ready tomorrow".
-- **The Teresa reveal** — when it lands that Teresa already covers most system follow-up, the answer to "so what's missing?" is: formal stop states, multi-touch sequences, and reporting on the stopped pool.
+- **Teresa honesty** — it exists and runs, but it has not been effective and full replacement is on the table. Use it as the day's best cautionary tale: automation that ran for years with no named reviewer and no outcome reporting — exactly the failure the steward role + review loops exist to prevent. The extend-or-replace decision should be made on data (stopped-pool conversion + cost) — reporting that itself doesn't exist yet, which is the point.
 
 ## Likely questions → answers
 

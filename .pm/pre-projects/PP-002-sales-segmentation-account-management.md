@@ -4,7 +4,7 @@ slug: sales-segmentation-account-management
 title: Sales Segmentation / Account Management
 state: planning
 created: 2026-06-05T12:25:32Z
-updated: 2026-06-10T00:06:10Z
+updated: 2026-06-10T01:17:57Z
 stakeholders:
   - name: Ben
     role: Business SME & Systems Architect
@@ -94,10 +94,10 @@ scope_in:
   - "The criteria-decisions, settled with the team in scoping sessions: value thresholds, BANT-per-level, and the account-level definitions (system / incubation / account-managed / strategic) — every decision cycle captured as see / decide / act / outcome / review with an owner and a review cadence."
   - "Release strategy + staged shipping of the existing unreleased work (the MlUpdatesClaw / venue-exhibition-hardening line): production-ready slices first (ML scoring pipeline, quote API, AI quote assistant, capacity insights); the beta portals only after their hardening tail, behind gating that does not exist yet."
   - "Lead routing: real-time score written onto each new quote (the existing conversion model wired in), a routing-rules engine mapping score+type to a named conversion process (system-only / quick / in-depth / lifetime / escalate), automated assignment."
-  - "Stop-chasing v2, built ON the existing Teresa system: a formal stop state machine (stopped → nurturing → exhausted), multi-touch nurture sequences, and conversion + cost reporting for the stopped pool."
+  - "Stop-chasing v2: FIRST an effectiveness review of the existing Teresa follow-up automation — it runs, but it has not delivered results — and an explicit extend-or-replace decision made on data (stopped-pool conversion + cost). Then the formal stop state machine (stopped → nurturing → exhausted), multi-touch sequences, and the stopped-pool reporting whose absence let the ineffectiveness go unnoticed for years."
   - "Big-fish alerting: value/potential thresholds that alert a manager on arrival, and a manager worklist held until a convert-or-cease decision is recorded."
   - Account ownership levels layered on the existing customer-tier system, actual-vs-potential value tracking, and the quarterly transfer-window reassignment ritual.
-  - "System-estate stewardship: a named non-salesperson steward for system-managed revenue, with pool-level KPIs (closing rate, repeat rate) and a regular results review."
+  - "System-estate stewardship: a named non-salesperson steward for system-managed revenue, with pool-level KPIs (closing rate, repeat rate) and a regular results review — the role whose absence is exactly why Teresa could run ineffectively unnoticed."
   - "Review loops + dashboards: leakage and process-conformance views, each tied to the named decision it drives (the T-0322 decision-cycle method); reviews operating at company, steward and individual level."
   - "The people/process side of the above: ownership requirements, role definitions and review cadences (the sales system includes how people operate, not just screens)."
 scope_out:
@@ -105,7 +105,7 @@ scope_out:
   - Sales franchise / compensation design (listed TBC in the summary) — commission and reward structures get decided separately once ownership levels exist.
   - "The logistics branch (PickingSketchSalesDashFriday: route planner, picking decoupling) — a separate release track; only its merge-window sequencing is coordinated with this project."
   - New ML model development — this project integrates the models that already exist (conversion scoring, forecasting); training new model families is out.
-  - Replacing Teresa or buying/building a CRM — we extend what exists, not rewrite it.
+  - Buying or building a general CRM — out of scope regardless of how the Teresa extend-or-replace decision lands.
   - The exhibition portal's Xero reconciliation gap — tracked inside the release-strategy work item, not a separate build here.
 success_criteria:
   - "Lead routing live: every new account is auto-scored and routed; score accuracy and conversion-by-route are reviewed on a set cadence, and human corrections feed back into the scoring."
@@ -165,7 +165,7 @@ scoping_held: true
 owner:
   kind: human
   name: Ben
-version: 4
+version: 5
 ---
 
 # PP-002: Sales Segmentation / Account Management
