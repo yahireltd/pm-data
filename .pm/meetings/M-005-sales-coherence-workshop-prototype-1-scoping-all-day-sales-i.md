@@ -132,3 +132,40 @@ The April workshop's #1 circled issue was **Visibility**, and its "Explore an In
 4. Each decision cycle assigned a review owner + cadence.
 5. Ranked call on release-the-built vs build-the-new.
 6. PP-002 converted to the live project.
+
+
+---
+
+# IT briefing addendum (Austin — pre-meeting)
+
+## Translation table: Humanness language ↔ our work
+
+| Axel says | It means | Maps to |
+|---|---|---|
+| Sales Engine | The operating *structure* — 10 nodes (opportunity flow, sales ops, IT/tools, roles, visibility, commission, communication, enablement, governance, segmentation) | The system + process work — this pre-project's scope |
+| Sales Franchise | The *leadership practice* — manager cadences, reviews, feedback, people development | The review loops in the decision cycles; the cadences Nathan + Sam drafted in April |
+| Coherence | Components *and the relationships between them* working as one | The "every screen ties to a named decision" filter |
+| Prototype / quick win | 3-month testable pilot / 2–4 week first move | Milestones 1–2 |
+| The chocolate metaphor | Structure is the crust protecting the intuitive "melty core" — not replacing it | The anti-box-ticking guardrail |
+
+## IT's position, precisely
+
+Technical owner of Prototype 1. The quick win (segment detection + confirm tick-box) is **feasible in 2–4 weeks — counted from the definitions table, not from today**. The build shape: definitions agreed → segment + confirm/override surfaced on quote/customer screens → corrections logged so detection improves (that correction loop is also the seed of ML routing later). No date commitments on anything downstream (routing, levels, transfer windows) until definitions + thresholds exist.
+
+## Landmines and the path past them
+
+- **Structure vs intuition** — the room's deepest anxiety. Framing: the decision-cycle filter (*no dashboard without a named decision*) is the **protection against** box-ticking, not the source of it.
+- **Commission/reward** — ownership levels will instantly raise "what does this mean for my commission?" Park it explicitly: reward design belongs to the Franchise work, later.
+- **Two offices, one team** — pitch review rituals (transfer windows, steward reviews) as *shared meetings*, a cohesion mechanism, not reports read alone.
+- **Over-promising** — the unreleased portals are real but: exhibition needs a runtime test + has a Xero gap; account portal can't provision logins yet. Say "built and close", not "ready tomorrow".
+- **The Teresa reveal** — when it lands that Teresa already covers most system follow-up, the answer to "so what's missing?" is: formal stop states, multi-touch sequences, and reporting on the stopped pool.
+
+## Likely questions → answers
+
+- *"Can the system tell who's a corporate repeat customer?"* → The signals exist (type fields, history, scoring). What it can't do is apply **your** definitions — that's today's job.
+- *"How long until we see something?"* → Quick win 2–4 weeks **from the definitions table**.
+- *"Can AI do the routing?"* → The model exists (a stronger one unreleased). Honest sequence: rules from your thresholds first, the model assists, humans override, overrides train it.
+- *"What's this costing IT?"* → Reframe to the ranking decision: much of the value is already built — choose between *releasing it* and *building new* (agenda item 5).
+- *"Where is all this tracked?"* → This pre-project (PP-002); the April workshop and today are recorded as meetings with outcomes; it converts to the live project when this room says go.
+
+**The one-line version of the day for IT: walk in with the gap analysis, walk out with the definitions table — everything else is sequencing.**
