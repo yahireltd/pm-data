@@ -2,10 +2,10 @@
 id: T-0346
 title: breadcrumbs css
 type: feature
-state: in_progress
+state: done
 priority: p2
 created: 2026-06-10T09:41:23Z
-updated: 2026-06-10T10:13:30Z
+updated: 2026-06-10T10:29:02Z
 project: yahire-website
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Breadcrumbs on product view to look the same as the category page
+  - "[x] Breadcrumbs on product view to look the same as the category page"
 out_of_scope: []
 code_anchors:
   - path: yahirenew/web/css/origin.css
@@ -48,22 +48,24 @@ agent_runs:
         note: 'Per reporter, also changed the product breadcrumb prefix wording from "Can be found in" to "You are here: " in yahirenew/views/yahire/product.php:211 to fully match the category page. Now both CSS (origin.css) and label text match the category breadcrumb. Two files changed in working tree; commit/push still pending on the human (project policy locks agent commit/push).'
       - at: 2026-06-10T10:08:01Z
         note: "Review feedback addressed: product breadcrumb stopped at the category and didn't show the current product. Added the product name as the final (non-link) crumb in yahirenew/views/yahire/product.php (`<span class=\"product-detail__found-in-current\">` with Html::encode($product->productName)), mirroring how the category page's last crumb is the current page name. Updated origin.css: added .product-detail__found-in-current (same dark #243638, weight 400) and generalised the separator to `.product-detail__found-in-links > * + *:before { content \" / \" }` so \" / \" renders before every crumb including the product. Breadcrumb now reads: \"You are here: / Chair Hire / [Subcategory] / Product Name\"."
+      - at: 2026-06-10T10:23:03Z
+        note: "Review feedback (weight mismatch) resolved. Root cause: the category breadcrumb sets NO font-weight in any stylesheet, so it inherits the body base weight which is `font-weight: 500` (Pangea Medium) at origin.css:437 — that's the 'bold' look. My previous round had over-corrected the product crumbs to font-weight 400 (Pangea Regular), making them lighter than the category. Fixed by setting .product-detail__found-in-label, .product-detail__found-in-link and .product-detail__found-in-current all to font-weight 500 to match the inherited body/category weight. Product breadcrumb now matches category on weight (500), size (14px), separators (' / ') and color (#243638). Note: category breadcrumb is display:none below 768px; product breadcrumb stays visible on mobile (left as-is, since there's nothing to compare against there)."
+      - at: 2026-06-10T10:29:02Z
+        note: "Recreated the ya-hire source-tier docs system on yasite (it had no docs/ folder). Added docs/README.md describing the MVC-mirrored convention, adapted for yasite's multiple web tiers (frontend/yahirenew/backend/console) with a tier prefix, and noting yahirenew is the live public site. Documented this change at docs/views/yahirenew/yahire/product.md — covers the bespoke .product-detail__found-in breadcrumb, the T-0346 fix, and the key gotcha (category 'bold' is just inherited body weight 500 / Pangea Medium, so product crumbs must be 500 not 400 to match). New files: docs/README.md, docs/views/yahirenew/yahire/product.md."
     test_plan: |-
-      1. Open a product page that belongs to a category (e.g. the product under "Chair Hire" from the review note).
-      2. Confirm the breadcrumb now ends with the product name as plain (non-link) text: "You are here: / Chair Hire / <Product Name>" (and includes the subcategory when present).
-      3. Confirm styling still matches the category page: 14px, normal weight, " / " separators, dark #243638 text, teal hover/underline on the clickable category/subcategory crumbs only (product name is not a link).
-      4. Check a product with a subcategory and one without, to confirm separators render correctly in both cases.
-      Files changed: yahirenew/views/yahire/product.php (markup) and yahirenew/web/css/origin.css (styles).
+      1. On desktop (>=768px) open a product page and its category page side by side.
+      2. Confirm the product breadcrumb text now has the same weight as the category breadcrumb (Pangea Medium / 500) — no longer visibly lighter.
+      3. Confirm size (14px), the ' / ' separators and dark #243638 color still match.
+      4. Confirm the category/subcategory crumbs are still links (teal hover) and the product name is plain text.
+      Files changed: yahirenew/web/css/origin.css (font-weight 400 -> 500 on the three .product-detail__found-in* rules) and yahirenew/views/yahire/product.php (product-name crumb + wording, from earlier rounds).
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
+      docs_note: created the docs folder and the sub folders same as on ya-hire
 labels: []
-attention:
-  needed_by: agent
-  reason: |-
-    this is the category breadcrumb, <div class="container">
-        <ul class="breadcrumb category-breadcrumbs"><li>You are here: </li>
-    <li class="active">Chair Hire</li>
-    </ul></div> i think the text has bold font on there, not the same on the product view, have a look
-  since: 2026-06-10T10:13:29Z
-version: 19
+attention: null
+version: 25
 department: Sales
 ---
 
@@ -73,3 +75,9 @@ Can we change font/size/style of  the product page breadcrumbs to be like the c
 
 ![](https://yahire.zendesk.com/attachments/token/9qUNBeYQSq0gcu4FmRd81HKrH/?name=image.png)\
 ![](https://yahire.zendesk.com/attachments/token/G8H39dHFp3qakKTMYHis2I3Uw/?name=image.png)
+
+## Conversation
+
+**2026-06-10 10:27 — you**
+
+the breadcrumbs on the product view are changed to look the same as on the category pages
