@@ -5,7 +5,7 @@ name: Stock Predictions Engine
 state: planning
 phase: build
 created: 2026-06-10T01:25:52Z
-updated: 2026-06-10T02:31:30Z
+updated: 2026-06-10T14:13:22Z
 owner:
   kind: human
   name: you
@@ -23,7 +23,7 @@ problems:
 goals:
   - SNP 500 beating profits
 cost_of_inaction: Make no money
-version: 28
+version: 32
 private: true
 invited:
   - austin@yahire.com
@@ -34,6 +34,7 @@ phase_overrides:
     reason: pre-existing project
     at: 2026-06-10T02:31:30Z
     by: Austin Pickering
+repo_url: https://github.com/AKAust/StockPredictionsEngine
 ---
 
 # Stock Predictions Engine
