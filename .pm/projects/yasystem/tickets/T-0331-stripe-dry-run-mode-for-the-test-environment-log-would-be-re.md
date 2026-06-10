@@ -4,7 +4,7 @@ title: Stripe dry-run mode for the test environment (log would-be requests, neve
 type: feature
 state: in_progress
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-10T15:42:48Z
+updated: 2026-06-10T16:09:29Z
 project: yasystem
 section: null
 parent: null
@@ -81,7 +81,7 @@ labels:
   - testing
   - incident-c090586
 attention: null
-version: 12
+version: 14
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -157,3 +157,11 @@ So the check is: compare `sn` in the TEST box's common/config/params-local.php a
 **Mitigation shipped** in commit `b37cab9e` (pushed to refund-hardening-t0331-stripe-dryrun): both config entry points (backend/config/main.php, console/config/main.php) now override the Stripe keys whenever `sandbox=true` — they take `stripeTestPublicKey`/`stripeTestSecretKey` from the same Secrets Manager secret, defaulting to an **empty string** if those fields don't exist. Effect: the moment the test box pulls this branch, no code path on it (refund-creating, read-only retrieves, payment-taking, console jobs) holds the live key; calls fail loudly with an auth error instead of reaching the live Stripe account. Live boxes are untouched (sandbox unset → override never runs).
 
 **Remaining manual step for Austin (optional but recommended):** add two fields to the existing Secrets Manager secret — `stripeTestPublicKey` (pk_test_…) and `stripeTestSecretKey` (sk_test_…) from the Stripe dashboard's test-mode keys. Until then the test box runs key-less, which is fine for all T-0331 testing: the dry-run gateway answers the refund flow from local data and never calls Stripe.
+
+**2026-06-10 16:03 claude-code:** **Correction to the previous comment — finding updated (2026-06-10):** Austin checked the actual secret contents: the Secrets Manager secret shared by local and the test server (austinaccess) stores a **Stripe TEST key**, not the live key. So the test box was never live-armed through the key — the pre-branch worst case there was noisy API errors (test key cannot see live charge refs), not real refunds. The live server presumably loads a different secret carrying the live key.
+
+The sandbox key override is amended accordingly in `857a474e` (replacing the blanket swap in `b37cab9e`): on sandbox boxes it now cascades — explicit `stripeTestPublicKey`/`stripeTestSecretKey` fields if present in the secret → otherwise the loaded key is KEPT when it carries a test-mode prefix (`pk_test_`/`sk_test_`) → otherwise blanked. Net effect: the test box's current working test key keeps working with zero AWS changes, and the only configuration that gets disarmed is the genuinely dangerous one — a sandbox box somehow holding a live-prefixed key. Live boxes (sandbox unset/false) are untouched by the whole block.
+
+Acceptance criterion status: test server secret checked — **test key confirmed** — and the config now enforces that invariant going forward rather than trusting it.
+
+**2026-06-10 16:09 claude-code:** **Migration/nightly-cron note (2026-06-10):** this branch adds exactly ONE migration (m260609_220000_create_stripe_dryrun_requests_table — purely additive, one new table). The test server's nightly 06:00 `yii migrate --interactive=0` cron handles it automatically: each restore removes both the table and its migration-history row together, and the cron re-creates it every morning while the test box is checked out on this branch. Consequences: (1) dry-run evidence rows in stripe_dryrun_requests are wiped nightly — capture same-day or use the file log (`stripe.dryrun` category in runtime logs), which survives restores; (2) confirm the restore completes before 06:00, else the table is missing until the next cron (manual migrate fixes it); (3) **live deploy checklist item: run `yii migrate` once on the main server when this branch merges** — after that the restored copy carries the table and the cron's involvement ends. First-time setup today is manual: `/usr/bin/php8.3 /var/www/yasystem/yii migrate --interactive=0`, then verify with `SHOW COLUMNS FROM stripe_dryrun_requests LIKE 'wouldExceedRefundable'`.
