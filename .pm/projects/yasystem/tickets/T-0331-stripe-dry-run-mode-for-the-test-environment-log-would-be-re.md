@@ -4,7 +4,7 @@ title: Stripe dry-run mode for the test environment (log would-be requests, neve
 type: feature
 state: in_progress
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-10T15:29:51Z
+updated: 2026-06-10T15:42:48Z
 project: yasystem
 section: null
 parent: null
@@ -81,7 +81,7 @@ labels:
   - testing
   - incident-c090586
 attention: null
-version: 11
+version: 12
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -151,3 +151,9 @@ Caveat for step 4/5: if a contract's stripe_payments row has chargeRef but NULL 
 **2026-06-10 15:29 claude-code:** **Clarification for the "confirm which Stripe secret the test server loads" criterion (2026-06-10, from code):** the sandbox flag does NOT switch Stripe keys anywhere in the codebase. `backend/config/main.php:11-32` uses `sandbox` to select only the database host (restored nightly copy vs live RDS) and year-end product IDs; the Stripe secretKey/publicKey always come from AWS Secrets Manager (lines 44-59) via the secret name in `params['sn']` (gitignored params-local.php on each box). There is no active `secretKeyTest` mechanism — the only references are commented-out Xero code.
 
 So the check is: compare `sn` in the TEST box's common/config/params-local.php and backend/config/params-local.php against the live box's value. Same secret name = the test box holds the LIVE Stripe key (the exact live-armed risk this ticket exists to neutralise — the gateway now makes it survivable, but the better end state is a separate Secrets Manager secret for the test box holding a Stripe TEST key, so even read-only paths like RefundsController/PaymentsController retrieves cannot touch the live account). Record the finding here either way.
+
+**2026-06-10 15:42 claude-code:** **Acceptance criterion closed — test server Stripe secret checked and finding recorded (2026-06-10):** Austin confirmed the test server's params-local uses the **same `sn` as live/local**, i.e. the test box was loading the **live Stripe key** while pointing at the test database — the live-armed risk this ticket predicted, now confirmed real.
+
+**Mitigation shipped** in commit `b37cab9e` (pushed to refund-hardening-t0331-stripe-dryrun): both config entry points (backend/config/main.php, console/config/main.php) now override the Stripe keys whenever `sandbox=true` — they take `stripeTestPublicKey`/`stripeTestSecretKey` from the same Secrets Manager secret, defaulting to an **empty string** if those fields don't exist. Effect: the moment the test box pulls this branch, no code path on it (refund-creating, read-only retrieves, payment-taking, console jobs) holds the live key; calls fail loudly with an auth error instead of reaching the live Stripe account. Live boxes are untouched (sandbox unset → override never runs).
+
+**Remaining manual step for Austin (optional but recommended):** add two fields to the existing Secrets Manager secret — `stripeTestPublicKey` (pk_test_…) and `stripeTestSecretKey` (sk_test_…) from the Stripe dashboard's test-mode keys. Until then the test box runs key-less, which is fine for all T-0331 testing: the dry-run gateway answers the refund flow from local data and never calls Stripe.
