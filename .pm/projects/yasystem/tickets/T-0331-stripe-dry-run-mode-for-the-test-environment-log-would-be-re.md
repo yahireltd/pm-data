@@ -2,9 +2,9 @@
 id: T-0331
 title: Stripe dry-run mode for the test environment (log would-be requests, never call Stripe)
 type: feature
-state: review
+state: done
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-10T17:31:09Z
+updated: 2026-06-10T17:40:00Z
 project: yasystem
 section: null
 parent: null
@@ -19,13 +19,13 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "With the sandbox flag on, no code path in the payment-refund flow can reach Stripe's refund-creation endpoint (verified by test: the live client is never constructed in sandbox mode)"
-  - In dry-run mode, processing a refund writes one log row per would-be Stripe request capturing charge reference, amount in pence, idempotency key, contract, and user, and the on-screen flow completes as normal
-  - In dry-run mode, charge balance lookups are answered from local data so refundable-balance calculations work on the nightly-copied database
-  - Live mode behaviour is request-for-request identical to today — verified by unit tests against a stubbed client and by replaying 3–5 recent real refunds in dry-run and matching their logged requests to live's recorded Stripe refunds
-  - The test server's currently-configured Stripe secret has been checked and the finding recorded on this ticket
-  - A documented way exists to review the dry-run log (simple query or screen) so a human can verify what would have been requested
-  - "Cross-impact: all other Stripe client usages (payments, deposits, payouts, webhooks) confirmed untouched"
+  - "[x] With the sandbox flag on, no code path in the payment-refund flow can reach Stripe's refund-creation endpoint (verified by test: the live client is never constructed in sandbox mode)"
+  - "[x] In dry-run mode, processing a refund writes one log row per would-be Stripe request capturing charge reference, amount in pence, idempotency key, contract, and user, and the on-screen flow completes as normal"
+  - "[x] In dry-run mode, charge balance lookups are answered from local data so refundable-balance calculations work on the nightly-copied database"
+  - "[x] Live mode behaviour is request-for-request identical to today — verified by unit tests against a stubbed client and by replaying 3–5 recent real refunds in dry-run and matching their logged requests to live's recorded Stripe refunds"
+  - "[x] The test server's currently-configured Stripe secret has been checked and the finding recorded on this ticket"
+  - "[x] A documented way exists to review the dry-run log (simple query or screen) so a human can verify what would have been requested"
+  - "[x] Cross-impact: all other Stripe client usages (payments, deposits, payouts, webhooks) confirmed untouched"
 out_of_scope:
   - Stripe payment-taking flows (payment links, deposits) — same risk, assess separately
   - The replay/diff harness itself (build once dry-run mode exists, if still wanted)
@@ -75,16 +75,17 @@ agent_runs:
         note: "Code written, NOT yet run anywhere (per Austin's instruction — code only for now). On branch refund-hardening-t0331-stripe-dryrun, uncommitted pending Austin's go-ahead (protected project). Built: the gateway interface, live passthrough, dry-run implementation (charge state synthesized from local stripe_payments + stripe_refunds rows, both confirmed to store consistent units; would-be refunds logged to a new stripe_dryrun_requests table via migration), the fail-safe factory (sandbox flag forces dry-run unconditionally; optional stripeDryRun param forces it elsewhere), rewired the planner/executor/controller to use it, and two test files: factory wiring tests (DB-free) and gateway behaviour tests (DB-dependent, marked to run on the test box only). All files pass PHP syntax lint. FINDING for follow-up: an inventory of remaining direct Stripe client constructions shows the deposit-refund service, the manual refund form, the year-end refund handler, the refunds controller, and the deprecated old refund endpoint still bypass the gateway — the test box stays live-armed through those paths until they are routed through the factory too."
       - at: 2026-06-09T22:59:17Z
         note: "Multi-agent adversarial review of the first commit confirmed two blockers, both now fixed, committed (84444136d on branch refund-hardening-t0331-stripe-dryrun) and pushed with Austin's authorisation. Blocker 1: the recorded Stripe payment amounts are stored in pence, not pounds — the dry-run charge synthesis would have reported every charge 100x too large; verified against the site checkout writer (it stores the exact value sent to Stripe) and fixed, with tests moved to pence fixtures. Blocker 2: the year-end refund handler still built the planner/executor with a raw Stripe client, which the new type would crash on — it now goes through the gateway factory, which as a bonus brings year-end refunds under the sandbox fail-safe (one item of T-0333 done early). Also hardened: failed/cancelled refund records no longer shrink the synthesized refundable balance, would-be requests are additionally written to the file log so audit evidence survives a transaction rollback, and the user lookup is console-safe. Remaining for this ticket: apply the migration on the test box, run both test files there, end-to-end dry-run refund check, and confirm which Stripe secret the test server loads."
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - refunds
   - payments
   - testing
   - incident-c090586
-attention:
-  needed_by: human
-  reason: All acceptance criteria verified on the test box (units green, 5/5 replays to the penny incl. the C090586 incident, deposit flow exercised, manual form determined dead UI, secret finding recorded). Needs Austin's sign-off on the completion summary and a decision on when to deploy the branch to live (behaviour-identical, migration required once).
-  since: 2026-06-10T17:31:09Z
-version: 19
+attention: null
+version: 28
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -197,3 +198,9 @@ Every leg matched on source payment, amount, method, and backing structure; BR r
 2. **Manual refund form: closed by determination — it is dead UI.** The form markup no longer renders anywhere ($formModel unused in manual-refund.php); the sole remaining button referencing it (customer-area.php:479, shown only for unused payments) calls loadRefundFormFields() which is undefined on that page, so it JS-errors silently. Removal dates to the Statement updates / Xero invoicing changes era, replaced by the automatic pipeline. The server-side path was nonetheless a live Stripe call until converted in 59b861fe — it stays converted (defence in depth) and joins actionProcessContractRefundsOld on T-0333's delete-in-cleanup list, along with the orphaned JS and the broken customer-area button.
 
 **Ticket summary:** factory 4/4 + gateway 12/12 on the test box; two synthetic e2e refunds verified row-level; 5/5 replays match live to the penny (incl. the C090586 incident, £1,399.85, screen said £138); deposit flow verified twice; manual form determined dead; file audit log working (no cookie leakage after 285a04c4); live Stripe dashboard confirmed clean; test server secret confirmed to hold a TEST key, with the config invariant (857a474e) enforcing test-prefix-or-nothing on sandbox boxes from now on. Live rollout note remains: this branch is behaviour-identical on live (passthrough gateway); deploy first, alone, run the migration once (T-0332 sequence).
+
+---
+
+**2026-06-10 17:40 — you**
+
+all tests went as expected - nothing ended up on stripe
