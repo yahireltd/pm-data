@@ -4,13 +4,20 @@ slug: sales-segmentation-account-management
 title: Sales Segmentation / Account Management
 state: planning
 created: 2026-06-05T12:25:32Z
-updated: 2026-06-09T23:52:32Z
+updated: 2026-06-10T00:06:10Z
 stakeholders:
   - name: Ben
     role: Business SME & Systems Architect
     channel: email
     contact: ben@yahire.com
     internal: true
+    notify_on:
+      - state_change
+      - meeting_held
+      - outcome_recorded
+      - comment_added
+      - assigned
+      - meeting_scheduled
   - name: Austin
     role: Developer & System SME
     channel: email
@@ -158,7 +165,7 @@ scoping_held: true
 owner:
   kind: human
   name: Ben
-version: 3
+version: 4
 ---
 
 # PP-002: Sales Segmentation / Account Management
