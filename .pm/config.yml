@@ -11,7 +11,7 @@ defaults:
     state: planning
 id_counters:
   ticket: 336
-  project: 12
+  project: 13
   section: 13
   perProject:
     pm-tool-self:
@@ -23,6 +23,8 @@ id_counters:
     org:
       meeting: 6
       pre_project: 6
+    stock-predictions-engine:
+      milestone: 4
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph

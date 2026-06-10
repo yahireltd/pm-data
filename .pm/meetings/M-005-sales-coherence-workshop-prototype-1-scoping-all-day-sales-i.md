@@ -120,7 +120,7 @@ The 29 Apr workshop selected **Prototype 1: "Handover Process & Customer-Type Fl
 - Lead-scoring foundations + a trained quote-conversion model (offline) + rich sales dashboards.
 
 **Built but unreleased:**
-- Conversion scoring v2 (materially stronger) + quote prioritisation views.
+- Conversion scoring: use the honest v3 model (AUC ≈0.84) + quote prioritisation views. NOTE: v2's headline "AUC 0.98" was confirmed DATA LEAKAGE — 82% of its power came from deposit features, and a deposit basically IS a conversion. The branch's own model metadata documents this ("v3_honest") with the leaky features removed. Quote v3's number, never v2's.
 - Claude-powered quote assistant + quote API + embeddable quote widget.
 - Venue / exhibition / account self-service portals (venue piece assessed shippable).
 - Daily AI insight/alert digests (the alerting pattern big-fish handling needs).
@@ -155,7 +155,7 @@ The April workshop's #1 circled issue was **Visibility**, and its "Explore an In
 
 | # | Cycle | On master today | Built, unreleased | Genuinely missing |
 |---|---|---|---|---|
-| 1 | Lead scoring + routing | Lead scores, pending-quotes assignment UI, offline conversion classifier | Scoring v2, prioritisation dashboard, quote API + AI assistant | Real-time score on the quote; routing-rules engine; auto-assignment |
+| 1 | Lead scoring + routing | Lead scores, pending-quotes assignment UI, offline conversion classifier | Honest scoring model v3 (AUC ≈0.84 — v2's 0.98 was leakage, caught + documented in the model metadata), prioritisation dashboard, quote API + AI assistant | Real-time score on the quote; routing-rules engine; auto-assignment |
 | 2 | Stop-chasing handover | Teresa runs (hourly follow-ups, A/B discounts) but has NOT been effective — mechanism present, outcome unproven | Forecasts to enrich timing | Effectiveness review + an extend-or-replace decision made on data; stop state machine, multi-touch sequences, and the stopped-pool reporting whose absence hid the ineffectiveness |
 | 3 | Big-fish alerting | Key-account request stub | Daily AI alert/insight infrastructure (pattern reusable) | Threshold alerts on arrival; manager worklist to convert-or-cease |
 | 4 | Segmentation + levels | Customer types, **tiers + change log** | Venue cohort views | Ownership vocabulary + workflow; actual-vs-potential; transfer windows |
@@ -204,7 +204,7 @@ Technical owner of Prototype 1. The quick win (segment detection + confirm tick-
 
 - *"Can the system tell who's a corporate repeat customer?"* → The signals exist (type fields, history, scoring). What it can't do is apply **your** definitions — that's today's job.
 - *"How long until we see something?"* → Quick win 2–4 weeks **from the definitions table**.
-- *"Can AI do the routing?"* → The model exists (a stronger one unreleased). Honest sequence: rules from your thresholds first, the model assists, humans override, overrides train it.
+- *"Can AI do the routing?"* → An honest model exists (v3, ~0.84 AUC — a useful ranking signal, not an oracle; an earlier 0.98 claim was data leakage we caught and documented). Honest sequence: rules from your thresholds first, the model assists, humans override, overrides train it.
 - *"What's this costing IT?"* → Reframe to the ranking decision: much of the value is already built — choose between *releasing it* and *building new* (agenda item 5).
 - *"Where is all this tracked?"* → This pre-project (PP-002); the April workshop and today are recorded as meetings with outcomes; it converts to the live project when this room says go.
 
