@@ -4,7 +4,7 @@ title: Merge daily_bars_ipo + _stale_patch into the main bar panel; one canonica
 type: chore
 state: triaged
 created: 2026-06-10T01:50:57Z
-updated: 2026-06-10T01:50:57Z
+updated: 2026-06-10T03:28:55Z
 project: stock-predictions-engine
 section: null
 parent: null
@@ -31,7 +31,7 @@ labels:
   - data
   - infra
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -39,3 +39,7 @@ The 2026-06-10 refresh proved partial: 1,242/1,329 names stale after 2026-04-23 
 
 ## Action
 When the IPO workflow completes: merge both dirs into `data/daily_bars/`, rebuild the PIT universe, fix whatever made `backfill_daily_bars.py` partial (ticker-list source vs full panel), and make the paper bot's coverage guard the canonical freshness check.
+
+## Conversation
+
+**2026-06-10 03:28 claude-code:** **Complete — ready to close.** Root cause: the refresh script iterated a hardcoded ~106-name seed list instead of the files on disk (fixed, committed). Stale patch: 39,412 new bars across 1,365 files, 0 errors. IPO merge: 4,748 names in (1 collision, resolved). Rebuilt: PIT universe (14.05M rows, 6,023 survivors + 4,497 delisted, to 2026-06-09), monthly top-50 universe files, ADV panel. All spot names (RKLB/IONQ/ASTS/APP/MRVL/SNDK/SPY/AAPL) current. The 692 remaining "laggards" are dead listings with no newer data on Polygon — coverage among living names is 100%. Tonight's 21:35 bot run should pass its freshness guard. PEAD small-cap retest (T-0339) firing now.
