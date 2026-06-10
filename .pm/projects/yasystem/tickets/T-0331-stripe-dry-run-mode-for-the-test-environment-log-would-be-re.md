@@ -2,9 +2,9 @@
 id: T-0331
 title: Stripe dry-run mode for the test environment (log would-be requests, never call Stripe)
 type: feature
-state: in_progress
+state: review
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-10T16:58:33Z
+updated: 2026-06-10T17:31:09Z
 project: yasystem
 section: null
 parent: null
@@ -80,8 +80,11 @@ labels:
   - payments
   - testing
   - incident-c090586
-attention: null
-version: 17
+attention:
+  needed_by: human
+  reason: All acceptance criteria verified on the test box (units green, 5/5 replays to the penny incl. the C090586 incident, deposit flow exercised, manual form determined dead UI, secret finding recorded). Needs Austin's sign-off on the completion summary and a decision on when to deploy the branch to live (behaviour-identical, migration required once).
+  since: 2026-06-10T17:31:09Z
+version: 19
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -186,3 +189,11 @@ Remaining for this ticket: 2–4 more replay datapoints from ordinary recent ref
 - **C089519** (two BACS legs £6.00/£36.91, mixed overpayment + credit-note backing, six weeks old): MATCH — both legs, both backings identical.
 
 Every leg matched on source payment, amount, method, and backing structure; BR references fresh-random as designed. Coverage note: no SC (sales) contract refund exists in the recent live population, so that edge stays untested until one occurs — recorded as a known gap, not a failure. Acceptance criterion "replay 3–5 recent real refunds and match live's recorded Stripe refunds" is satisfied (5 replays incl. the incident). All of today's test data self-cleans in tonight's restore. Remaining for this ticket: one Process Deposit Refunds exercise and one manual-refund-form (Stripe method) exercise through the newly-converted gateway paths.
+
+**2026-06-10 17:31 claude-code:** **Integration checklist COMPLETE (2026-06-10 evening). Final two flow exercises resolved:**
+
+1. **Deposit refund flow (DepositRefundService → gateway): exercised twice** — C091379 and C091373 (£100 each, Stripe deposits). Rows correct both times (deposit_refunds + allocations + stripe_refunds with dryrun ids + dry-run log + file log), zero Stripe traffic. The first run surfaced a real harness bug: the service inserts its stripe_refunds row (refundID='PENDING') BEFORE calling the gateway, so the dry-run balance check counted the request's own row and false-flagged wouldExceedRefundable=1 on a deposit-only charge. Fixed in 0d92cbb8 (PENDING placeholder rows excluded from refundedPence — also correct for debris from failed calls, since no money moved) with a regression test; gateway suite now 12/12 on the test box. Bonus find: a different pre-existing guard ("Invoice / Credit Was Generated Before refund") correctly blocked a deposit refund on a not-yet-invoiced contract (C092053) — useful precedent for T-0320's pre-flight pattern.
+
+2. **Manual refund form: closed by determination — it is dead UI.** The form markup no longer renders anywhere ($formModel unused in manual-refund.php); the sole remaining button referencing it (customer-area.php:479, shown only for unused payments) calls loadRefundFormFields() which is undefined on that page, so it JS-errors silently. Removal dates to the Statement updates / Xero invoicing changes era, replaced by the automatic pipeline. The server-side path was nonetheless a live Stripe call until converted in 59b861fe — it stays converted (defence in depth) and joins actionProcessContractRefundsOld on T-0333's delete-in-cleanup list, along with the orphaned JS and the broken customer-area button.
+
+**Ticket summary:** factory 4/4 + gateway 12/12 on the test box; two synthetic e2e refunds verified row-level; 5/5 replays match live to the penny (incl. the C090586 incident, £1,399.85, screen said £138); deposit flow verified twice; manual form determined dead; file audit log working (no cookie leakage after 285a04c4); live Stripe dashboard confirmed clean; test server secret confirmed to hold a TEST key, with the config invariant (857a474e) enforcing test-prefix-or-nothing on sandbox boxes from now on. Live rollout note remains: this branch is behaviour-identical on live (passthrough gateway); deploy first, alone, run the migration once (T-0332 sequence).
