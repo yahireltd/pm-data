@@ -22,6 +22,7 @@ id_counters:
       sprint: 3
     org:
       meeting: 6
+      pre_project: 6
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
