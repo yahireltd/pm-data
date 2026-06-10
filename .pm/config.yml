@@ -18,6 +18,7 @@ id_counters:
       decision: 39
       status_note: 7
       tech_session: 16
+      sprint: 30
     yasystem:
       sprint: 3
       tech_session: 2
