@@ -3,9 +3,9 @@ id: P-0013
 slug: stock-predictions-engine
 name: Stock Predictions Engine
 state: planning
-phase: planning
+phase: build
 created: 2026-06-10T01:25:52Z
-updated: 2026-06-10T02:09:31Z
+updated: 2026-06-10T02:31:30Z
 owner:
   kind: human
   name: you
@@ -23,11 +23,17 @@ problems:
 goals:
   - SNP 500 beating profits
 cost_of_inaction: Make no money
-version: 27
+version: 28
 private: true
 invited:
   - austin@yahire.com
 in_development: true
+phase_overrides:
+  - from_phase: planning
+    to_phase: build
+    reason: pre-existing project
+    at: 2026-06-10T02:31:30Z
+    by: Austin Pickering
 ---
 
 # Stock Predictions Engine
