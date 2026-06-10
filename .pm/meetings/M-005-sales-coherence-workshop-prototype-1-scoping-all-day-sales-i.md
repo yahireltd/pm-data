@@ -4,7 +4,7 @@ slug: sales-coherence-workshop-prototype-1-scoping-all-day-sales-i
 title: Sales Coherence workshop — Prototype 1 scoping (all-day, sales + IT)
 state: scheduled
 created: 2026-06-09T23:56:35Z
-updated: 2026-06-10T00:10:32Z
+updated: 2026-06-10T00:40:16Z
 scheduled_at: 2026-06-12T08:00:00Z
 duration_minutes: 480
 location: Yahire office (all-day workshop)
@@ -39,6 +39,42 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:44:37Z
     role: SME
+  - name: nathan bruce
+    channel: email
+    contact: nathan@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-10T00:35:51Z
+    role: Sales Manager (SME)
+  - name: Sam Boulton
+    channel: email
+    contact: sam@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-10T00:36:28Z
+    role: Busines Delveopment Maager (SME)
+  - name: taran@yahire.com
+    channel: email
+    contact: taran@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-10T00:37:05Z
+    role: Sales & Marketing Director (SME)
+  - name: Zsolt Turu
+    channel: email
+    contact: zsolt@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-10T00:37:41Z
+    role: Dev
 agenda:
   - topic: "Definitions table: customer segments + how each is detected + who confirms (Prototype 1 pre-requisite — unblocks the 2–4 week quick win)"
     duration_min: 90
@@ -60,7 +96,11 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 5
+version: 11
+reminders:
+  - minutes_before: 1440
+    channels:
+      - email
 ---
 
 # Workshop prep — IT readiness pack
