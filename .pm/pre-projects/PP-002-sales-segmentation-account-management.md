@@ -185,3 +185,26 @@ _Capture the kickoff agenda + outcomes here, then mark "kickoff held" in plannin
 ## Planning
 
 _Problem, scope in/out, success criteria, milestones — fill these in before converting._
+
+
+## Key research findings (measured, 10 Jun 2026 — full detail in yasystem TS-002)
+
+**Teresa (automated follow-up) — first-ever readout of its own 21-month randomised test** (12,314 quotes, 75/25 send/holdout): emailed quotes converted **17.35% vs 16.25%** for the silent holdout — a +1.1-point lift that is NOT statistically significant. Leave it running (near-zero cost) but never rely on it; any replacement must beat this baseline, and the A/B harness itself must be kept — the experiment was excellent, the missing piece was anyone reading it out.
+
+**Where sales attention actually pays** (observational, ~31k quotes; "assigned" partly means "customer engaged", so gaps are upper bounds):
+
+| Segment | Sales take | Converts assigned | Converts untouched |
+|---|---|---|---|
+| New, under £300 | 11% | 38.7% | 13.0% |
+| New, £300–1k | 22% | 35.1% | 16.6% |
+| New, £1k+ | 70% | 26.3% | 12.3% |
+| Repeat, under £300 | 57% | 41.9% | **43.9%** |
+| Repeat, £300–1k | 65% | 57.9% | 46.1% |
+| Repeat, £1k+ | 93% | 52.1% | 36.5% |
+
+Three implications for this project's design:
+1. **Small repeat customers convert on their own** — system-only handling for them is correct, not a compromise, and frees real sales capacity (57% of those quotes currently get human attention for zero observable gain).
+2. **Human selling earns its keep on NEW customers** (+14 to +26 points by band) — the "sell on trust and care / incubators" principle, now with numbers.
+3. **The hardest pocket is big new customers** (£1k+ new: 26% conversion even WITH sales) — where the in-depth / lifetime conversion process redesign matters most.
+
+**Model honesty note:** the quote-conversion model's headline "AUC 0.98" (v2) was confirmed data leakage (deposit features ≈ the outcome); the honest v3 scores 0.845 and is the only number to quote. Leakage audits are now standing practice.

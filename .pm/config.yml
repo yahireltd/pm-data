@@ -20,7 +20,7 @@ id_counters:
       tech_session: 16
     yasystem:
       sprint: 3
-      tech_session: 1
+      tech_session: 2
     org:
       meeting: 6
       pre_project: 6

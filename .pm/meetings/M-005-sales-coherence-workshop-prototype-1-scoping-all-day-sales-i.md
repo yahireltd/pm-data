@@ -214,4 +214,8 @@ Technical owner of Prototype 1. The quick win (segment detection + confirm tick-
 - *"What's this costing IT?"* → Reframe to the ranking decision: much of the value is already built — choose between *releasing it* and *building new* (agenda item 5).
 - *"Where is all this tracked?"* → This pre-project (PP-002); the April workshop and today are recorded as meetings with outcomes; it converts to the live project when this room says go.
 
+## Measured: where sales attention actually pays (10 Jun analysis)
+
+Observational (~31k quotes since Aug 2024; "assigned" partly means "customer engaged" — gaps are upper bounds): sales select on value × relationship (93% of £1k+ repeat taken, 11% of small new). The apparent sales effect is **largest on NEW customers** (+14 to +26 points) and **zero-to-negative on small repeat** (41.9% assigned vs 43.9% untouched — repeat customers convert on their own at 43–47%). For the account-ladder discussion: system-only for small repeat is correct, not a compromise; human selling earns its keep on new customers; the hardest pocket is big NEW customers (26% conversion even with sales). Full table + caveats in the PP-002 charter and yasystem TS-002.
+
 **The one-line version of the day for IT: walk in with the gap analysis, walk out with the definitions table — everything else is sequencing.**
