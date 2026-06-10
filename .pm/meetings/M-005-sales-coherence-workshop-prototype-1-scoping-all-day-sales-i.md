@@ -4,7 +4,7 @@ slug: sales-coherence-workshop-prototype-1-scoping-all-day-sales-i
 title: Sales Coherence workshop — Prototype 1 scoping (all-day, sales + IT)
 state: scheduled
 created: 2026-06-09T23:56:35Z
-updated: 2026-06-10T00:07:44Z
+updated: 2026-06-10T00:10:32Z
 scheduled_at: 2026-06-12T08:00:00Z
 duration_minutes: 480
 location: Yahire office (all-day workshop)
@@ -60,7 +60,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 4
+version: 5
 ---
 
 # Workshop prep — IT readiness pack

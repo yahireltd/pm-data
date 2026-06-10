@@ -2,9 +2,9 @@
 id: M-006
 slug: from-sales-growth-to-sales-coherence-humanness-workshop-the-
 title: From Sales Growth to Sales Coherence — Humanness workshop (the breakthrough kickoff)
-state: scheduled
+state: held
 created: 2026-06-09T23:59:34Z
-updated: 2026-06-10T00:01:37Z
+updated: 2026-06-10T00:11:14Z
 scheduled_at: 2026-04-29T08:00:00Z
 duration_minutes: 480
 location: Yahire office (full-day facilitated workshop)
@@ -50,7 +50,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: kickoff
-version: 6
+version: 7
 ---
 
 # The breakthrough workshop
