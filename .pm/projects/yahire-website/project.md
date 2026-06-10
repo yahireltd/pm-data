@@ -5,7 +5,7 @@ name: Yahire Website
 state: planning
 phase: intake
 created: 2026-06-10T09:51:16Z
-updated: 2026-06-10T10:06:05Z
+updated: 2026-06-10T10:15:07Z
 owner:
   kind: human
   name: you
@@ -19,7 +19,13 @@ key_decisions: []
 labels: []
 order: 1024
 category: system
-version: 5
+version: 11
+agent_policy:
+  allow_commit: false
+  allow_push: false
+team:
+  - zsolt@yahire.com
+  - austin@yahire.com
 ---
 
 # Yahire Website

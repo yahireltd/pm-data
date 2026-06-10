@@ -2,10 +2,10 @@
 id: T-0346
 title: breadcrumbs css
 type: feature
-state: review
+state: in_progress
 priority: p2
 created: 2026-06-10T09:41:23Z
-updated: 2026-06-10T10:08:05Z
+updated: 2026-06-10T10:13:30Z
 project: yahire-website
 section: null
 parent: null
@@ -56,10 +56,14 @@ agent_runs:
       Files changed: yahirenew/views/yahire/product.php (markup) and yahirenew/web/css/origin.css (styles).
 labels: []
 attention:
-  needed_by: human
-  reason: "Added the missing product name as the final breadcrumb crumb on the product page (per review note). Breadcrumb now reads \"You are here: / Chair Hire / <Product Name>\" and matches the category page styling. Changes are in the working tree (yahirenew/views/yahire/product.php + yahirenew/web/css/origin.css) and not yet committed — let me know if you'd like me to commit/push now that the policy allows it."
-  since: 2026-06-10T10:08:05Z
-version: 17
+  needed_by: agent
+  reason: |-
+    this is the category breadcrumb, <div class="container">
+        <ul class="breadcrumb category-breadcrumbs"><li>You are here: </li>
+    <li class="active">Chair Hire</li>
+    </ul></div> i think the text has bold font on there, not the same on the product view, have a look
+  since: 2026-06-10T10:13:29Z
+version: 19
 department: Sales
 ---
 
