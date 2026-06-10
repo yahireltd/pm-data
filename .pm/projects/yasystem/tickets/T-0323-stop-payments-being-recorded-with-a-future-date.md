@@ -4,7 +4,7 @@ title: Stop payments being recorded with a future date
 type: bug
 state: triaged
 created: 2026-06-09T19:21:45Z
-updated: 2026-06-09T19:53:59Z
+updated: 2026-06-10T13:58:35Z
 project: yasystem
 section: null
 parent: null
@@ -42,7 +42,7 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 3
+version: 4
 backlog_status: confirmed_for_release
 estimated_effort: S
 source: discovered
@@ -80,3 +80,11 @@ One validation rule on the manual payment form's date field: not after today (se
 4. **Browser bypass:** POST the form payload directly with a future date (curl) — the server-side rule must reject it; this cannot be a date-picker-only restriction.
 5. **Cross-impact sweep:** the manual payment form is one entry point. Confirm (read-only review, results recorded here) which other paths set a payment 'created' date — Stripe webhook payments (always now — unaffected), any admin CRUD screens for payments, any import/console jobs. Decide per path whether the same rule applies; do not silently change them in this ticket.
 6. **Time-zone edge:** at 23:55 local, "today" must still be accepted — confirm the comparison uses Europe/London, matching how the form composes the date with the current clock time.
+
+## Conversation
+
+**2026-06-10 13:58 claude-code:** **Investigation evidence bearing on this ticket's gate question (2026-06-10, verified against live data):**
+
+The ID-bracket forensics (payments 47190–47245) show the 4 May batch was keyed by Jahzel (userID 1021) on the morning of Mon 4 May (a bank holiday): nine receipts backdated to Fri 1 May (statement date) and three dated forward to Tue 5 May (47213, 47214, 47215) — consistent with deliberate **value-date keying** (pending BGC credits dated to the next banking day). So the answer to this ticket's gate question is likely "yes, we do future-date on purpose" — still confirm with Jahzel/accounts before deciding.
+
+However, a second case argues for a *bounded* validation rather than closing this as won't-do: payments 44320/44321/44322 were keyed on 2 Jan 2026, meant for 31-12-**25**, but typed 31-12-**26** — a twelve-month forward-date typo that has left £3,535.93 looking "unused" to the system since January (see T-0327 conversation for the repair). A hard "no future dates" rule would block legitimate value-dating, but a sanity bound (e.g. reject dates more than a few working days ahead, server-side) would have caught the typo while permitting next-banking-day dating. Suggest putting that option to accounts alongside the original question.

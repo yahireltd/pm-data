@@ -4,7 +4,7 @@ title: Stop the statement page changing payment allocations just by being viewed
 type: bug
 state: triaged
 created: 2026-06-09T19:25:16Z
-updated: 2026-06-09T19:54:44Z
+updated: 2026-06-10T13:58:38Z
 project: yasystem
 section: null
 parent: null
@@ -47,7 +47,7 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 3
+version: 4
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -80,3 +80,9 @@ Also fix in passing: the ordering bug where the stored invoice balance column is
 5. **Workflow regression week:** after deploy, watch the unpaid-invoices list for unexpected growth (invoices that would previously have been silently tidied). Pull the same list on the test box before/after the change for the same nightly data and diff — that gives you the expected delta in advance, not a surprise in production.
 6. **Accounts sign-off:** walk the accounts team through the new explicit step BEFORE release; record their sign-off and any workflow notes here.
 7. **Cross-impact:** the same auto-allocation pattern exists at payment-recording time (correct — it allocates the NEW payment) and in the allocate-payment endpoint. Confirm payment entry still allocates normally end-to-end, and that the endpoint now shares the capped logic.
+
+## Conversation
+
+**2026-06-10 13:58 claude-code:** **Scope addition from the 2026-06-10 investigation:** `PaymentsController::actionAllocatePayment` (backend/controllers/PaymentsController.php:252–310) is a *more* exposed writer than the page-view allocator this ticket targets. It is triggered by the allocate AJAX on the same manual-refund screen, calls `getUnusedPayment()` with no perspective date, and — unlike `PaymentAllocator::allocate` and the refund endpoints — has **no `originalContractID` gate at all**. Adversarial code review confirmed it would write a byte-identical phantom row to 48031. For the C090586 incident, code alone cannot distinguish whether the phantom came from the page-view GET (ContractsController.php:564–606) or this endpoint — both produce identical rows stamped payment.created+1min; only server access logs for 4 May 08:36–09:00 could tell. Either way both paths need the same fix: cap any allocation at the payment's true remaining unapplied amount regardless of date filters.
+
+Also confirmed: the stale-balance ordering bug is present in **three** copies, not two — ContractsController.php:595–596, PaymentsController.php:291–292, and Deposits.php:265–266 (`$paymentAmountRemaining -= $paymentAmountRemaining;` zeroes the variable before `$invoice->balance -= $paymentAmountRemaining;` subtracts it).

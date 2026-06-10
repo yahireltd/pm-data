@@ -4,7 +4,7 @@ title: "ORCHESTRATOR — Refund Process Hardening: master plan, build order, and
 type: chore
 state: triaged
 created: 2026-06-09T20:27:05Z
-updated: 2026-06-09T20:27:16Z
+updated: 2026-06-10T14:00:21Z
 project: yasystem
 section: null
 parent: null
@@ -56,7 +56,7 @@ labels:
   - incident-c090586
   - orchestrator
 attention: null
-version: 2
+version: 3
 backlog_status: confirmed_for_release
 estimated_effort: runs whole sprint
 source: discovered
@@ -155,3 +155,31 @@ Strict order — later items depend on earlier ones:
 - [ ] C090586 repaired on live; customer recovery settled; fleet check attached (T-0327)
 - [ ] Detection query baseline re-run post-sprint: zero new corruption
 - [ ] Retro note on SPR-003: what the incident cost and what the sprint changed
+
+## Conversation
+
+**2026-06-10 14:00 claude-code:** ## Investigation record, 2026-06-10: causal chain verified in code AND proven with live data
+
+A multi-agent code investigation (each causal link independently verified, then adversarially re-checked against the code that ran on 25 May) plus a set of forensic queries Austin ran against live confirm the incident narrative in this ticket, with refinements. Queries and expected results are in repo file `sql/incident-c090586-proof-queries.sql`.
+
+### The proven chain
+
+1. **Forward-dating proven mechanically.** Stripe payments are wall-clock-honest, so the auto-increment id sequence dates physical inserts: payment 47215 (dated 05-05 08:35:00) sits at a lower id than Stripe payment 47216 created 04-05 08:59:58 → keyed before 9am on 4 May. The keying fingerprint: `ManualPaymentForm::savePayment` composes created = chosen date + wall-clock H:i (seconds :00); the same flow stamped INV 73100 with true time 04-05 08:35:34. Batch context: Jahzel keyed 12 receipts 08:09–08:35 on bank-holiday Monday 4 May — nine backdated to Fri 1 May, three value-dated to Tue 5 May. Looks deliberate (see T-0323 gate evidence).
+2. **The blind-spot asymmetry** (`Payments::getUnusedPayment` filters allocations to created ≤ today 23:59:59, Payments.php:148–218; `Invoices::getBalancesInvoice` has no date filter) made 47215 read as £8,043.97 unused while INV73100 showed £1,261.85 owing — the same allocation row 48030 seen through two different lenses.
+3. **The phantom write**: row 48031 (£1,261.85) was physically inserted on 4 May between 08:36 and ~09:00 (it precedes row 48032, wall-clocked ~09:00) — written by the manual-refund GET auto-allocator (ContractsController.php:564–606) or the identical-arithmetic allocate AJAX (PaymentsController:252–310, which has NO originalContractID gate — see T-0325 comment); `applyInvoicePayment` stamped it payment.created+1min = 05-05 08:36:00, concealing it. Code predicts exactly one phantom, writable only on 4 May — matching the data.
+4. **The trap**: 12 May, the genuine £1,255.85 Stripe payment hit the "arithmetically full" invoice → deliberate £0.00 allocation row 48262 ("assign 0 so the payment can be refunded", Deposits.php:270–277) → fully "unused".
+5. **The over-refund**: the view nets signed unused amounts (−1,261.85 + 1,255.85 + 144 credits = "£138" heading, manual-refund.php:604/676); the execution path drops negatives (PaymentAllocator.php:20) and refunds every positive in full (RefundPlanner/RefundExecutor) → £1,399.85, all three refunds 25-05 14:38 by userID 1021. Executor's 'BR'+md5 reference format matches BR91febc3/BRd29a371; `stripe_refunds.amount` confirmed stored in pence (125585) — independently validating the T-0331 review finding. **System failure, not operator error: the screen said £138.**
+6. **Xero rejected the phantom on 20 May** — five days of unread warning before the money left (now ticketed as T-0349, early-warning monitoring).
+
+All decisive code is long-standing (date filter Mar 2024, +1-min stamping Jul 2021, netting/dropping split May 2025) and was byte-identical at the incident-time master HEAD (575277a1) — not a recent regression.
+
+### New facts folded into the sprint
+
+- **Three more landmines repaired under T-0327**: payments 44320/44321/44322 (£3,535.93) keyed 2 Jan 2026, year-typo'd to 31-12-2026 — invisible-allocation state armed until year-end. Not over-allocated (their invoices settled exactly at entry, so the balance>0 gate never fired) — which also confirms the over-allocation precondition: forward-dated payment + invoice with residual balance + a page view/allocate during the window.
+- **Fleet sweep clean** otherwise: only historic payment 2493 (2021).
+- **Xero state for the repair** (on T-0327): phantom never accepted by Xero, so local correction converges; the 5-June £1,255.85 overpayment posted for 47445 needs Xero-side correction.
+- **Test-box still live-armed** even with T-0331 deployed, via actionProcessContractRefundsOld / DepositRefundService / ManualRefundForm (on T-0331) — close these before any sprint integration testing.
+
+### Status vs plan (2026-06-10)
+
+Only T-0331 exists in code (branch refund-hardening-t0331-stripe-dryrun, commits a9615bdd + 84444136; note a9615bdd's message "Branch to test account fixes" understates that it contains the bulk of the implementation). Nothing deployed or run anywhere yet. All other tickets unstarted; build order in this ticket remains correct, with the phase-0 addition: close the test-box bypass paths and run the trio date repair before integration testing begins.
