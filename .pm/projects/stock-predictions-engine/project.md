@@ -3,9 +3,9 @@ id: P-0013
 slug: stock-predictions-engine
 name: Stock Predictions Engine
 state: planning
-phase: intake
+phase: planning
 created: 2026-06-10T01:25:52Z
-updated: 2026-06-10T01:52:16Z
+updated: 2026-06-10T02:09:31Z
 owner:
   kind: human
   name: you
@@ -23,10 +23,11 @@ problems:
 goals:
   - SNP 500 beating profits
 cost_of_inaction: Make no money
-version: 25
+version: 27
 private: true
 invited:
   - austin@yahire.com
+in_development: true
 ---
 
 # Stock Predictions Engine
