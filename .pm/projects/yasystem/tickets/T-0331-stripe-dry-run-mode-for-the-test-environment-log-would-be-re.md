@@ -4,7 +4,7 @@ title: Stripe dry-run mode for the test environment (log would-be requests, neve
 type: feature
 state: in_progress
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-09T22:59:17Z
+updated: 2026-06-10T13:55:37Z
 project: yasystem
 section: null
 parent: null
@@ -81,7 +81,7 @@ labels:
   - testing
   - incident-c090586
 attention: null
-version: 8
+version: 9
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -120,3 +120,9 @@ The refund hardening sprint needs extensive testing, but the test system (nightl
 ## First step before any code
 
 Check the test server's local params file to confirm which Stripe secret it currently loads — if it is the live key, flag immediately as an operational risk independent of this build.
+
+## Conversation
+
+**2026-06-10 13:55 claude-code:** **Test-box safety gap relevant to this ticket's remaining work (2026-06-10 branch audit):** even once this branch is deployed to the test server, the box stays **live-armed** through three refund-creating paths that bypass the gateway factory: `ContractsController::actionProcessContractRefundsOld` (direct `refunds->create` at lines 1587 and 1694 — endpoint still routable), `DepositRefundService` (lines 189 and 316 — the end-of-hire refund modal path via actionProcessRefund/actionProcessBatchRefund), and `ManualRefundForm` (line 98). `RefundsController:130` also constructs a raw client but is retrieve-only (no money movement). YearEndRefundHandler is already fixed (commit 84444136). Recommendation: before any sprint integration testing on the test box, either route these three through `StripeGatewayFactory` (the pattern is established; each is a small change) or disable the old endpoint — otherwise a mis-click during testing can still send real money exactly as the original risk statement warned.
+
+Status reminder of this ticket's outstanding items: apply migration m260609_220000 on the test box, run the two test files there, one end-to-end dry-run refund, and confirm which Stripe secret the test server loads (record finding here).

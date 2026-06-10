@@ -4,7 +4,7 @@ title: Repair contract C090586 and reconcile the customer over-refund
 type: support
 state: triaged
 created: 2026-06-09T19:25:57Z
-updated: 2026-06-09T19:55:30Z
+updated: 2026-06-10T13:55:37Z
 project: yasystem
 section: null
 parent: null
@@ -43,7 +43,7 @@ labels:
   - incident-c090586
   - data-repair
 attention: null
-version: 3
+version: 4
 backlog_status: confirmed_for_release
 estimated_effort: S
 source: discovered
@@ -76,3 +76,18 @@ Independent of the code tickets — can run in parallel as an operations task. T
 5. Only after a clean rehearsal: run the same script on live inside a transaction, with the before/after capture output saved to this ticket. The nightly copy means a botched live repair can be compared against the previous day's data, but treat the rehearsal as the real safety net.
 
 **Detection query for step 5 (fleet check):** payments where the sum of allocation rows exceeds the payment amount by more than a penny — group invoice_payments by paymentID, having SUM(amountApplied) > payments.amount + 0.01; join to contracts for context. Attach the full result set here.
+
+## Conversation
+
+**2026-06-10 13:55 claude-code:** **Findings from the 2026-06-10 data verification (all queries in repo file `sql/incident-c090586-proof-queries.sql`):**
+
+**Exact row inventory for the C090586 repair** — contract `ya_contracts.id` 46518, customer 24054:
+- Phantom allocation: `invoice_payments` 48031 (£1,261.85, payment 47215 → invoice 73100), stamped 2026-05-05 08:36:00, physically inserted 4 May between 08:36 and ~09:00 (proven by ID bracket: it precedes row 48032, a Stripe allocation wall-clocked 04-05 ~09:00).
+- Refund artefacts 25-05 14:38, all by userID 1021 (Jahzel): `payment_refunds` **3140** (£1,255.85 Stripe, `stripe_refunds` 35613 = re_3TWFmuKYqp01XEip1TcPpcgM, amount stored as 125585 pence, linked `payment_refund_overpayments` row **352**), **3141** (£6.00, ref BR91febc3, `credit_note_allocations` 8728 → CR 73371), **3142** (£138.00, ref BRd29a371, cna 8729 → CR 74839).
+- No credit-note double-dipping: cnas 8728/8729 are refund-backed only (invoiceID NULL).
+
+**Xero gate answered:** the phantom 48031 was **never accepted by Xero** — posting rejected 2026-05-20 18:26:33 and again 2026-06-05 11:23:47 ("Overpayment cannot be allocated as the allocation amount is greater than the amount remaining on the Overpayment", `xero_posting_logs` 70622/71029, still retrying). Payment 47215 + row 48030 posted fine on 20-05. So correcting 48031 locally **converges** with Xero. Separately, Xero now holds an unallocated £1,255.85 overpayment for payment 47445 (posted 2026-06-05, log 71823) that needs a Xero-side correction after the refund reconciliation.
+
+**Fleet check results:** over-allocation sweep returns only 47215 and one historic case (payment 2493, £1,836.97 over, July 2021 — the known early-system contract).
+
+**Three additional repairs to fold into this ticket** — payments 44320 (£2,673.01, C086707), 44321 (£491.77, C087714), 44322 (£371.15) and their allocations `invoice_payments` 45027/45028/45029: keyed by Jahzel on 2 Jan 2026 07:13–07:15 but dated 31-12-**2026** (year typo for 31-12-2025, proven by ID bracket — the batch sits between Stripe rows of 1 Jan and 2 Jan 2026). Until 31-12-26 these payments look 100% unused to `getUnusedPayment` (£3,535.93 total). They are NOT over-allocated today (their invoices were settled exactly at entry, so the page-view allocator's `balance > 0` gate never fires), but any new invoice on those contracts arms the C090586 mechanism instantly. Xero has NOT been fed phantom overpayments for them (no `overpayment` rows in xero_posting_logs for these payment ids). Repair: shift `created` back one year on all six rows, preserving the +1-minute convention on the allocation rows; rehearse on the test box first like the main repair.
