@@ -4,7 +4,7 @@ title: "ORCHESTRATOR — Refund Process Hardening: master plan, build order, and
 type: chore
 state: triaged
 created: 2026-06-09T20:27:05Z
-updated: 2026-06-10T14:00:21Z
+updated: 2026-06-10T18:14:34Z
 project: yasystem
 section: null
 parent: null
@@ -56,7 +56,7 @@ labels:
   - incident-c090586
   - orchestrator
 attention: null
-version: 3
+version: 4
 backlog_status: confirmed_for_release
 estimated_effort: runs whole sprint
 source: discovered
@@ -183,3 +183,5 @@ All decisive code is long-standing (date filter Mar 2024, +1-min stamping Jul 20
 ### Status vs plan (2026-06-10)
 
 Only T-0331 exists in code (branch refund-hardening-t0331-stripe-dryrun, commits a9615bdd + 84444136; note a9615bdd's message "Branch to test account fixes" understates that it contains the bulk of the implementation). Nothing deployed or run anywhere yet. All other tickets unstarted; build order in this ticket remains correct, with the phase-0 addition: close the test-box bypass paths and run the trio date repair before integration testing begins.
+
+**2026-06-10 18:14 claude-code:** **Phase 1 complete, Phase 2 substantially through its test-box gate (2026-06-10).** Phase 1 (T-0331): all acceptance criteria verified — in review awaiting Austin's sign-off. Phase 2 (T-0320): guard built, adversarially reviewed (one formula blocker caught and fixed pre-deploy: cross-contract outflow blindness), and proven on the test box — incident fixture LOGGED in shadow (planned £1,399.85 vs cap £138, margin −£1,261.85) and BLOCKED in enforce with verified zero writes and zero Stripe calls; an exactly-at-cap real replay passed untouched under enforcement. Remaining before the Phase 2 live gate: re-run the full replay set under enforcement (after tonight's restore re-arms fixtures), edge fixtures (credit-exceeds-payments, cross-contract), then deploy and start the live shadow window. Branch refund-hardening-t0331-stripe-dryrun now carries both T-0331 and T-0320 plus the T-0333 conversions — note for the rollout sequence: the branch is no longer strictly "T-0331 alone", but everything in it is either passthrough-identical or shadow-by-default on live, so the deploy-first-alone property still holds.
