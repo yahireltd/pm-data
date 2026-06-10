@@ -2,9 +2,9 @@
 id: T-0325
 title: Stop the statement page changing payment allocations just by being viewed
 type: bug
-state: triaged
+state: in_progress
 created: 2026-06-09T19:25:16Z
-updated: 2026-06-10T13:58:38Z
+updated: 2026-06-10T18:47:29Z
 project: yasystem
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Austin
   channel: claude-code
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Loading the manual-refund page performs zero database writes (verified by query logging during a page load on a contract with unallocated payments and credits)
   - Allocation is available as an explicit user action that shows what it is about to apply before doing it
@@ -41,13 +43,22 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260610-1847
+    model: claude-fable-5
+    started: 2026-06-10T18:47:15Z
+    status: in_progress
+    policy_ack:
+      branch: master
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-06-10T18:47:15Z
 labels:
   - refunds
   - payments
   - incident-c090586
 attention: null
-version: 4
+version: 7
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -86,3 +97,11 @@ Also fix in passing: the ordering bug where the stored invoice balance column is
 **2026-06-10 13:58 claude-code:** **Scope addition from the 2026-06-10 investigation:** `PaymentsController::actionAllocatePayment` (backend/controllers/PaymentsController.php:252–310) is a *more* exposed writer than the page-view allocator this ticket targets. It is triggered by the allocate AJAX on the same manual-refund screen, calls `getUnusedPayment()` with no perspective date, and — unlike `PaymentAllocator::allocate` and the refund endpoints — has **no `originalContractID` gate at all**. Adversarial code review confirmed it would write a byte-identical phantom row to 48031. For the C090586 incident, code alone cannot distinguish whether the phantom came from the page-view GET (ContractsController.php:564–606) or this endpoint — both produce identical rows stamped payment.created+1min; only server access logs for 4 May 08:36–09:00 could tell. Either way both paths need the same fix: cap any allocation at the payment's true remaining unapplied amount regardless of date filters.
 
 Also confirmed: the stale-balance ordering bug is present in **three** copies, not two — ContractsController.php:595–596, PaymentsController.php:291–292, and Deposits.php:265–266 (`$paymentAmountRemaining -= $paymentAmountRemaining;` zeroes the variable before `$invoice->balance -= $paymentAmountRemaining;` subtracts it).
+
+**2026-06-10 18:47 claude-code:** **The defence-in-depth allocation cap (this ticket's third acceptance criterion) is built and proven (2026-06-10, commits 694b112c/339aaa54/6fd9fc2a on refund-hardening-t0331-stripe-dryrun).**
+
+**What was built:** a cap inside `Invoices::applyInvoicePayment` — the single chokepoint every invoice_payments writer routes through (page-view allocator, the ungated allocate AJAX, payment entry, PaymentAllocator, the old endpoint, ItController). Remainder = payment.amount − Σ allocations (DATE-AGNOSTIC — future-dated rows count, so the T-0326 blind spot cannot inflate it) − Σ refunds net of their credit-note-funded portion (adversarial review blocker: the executor anchors credit-note refunds to payments whose cash they never were). Over-requests clamp to the remainder; an exhausted payment writes no row; the deliberate zero-amount linkage rows bypass untouched; every intervention logs to `runtime/logs/allocation-cap.log` (each line is a would-have-been phantom). Concurrency races remain T-0321's scope. 8 DB tests green on the test box, including the C090586 arithmetic in miniature and the zero-row linkage behaviour.
+
+**Proven by re-enacting the incident on real screens (test box, contract C091933):** Austin entered a £200 BACS payment dated TOMORROW against a £411.01 invoice (Jahzel's exact 4-May action), then viewed the Process Refunds page (the trigger that wrote phantom 48031). Result: entry wrote its one legitimate row; the page view's re-application attempt was refused at `ContractsController.php:594` — the same line that wrote the original phantom — and logged: "ALLOCATION-CAP skipped: payment 48412 has £0 remaining (amount £200, allocated £200, refunded net £0); refused to apply £200 to invoice 76223". Row count stayed at 1. The invoice keeps honestly showing £211.01 outstanding. The C090586 corruption mechanism no longer functions. (Test artefacts wiped by tonight's restore.)
+
+**Remaining in this ticket (the workflow half):** remove the page-view auto-allocation entirely (the cap makes it harmless for over-application, but it still writes legitimate allocations on view), the explicit Allocate action with preview, the stale-balance ordering bug ×3 (ContractsController:595, PaymentsController:291, Deposits:265 — note the review found a related drift: after a cap skip in the 584-branch the stored balance still decrements; the 592-branch ironically doesn't due to the existing bug), gate `actionAllocatePayment` (see earlier comment), and the accounts walkthrough + sign-off before release. Known cosmetic: while the corrupted contracts (C090586 + the 2026-12-31 trio) remain unrepaired (T-0327), every view of their refund pages adds an allocation-cap log line — observable, harmless, and disappears with the repair.
