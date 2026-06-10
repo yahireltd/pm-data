@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 336
+  ticket: 344
   project: 13
   section: 13
   perProject:
@@ -20,11 +20,14 @@ id_counters:
       tech_session: 16
     yasystem:
       sprint: 3
+      tech_session: 1
     org:
       meeting: 6
       pre_project: 6
     stock-predictions-engine:
-      milestone: 4
+      milestone: 16
+      decision: 12
+      status_note: 1
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
