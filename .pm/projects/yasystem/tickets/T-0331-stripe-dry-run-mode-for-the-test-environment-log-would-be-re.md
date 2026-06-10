@@ -4,7 +4,7 @@ title: Stripe dry-run mode for the test environment (log would-be requests, neve
 type: feature
 state: in_progress
 created: 2026-06-09T19:49:27Z
-updated: 2026-06-10T14:27:49Z
+updated: 2026-06-10T15:29:51Z
 project: yasystem
 section: null
 parent: null
@@ -81,7 +81,7 @@ labels:
   - testing
   - incident-c090586
 attention: null
-version: 10
+version: 11
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -147,3 +147,7 @@ FROM stripe_dryrun_requests ORDER BY id DESC;
 6. Replay 3–5 recent real refunds (reconstruct-replay-diff, technique A on T-0332) — logged requests must match live's stripe_refunds to the penny.
 
 Caveat for step 4/5: if a contract's stripe_payments row has chargeRef but NULL paymentIntentID, dry-run fails loudly with 'Refund Didnt save to Stripe Refunds Table!' — that's the synthetic-payment_intent limitation, not a regression; pick another contract.
+
+**2026-06-10 15:29 claude-code:** **Clarification for the "confirm which Stripe secret the test server loads" criterion (2026-06-10, from code):** the sandbox flag does NOT switch Stripe keys anywhere in the codebase. `backend/config/main.php:11-32` uses `sandbox` to select only the database host (restored nightly copy vs live RDS) and year-end product IDs; the Stripe secretKey/publicKey always come from AWS Secrets Manager (lines 44-59) via the secret name in `params['sn']` (gitignored params-local.php on each box). There is no active `secretKeyTest` mechanism — the only references are commented-out Xero code.
+
+So the check is: compare `sn` in the TEST box's common/config/params-local.php and backend/config/params-local.php against the live box's value. Same secret name = the test box holds the LIVE Stripe key (the exact live-armed risk this ticket exists to neutralise — the gateway now makes it survivable, but the better end state is a separate Secrets Manager secret for the test box holding a Stripe TEST key, so even read-only paths like RefundsController/PaymentsController retrieves cannot touch the live account). Record the finding here either way.

@@ -4,7 +4,7 @@ title: Route the remaining refund-creating Stripe paths through the gateway (dep
 type: chore
 state: triaged
 created: 2026-06-09T22:34:27Z
-updated: 2026-06-10T14:27:36Z
+updated: 2026-06-10T15:23:34Z
 project: yasystem
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - testing
   - incident-c090586
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -88,3 +88,5 @@ Per converted path, on the test box (sandbox): exercise the flow end-to-end (dep
 **Bonus hardening from adversarial review (2 reviewers, 0 blockers):** `DryRunStripeGateway::createRefund` now computes the locally-known refundable balance and flags requests that exceed it (`stripe_dryrun_requests.wouldExceedRefundable` = 1, plus a Yii warning) — without blocking. The legacy paths never call retrieveCharge, so dry-run would otherwise report "succeeded" on exactly the over-refund requests live Stripe rejects — the C090586 failure mode. Migration amended in place (it has not been applied anywhere yet). Three new unit tests cover flag = 0 / 1 / NULL-unknown.
 
 **Known limitations recorded:** (1) dry-run synthesises payment_intent from local stripe_payments — a nightly-copy row with NULL paymentIntentID will fail StripeRefunds validation loudly (HTTP 500) where live might succeed; (2) pre-existing `$contract->contractID` vs `$contract->id` inconsistency at the old endpoint's split-payment site (ContractsController ~line 1711) left untouched — live behaviour unchanged, but on the test box stripe_dryrun_requests.contractID and StripeRefunds.contractID can disagree at that one site.
+
+**2026-06-10 15:23 claude-code:** Committed as `59b861fe` on branch refund-hardening-t0331-stripe-dryrun (local only, not pushed). The branch is now three commits ahead of master and self-contained: gateway harness (a9615bdd), review fixes (84444136), bypass closures + dry-run hardening + the C090586 forensic query pack (59b861fe). Test-server walkthrough lives on T-0331 (comment of 2026-06-10 14:27).
