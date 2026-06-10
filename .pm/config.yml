@@ -10,8 +10,8 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 345
-  project: 13
+  ticket: 346
+  project: 14
   section: 13
   perProject:
     pm-tool-self:
