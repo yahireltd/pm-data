@@ -4,7 +4,7 @@ title: Refund confirmation must show exactly what will be refunded
 type: bug
 state: triaged
 created: 2026-06-09T19:24:53Z
-updated: 2026-06-09T19:54:20Z
+updated: 2026-06-10T16:35:34Z
 project: yasystem
 section: null
 parent: null
@@ -47,7 +47,7 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 3
+version: 4
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -78,3 +78,7 @@ CRITICAL TRAP for whoever builds this: the allocation step of the refund pipelin
 5. **Allocate-then-refund path:** a customer with a second unpaid contract — preview must show what will be allocated where AND what will then be refunded, matching execution.
 6. **Empty state:** a contract with nothing refundable — the button should not present a misleading non-zero figure (today's screen only shows the button when the running balance is negative; keep that behaviour consistent with the new preview).
 7. **Cross-impact:** the figures on the statement table itself (running balance column) are produced by separate display code — confirm the page still renders identically elsewhere, and note any remaining display/calculation mismatches here rather than silently widening scope.
+
+## Conversation
+
+**2026-06-10 16:35 claude-code:** **Scope note from incident-replay testing (2026-06-10):** the refund modal's Stripe-vs-BACS popup needs covering in this redesign. Findings: (1) it controls only the refund *channel*, never the amount — but the BACS option (`useBacs=1`) sets `allowManual=true` which **bypasses the planner's only sanity check** (the Stripe refundable-balance test, RefundPlanner.php:105), making BACS the *less* protected path: every positive "unused" figure becomes a bank-transfer instruction with no external ledger validating anything (Stripe's per-charge cap is the only external check in the whole flow, and BACS skips it). (2) The business rule — "BACS option is only for when a customer's card has changed/expired" — exists nowhere in code or UI; any operator can pick it any time, and Austin (who built half this system) wasn't sure what to pick. Recommendation for the redesign: per-item plan lines must show the method per line; the BACS override should state its purpose in the UI and ideally require a reason; and the T-0320 guard must run BEFORE the channel choice matters, since both channels execute the same plan total.
