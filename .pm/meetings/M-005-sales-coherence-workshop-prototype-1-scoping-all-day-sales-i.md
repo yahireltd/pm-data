@@ -4,7 +4,7 @@ slug: sales-coherence-workshop-prototype-1-scoping-all-day-sales-i
 title: Sales Coherence workshop — Prototype 1 scoping (all-day, sales + IT)
 state: scheduled
 created: 2026-06-09T23:56:35Z
-updated: 2026-06-11T10:46:25Z
+updated: 2026-06-11T11:27:48Z
 scheduled_at: 2026-06-12T08:00:00Z
 duration_minutes: 480
 location: Yahire office (all-day workshop)
@@ -95,12 +95,14 @@ outcomes:
     recorded_at: 2026-06-11T10:44:06Z
   - description: Humans can override system suggested potential value
     recorded_at: 2026-06-11T10:46:08Z
+  - description: Identifying potential markets that we can grow to get where we need to focus
+    recorded_at: 2026-06-11T11:27:48Z
 attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 16
+version: 17
 reminders:
   - minutes_before: 1440
     channels:
