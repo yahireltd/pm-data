@@ -2,9 +2,9 @@
 id: T-0356
 title: "Sprint fields are write-once — add goal (and dates/capacity) editing: web inline + pm_update_sprint"
 type: feature
-state: review
+state: done
 created: 2026-06-11T20:36:36Z
-updated: 2026-06-11T21:06:30Z
+updated: 2026-06-11T21:32:12Z
 project: pm-tool-self
 section: null
 parent: null
@@ -19,11 +19,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Web: sprint goal is inline-editable on the sprint card (click-to-edit, Enter/blur saves, Esc cancels), with stale-save detection (T-0317 pattern) — the 'No goal set' warning becomes the clickable empty state"
-  - "MCP: new pm_update_sprint tool edits goal / title / start_date / end_date / capacity of an existing sprint; only provided fields change; empty-string goal clears it; body '## Goal' section stays in sync with frontmatter"
-  - State transitions stay exclusively in pm_update_sprint_state (no fake transition needed to edit fields)
-  - Dev wiki (/docs MCP tool surface) and the sprints screen help updated in the same change
-  - SPR-030 actually gets its goal, dates, and right-sized capacity set using the new path (proof it works end-to-end)
+  - "[x] Web: sprint goal is inline-editable on the sprint card (click-to-edit, Enter/blur saves, Esc cancels), with stale-save detection (T-0317 pattern) — the 'No goal set' warning becomes the clickable empty state"
+  - "[x] MCP: new pm_update_sprint tool edits goal / title / start_date / end_date / capacity of an existing sprint; only provided fields change; empty-string goal clears it; body '## Goal' section stays in sync with frontmatter"
+  - "[x] State transitions stay exclusively in pm_update_sprint_state (no fake transition needed to edit fields)"
+  - "[x] Dev wiki (/docs MCP tool surface) and the sprints screen help updated in the same change"
+  - "[x] SPR-030 actually gets its goal, dates, and right-sized capacity set using the new path (proof it works end-to-end)"
 out_of_scope:
   - Editing committed_items outside pm_commit_ticket/pm_uncommit_ticket
   - "Sprint body sections other than ## Goal (planning notes / demo / retro editing)"
@@ -96,11 +96,8 @@ agent_runs:
 labels:
   - dogfood
   - sprint
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-11T21:06:30Z
-version: 5
+attention: null
+version: 12
 ---
 
 ## Problem
@@ -129,3 +126,9 @@ Every sprint created without a goal would carry a permanent, unactionable warnin
 
 **The benefit**
 Sprints can be tidied up as understanding improves, the nag message now earns its keep, and agents can keep sprint records accurate as part of their normal work. The current sprint gets a proper goal the moment this deploys.
+
+---
+
+**2026-06-11 21:32 — you**
+
+Verified i can write the sprint goal now
