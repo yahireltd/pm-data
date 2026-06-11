@@ -4,7 +4,7 @@ title: "Project kind: system vs initiative — make the split behavioural (ADR-0
 type: feature
 state: in_progress
 created: 2026-06-10T14:59:23Z
-updated: 2026-06-11T20:50:04Z
+updated: 2026-06-11T21:05:08Z
 project: pm-tool-self
 section: null
 parent: null
@@ -45,10 +45,13 @@ agent_runs:
     model: claude-fable-5
     started: 2026-06-11T20:50:04Z
     status: in_progress
+    progress:
+      - at: 2026-06-11T21:05:08Z
+        note: "Implementation complete: projects now carry an explicit kind (initiative vs system) with one shared derivation for older data, so every screen agrees on what counts as a system. The dashboard's guided-lifecycle chasing now skips systems; the sidebar groups by kind (with the old manual flag honoured); the Overview gets an Initiative/System switch (replacing the old stage toggle, now with conflict-safe saves); new/promoted/converted projects are stamped initiative and Dev-Tickets sites are stamped system. Schema validated against legacy data shapes; web+MCP typechecks pass. Adversarial review running before commit."
 labels:
   - taxonomy
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
