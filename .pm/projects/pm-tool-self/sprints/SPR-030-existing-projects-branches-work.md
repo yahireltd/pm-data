@@ -6,11 +6,13 @@ project: pm-tool-self
 state: in_progress
 order: 30720
 created: 2026-06-10T18:56:01Z
-updated: 2026-06-11T20:04:39Z
+updated: 2026-06-11T20:36:58Z
 committed_items:
   - T-0352
   - T-0351
   - T-0350
+  - T-0356
+  - T-0353
 velocity_history:
   - sprint: SPR-028
     actual: 3
@@ -22,7 +24,7 @@ capacity:
   total: 13
   unit: tickets
 velocity_committed: 13
-version: 5
+version: 7
 ---
 
 # SPR-030: Existing Projects / Branches Work
