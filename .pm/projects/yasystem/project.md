@@ -1,11 +1,11 @@
 ---
 id: P-0008
 slug: yasystem
-name: Yasystem Main Branch
+name: Yasystem
 state: active
 phase: intake
 created: 2026-06-05T19:54:47Z
-updated: 2026-06-10T17:40:00Z
+updated: 2026-06-11T23:19:08Z
 owner:
   kind: human
   name: you
@@ -29,7 +29,7 @@ agent_policy:
   allow_commit: false
   allow_push: false
   note: Main branch proceed with caution - ask user in terminal before any pushes or commits
-version: 23
+version: 24
 ---
 
 # Yasystem
