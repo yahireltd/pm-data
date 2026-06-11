@@ -13,7 +13,7 @@ tickets:
   - T-0351
   - T-0352
   - T-0353
-version: 3
+version: 4
 ---
 
 # ADR-039: Project taxonomy: systems vs initiatives; branches live on tickets, surfaces on system projects
@@ -40,23 +40,21 @@ A dormant `code_surfaces: string[]` field exists on the project schema — writt
 
 Adopt a three-part taxonomy, each part its own ticket:
 
-**1. Project `kind: "initiative" | "system"` (T-0350 — SHIPPED 2026-06-11).** The split becomes behavioural: guided lifecycle (phase health, force-gates, "Projects that need you", Ready to close) applies to initiatives only; sidebar grouping derives from kind (`in_development` honoured as legacy override — true pins to In Development, false to Existing; closed projects sit under Existing; editing kind clears the flag); the Dev Tickets view's `category:"system"` notion is reconciled so there is ONE notion of system. **Defaulting is derived at read time** via a single shared helper — `projectKind()` in cli/src/lib/project-kind.ts: `kind ?? (category === "system" ? "system" : "initiative")` — applied at every category read-site; no bulk file migration (avoids version-bump conflicts with open tabs). Create/promote/convert paths stamp kind explicitly (Intake dialog → initiative; Move-to-Dev-Tickets → system).
+**1. Project `kind: "initiative" | "system"` (T-0350 — SHIPPED 2026-06-11; sidebar/treatment follow-up T-0358 — SHIPPED 2026-06-11).** The split is behavioural: guided lifecycle (phase health, force-gates, "Projects that need you", Ready to close) applies to initiatives only; the sidebar groups Systems / Initiatives / Closed purely by kind + state (legacy `in_development` and the meta label no longer affect placement); systems' nav drops Phase/Charter/Milestones/Time plan; the Dev Tickets `category:"system"` notion is reconciled to ONE notion. **Defaulting is derived at read time** via `projectKind()` (cli/src/lib/project-kind.ts) — no bulk migration. Create/promote/convert paths stamp kind explicitly.
 
-**2. Surfaces on projects (T-0351).** Project gains `surfaces: [{ key, name, path?, repo_url?, branch? }]` — named sub-areas that default to the project's repo/branch plus a path. Ticket gains optional `surface` (a surface key); `pm_claim_ticket` returns the resolved surface so agents work in the right folder without guessing. **`code_surfaces` is superseded**, not grown: it stays in the schema as deprecated (existing `[]` values remain lint-valid), creation sites stop initialising it, and `surfaces` is the real field.
+**2. Surfaces on projects (T-0351 — SHIPPED 2026-06-11).** Project gains `surfaces: [{ key, name, path?, repo_url?, branch? }]` — named sub-areas defaulting to the project's repo/branch plus a path. Ticket gains optional `surface` (a key), validated at the write paths; `pm_claim_ticket`/`pm_get_ticket` return the resolved surface. Surface tags are project-scoped and are CLEARED on cross-project moves (a same-key surface in the destination would silently mis-resolve). **`code_surfaces` is superseded**: kept in the schema for legacy files, creation sites stopped initialising it.
 
-**3. Branch lives on the ticket (T-0352).** Ticket gains optional `branch`, pinned by a human at scoping. Effective branch at claim = `ticket.branch ?? surface.branch ?? project.branch`, returned explicitly by `pm_claim_ticket`. If unset AND the project default is protected, the agent's convention (AGENTS.md §1) is to cut a ticket-named branch (`t<NNNN>-<slug>`) and record it back on the ticket — the stream survives the branch's deletion. **Sub-task inheritance is resolved at claim time** by walking `ticket.parent` (one implementation), not copied at creation (three creation paths that would go stale).
+**3. Branch lives on the ticket (T-0352 — SHIPPED 2026-06-12).** Ticket gains optional `branch`. Effective branch = `ticket.branch ?? parent ticket's (sub-tasks inherit, resolved at read time; the walk stops at project boundaries — branch names are repo-scoped) ?? surface.branch ?? project.branch`, implemented once (`effectiveBranch()`, cli/src/lib/surfaces.ts) and returned by claim/get together with the agent policy. Pinned branches SURVIVE cross-project moves (that's how a stream folds into its system). If unset and the project default is protected, the agent's convention (AGENTS.md §1) is to cut `t<NNNN>-<slug>` and record it back — the stream survives the branch's deletion.
 
-**Sequencing:** T-0350 → T-0351 → T-0352, then the data migration (T-0353: one Yasite system with surfaces; Yasystem drops "Main Branch" from its name). Schemas have `additionalProperties: false`, so the updated schemas deploy BEFORE any data carries the new fields.
+**Settled (was the open point):** when a ticket/surface pins a branch on a LOCKED project, **the pinned branch wins** as the working branch — pinning is a human act at scoping; the lock's commit/push limits apply to it unchanged. Recorded in AGENTS.md §12.
 
-**Open point to arbitrate in T-0352:** when `ticket.branch` differs from a LOCKED project's `agent_policy` branch, which wins — must be decided before the AGENTS.md convention is written.
+**Sequencing:** T-0350 → T-0351 → T-0352 (all shipped), then the data migration (T-0353: Websites (yasite) as the one website system — Austin configured P-0015 with four surfaces; fold Logistics-rollout into Yasystem with pinned stream branches; rename Yasystem).
 
-**Deferred:** per-branch / per-surface agent policy (one policy per project stands); automated branch cleanup/merge detection; linter status-cadence rules still treat systems like any project (only the dashboard exemption shipped with T-0350 — revisit if the lint noise proves real).
+**Deferred:** per-branch / per-surface agent policy (one policy per project stands); automated branch cleanup/merge detection; linter status-cadence exemption for systems.
 
 ## Consequences
 
-- Work stops being lost when a branch ends: tickets, runs, and the recorded branch name stay on the long-lived project. Agents stop guessing which branch or folder a stream belongs to.
-- Systems escape phase-gate nagging; initiatives can no longer dodge the lifecycle — dashboard "needs you" signals become trustworthy.
-- The branch leaves the project NAME (it's data now); the sidebar shows one website project instead of three shells.
-- **Deploy-day regroup:** active projects with no kind and no legacy flag derive to initiative and move under "Projects In Development" in the nav. Escape hatch: the Overview kind switch (one click also clears a stale legacy pin).
-- Cost: ~6 category read-sites must go through the shared kind helper (a missed site silently recreates the two-notions-of-system bug); claim-ticket's response shape grows (consumers will start depending on effective branch/surface); the resolution helper should live in cli/src/lib and be IMPORTED by mcp-server (precedent: complete-run.ts), not hand-mirrored a third time.
-- All three tickets touch cli/src/types.ts, and T-0351/T-0352 both restructure claim-ticket.ts and update-ticket.ts — the sequencing above touches each hot spot once.
+- Work stops being lost when a branch ends: tickets, runs, and the recorded branch name stay on the long-lived project. Agents stop guessing which branch or folder a stream belongs to — claim hands them folder + repo + branch.
+- Systems escape phase-gate nagging and the delivery machinery; initiatives can no longer dodge the lifecycle — dashboard "needs you" signals become trustworthy.
+- The branch leaves the project NAME (it's data now); the sidebar speaks the taxonomy (Systems / Initiatives / Closed).
+- Costs honoured in implementation: all category read-sites go through `projectKind()`; surface integrity is enforced at write paths and moves clear the tag; the parent-branch walk is bounded, cycle-guarded, and project-contained; the resolution helpers live in cli/src/lib and are IMPORTED by mcp-server (not mirrored).
