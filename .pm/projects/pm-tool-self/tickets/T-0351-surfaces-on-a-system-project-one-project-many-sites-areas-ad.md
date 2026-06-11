@@ -2,9 +2,9 @@
 id: T-0351
 title: Surfaces on a system project — one project, many sites/areas (ADR-039)
 type: feature
-state: review
+state: done
 created: 2026-06-10T15:00:01Z
-updated: 2026-06-11T22:51:40Z
+updated: 2026-06-11T23:11:17Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,11 +15,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Project schema/types carry surfaces (key, name, optional path/repo_url/branch); SCHEMA.md documents it
-  - Surfaces editable on the project Overview; ticket detail offers a Surface picker limited to the project's surfaces
-  - pm_claim_ticket returns the resolved surface (path + repo + branch) alongside agent_policy; pm_get_ticket shows it
-  - Ticket rows/lists surface the chip where project context isn't obvious
-  - code_surfaces is reconciled — grown into surfaces or removed, not left as a second parallel field
+  - "[x] Project schema/types carry surfaces (key, name, optional path/repo_url/branch); SCHEMA.md documents it"
+  - "[x] Surfaces editable on the project Overview; ticket detail offers a Surface picker limited to the project's surfaces"
+  - "[x] pm_claim_ticket returns the resolved surface (path + repo + branch) alongside agent_policy; pm_get_ticket shows it"
+  - "[x] Ticket rows/lists surface the chip where project context isn't obvious"
+  - "[x] code_surfaces is reconciled — grown into surfaces or removed, not left as a second parallel field"
 out_of_scope:
   - Per-surface agent policy (one policy per project stands, ADR-039)
   - Moving existing tickets between projects (migration ticket)
@@ -89,11 +89,8 @@ agent_runs:
       docs_note: SCHEMA.md (project surfaces + ticket surface + code_surfaces superseded), dev wiki tool rows + data model, and the overview/ticket-detail/tickets/dev-tickets help screens — same commit.
 labels:
   - taxonomy
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-11T22:51:40Z
-version: 5
+attention: null
+version: 12
 ---
 
 ## Problem
@@ -127,3 +124,9 @@ The duplicated projects would stay (and multiply as more sites appear), ticket h
 
 **The benefit**
 One website project can now hold all the website work, clearly sorted by site. This unlocks the planned tidy-up: merging the three website projects into one, with every ticket tagged to its site. It also lays the second of three rails for the sprint — branches on tickets come next, then the consolidation itself.
+
+---
+
+**2026-06-11 23:11 — you**
+
+done

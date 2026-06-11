@@ -2,16 +2,18 @@
 id: T-0352
 title: Branch lives on the ticket — pin at scoping, or agent cuts a ticket branch (ADR-039)
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-10T15:00:28Z
-updated: 2026-06-10T15:00:28Z
+updated: 2026-06-11T23:10:03Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
 priority: p1
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Ticket schema/types carry optional branch; editable in web ticket detail and via pm_update_ticket
   - pm_claim_ticket returns the effective branch (ticket ?? surface ?? project) and the policy together
@@ -37,11 +39,18 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260611-2304
+    model: claude-fable-5
+    started: 2026-06-11T23:04:27Z
+    status: in_progress
+    progress:
+      - at: 2026-06-11T23:10:03Z
+        note: "Implementation complete: every ticket can now carry its own working branch, so several streams of work live inside ONE project instead of a project per branch. When the AI picks up a ticket it's told the one branch to work on — the ticket's own pin, else the parent ticket's (sub-tasks inherit), else the area's, else the project default — and on protected projects the rule is now written down: cut a ticket-named branch and record it back before committing, so the stream survives the branch's eventual merge. Branch is editable on the ticket page (with a hint showing what it inherits) and shows as a small tag on lists. Nine-scenario test suite passes; both typechecks clean. Adversarial review running before commit."
 labels:
   - taxonomy
 attention: null
-version: 1
+version: 4
 ---
 
 ## Problem

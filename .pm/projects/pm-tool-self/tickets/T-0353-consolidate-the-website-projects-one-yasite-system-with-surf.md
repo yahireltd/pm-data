@@ -4,7 +4,7 @@ title: "Consolidate duplicated projects: one Yasite system with surfaces; fold L
 type: chore
 state: triaged
 created: 2026-06-10T15:00:58Z
-updated: 2026-06-11T22:19:39Z
+updated: 2026-06-11T23:04:19Z
 project: pm-tool-self
 section: null
 parent: null
@@ -35,26 +35,26 @@ labels:
   - taxonomy
   - data-migration
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
 
 Projects are duplicated / misshapen (Austin, 2026-06-11):
 
-- The websites are smeared across three half-empty projects — yahire-website (P-0015, 1 done ticket), yasite (P-0014, 0 tickets), yasite-backend (P-0016, 1 ticket in review) — while the real structure is ONE repo with folders per site.
+- The websites were smeared across three half-empty projects; Austin has now made **P-0015 "Websites (yasite)"** the canonical system (kind=system, repo yahireltd/yasite + branch master, four surfaces configured: yahire-website, chair-hire-london-website, hire-catering-dev, backend) — but **yasite (P-0014, holds nothing after T-0346 moved)** and **yasite-backend (P-0016, T-0347 in review)** still exist as separate initiatives.
 - **logistics-route-planning-rollout (P-0007) is really a branch stream of the ERP** (Yasystem): 7 tickets, 6 in review off one commit. A project-per-branch orphans its history when the branch merges (the exact failure ADR-039 exists to prevent).
 - The ERP project is named "Yasystem Main Branch", baking a branch into its identity.
 
-## Plan (depends on T-0351 surfaces + T-0352 branch-on-ticket being live)
+## Plan (depends on T-0352 branch-on-ticket being live; T-0351 surfaces is deployed and configured)
 
-1. Make **yasite** the canonical website project: kind=system, repo_url → the yasite repo, surfaces = yahirenew, chl, frontend, backend, hirecatering (paths = their folders).
-2. Move yahire-website's and yasite-backend's tickets into yasite (ProjectAssignmentControl / actions), tagging each with the right surface (T-0346 → its site, T-0347 → backend).
-3. Retire the two empty website shells (delete or mark done with a pointer comment) so the sidebar shows ONE website project.
-4. **Fold logistics-route-planning-rollout into yasystem**: move T-0217–T-0223 in, pin their stream branch on each ticket (confirm the branch name with Austin at migration time — the run lists commit 8b37aef5), then retire the logistics project with a pointer comment. Its in-review tickets keep their review state and conversations.
+1. **P-0015 "Websites (yasite)" is the canonical website system** — already done by Austin (kind, repo, surfaces). Verify the surface keys cover all incoming tickets' areas.
+2. Move yasite's (P-0014) and yasite-backend's (P-0016) tickets into P-0015 (ProjectAssignmentControl / actions — note the move CLEARS any surface tag by design), then tag each with the right surface (T-0346 → its site, T-0347 → backend / Site Manager).
+3. Retire the two shells P-0014 + P-0016 (delete or mark done with a pointer comment) so the sidebar shows ONE website system.
+4. **Fold logistics-route-planning-rollout into yasystem**: move T-0217–T-0223 in, pin their stream branch on each ticket (confirm the branch name with Austin at migration time — the runs reference commit 8b37aef5), then retire the logistics project with a pointer comment. In-review tickets keep their review state and conversations.
 5. Rename yasystem: "Yasystem Main Branch" → "Yasystem (ERP)"; kind=system; keep repo + branch=master as the project default; pin in-flight stream branches (e.g. refund-hardening) on their tickets per T-0352.
 6. hirecatering stays a surface for now; if/when it becomes a real build-out, spin an initiative project linked via related_projects.
 
 ## Caution
 
-This is live-data surgery — do it through the tool (moves preserve ids/history), not by hand-editing files; verify each moved ticket still resolves before deleting shells. Tickets in review keep their attention flags.
+This is live-data surgery — do it through the tool (moves preserve ids/history), not by hand-editing files; verify each moved ticket still resolves before deleting shells. Tickets in review keep their attention flags. Moves clear surface tags (T-0351) — re-tag AFTER each move.
