@@ -4,7 +4,7 @@ title: "Sprint fields are write-once — add goal (and dates/capacity) editing: 
 type: feature
 state: in_progress
 created: 2026-06-11T20:36:36Z
-updated: 2026-06-11T20:37:32Z
+updated: 2026-06-11T20:45:26Z
 project: pm-tool-self
 section: null
 parent: null
@@ -51,11 +51,14 @@ agent_runs:
     model: claude-fable-5
     started: 2026-06-11T20:37:32Z
     status: in_progress
+    progress:
+      - at: 2026-06-11T20:45:26Z
+        note: "Implementation complete on both surfaces: the web sprint card's goal line is now click-to-edit (with the keep-your-text protection if someone else saved first), and agents get a new pm_update_sprint tool that can change a sprint's goal, title, dates and capacity after creation. Docs and the in-app help updated in the same change. Functional tests against a fixture all pass (set/clear/validation/version stamping); web and MCP typechecks pass. An adversarial code review is running before commit; deploy + setting SPR-030's actual goal comes after."
 labels:
   - dogfood
   - sprint
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
