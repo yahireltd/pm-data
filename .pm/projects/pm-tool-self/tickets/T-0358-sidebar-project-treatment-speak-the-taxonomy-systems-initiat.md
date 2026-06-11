@@ -2,9 +2,9 @@
 id: T-0358
 title: Sidebar + project treatment speak the taxonomy — Systems / Initiatives / Closed groups; systems lose the initiative machinery (ADR-039 follow-up)
 type: feature
-state: review
+state: done
 created: 2026-06-11T21:39:11Z
-updated: 2026-06-11T22:01:31Z
+updated: 2026-06-11T22:15:33Z
 project: pm-tool-self
 section: null
 parent: null
@@ -19,11 +19,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Sidebar groups are Systems / Initiatives / Closed (done+cancelled, dimmed), derived purely from kind + state — legacy in_development and the meta label no longer affect placement
-  - System projects hide Phase, Charter, Milestones and Time plan in BOTH the sidebar sub-nav and the top tabs; Decisions, Deliver views, Meetings/Tech sessions and Status remain
-  - Visiting a system's /phase URL directly shows a friendly note (not gates), pointing at the Overview kind switch
-  - A system's base project route lands on Sprints, never on a phase-derived hidden tab
-  - Help (overview/dashboard/dev-tickets), SCHEMA.md and schema/type descriptions updated to the new group names in the same change
+  - "[x] Sidebar groups are Systems / Initiatives / Closed (done+cancelled, dimmed), derived purely from kind + state — legacy in_development and the meta label no longer affect placement"
+  - "[x] System projects hide Phase, Charter, Milestones and Time plan in BOTH the sidebar sub-nav and the top tabs; Decisions, Deliver views, Meetings/Tech sessions and Status remain"
+  - "[x] Visiting a system's /phase URL directly shows a friendly note (not gates), pointing at the Overview kind switch"
+  - "[x] A system's base project route lands on Sprints, never on a phase-derived hidden tab"
+  - "[x] Help (overview/dashboard/dev-tickets), SCHEMA.md and schema/type descriptions updated to the new group names in the same change"
 out_of_scope:
   - Linter status-cadence exemption for systems (deferred in ADR-039)
   - Hiding charter/milestones/time-plan routes themselves (nav-hidden is enough; only /phase gets a guard)
@@ -96,11 +96,8 @@ agent_runs:
       docs_note: SCHEMA.md, schema/type field descriptions, project-overview help — same commits.
 labels:
   - taxonomy
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-11T22:01:31Z
-version: 5
+attention: null
+version: 12
 ---
 
 ## Problem
@@ -126,3 +123,9 @@ The toggle would have been a label with no visible effect: the menu would keep i
 
 **The benefit**
 The menu now tells the truth at a glance: what you run, what you're delivering, and what's finished. Systems are calmer and simpler to work in — just the work, meetings, decisions and status — while deliveries keep the full guided journey.
+
+---
+
+**2026-06-11 22:15 — you**
+
+ok

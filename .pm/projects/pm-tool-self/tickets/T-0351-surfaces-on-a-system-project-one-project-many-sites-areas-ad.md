@@ -2,16 +2,18 @@
 id: T-0351
 title: Surfaces on a system project — one project, many sites/areas (ADR-039)
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-10T15:00:01Z
-updated: 2026-06-10T15:00:01Z
+updated: 2026-06-11T22:20:06Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
 priority: p1
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Project schema/types carry surfaces (key, name, optional path/repo_url/branch); SCHEMA.md documents it
   - Surfaces editable on the project Overview; ticket detail offers a Surface picker limited to the project's surfaces
@@ -37,11 +39,15 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260611-2220
+    model: claude-fable-5
+    started: 2026-06-11T22:20:06Z
+    status: in_progress
 labels:
   - taxonomy
 attention: null
-version: 1
+version: 3
 ---
 
 ## Problem

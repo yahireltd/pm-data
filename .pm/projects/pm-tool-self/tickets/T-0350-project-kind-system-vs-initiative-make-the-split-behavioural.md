@@ -2,9 +2,9 @@
 id: T-0350
 title: "Project kind: system vs initiative — make the split behavioural (ADR-039)"
 type: feature
-state: review
+state: done
 created: 2026-06-10T14:59:23Z
-updated: 2026-06-11T21:41:26Z
+updated: 2026-06-11T22:11:44Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,8 +16,8 @@ assignee:
   name: claude-code
 acceptance_criteria:
   - "[x] Project schema + types carry kind (initiative|system); existing data defaults correctly without manual edits (category:system → system)"
-  - Dashboard phase-health sections (Projects that need you / Ready to close) skip system-kind projects entirely
-  - Sidebar Existing vs In Development grouping derives from kind (in_development honoured as legacy override, not required)
+  - "[x] Dashboard phase-health sections (Projects that need you / Ready to close) skip system-kind projects entirely"
+  - "[x] Sidebar Existing vs In Development grouping derives from kind (in_development honoured as legacy override, not required)"
   - "[x] Kind is editable from the project Overview and settable on create/promote"
   - "[x] Dev Tickets view and kind agree — one notion of 'system', not two parallel flags"
 out_of_scope:
@@ -91,11 +91,8 @@ agent_runs:
       docs_note: SCHEMA.md, schema descriptions, project-overview/dashboard/dev-tickets help — same commit. ADR-039 body updated with the shipped state + ADR-031 relationship (left 'proposed' for Austin to accept).
 labels:
   - taxonomy
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-11T21:24:40Z
-version: 8
+attention: null
+version: 12
 ---
 
 ## Problem
@@ -129,3 +126,9 @@ The dashboard's "needs you" list would stay polluted with systems that can never
 
 **The benefit**
 The dashboard's attention lists become trustworthy — everything on them is genuinely actionable. The sidebar reflects reality (deliveries in flight vs things you run). And this is the foundation the rest of the sprint builds on: surfaces (T-0351) and ticket-level branches (T-0352) both hang off the system kind.
+
+---
+
+**2026-06-11 22:11 — you**
+
+done
