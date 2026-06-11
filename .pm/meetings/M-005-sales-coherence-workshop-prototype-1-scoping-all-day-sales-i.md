@@ -4,7 +4,7 @@ slug: sales-coherence-workshop-prototype-1-scoping-all-day-sales-i
 title: Sales Coherence workshop — Prototype 1 scoping (all-day, sales + IT)
 state: scheduled
 created: 2026-06-09T23:56:35Z
-updated: 2026-06-11T11:31:54Z
+updated: 2026-06-11T13:00:15Z
 scheduled_at: 2026-06-12T08:00:00Z
 duration_minutes: 480
 location: Yahire office (all-day workshop)
@@ -99,12 +99,14 @@ outcomes:
     recorded_at: 2026-06-11T11:27:48Z
   - description: Industry could use segmentaton within customer types. The way you deal with a venue (managed account) should not be dealt with in the same way, as antother managed account who does a couple of large orders a year). So perhaps have different features for different industry within account type
     recorded_at: 2026-06-11T11:31:54Z
+  - description: Industry trend reports and analysis - so we can identify which industires are trending - these trends normally take place at certian times of year. For example most companies hold annual AGMs at quieter times of the year which suits our business. We can then be proactive with this industry segment at this time of the year. We can also analyse our own data for industry trends once we have the industry clearly marked at the customer level
+    recorded_at: 2026-06-11T13:00:15Z
 attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 18
+version: 19
 reminders:
   - minutes_before: 1440
     channels:
