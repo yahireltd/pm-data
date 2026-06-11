@@ -4,7 +4,7 @@ slug: sales-coherence-workshop-prototype-1-scoping-all-day-sales-i
 title: Sales Coherence workshop — Prototype 1 scoping (all-day, sales + IT)
 state: scheduled
 created: 2026-06-09T23:56:35Z
-updated: 2026-06-10T00:40:16Z
+updated: 2026-06-11T10:44:06Z
 scheduled_at: 2026-06-12T08:00:00Z
 duration_minutes: 480
 location: Yahire office (all-day workshop)
@@ -91,12 +91,16 @@ agenda:
 outcomes:
   - description: Ben to lead up governance and roles (new sales segmentation pre project)
     recorded_at: 2026-06-10T00:07:44Z
+  - description: Defining the heatmap - KPIs need to be identified  and views created per customer segment  / industry. The views should show where the accounts are at vs the kpis
+    recorded_at: 2026-06-11T10:38:50Z
+  - description: Account value = human inputted, potential value fror new customers- system inputted
+    recorded_at: 2026-06-11T10:44:06Z
 attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 12
+version: 14
 reminders:
   - minutes_before: 1440
     channels:
