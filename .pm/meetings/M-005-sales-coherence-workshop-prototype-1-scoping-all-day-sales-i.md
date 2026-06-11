@@ -4,7 +4,7 @@ slug: sales-coherence-workshop-prototype-1-scoping-all-day-sales-i
 title: Sales Coherence workshop — Prototype 1 scoping (all-day, sales + IT)
 state: scheduled
 created: 2026-06-09T23:56:35Z
-updated: 2026-06-11T13:58:07Z
+updated: 2026-06-11T14:22:42Z
 scheduled_at: 2026-06-12T08:00:00Z
 duration_minutes: 480
 location: Yahire office (all-day workshop)
@@ -105,12 +105,14 @@ outcomes:
     recorded_at: 2026-06-11T13:28:26Z
   - description: Qualification status / review - customers will be either qualified or not qualified - qualification is asking questions (industry specific changes to questions depending on industry) Customers will not be asked these questions again as once we have the answers these are saved knowledge.  If customer acccount spend drastically changes we can re-qualify to understand if their business changed
     recorded_at: 2026-06-11T13:58:07Z
+  - description: We spent a long time talking about what to do with qualified customers, rather that how to qualify customers. The parameters were not defined but think its more along the diagram in bens freeform doc.
+    recorded_at: 2026-06-11T14:22:42Z
 attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 21
+version: 22
 reminders:
   - minutes_before: 1440
     channels:
