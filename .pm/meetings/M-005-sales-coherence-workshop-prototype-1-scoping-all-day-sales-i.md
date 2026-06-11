@@ -4,7 +4,7 @@ slug: sales-coherence-workshop-prototype-1-scoping-all-day-sales-i
 title: Sales Coherence workshop — Prototype 1 scoping (all-day, sales + IT)
 state: scheduled
 created: 2026-06-09T23:56:35Z
-updated: 2026-06-11T15:23:14Z
+updated: 2026-06-11T15:38:08Z
 scheduled_at: 2026-06-12T08:00:00Z
 duration_minutes: 480
 location: Yahire office (all-day workshop)
@@ -109,12 +109,14 @@ outcomes:
     recorded_at: 2026-06-11T14:22:42Z
   - description: build organizational structure diagram for BDC - a way to also allow account managers a way to create this. (link to email / phone etc)
     recorded_at: 2026-06-11T15:20:53Z
+  - description: Exhibitions skins maybe needed to do a strategic case study with the BCC
+    recorded_at: 2026-06-11T15:38:08Z
 attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 24
+version: 25
 reminders:
   - minutes_before: 1440
     channels:
