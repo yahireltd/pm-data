@@ -4,7 +4,7 @@ slug: sales-coherence-workshop-prototype-1-scoping-all-day-sales-i
 title: Sales Coherence workshop — Prototype 1 scoping (all-day, sales + IT)
 state: scheduled
 created: 2026-06-09T23:56:35Z
-updated: 2026-06-11T14:22:42Z
+updated: 2026-06-11T15:23:14Z
 scheduled_at: 2026-06-12T08:00:00Z
 duration_minutes: 480
 location: Yahire office (all-day workshop)
@@ -107,18 +107,22 @@ outcomes:
     recorded_at: 2026-06-11T13:58:07Z
   - description: We spent a long time talking about what to do with qualified customers, rather that how to qualify customers. The parameters were not defined but think its more along the diagram in bens freeform doc.
     recorded_at: 2026-06-11T14:22:42Z
+  - description: build organizational structure diagram for BDC - a way to also allow account managers a way to create this. (link to email / phone etc)
+    recorded_at: 2026-06-11T15:20:53Z
 attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 22
+version: 24
 reminders:
   - minutes_before: 1440
     channels:
       - email
 reminders_sent:
   - 1440@2026-06-12T08:00:00Z
+suggested_features:
+  - feature: Different customer profile view depending on what account type it is.
 ---
 
 # Workshop prep — IT readiness pack
