@@ -96,11 +96,13 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 11
+version: 12
 reminders:
   - minutes_before: 1440
     channels:
       - email
+reminders_sent:
+  - 1440@2026-06-12T08:00:00Z
 ---
 
 # Workshop prep — IT readiness pack
