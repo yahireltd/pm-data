@@ -13,7 +13,7 @@ tickets:
   - T-0351
   - T-0352
   - T-0353
-version: 2
+version: 3
 ---
 
 # ADR-039: Project taxonomy: systems vs initiatives; branches live on tickets, surfaces on system projects
@@ -27,6 +27,8 @@ Two unlike things currently share the "project" shape:
 
 Today's markers are cosmetic: `category:"system"` only feeds the Dev Tickets view, and `in_development` only moves a sidebar group. Systems get phase-gate nagging they shouldn't ("Projects that need you" treats an upkeep system stuck at intake as blocked forever); initiatives can quietly dodge the lifecycle by looking like upkeep.
 
+ADR-031 modelled each system as a real project flagged `category:"system"` — that model STANDS; this ADR replaces only its flag mechanism (`category` → `kind`, with `category` kept as a legacy read-time input).
+
 Two real-world distortions forced the issue:
 
 1. **Branch in the project name.** The ERP (Ya-Hire-Management) is one repo with several concurrent feature branches, but branch is a single project-level value — so the branch ended up in the project NAME ("Yasystem Main Branch"), and there's no way to tell an agent "this ticket is the refund-hardening stream". A project per branch is wrong: branches die at merge and would orphan their ticket history.
@@ -38,7 +40,7 @@ A dormant `code_surfaces: string[]` field exists on the project schema — writt
 
 Adopt a three-part taxonomy, each part its own ticket:
 
-**1. Project `kind: "initiative" | "system"` (T-0350).** The split becomes behavioural: guided lifecycle (phase health, force-gates, "Projects that need you", Ready to close) applies to initiatives only; sidebar grouping derives from kind (`in_development` honoured as legacy override, no longer the source of truth); the Dev Tickets view's `category:"system"` notion is reconciled so there is ONE notion of system. **Defaulting is derived at read time** via a single shared helper — `kind ?? (category === "system" ? "system" : "initiative")` — applied at every category read-site; no bulk file migration (avoids version-bump conflicts with open tabs).
+**1. Project `kind: "initiative" | "system"` (T-0350 — SHIPPED 2026-06-11).** The split becomes behavioural: guided lifecycle (phase health, force-gates, "Projects that need you", Ready to close) applies to initiatives only; sidebar grouping derives from kind (`in_development` honoured as legacy override — true pins to In Development, false to Existing; closed projects sit under Existing; editing kind clears the flag); the Dev Tickets view's `category:"system"` notion is reconciled so there is ONE notion of system. **Defaulting is derived at read time** via a single shared helper — `projectKind()` in cli/src/lib/project-kind.ts: `kind ?? (category === "system" ? "system" : "initiative")` — applied at every category read-site; no bulk file migration (avoids version-bump conflicts with open tabs). Create/promote/convert paths stamp kind explicitly (Intake dialog → initiative; Move-to-Dev-Tickets → system).
 
 **2. Surfaces on projects (T-0351).** Project gains `surfaces: [{ key, name, path?, repo_url?, branch? }]` — named sub-areas that default to the project's repo/branch plus a path. Ticket gains optional `surface` (a surface key); `pm_claim_ticket` returns the resolved surface so agents work in the right folder without guessing. **`code_surfaces` is superseded**, not grown: it stays in the schema as deprecated (existing `[]` values remain lint-valid), creation sites stop initialising it, and `surfaces` is the real field.
 
@@ -48,12 +50,13 @@ Adopt a three-part taxonomy, each part its own ticket:
 
 **Open point to arbitrate in T-0352:** when `ticket.branch` differs from a LOCKED project's `agent_policy` branch, which wins — must be decided before the AGENTS.md convention is written.
 
-**Deferred:** per-branch / per-surface agent policy (one policy per project stands); automated branch cleanup/merge detection.
+**Deferred:** per-branch / per-surface agent policy (one policy per project stands); automated branch cleanup/merge detection; linter status-cadence rules still treat systems like any project (only the dashboard exemption shipped with T-0350 — revisit if the lint noise proves real).
 
 ## Consequences
 
 - Work stops being lost when a branch ends: tickets, runs, and the recorded branch name stay on the long-lived project. Agents stop guessing which branch or folder a stream belongs to.
 - Systems escape phase-gate nagging; initiatives can no longer dodge the lifecycle — dashboard "needs you" signals become trustworthy.
 - The branch leaves the project NAME (it's data now); the sidebar shows one website project instead of three shells.
+- **Deploy-day regroup:** active projects with no kind and no legacy flag derive to initiative and move under "Projects In Development" in the nav. Escape hatch: the Overview kind switch (one click also clears a stale legacy pin).
 - Cost: ~6 category read-sites must go through the shared kind helper (a missed site silently recreates the two-notions-of-system bug); claim-ticket's response shape grows (consumers will start depending on effective branch/surface); the resolution helper should live in cli/src/lib and be IMPORTED by mcp-server (precedent: complete-run.ts), not hand-mirrored a third time.
 - All three tickets touch cli/src/types.ts, and T-0351/T-0352 both restructure claim-ticket.ts and update-ticket.ts — the sequencing above touches each hot spot once.
