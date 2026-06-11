@@ -2,16 +2,18 @@
 id: T-0350
 title: "Project kind: system vs initiative — make the split behavioural (ADR-039)"
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-10T14:59:23Z
-updated: 2026-06-10T14:59:23Z
+updated: 2026-06-11T20:50:04Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
 priority: p1
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Project schema + types carry kind (initiative|system); existing data defaults correctly without manual edits (category:system → system)
   - Dashboard phase-health sections (Projects that need you / Ready to close) skip system-kind projects entirely
@@ -38,11 +40,15 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260611-2050
+    model: claude-fable-5
+    started: 2026-06-11T20:50:04Z
+    status: in_progress
 labels:
   - taxonomy
 attention: null
-version: 1
+version: 3
 ---
 
 ## Problem
