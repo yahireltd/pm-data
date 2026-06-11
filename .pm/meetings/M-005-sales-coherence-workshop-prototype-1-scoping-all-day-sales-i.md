@@ -2,9 +2,9 @@
 id: M-005
 slug: sales-coherence-workshop-prototype-1-scoping-all-day-sales-i
 title: Sales Coherence workshop — Prototype 1 scoping (all-day, sales + IT)
-state: scheduled
+state: held
 created: 2026-06-09T23:56:35Z
-updated: 2026-06-11T15:38:08Z
+updated: 2026-06-11T20:00:12Z
 scheduled_at: 2026-06-12T08:00:00Z
 duration_minutes: 480
 location: Yahire office (all-day workshop)
@@ -115,8 +115,8 @@ attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
-kind: scoping
-version: 25
+kind: kickoff
+version: 27
 reminders:
   - minutes_before: 1440
     channels:

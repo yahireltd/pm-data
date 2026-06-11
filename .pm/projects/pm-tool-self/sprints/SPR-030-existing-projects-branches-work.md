@@ -3,10 +3,10 @@ id: SPR-030
 slug: existing-projects-branches-work
 title: Existing Projects / Branches Work
 project: pm-tool-self
-state: planned
+state: in_progress
 order: 30720
 created: 2026-06-10T18:56:01Z
-updated: 2026-06-10T18:56:15Z
+updated: 2026-06-11T20:04:39Z
 committed_items:
   - T-0352
   - T-0351
@@ -22,7 +22,7 @@ capacity:
   total: 13
   unit: tickets
 velocity_committed: 13
-version: 4
+version: 5
 ---
 
 # SPR-030: Existing Projects / Branches Work
