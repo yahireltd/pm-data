@@ -4,7 +4,7 @@ title: "Project kind: system vs initiative — make the split behavioural (ADR-0
 type: feature
 state: review
 created: 2026-06-10T14:59:23Z
-updated: 2026-06-11T21:24:40Z
+updated: 2026-06-11T21:41:26Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,11 +15,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Project schema + types carry kind (initiative|system); existing data defaults correctly without manual edits (category:system → system)
+  - "[x] Project schema + types carry kind (initiative|system); existing data defaults correctly without manual edits (category:system → system)"
   - Dashboard phase-health sections (Projects that need you / Ready to close) skip system-kind projects entirely
   - Sidebar Existing vs In Development grouping derives from kind (in_development honoured as legacy override, not required)
-  - Kind is editable from the project Overview and settable on create/promote
-  - Dev Tickets view and kind agree — one notion of 'system', not two parallel flags
+  - "[x] Kind is editable from the project Overview and settable on create/promote"
+  - "[x] Dev Tickets view and kind agree — one notion of 'system', not two parallel flags"
 out_of_scope:
   - Surfaces (separate ticket)
   - Ticket-level branch (separate ticket)
@@ -95,7 +95,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-11T21:24:40Z
-version: 5
+version: 8
 ---
 
 ## Problem

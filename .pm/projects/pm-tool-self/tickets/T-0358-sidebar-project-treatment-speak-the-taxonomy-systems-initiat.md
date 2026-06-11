@@ -4,7 +4,7 @@ title: Sidebar + project treatment speak the taxonomy — Systems / Initiatives 
 type: feature
 state: in_progress
 created: 2026-06-11T21:39:11Z
-updated: 2026-06-11T21:39:30Z
+updated: 2026-06-11T21:44:50Z
 project: pm-tool-self
 section: null
 parent: null
@@ -53,10 +53,13 @@ agent_runs:
     model: claude-fable-5
     started: 2026-06-11T21:39:30Z
     status: in_progress
+    progress:
+      - at: 2026-06-11T21:44:50Z
+        note: "Implementation complete: the sidebar now shows Systems / Initiatives / Closed (grouping purely by what a project is and whether it's finished — the old hidden flags no longer move things around), and opening a system hides the delivery machinery (Phase, Charter, Milestones, Time plan) in both the side menu and the top tabs, with one shared definition so they can't drift. Visiting a system's Phase page directly shows a friendly explanation instead of gates, and a system's front door lands on Sprints. Help and schema docs updated. Typecheck clean; adversarial review running before commit."
 labels:
   - taxonomy
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
