@@ -2,16 +2,18 @@
 id: T-0353
 title: "Consolidate duplicated projects: one Yasite system with surfaces; fold Logistics rollout into Yasystem; rename Yasystem (ADR-039)"
 type: chore
-state: triaged
+state: in_progress
 created: 2026-06-10T15:00:58Z
-updated: 2026-06-11T23:04:19Z
+updated: 2026-06-11T23:51:04Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
 priority: p2
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - One yasite project (kind=system) carries all website work with the five surfaces configured
   - T-0346 and T-0347 (and any other website tickets) moved in with correct surface tags, history intact
@@ -30,12 +32,16 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260611-2351
+    model: claude-fable-5
+    started: 2026-06-11T23:51:04Z
+    status: in_progress
 labels:
   - taxonomy
   - data-migration
 attention: null
-version: 3
+version: 5
 ---
 
 ## Problem
