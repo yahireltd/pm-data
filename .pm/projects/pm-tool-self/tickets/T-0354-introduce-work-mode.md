@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-10T15:08:48Z
-updated: 2026-06-12T01:43:27Z
+updated: 2026-06-12T01:49:07Z
 project: pm-tool-self
 section: null
 parent: null
@@ -44,9 +44,12 @@ agent_runs:
     model: claude-fable-5
     started: 2026-06-12T01:43:27Z
     status: in_progress
+    progress:
+      - at: 2026-06-12T01:49:07Z
+        note: "Work Mode implemented: an eye-toggle in the top bar (amber while on) hides your private projects from every list, menu, count and picker — enforced at the single access chokepoint all those surfaces already share, plus the My Work page which lists differently. It's a personal view filter via a browser cookie: colleagues' visibility is untouched (they never saw private projects), direct links still open, and turning it off restores everything instantly. Dashboard help documents it. Typecheck clean; adversarial review of the access-layer change running before commit."
 labels: []
 attention: null
-version: 5
+version: 6
 ---
 
 ## Problem

@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-11T23:57:22Z
-updated: 2026-06-12T01:47:12Z
+updated: 2026-06-12T01:53:42Z
 project: yasystem
 section: null
 parent: null
@@ -56,7 +56,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-12T01:47:12Z
-version: 11
+version: 12
 ---
 
 So the idea to score a customer is to first of all use current personal /  coroprate split -this is done using the email domain so non custom domains (gmail/hotmail/outlook.com) are personal customers else corporate. Then we need to identify industry. Look u p the domains website. So for example the customer domain is  customer@excel.london we would send an agent to look at their website. and if found to be a venue / caterer etc then look up their socials and public financial records to asses their potential value, event frequency etc. 
@@ -110,3 +110,24 @@ Exact customer counts need one query against the live DB (distinct customers in 
 **If we did nothing:** We'd be guessing at the budget — either over-committing to scoring every customer at an unknown cost, or dismissing the idea as too expensive when scoring all new corporate customers actually costs single-digit pounds per month.
 
 **The benefit:** A clear, evidence-based price list: scoring each month's new corporate customers ≈ £6–£14/month; a one-off backfill of all existing corporate customers is the only material spend and a two-stage screen keeps it to low hundreds of pounds. The team can now decide scope (new only vs backfill) with real numbers.
+
+**2026-06-12 01:53 claude-code:** **Follow-up: first live scoring run (2026-06-12), per Austin's request to see actual scores.**
+
+Draft rubric (v0): **industry fit** 0–40 (venue/caterer/event-organiser high, unrelated low) + **event frequency** 0–30 (dated events, not posts) + **scale/financial standing** 0–30. Tier A ≥70, B 40–69, C <40. Scale only counts fully when industry fit is established (a giant company that never hires event furniture is still a C).
+
+**Note on the sample: these domains are NOT from our customer DB** (no DB access from this session — excel.london came from the ticket; the rest are representative public examples chosen to span big/small/irrelevant). The scores demonstrate the method, not real pipeline output.
+
+| Customer domain | What the agent found | Fit | Freq | Scale | Score | Tier |
+|---|---|---|---|---|---|---|
+| excel.london | International exhibition venue, ADNEC-owned; ~400 events/yr, 10 congresses booked 2026 | 40 | 30 | 28 | **98** | **A** |
+| rhubarbhospitality.com | Events caterer + venue operator: 2,000 staff, caters 5M people/yr, 70+ venues (Royal Ascot, Sky Garden, Royal Albert Hall), sold for >£100m | 40 | 28 | 30 | **98** | **A** |
+| wiltons.org.uk | Small Grade II* listed music hall; 300+ performances + 80 productions/yr, wedding/corporate hire | 38 | 30 | 12 | **80** | **A** |
+| dyson.co.uk | Appliance manufacturer — no events/catering relevance; huge but irrelevant scale | 5 | 0 | 10 | **15** | **C** |
+
+**Observations for the real build:**
+1. **The control case works** — Dyson exits cheap (one homepage fetch, ~0.5¢, no searches needed) and scores C. This is the path most corporate customers will take.
+2. **Frequency vs wallet tension**: Wilton's (small but constantly active) scores nearly as high as ExCeL (huge). If "potential value" should weight spend capacity over booking frequency, shift weight from the frequency band to the scale band — a product decision to make before the real run.
+3. **Fetch failures happen**: Rhubarb's own site timed out; the agent recovered everything (size, venues, ownership, revenue scale) from one web search. The scorer needs that fallback built in.
+4. Credits spent on this 4-customer demo: 3 searches ($0.03) + ~4 fetches ≈ **a few pence total**, consistent with the cost model above.
+
+**Next step if wanted:** run the same scoring against a real sample — needs either a pasted list of customer domains or a DB query (distinct corporate email domains) on the test box.
