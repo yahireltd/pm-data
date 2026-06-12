@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-11T23:57:22Z
-updated: 2026-06-12T01:53:42Z
+updated: 2026-06-12T02:16:58Z
 project: yasystem
 section: null
 parent: null
@@ -56,7 +56,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-12T01:47:12Z
-version: 12
+version: 13
 ---
 
 So the idea to score a customer is to first of all use current personal /  coroprate split -this is done using the email domain so non custom domains (gmail/hotmail/outlook.com) are personal customers else corporate. Then we need to identify industry. Look u p the domains website. So for example the customer domain is  customer@excel.london we would send an agent to look at their website. and if found to be a venue / caterer etc then look up their socials and public financial records to asses their potential value, event frequency etc. 
@@ -131,3 +131,50 @@ Draft rubric (v0): **industry fit** 0–40 (venue/caterer/event-organiser high, 
 4. Credits spent on this 4-customer demo: 3 searches ($0.03) + ~4 fetches ≈ **a few pence total**, consistent with the cost model above.
 
 **Next step if wanted:** run the same scoring against a real sample — needs either a pasted list of customer domains or a DB query (distinct corporate email domains) on the test box.
+
+**2026-06-12 02:16 claude-code:** **Follow-up 2: scored 30 REAL customers from the test DB (restored copy of live, read-only) — scores align with actual spend.**
+
+Method: sampled 30 corporate-domain customers from `ya_customers` + `invoices` on the Routing Test box (sandbox DB), 10 per lifetime-spend bracket (high/mid/low), then scored each domain **blind** (the scorer never saw the spend) with the v0 rubric: fit /40 + event frequency /30 + scale /30 (scale capped at 10 when fit < 15). ~1 homepage fetch + at most 1 search per customer.
+
+**Headline: Spearman rank correlation between blind score and actual lifetime spend = 0.68.** Bracket averages are cleanly monotone — high-spend bracket avg **64.7**, mid **36.3**, low **18.3** — and ALL five Tier-A scores landed in the top spend bracket.
+
+| Spend bracket | Customer (domain) | Lifetime spend | Score | Tier |
+|---|---|---|---|---|
+| HIGH | hyrox.com (HYROX UK) | £91,212 | 85 | A |
+| HIGH | dsaproductions.co.uk | £17,827 | 80 | A |
+| HIGH | swingers.club | £11,001 | 83 | A |
+| HIGH | adlib-entertainment.com | £4,655 | 63 | B |
+| HIGH | invisibleblue.com | £3,654 | 62 | B |
+| HIGH | 15hatfields.com | £2,471 | 85 | A |
+| HIGH | mlglondon.com | £2,110 | 64 | B |
+| HIGH | brentmusicservice.com | £1,452 | 33 | C ✗ |
+| HIGH | nla.london | £1,398 | 73 | A |
+| HIGH | erevena.com | £1,368 | 19 | C ✗ |
+| MID | bmw.de (Blue Scope Berlin) | £1,191 | 13 | C ✗ |
+| MID | thedeltagroup.co.uk | £1,141 | 65 | B |
+| MID | mountfordchambers.com | £1,009 | 16 | C ✗ |
+| MID | ifonlyif.co.uk | £887 | 6 | C ✗ |
+| MID | youngtechacademy.co.uk | £651 | 34 | C |
+| MID | salesforceben.com | £629 | 42 | B |
+| MID | partnershipeditions.com | £594 | 58 | B |
+| MID | restaurant-ours.com | £512 | 69 | B |
+| MID | tiwaadegbuyi.world | £441 | 47 | B |
+| MID | tlclondon.com | £423 | 13 | C |
+| LOW | crownofficechambers.com | £332 | 20 | C |
+| LOW | milkmanagement.co.uk | £330 | 17 | C |
+| LOW | **aloyoga.com** | £298 | **65** | **B ←lead** |
+| LOW | goddardvetgroup.co.uk | £290 | 11 | C |
+| LOW | missionm.com | £220 | 8 | C |
+| LOW | m3ltd.com | £200 | 14 | C |
+| LOW | stellamccartney.com | £194 | 24 | C |
+| LOW | everpress.com | £176 | 8 | C |
+| LOW | hohcp.com | £165 | 14 | C |
+| LOW | vlmgf.com | £142 | 2 | C |
+
+**Where it misses, and why it's the right kind of miss:** the false negatives (✗) are non-events businesses that made one-off or occasional bookings — a school music service's termly concerts (£1.4k), a recruiter's annual dinner (£1.4k), a barristers' chambers (£1k), a nightwear brand's pop-up (£887), BMW Berlin (£1.2k). The web can't see a one-off office party, and that's fine: the score predicts *repeat* potential, not past one-offs. Two rubric tweaks would capture some of these: (a) count retail/brand pop-ups as an events use-case, (b) give professional-services firms (chambers, recruiters) a small floor for annual-dinner/seminar potential.
+
+**The payoff case:** aloyoga.com — global brand, dated London store-launch activations, scored 65 but has only spent £298 with us. High score + low spend = exactly the under-served sales lead this scoring exists to find.
+
+**Cost of this run:** 30 customers ≈ 11 searches + ~35 fetches; consistent with the ~1–10¢/customer model (cheap exits fired correctly on ~12 irrelevant domains, no search spent on them).
+
+Data handling: only email domains + aggregated invoice totals were read, from the sandbox/restored DB, read-only; scoring agents saw domains only, never spend or contact details.
