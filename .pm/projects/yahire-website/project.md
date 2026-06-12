@@ -5,11 +5,11 @@ name: Websites (yasite)
 state: planning
 phase: intake
 created: 2026-06-10T09:51:16Z
-updated: 2026-06-12T01:07:04Z
+updated: 2026-06-12T01:15:52Z
 owner:
   kind: human
   name: you
-goal: ""
+goal: All Yahire websites in one system project — Yahire, Chair Hire London, Hire Catering and the Site Manager backend as surfaces of the yasite repo.
 success_criteria: []
 parent_project: null
 related_projects: []
@@ -19,7 +19,7 @@ key_decisions: []
 labels: []
 order: 1024
 category: system
-version: 23
+version: 26
 agent_policy:
   allow_commit: false
   allow_push: false

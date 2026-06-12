@@ -4,7 +4,7 @@ title: Stop the statement page changing payment allocations just by being viewed
 type: bug
 state: in_progress
 created: 2026-06-09T19:25:16Z
-updated: 2026-06-10T18:47:29Z
+updated: 2026-06-12T01:07:51Z
 project: yasystem
 section: null
 parent: null
@@ -58,10 +58,11 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 7
+version: 8
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
+branch: refund-hardening-t0331-stripe-dryrun
 ---
 
 ## Problem

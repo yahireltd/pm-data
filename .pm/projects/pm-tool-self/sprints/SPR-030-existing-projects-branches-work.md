@@ -6,7 +6,7 @@ project: pm-tool-self
 state: in_progress
 order: 30720
 created: 2026-06-10T18:56:01Z
-updated: 2026-06-11T23:40:45Z
+updated: 2026-06-12T01:16:32Z
 committed_items:
   - T-0352
   - T-0351
@@ -24,11 +24,13 @@ velocity_history:
   - sprint: SPR-025
     actual: 31
 capacity:
-  total: 13
+  total: 8
   unit: tickets
-velocity_committed: 13
-version: 11
+velocity_committed: 8
+version: 12
 goal: Organise how we manage maintainece of existing projects with different branches that are exploring features and recording the work in a single place
+start_date: 2026-06-10
+end_date: 2026-06-25
 ---
 
 # SPR-030: Existing Projects / Branches Work

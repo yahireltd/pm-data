@@ -5,12 +5,12 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-04T14:04:09Z
-updated: 2026-06-12T00:11:55Z
-project: logistics-route-planning-rollout
+updated: 2026-06-12T01:15:54Z
+project: yasystem
 section: null
 parent: null
 children: []
-order: 3072
+order: 16384
 reporter: null
 assignee:
   kind: agent
@@ -37,8 +37,8 @@ attention:
   needed_by: human
   reason: Implemented & committed (8b37aef5); ready for human review/testing — test steps in the Conversation.
   since: 2026-06-04T18:03:04Z
-branch: SymbioticRoutePlanner
-version: 1
+branch: PickingSketchSalesDashFriday
+version: 4
 ---
 
 ## Problem

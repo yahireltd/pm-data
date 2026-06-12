@@ -2,14 +2,14 @@
 id: P-0016
 slug: yasite-backend
 name: Yahire Website Backend
-state: active
+state: done
 phase: intake
 created: 2026-06-10T11:08:49Z
-updated: 2026-06-12T01:07:04Z
+updated: 2026-06-12T01:16:56Z
 owner:
   kind: human
   name: unknown
-goal: ""
+goal: Superseded — its ticket (T-0347) moved into Websites (yasite) (P-0015), surface 'backend', under T-0353.
 success_criteria: []
 parent_project: null
 related_projects: []
@@ -18,7 +18,7 @@ code_surfaces: []
 key_decisions: []
 labels: []
 order: 1024
-version: 13
+version: 15
 agent_policy:
   allow_commit: false
   allow_push: false

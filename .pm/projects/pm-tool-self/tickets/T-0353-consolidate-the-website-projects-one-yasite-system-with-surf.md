@@ -2,9 +2,9 @@
 id: T-0353
 title: "Consolidate duplicated projects: one Yasite system with surfaces; fold Logistics rollout into Yasystem; rename Yasystem (ADR-039)"
 type: chore
-state: in_progress
+state: review
 created: 2026-06-10T15:00:58Z
-updated: 2026-06-12T01:06:57Z
+updated: 2026-06-12T01:15:48Z
 project: pm-tool-self
 section: null
 parent: null
@@ -36,15 +36,41 @@ agent_runs:
   - id: run-20260611-2351
     model: claude-fable-5
     started: 2026-06-11T23:51:04Z
-    status: in_progress
+    status: completed
     progress:
       - at: 2026-06-12T01:06:57Z
         note: "Resuming run after pm_move_ticket/pm_update_project tools hot-loaded (T-0359 shipped). State surveyed: T-0346 already in P-0015 with surface=yahire-website; logistics tickets T-0217/T-0218 carry pinned branch SymbioticRoutePlanner from last night. Executing now: move T-0347 → P-0015 (+surface backend), move T-0217–T-0223 → yasystem, retire P-0014/P-0016/P-0007 with pointer goals, set kind=system on yasystem, pin refund-hardening-t0331-stripe-dryrun on T-0320/T-0325."
+    ended: 2026-06-12T01:15:48Z
+    summary: |-
+      **What we did:** Tidied the project list down to one project per real system. All website work now lives in a single "Websites (yasite)" project: the backend thumbnails ticket moved in (tagged to the Site Manager surface) joining the breadcrumbs ticket that was already there, and the two leftover shell projects (Yasite, Yahire Website Backend) were retired with a signpost saying where their work went. The seven route-planner tickets moved out of the separate "Logistics Route Planning rollout" project into Yasystem — where that work really belongs — each stamped with the working branch the code sits on (PickingSketchSalesDashFriday, confirmed with Austin), and the logistics project was retired with a signpost too. Yasystem was marked as a long-lived system, and the two in-flight refund tickets were stamped with their refund-hardening working branch. No ticket numbers changed; every moved ticket kept its state, conversation history and review flags.
+
+      **Why:** The same work was smeared across three half-empty website projects, and a temporary code branch had been given its own project. That made the project list misleading — you couldn't tell what was real ongoing work versus leftover scaffolding.
+
+      **If we did nothing:** The route-planner tickets would have been orphaned in a dead-end project when their branch merges, the duplicate website projects would keep collecting tickets in the wrong places, and anyone glancing at the project list (including stakeholders) would see clutter instead of the actual shape of the work.
+
+      **The benefit:** The sidebar now shows the true picture — one website system, one ERP system, the PM tool itself — and every in-flight piece of work records exactly which branch its code lives on, so nothing gets lost when branches merge or sessions change hands.
+    test_plan: |-
+      All checks are in the web UI — no code changed, this was live-data surgery.
+
+      1. Sidebar / projects list: exactly one website project ("Websites (yasite)") is live; "Yasite", "Yahire Website Backend" and "Logistics Route Planning rollout" no longer appear among active projects (they're state=done with pointer goals if you open them directly).
+      2. Open /tickets/T-0347 — it loads, sits in "Websites (yasite)", state=review with its attention flag intact, surface = Site Manager (backend). T-0346 is also there, surface = Yahire Website, state=done.
+      3. Open each of /tickets/T-0217 … /tickets/T-0223 — all seven load, sit in Yasystem, branch pinned = PickingSketchSalesDashFriday, the six review-state tickets still show their "ready for human review" attention flags, and conversations (test steps) are intact.
+      4. Yasystem project page: kind shows as system; ticket count now includes the seven moved tickets (25 total).
+      5. Open /tickets/T-0320 and /tickets/T-0325 — both show pinned branch refund-hardening-t0331-stripe-dryrun.
+      6. Edge case: confirm no ticket id changed anywhere (the moves recompute order only) and the retired projects' goals point you to the right successor.
+      7. Decide separately: "Websites (yasite)" is still state=planning with intake phase — flip it to active when you're ready (it now carries a ticket in review).
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - taxonomy
   - data-migration
-attention: null
-version: 6
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-12T01:15:48Z
+version: 7
 ---
 
 ## Problem
@@ -67,3 +93,13 @@ Projects are duplicated / misshapen (Austin, 2026-06-11):
 ## Caution
 
 This is live-data surgery — do it through the tool (moves preserve ids/history), not by hand-editing files; verify each moved ticket still resolves before deleting shells. Tickets in review keep their attention flags. Moves clear surface tags (T-0351) — re-tag AFTER each move.
+
+## Conversation
+
+**2026-06-12 01:15 claude-code:** Run run-20260611-2351 completed — **What we did:** Tidied the project list down to one project per real system. All website work now lives in a single "Websites (yasite)" project: the backend thumbnails ticket moved in (tagged to the Site Manager surface) joining the breadcrumbs ticket that was already there, and the two leftover shell projects (Yasite, Yahire Website Backend) were retired with a signpost saying where their work went. The seven route-planner tickets moved out of the separate "Logistics Route Planning rollout" project into Yasystem — where that work really belongs — each stamped with the working branch the code sits on (PickingSketchSalesDashFriday, confirmed with Austin), and the logistics project was retired with a signpost too. Yasystem was marked as a long-lived system, and the two in-flight refund tickets were stamped with their refund-hardening working branch. No ticket numbers changed; every moved ticket kept its state, conversation history and review flags.
+
+**Why:** The same work was smeared across three half-empty website projects, and a temporary code branch had been given its own project. That made the project list misleading — you couldn't tell what was real ongoing work versus leftover scaffolding.
+
+**If we did nothing:** The route-planner tickets would have been orphaned in a dead-end project when their branch merges, the duplicate website projects would keep collecting tickets in the wrong places, and anyone glancing at the project list (including stakeholders) would see clutter instead of the actual shape of the work.
+
+**The benefit:** The sidebar now shows the true picture — one website system, one ERP system, the PM tool itself — and every in-flight piece of work records exactly which branch its code lives on, so nothing gets lost when branches merge or sessions change hands.

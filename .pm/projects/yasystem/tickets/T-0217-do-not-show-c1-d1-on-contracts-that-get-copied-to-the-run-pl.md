@@ -5,12 +5,12 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-04T14:04:01Z
-updated: 2026-06-12T00:11:53Z
-project: logistics-route-planning-rollout
+updated: 2026-06-12T01:17:00Z
+project: yasystem
 section: null
 parent: null
 children: []
-order: 1024
+order: 14336
 reporter: null
 assignee:
   kind: agent
@@ -37,8 +37,8 @@ attention:
   needed_by: human
   reason: Implemented & committed (8b37aef5); ready for human review/testing — test steps in the Conversation.
   since: 2026-06-04T18:03:00Z
-branch: SymbioticRoutePlanner
-version: 1
+branch: PickingSketchSalesDashFriday
+version: 5
 ---
 
 ## Problem
@@ -56,3 +56,5 @@ Do not show c1 / d1 on contracts that get copied to the run planner
 **To test:**
 1. Finalize a sketch containing a **non-split** contract → on the run planner that contract should show **no** `(C1)/(D1)` suffix.
 2. Finalize a sketch with a **split** contract (delivery split across 2 vehicles) → those pieces **should still** show `(D1)/(D2)`.
+
+**2026-06-12 01:17 claude-code:** This ticket and its 6 siblings (T-0218–T-0223) moved from logistics-route-planning-rollout into Yasystem with their working branch pinned (PickingSketchSalesDashFriday) — project consolidation T-0353. The route-planning stream now lives inside Yasystem instead of a separate project.

@@ -2,14 +2,14 @@
 id: P-0007
 slug: logistics-route-planning-rollout
 name: Logistics Route Planning rollout
-state: planning
+state: done
 phase: test
 created: 2026-06-04T13:46:09Z
-updated: 2026-06-08T12:18:08Z
+updated: 2026-06-12T01:16:57Z
 owner:
   kind: human
   name: you
-goal: Needs to be safe to finalise - we do not want to break the run planner / miss any jobs that need to be delivered / collected or allow 2 people editing the same date
+goal: Folded into Yasystem under T-0353 — its 7 tickets (T-0217–T-0223) carry the route-planning stream branch (PickingSketchSalesDashFriday). Route planning continues as a Yasystem stream, not a separate project.
 success_criteria: []
 parent_project: null
 related_projects: []
@@ -55,6 +55,7 @@ agent_policy:
   allow_commit: true
   allow_push: false
   note: working branch of a production system proceed with caution
+version: 11
 ---
 
 # Logistics Route Planning rollout

@@ -5,12 +5,12 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T14:04:19Z
-updated: 2026-06-12T00:11:56Z
-project: logistics-route-planning-rollout
+updated: 2026-06-12T01:15:55Z
+project: yasystem
 section: null
 parent: null
 children: []
-order: 5120
+order: 18432
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -25,8 +25,8 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-branch: SymbioticRoutePlanner
-version: 1
+branch: PickingSketchSalesDashFriday
+version: 4
 ---
 
 ## Problem

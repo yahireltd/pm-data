@@ -4,7 +4,7 @@ title: "Refund guard: block refunds that exceed what the contract actually holds
 type: feature
 state: in_progress
 created: 2026-06-09T19:14:46Z
-updated: 2026-06-10T18:14:18Z
+updated: 2026-06-12T01:07:51Z
 project: yasystem
 section: null
 parent: null
@@ -61,10 +61,11 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 6
+version: 7
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
+branch: refund-hardening-t0331-stripe-dryrun
 ---
 
 ## Problem

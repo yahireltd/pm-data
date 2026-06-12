@@ -5,12 +5,12 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-04T14:04:06Z
-updated: 2026-06-12T00:11:54Z
-project: logistics-route-planning-rollout
+updated: 2026-06-12T01:15:53Z
+project: yasystem
 section: null
 parent: null
 children: []
-order: 2048
+order: 15360
 reporter: null
 assignee:
   kind: agent
@@ -36,8 +36,8 @@ attention:
   needed_by: human
   reason: Implemented & committed (8b37aef5); needs the vehicle_day_pool migration deployed then human testing — steps in the Conversation.
   since: 2026-06-04T18:03:02Z
-branch: SymbioticRoutePlanner
-version: 1
+branch: PickingSketchSalesDashFriday
+version: 4
 ---
 
 ## Problem
