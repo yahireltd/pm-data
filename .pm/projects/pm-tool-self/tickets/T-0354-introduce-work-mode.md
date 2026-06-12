@@ -2,10 +2,10 @@
 id: T-0354
 title: Work Mode — personal toggle that hides your private projects from your own view
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-10T15:08:48Z
-updated: 2026-06-12T01:49:07Z
+updated: 2026-06-12T02:08:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -43,13 +43,49 @@ agent_runs:
   - id: run-20260612-0143
     model: claude-fable-5
     started: 2026-06-12T01:43:27Z
-    status: in_progress
+    status: completed
     progress:
       - at: 2026-06-12T01:49:07Z
         note: "Work Mode implemented: an eye-toggle in the top bar (amber while on) hides your private projects from every list, menu, count and picker — enforced at the single access chokepoint all those surfaces already share, plus the My Work page which lists differently. It's a personal view filter via a browser cookie: colleagues' visibility is untouched (they never saw private projects), direct links still open, and turning it off restores everything instantly. Dashboard help documents it. Typecheck clean; adversarial review of the access-layer change running before commit."
+    ended: 2026-06-12T02:08:00Z
+    summary: |-
+      **What we did**
+      Added Work Mode: an eye button in the top bar that hides your private projects from your own view — every list, menu, count and picker forgets them while it's on, and the button glows amber so you always know. One click brings everything back. Crucially, if you deliberately open a hidden project (or one of its tickets or meetings) by direct link, the page still works fully — review caught and fixed three places where it would have degraded. The filter also switches itself off while you're previewing the app as someone else, so preview keeps answering "what do they see" truthfully.
+
+      **Why we did it**
+      Austin has private projects (like the stock predictions engine) that colleagues already can't see — but he could, everywhere, cluttering his work view and risking exposure when screen-sharing at the office.
+
+      **If we did nothing**
+      Personal projects would keep sitting in every list and menu — visual noise daily, and a privacy slip waiting to happen on any shared screen.
+
+      **The benefit**
+      One click separates work from personal: a clean shared-screen-safe view at the office, everything back the moment you want it. Colleagues' view is untouched either way.
+    test_plan: |-
+      After `pm-deploy` (commit 228333f — also carries the collapsed Closed sidebar group and the ticket branch picker) and a refresh:
+
+      **Happy path**
+      1. Top bar: a grey eye button labelled "Work mode". Click it → it turns amber, and Stock Predictions Engine vanishes from: the sidebar, the dashboard, /projects, /me, the Cmd+K quick-add picker, and the tickets list (its tickets gone too).
+      2. Click it again → everything returns instantly.
+
+      **The review catches — worth checking**
+      3. With work mode ON, open the hidden project by direct URL (/projects/stock-predictions-engine) → the project opens and works: its sprint board resolves ticket names (no "(unknown ticket)"), its tickets open with repo links, branch inheritance hint, and surface picker intact, and a project meeting still shows its stakeholder register.
+      4. With work mode ON, use "Preview as" (Settings) to view as a colleague → the work-mode button disappears and the preview shows that person's TRUE visibility (work mode doesn't subtract from it). Exit preview → button returns, still on.
+
+      **Boundaries**
+      5. Work mode is per browser (a cookie) — your phone/other browser is unaffected.
+      6. Colleagues' views are unchanged either way (they never see private projects).
+      7. Agents via MCP are deliberately unaffected — they keep working private-project tickets.
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
+      docs_note: Dashboard help documents the toggle (private projects had no prior help mention — pre-existing gap noted).
 labels: []
-attention: null
-version: 6
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-12T02:08:00Z
+version: 7
 ---
 
 ## Problem
@@ -66,3 +102,17 @@ A personal "Work mode" toggle:
 - NOT a security boundary: colleagues never saw these projects anyway. Direct URLs to your own private project still work — it's your data, work mode just keeps it out of the shared-screen furniture.
 
 Fits the T-0358 nav work (the new Systems/Initiatives/Closed groups all derive from the same visible set, so they filter for free).
+
+## Conversation
+
+**2026-06-12 02:08 claude-code:** Run run-20260612-0143 completed — **What we did**
+Added Work Mode: an eye button in the top bar that hides your private projects from your own view — every list, menu, count and picker forgets them while it's on, and the button glows amber so you always know. One click brings everything back. Crucially, if you deliberately open a hidden project (or one of its tickets or meetings) by direct link, the page still works fully — review caught and fixed three places where it would have degraded. The filter also switches itself off while you're previewing the app as someone else, so preview keeps answering "what do they see" truthfully.
+
+**Why we did it**
+Austin has private projects (like the stock predictions engine) that colleagues already can't see — but he could, everywhere, cluttering his work view and risking exposure when screen-sharing at the office.
+
+**If we did nothing**
+Personal projects would keep sitting in every list and menu — visual noise daily, and a privacy slip waiting to happen on any shared screen.
+
+**The benefit**
+One click separates work from personal: a clean shared-screen-safe view at the office, everything back the moment you want it. Colleagues' view is untouched either way.
