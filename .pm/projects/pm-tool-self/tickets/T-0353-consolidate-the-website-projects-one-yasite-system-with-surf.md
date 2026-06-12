@@ -4,7 +4,7 @@ title: "Consolidate duplicated projects: one Yasite system with surfaces; fold L
 type: chore
 state: review
 created: 2026-06-10T15:00:58Z
-updated: 2026-06-12T01:15:48Z
+updated: 2026-06-12T01:18:04Z
 project: pm-tool-self
 section: null
 parent: null
@@ -40,25 +40,26 @@ agent_runs:
     progress:
       - at: 2026-06-12T01:06:57Z
         note: "Resuming run after pm_move_ticket/pm_update_project tools hot-loaded (T-0359 shipped). State surveyed: T-0346 already in P-0015 with surface=yahire-website; logistics tickets T-0217/T-0218 carry pinned branch SymbioticRoutePlanner from last night. Executing now: move T-0347 → P-0015 (+surface backend), move T-0217–T-0223 → yasystem, retire P-0014/P-0016/P-0007 with pointer goals, set kind=system on yasystem, pin refund-hardening-t0331-stripe-dryrun on T-0320/T-0325."
-    ended: 2026-06-12T01:15:48Z
+    ended: 2026-06-12T01:18:04Z
     summary: |-
-      **What we did:** Tidied the project list down to one project per real system. All website work now lives in a single "Websites (yasite)" project: the backend thumbnails ticket moved in (tagged to the Site Manager surface) joining the breadcrumbs ticket that was already there, and the two leftover shell projects (Yasite, Yahire Website Backend) were retired with a signpost saying where their work went. The seven route-planner tickets moved out of the separate "Logistics Route Planning rollout" project into Yasystem — where that work really belongs — each stamped with the working branch the code sits on (PickingSketchSalesDashFriday, confirmed with Austin), and the logistics project was retired with a signpost too. Yasystem was marked as a long-lived system, and the two in-flight refund tickets were stamped with their refund-hardening working branch. No ticket numbers changed; every moved ticket kept its state, conversation history and review flags.
+      **What we did**
+      Tidied the duplicated projects into the shape the new taxonomy was built for — a joint effort between Austin (in the web app) and the AI (through the new tools). The websites are now ONE system, "Websites (yasite)", holding both website tickets with their site areas tagged. The Logistics route-planning project's seven tickets moved into Yasystem, each carrying the working branch they're actually built on (PickingSketchSalesDashFriday), so the stream lives inside the system it belongs to. The three leftover shells (Yasite, Yahire Website Backend, Logistics rollout) are retired with pointer notes saying where their work went, and "Yasystem Main Branch" is plain "Yasystem" — the branch is data now, not a name.
 
-      **Why:** The same work was smeared across three half-empty website projects, and a temporary code branch had been given its own project. That made the project list misleading — you couldn't tell what was real ongoing work versus leftover scaffolding.
+      **Why we did it**
+      Work was scattered across near-empty duplicate projects, and one project was named after a git branch. Finding anything meant knowing the accidental history; the dashboard and sidebar were cluttered with shells.
 
-      **If we did nothing:** The route-planner tickets would have been orphaned in a dead-end project when their branch merges, the duplicate website projects would keep collecting tickets in the wrong places, and anyone glancing at the project list (including stakeholders) would see clutter instead of the actual shape of the work.
+      **If we did nothing**
+      The duplicates would keep multiplying (a new project per branch or per site), ticket history would stay fragmented, and the new taxonomy (systems, surfaces, branches) would describe a world that didn't match the data.
 
-      **The benefit:** The sidebar now shows the true picture — one website system, one ERP system, the PM tool itself — and every in-flight piece of work records exactly which branch its code lives on, so nothing gets lost when branches merge or sessions change hands.
+      **The benefit**
+      The sidebar now tells the truth: two real systems (Websites, Yasystem) plus genuine initiatives. Every moved ticket kept its number, history, review state and attention flag — verified one by one. Future agents picking up a route-planning ticket are told the right branch automatically.
     test_plan: |-
-      All checks are in the web UI — no code changed, this was live-data surgery.
-
-      1. Sidebar / projects list: exactly one website project ("Websites (yasite)") is live; "Yasite", "Yahire Website Backend" and "Logistics Route Planning rollout" no longer appear among active projects (they're state=done with pointer goals if you open them directly).
-      2. Open /tickets/T-0347 — it loads, sits in "Websites (yasite)", state=review with its attention flag intact, surface = Site Manager (backend). T-0346 is also there, surface = Yahire Website, state=done.
-      3. Open each of /tickets/T-0217 … /tickets/T-0223 — all seven load, sit in Yasystem, branch pinned = PickingSketchSalesDashFriday, the six review-state tickets still show their "ready for human review" attention flags, and conversations (test steps) are intact.
-      4. Yasystem project page: kind shows as system; ticket count now includes the seven moved tickets (25 total).
-      5. Open /tickets/T-0320 and /tickets/T-0325 — both show pinned branch refund-hardening-t0331-stripe-dryrun.
-      6. Edge case: confirm no ticket id changed anywhere (the moves recompute order only) and the retired projects' goals point you to the right successor.
-      7. Decide separately: "Websites (yasite)" is still state=planning with intake phase — flip it to active when you're ready (it now carries a ticket in review).
+      Refresh the browser (the sidebar regroups), then:
+      1. Sidebar: SYSTEMS shows Websites (yasite) + Yasystem; INITIATIVES no longer lists Yasite / Yahire Website Backend / Logistics Route Planning rollout — they're in the dimmed CLOSED group, each with a pointer note in its goal.
+      2. Websites (yasite) → tickets: T-0346 (done, surface yahire-website) and T-0347 (review, surface backend, attention flag intact, conversation intact — including the move note).
+      3. Yasystem → List: T-0217–T-0223 all present with their states unchanged (six review, one in progress) and branch tag PickingSketchSalesDashFriday on each row; T-0217's conversation has the consolidation note.
+      4. Open /tickets/T-0218 directly — loads fine (id preserved), Branch field shows the pin, and the agent policy + branch resolve together.
+      5. Spot-check Yasystem header: named "Yasystem", kind System (no phase machinery in its nav).
     records:
       docs: none-needed
       tech_session: none-needed
@@ -69,8 +70,8 @@ labels:
 attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
-  since: 2026-06-12T01:15:48Z
-version: 7
+  since: 2026-06-12T01:18:04Z
+version: 8
 ---
 
 ## Problem
