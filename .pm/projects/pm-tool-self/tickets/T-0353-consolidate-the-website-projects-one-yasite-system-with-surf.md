@@ -4,7 +4,7 @@ title: "Consolidate duplicated projects: one Yasite system with surfaces; fold L
 type: chore
 state: in_progress
 created: 2026-06-10T15:00:58Z
-updated: 2026-06-11T23:51:04Z
+updated: 2026-06-12T01:06:57Z
 project: pm-tool-self
 section: null
 parent: null
@@ -37,11 +37,14 @@ agent_runs:
     model: claude-fable-5
     started: 2026-06-11T23:51:04Z
     status: in_progress
+    progress:
+      - at: 2026-06-12T01:06:57Z
+        note: "Resuming run after pm_move_ticket/pm_update_project tools hot-loaded (T-0359 shipped). State surveyed: T-0346 already in P-0015 with surface=yahire-website; logistics tickets T-0217/T-0218 carry pinned branch SymbioticRoutePlanner from last night. Executing now: move T-0347 → P-0015 (+surface backend), move T-0217–T-0223 → yasystem, retire P-0014/P-0016/P-0007 with pointer goals, set kind=system on yasystem, pin refund-hardening-t0331-stripe-dryrun on T-0320/T-0325."
 labels:
   - taxonomy
   - data-migration
 attention: null
-version: 5
+version: 6
 ---
 
 ## Problem
