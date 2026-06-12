@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-11T23:57:22Z
-updated: 2026-06-12T00:12:20Z
+updated: 2026-06-12T00:46:08Z
 project: yasystem
 section: null
 parent: null
@@ -18,6 +18,7 @@ assignee:
 acceptance_criteria:
   - a cost in api credits for a full scrape of excel.london example
   - looking up socials should reveal event frequency - needs to be an event not just a post
+  - we are trying to weigh up the cost of scoring all customers / new screened / new all / existing + new all so get an idea of monthly new customers (filter by domain)
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -33,7 +34,7 @@ agent_runs:
     summary: Claimed via web UI
 labels: []
 attention: null
-version: 7
+version: 8
 branch: refund-hardening-t0331-stripe-dryrun
 ---
 
