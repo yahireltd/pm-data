@@ -4,7 +4,7 @@ title: Customer sales-scores view in yasystem backend (reads customer_sales_scor
 type: feature
 state: review
 created: 2026-06-12T02:53:11Z
-updated: 2026-06-12T02:59:48Z
+updated: 2026-06-12T03:16:19Z
 project: yasystem
 section: null
 parent: null
@@ -81,7 +81,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-12T02:58:25Z
-version: 6
+version: 7
 ---
 
 ## Problem
@@ -103,3 +103,5 @@ Read-only Yii2 backend page (SalesScoresController + GridView) over `customer_sa
 **The benefit:** The sales team gets a self-serve, always-current view of which customers have untapped events potential (sort by score, compare against spend) — and as the scoring runs continue in tranches, new rows appear automatically because the page reads the same table the scoring pipeline loads into.
 
 **2026-06-12 02:59 claude-code:** **Branch deviation record (retro, per T-0364):** the claim resolved branch=master, but the shared local checkout of Ya-Hire-Management was on `refund-hardening-t0331-stripe-dryrun` (another in-flight stream). I did not switch the shared checkout. The three new files exist as UNTRACKED files in that working tree (they follow any checkout) and are deployed to the test box; they are destined for **master** — Austin commits/pushes per the locked agent policy. Protocol gap for this situation is tracked as T-0364 on pm-tool-self.
+
+**2026-06-12 03:16 claude-code:** **Review feedback applied (Austin, 2026-06-12): the view now shows the current account tier.** New "Account Tier" column between Company and the business description — renders the customer's existing tier from `ya_customer_tiers` (Diamond/Gold/Silver/Bronze) in the tier's own colour with its icon, taking the BEST tier among the domain's customer records; em-dash when untiered. Implementation: one grouped query per page over `ya_customers` for the 50 displayed domains (no schema changes, still read-only). Deployed to the test box — of the 329 scored domains, 17 are Diamond, 22 Gold, 62 Silver, 61 Bronze. Note these are working-tree modifications on top of Austin's commit 489cf7c93; commit remains human-gated.
