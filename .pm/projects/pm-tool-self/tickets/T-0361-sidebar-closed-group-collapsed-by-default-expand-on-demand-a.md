@@ -2,9 +2,9 @@
 id: T-0361
 title: "Sidebar: Closed group collapsed by default (expand on demand; auto-expand when you're inside a closed project)"
 type: feature
-state: review
+state: done
 created: 2026-06-12T01:28:49Z
-updated: 2026-06-12T01:29:58Z
+updated: 2026-06-12T01:46:45Z
 project: pm-tool-self
 section: null
 parent: null
@@ -19,9 +19,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - The Closed sidebar group renders collapsed by default, showing a count; clicking the header expands/collapses it
-  - When the route is inside a closed project, the group is expanded automatically so the active project's sub-nav never vanishes
-  - Systems/Initiatives groups unchanged
+  - "[x] The Closed sidebar group renders collapsed by default, showing a count; clicking the header expands/collapses it"
+  - "[x] When the route is inside a closed project, the group is expanded automatically so the active project's sub-nav never vanishes"
+  - "[x] Systems/Initiatives groups unchanged"
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/SidebarNav.tsx
@@ -62,11 +62,8 @@ agent_runs:
 labels:
   - taxonomy
   - ux
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-12T01:29:58Z
-version: 4
+attention: null
+version: 9
 ---
 
 ## Problem
@@ -90,3 +87,9 @@ The list of retired projects would keep growing down the sidebar forever — his
 
 **The benefit**
 The menu shows only what you run and what you're delivering; the past is one click away instead of always in view.
+
+---
+
+**2026-06-12 01:46 — you**
+
+closed not visible

@@ -2,9 +2,9 @@
 id: T-0359
 title: "MCP gap: pm_move_ticket + pm_update_project — agents can't execute data tidy-ups (T-0353 blocker)"
 type: feature
-state: review
+state: done
 created: 2026-06-11T23:40:34Z
-updated: 2026-06-12T01:17:42Z
+updated: 2026-06-12T01:46:12Z
 project: pm-tool-self
 section: null
 parent: null
@@ -19,11 +19,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - pm_move_ticket moves a ticket inbox↔project / project→project preserving id, body and conversation; recomputes order in the target; inbox→triaged state shift on entering a project; validates the target project/section exists
-  - Cross-project moves CLEAR the surface tag (project-scoped, T-0351) and KEEP the pinned branch (repo/stream-scoped, T-0352) — mirroring the web moveTicket exactly
-  - pm_update_project edits name / state / kind / goal; state obeys the shared project state machine (illegal transitions rejected); slug and id are immutable
-  - Both tools registered with descriptions; dev wiki MCP table + README write list updated in the same change
-  - "Proof: T-0353's migration is executable end-to-end via MCP (moves + surface tags + branch pins + renames + retirements)"
+  - "[x] pm_move_ticket moves a ticket inbox↔project / project→project preserving id, body and conversation; recomputes order in the target; inbox→triaged state shift on entering a project; validates the target project/section exists"
+  - "[x] Cross-project moves CLEAR the surface tag (project-scoped, T-0351) and KEEP the pinned branch (repo/stream-scoped, T-0352) — mirroring the web moveTicket exactly"
+  - "[x] pm_update_project edits name / state / kind / goal; state obeys the shared project state machine (illegal transitions rejected); slug and id are immutable"
+  - "[x] Both tools registered with descriptions; dev wiki MCP table + README write list updated in the same change"
+  - "[x] Proof: T-0353's migration is executable end-to-end via MCP (moves + surface tags + branch pins + renames + retirements)"
 out_of_scope:
   - Project hard-delete (retire = state done/cancelled with a pointer comment)
   - Slug renames / file relocations for projects
@@ -81,11 +81,8 @@ agent_runs:
 labels:
   - dogfood
   - mcp
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-12T01:17:42Z
-version: 5
+attention: null
+version: 12
 ---
 
 ## Problem
@@ -112,3 +109,9 @@ Every future reorganisation — and there will be more as projects evolve — wo
 
 **The benefit**
 Proven immediately: the consolidation ran the same evening using these tools — eight tickets relocated, three duplicated projects retired with pointer notes, and the ERP project renamed — with every move verified afterwards.
+
+---
+
+**2026-06-12 01:46 — you**
+
+done

@@ -2,17 +2,19 @@
 id: T-0354
 title: Work Mode — personal toggle that hides your private projects from your own view
 type: feature
-state: triaged
+state: in_progress
 priority: p2
 created: 2026-06-10T15:08:48Z
-updated: 2026-06-11T22:26:51Z
+updated: 2026-06-12T01:43:27Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 98304
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - "A 'Work mode' toggle in the top bar, persisted per browser (cookie, so server components can filter), hides every private project you can see from all aggregate surfaces: sidebar groups, dashboard, /projects, /me, search, dev-tickets, and the pickers (promote / move-to-system / project assignment)"
   - Tickets belonging to hidden private projects disappear from cross-project lists (tickets, review, ready, in-progress, activity) while work mode is on
@@ -37,10 +39,14 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260612-0143
+    model: claude-fable-5
+    started: 2026-06-12T01:43:27Z
+    status: in_progress
 labels: []
 attention: null
-version: 3
+version: 5
 ---
 
 ## Problem

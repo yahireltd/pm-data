@@ -2,9 +2,9 @@
 id: T-0352
 title: Branch lives on the ticket — pin at scoping, or agent cuts a ticket branch (ADR-039)
 type: feature
-state: review
+state: done
 created: 2026-06-10T15:00:28Z
-updated: 2026-06-12T00:13:00Z
+updated: 2026-06-12T01:44:42Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,11 +15,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Ticket schema/types carry optional branch; editable in web ticket detail and via pm_update_ticket
-  - pm_claim_ticket returns the effective branch (ticket ?? surface ?? project) and the policy together
-  - "Convention documented in AGENTS.md: unset branch + protected default → agent cuts t<NNNN>-<slug> branch and records it on the ticket"
-  - Sub-tasks inherit the parent ticket's branch when their own is unset
-  - Yasystem project can drop 'Main Branch' from its name with no information lost (branch is data, not naming)
+  - "[x] Ticket schema/types carry optional branch; editable in web ticket detail and via pm_update_ticket"
+  - "[x] pm_claim_ticket returns the effective branch (ticket ?? surface ?? project) and the policy together"
+  - "[x] Convention documented in AGENTS.md: unset branch + protected default → agent cuts t<NNNN>-<slug> branch and records it on the ticket"
+  - "[x] Sub-tasks inherit the parent ticket's branch when their own is unset"
+  - "[x] Yasystem project can drop 'Main Branch' from its name with no information lost (branch is data, not naming)"
 out_of_scope:
   - Per-branch agent policy (deferred, ADR-039)
   - Automated branch cleanup/merge detection
@@ -88,11 +88,8 @@ agent_runs:
       docs_note: AGENTS.md §1+§12 (the convention), SCHEMA.md, dev wiki (conventions, tool rows, ticket yaml), three help screens — same commit. ADR-039's open point (pinned branch vs locked project policy) settled as pinned-wins and recorded in AGENTS.md §12.
 labels:
   - taxonomy
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-11T23:31:13Z
-version: 6
+attention: null
+version: 15
 ---
 
 ## Problem
@@ -126,3 +123,9 @@ Projects would keep multiplying per branch, the names would keep lying ("Main Br
 One Yasystem can hold the refund stream, the picking-dashboard stream, and master work side by side — each ticket pointing at its branch — and the record survives every merge. This was the last building block: the tidy-up (one Websites system, Logistics folded into Yasystem, the rename) can now go ahead.
 
 **2026-06-12 00:13 claude-code:** Review feedback from Austin actioned: the ticket Branch field now has a "Load branches" picker — it pulls the live branch list from GitHub (same read-only token mechanism as the project repo editor) and lists branches from the effective repo (the surface's own repo when it overrides, else the project's). Free typing still works for branches that don't exist yet (e.g. a t-numbered branch an agent is about to cut), and blank still means inherit. Pushed as 7735a2d — rides along with the next deploy.
+
+---
+
+**2026-06-12 01:44 — you**
+
+done
