@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-04T14:04:06Z
-updated: 2026-06-08T12:11:20Z
+updated: 2026-06-12T00:11:54Z
 project: logistics-route-planning-rollout
 section: null
 parent: null
@@ -36,6 +36,8 @@ attention:
   needed_by: human
   reason: Implemented & committed (8b37aef5); needs the vehicle_day_pool migration deployed then human testing — steps in the Conversation.
   since: 2026-06-04T18:03:02Z
+branch: SymbioticRoutePlanner
+version: 1
 ---
 
 ## Problem

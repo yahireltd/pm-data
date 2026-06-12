@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T14:04:19Z
-updated: 2026-06-06T20:47:04Z
+updated: 2026-06-12T00:11:56Z
 project: logistics-route-planning-rollout
 section: null
 parent: null
@@ -25,6 +25,8 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
+branch: SymbioticRoutePlanner
+version: 1
 ---
 
 ## Problem

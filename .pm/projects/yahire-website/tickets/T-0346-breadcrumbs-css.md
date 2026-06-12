@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-10T09:41:23Z
-updated: 2026-06-10T10:29:02Z
+updated: 2026-06-12T00:11:31Z
 project: yahire-website
 section: null
 parent: null
@@ -65,8 +65,9 @@ agent_runs:
       docs_note: created the docs folder and the sub folders same as on ya-hire
 labels: []
 attention: null
-version: 25
+version: 26
 department: Sales
+surface: yahire-website
 ---
 
 hey \

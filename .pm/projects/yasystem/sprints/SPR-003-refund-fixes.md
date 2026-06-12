@@ -3,10 +3,10 @@ id: SPR-003
 slug: refund-fixes
 title: Refund Fixes
 project: yasystem
-state: planned
+state: in_progress
 order: 1024
 created: 2026-06-09T20:22:24Z
-updated: 2026-06-09T20:27:16Z
+updated: 2026-06-12T00:15:22Z
 committed_items:
   - T-0320
   - T-0321
@@ -18,7 +18,7 @@ committed_items:
   - T-0326
   - T-0332
 goal: a refund happened with real money that shouldnt have steps needed to fix and test the fix
-version: 10
+version: 11
 ---
 
 # SPR-003: Refund Fixes

@@ -4,7 +4,7 @@ title: Branch lives on the ticket — pin at scoping, or agent cuts a ticket bra
 type: feature
 state: review
 created: 2026-06-10T15:00:28Z
-updated: 2026-06-11T23:31:13Z
+updated: 2026-06-12T00:13:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -92,7 +92,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-11T23:31:13Z
-version: 5
+version: 6
 ---
 
 ## Problem
@@ -124,3 +124,5 @@ Projects would keep multiplying per branch, the names would keep lying ("Main Br
 
 **The benefit**
 One Yasystem can hold the refund stream, the picking-dashboard stream, and master work side by side — each ticket pointing at its branch — and the record survives every merge. This was the last building block: the tidy-up (one Websites system, Logistics folded into Yasystem, the rename) can now go ahead.
+
+**2026-06-12 00:13 claude-code:** Review feedback from Austin actioned: the ticket Branch field now has a "Load branches" picker — it pulls the live branch list from GitHub (same read-only token mechanism as the project repo editor) and lists branches from the effective repo (the surface's own repo when it overrides, else the project's). Free typing still works for branches that don't exist yet (e.g. a t-numbered branch an agent is about to cut), and blank still means inherit. Pushed as 7735a2d — rides along with the next deploy.

@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-04T14:04:01Z
-updated: 2026-06-04T18:03:00Z
+updated: 2026-06-12T00:11:53Z
 project: logistics-route-planning-rollout
 section: null
 parent: null
@@ -37,6 +37,8 @@ attention:
   needed_by: human
   reason: Implemented & committed (8b37aef5); ready for human review/testing — test steps in the Conversation.
   since: 2026-06-04T18:03:00Z
+branch: SymbioticRoutePlanner
+version: 1
 ---
 
 ## Problem
