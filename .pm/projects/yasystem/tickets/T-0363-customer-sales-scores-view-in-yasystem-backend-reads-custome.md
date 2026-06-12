@@ -2,9 +2,9 @@
 id: T-0363
 title: Customer sales-scores view in yasystem backend (reads customer_sales_scores table from T-0360 scoring)
 type: feature
-state: review
+state: done
 created: 2026-06-12T02:53:11Z
-updated: 2026-06-12T03:27:33Z
+updated: 2026-06-12T14:21:10Z
 project: yasystem
 section: null
 parent: null
@@ -19,10 +19,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "A backend page lists customer_sales_scores: domain, company, business, score, tier, evidence, spend at scoring, scored date"
-  - Sortable by score/spend/date and filterable by tier and domain text
-  - Read-only — no write paths to the scores table from the UI
-  - Works on the test box once customer_sales_scores.sql has been applied
+  - "[x] A backend page lists customer_sales_scores: domain, company, business, score, tier, evidence, spend at scoring, scored date"
+  - "[x] Sortable by score/spend/date and filterable by tier and domain text"
+  - "[x] Read-only — no write paths to the scores table from the UI"
+  - "[x] Works on the test box once customer_sales_scores.sql has been applied"
 out_of_scope:
   - The scoring pipeline itself (T-0360)
   - Stamping scores onto ya_customers (optional SQL provided separately)
@@ -77,11 +77,8 @@ agent_runs:
       status_note: none-needed
 labels:
   - sales-scoring
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-12T02:58:25Z
-version: 8
+attention: null
+version: 14
 ---
 
 ## Problem
@@ -109,3 +106,9 @@ Read-only Yii2 backend page (SalesScoresController + GridView) over `customer_sa
 **2026-06-12 03:27 claude-code:** **Shipped to master (Austin-authorised merge, 2026-06-12):** commits `b4b1c9fe0` (segmentation report PP-002), `bcccd2d86` (Sales Scores UI), `bc6f1eea3` (account-tier column + guarded customer_sales_scores migration incl. events_per_year), `8b8e84dbb` (Events/Yr + Next Event columns + guarded customer_upcoming_events migration). Refund-hardening commits deliberately excluded — they stay on their branch. Live deploy = run `./yii migrate` (both migrations no-op if tables exist) then load the two Desktop SQL artifacts (customer_sales_scores.sql — 428 domains; customer_upcoming_events.sql — first 50 events).
 
 **Enrichment pass live on the test box:** top-30 Tier-A customers now show next upcoming dated event + events/yr where stated. Standouts for sales: Smart Group's London Christmas Party Show is at Protein Studios **16 June** (4 days away); Spurs have five stadium concerts June–July; Hampton Court Palace Festival starts **13 June**; QEII Centre (400 events/yr) has Sustainability LIVE 8 Sept; InterContinental O2 has five dated conferences Oct–Dec. Domains with no public event calendar (agencies like Smyle, GPJ, Momentum) correctly show "—" rather than guesses.
+
+---
+
+**2026-06-12 14:21 — you**
+
+working

@@ -2,10 +2,10 @@
 id: T-0360
 title: Check out a sales scoring cost on credits
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-11T23:57:22Z
-updated: 2026-06-12T02:31:20Z
+updated: 2026-06-12T14:21:46Z
 project: yasystem
 section: null
 parent: null
@@ -16,9 +16,9 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - a cost in api credits for a full scrape of excel.london example
-  - looking up socials should reveal event frequency - needs to be an event not just a post
-  - we are trying to weigh up the cost of scoring all customers / new screened / new all / existing + new all so get an idea of monthly new customers (filter by domain)
+  - "[x] a cost in api credits for a full scrape of excel.london example"
+  - "[x] looking up socials should reveal event frequency - needs to be an event not just a post"
+  - "[x] we are trying to weigh up the cost of scoring all customers / new screened / new all / existing + new all so get an idea of monthly new customers (filter by domain)"
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -52,11 +52,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-12T01:47:12Z
-version: 15
+attention: null
+version: 20
 ---
 
 So the idea to score a customer is to first of all use current personal /  coroprate split -this is done using the email domain so non custom domains (gmail/hotmail/outlook.com) are personal customers else corporate. Then we need to identify industry. Look u p the domains website. So for example the customer domain is  customer@excel.london we would send an agent to look at their website. and if found to be a venue / caterer etc then look up their socials and public financial records to asses their potential value, event frequency etc. 
@@ -304,3 +301,9 @@ Method as before: top 100 corporate email domains by lifetime invoice total from
 | 98 | eclipse.global | In-house production partner at 15+ major London venues, £20.7m revenue, acquired by Encore Nov 2025 | £52,707 | 88 | A | +84 |
 | 99 | sunbeltrentals.co.uk | FTSE100 Ashtead-owned hire giant with events arm — likely a cross-hire partner rather than pure customer | £52,318 | 68 | B | +46 |
 | 100 | aspect-communications.com | 26-year London agency producing recurring FTSE 50 AGMs, conferences and leadership events | £52,232 | 78 | A | +63 |
+
+---
+
+**2026-06-12 14:21 — you**
+
+working
