@@ -4,7 +4,7 @@ title: BB_Squeeze restatement on the PIT universe (it now carries the whole book
 type: spike
 state: in_progress
 created: 2026-06-10T01:51:27Z
-updated: 2026-06-13T17:12:51Z
+updated: 2026-06-13T17:37:03Z
 project: stock-predictions-engine
 section: null
 parent: null
@@ -58,7 +58,7 @@ labels:
   - research
   - book
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
@@ -94,3 +94,16 @@ Explicitly forbidden: re-tuning tp/sl/hold/positions/N to recover the Sharpe aft
 ## Conversation
 
 **2026-06-13 claude-code:** Scoped. Code map confirms BB still runs on the hardcoded ~96-name list with touch-fill exits; PIT machinery (`build_pit_universe.py` + the MR `univ_fn` pattern) and close-based exit logic (`book_signals.py`) both already exist to reuse. Two frozen changes (PIT delisted-inclusive universe; close-based exits), no re-tuning. Ready to mark ready/claim when the bot-stale issue is cleared.
+
+**2026-06-13 17:37 claude-code:** **2026-06-13 — restatement run on real data (austin-ubuntu, repaired panel).** Code committed on branch `t0341-bb-pit-close-exits`; PIT universe rebuilt to the pre-registered top-100 (78 monthly files); config frozen identical to the 2026-06-10 run (h10, rebal 5, TP10/SL5, 3 pos, 10bps).
+
+**Headline: BB_Squeeze honest Sharpe = 0.80** (791 days, 2023-01→2026-02, +51% total) — down from the 1.73 headline. The book's only live sleeve loses ~54% of its Sharpe once the flattery is removed.
+
+**Attribution (what caused the drop):**
+- current-name universe + touch-fill (old): **1.726**
+- PIT delisted-inclusive universe + touch-fill: **0.821**  → survivorship/universe costs **−0.90**
+- PIT universe + close-based exits (headline): **0.801**  → exit convention costs only **−0.02**
+
+So ~98% of the collapse is the **survivorship-tinted hand-picked universe**, not the touch=fill assumption we worried about. Same lesson as PEAD: the old current-name list was flattering the result. Close-vs-touch exit divergence is negligible for this strategy.
+
+**Still running / pending acceptance:** 200-run entry-permutation null (in progress) → does 0.80 beat random same-size entries through the identical machinery; delisted-cohort contribution breakout; adversarial re-derivation. **Implication if 0.80 holds:** the BB-only book sits below the charter's ≥1.0 target on its own — sleeve #2 (S2 h20 / S11) and the EXECUTE=1 decision (MS-015) need to weigh this.
