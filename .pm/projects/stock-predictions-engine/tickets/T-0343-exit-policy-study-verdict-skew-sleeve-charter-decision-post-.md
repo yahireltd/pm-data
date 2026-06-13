@@ -4,7 +4,7 @@ title: Exit-policy study verdict → skew-sleeve charter decision (post 2026-07-
 type: spike
 state: triaged
 created: 2026-06-10T01:51:40Z
-updated: 2026-06-10T02:05:09Z
+updated: 2026-06-13T16:39:16Z
 project: stock-predictions-engine
 section: null
 parent: null
@@ -30,7 +30,7 @@ labels:
   - research
   - charter
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -48,3 +48,5 @@ Headline, against expectations: **the +50% take-profit was NOT the costly behavi
 The 1000% monsters (RKLB/PLTR class) are 0.6% of entries and uncatchable inside ANY 18-month policy — they only pay through multi-year, no-time-stop trend holds, which as a policy have a 37% win rate and a −6% median trade (the winners carry 3× the entire P&L).
 
 Decision now teed up for after the 2026-07-15 moratorium: a two-pocket design — core entries at a +100% TP, plus a small (0.5–1%) lottery pocket riding the 40-week SMA with no time stop, judged on terminal wealth only. The hybrid (bank half at +100%, ride the rest) is the pre-registered candidate to TEST — it was not selected post-hoc from tonight's table.
+
+**2026-06-13 16:39 claude-code:** **Tracker reconciliation 2026-06-13:** the study half of this ticket is complete and was committed on 2026-06-10 (`da9f1bc`; full tables in `memory/exit_policy_study_results.md`, adversarially audited and upheld). Leaving the ticket open on purpose — the remaining half (the written keep/park decision and, if keep, the skew-sleeve charter amendment) is gated on the 2026-07-15 moratorium and is intentionally not actioned yet. The pre-registered candidate to test then is the two-pocket design (bank half at +100%, ride the rest on the 40-week SMA with no time stop), which relates to T-0345 (S11) as its fallback path.
