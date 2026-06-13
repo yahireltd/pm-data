@@ -2,9 +2,9 @@
 id: T-0341
 title: BB_Squeeze restatement on the PIT universe (it now carries the whole book)
 type: spike
-state: triaged
+state: in_progress
 created: 2026-06-10T01:51:27Z
-updated: 2026-06-13T16:57:54Z
+updated: 2026-06-13T17:12:51Z
 project: stock-predictions-engine
 section: null
 parent: null
@@ -14,7 +14,9 @@ priority: p1
 reporter:
   kind: agent
   name: claude-code
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Restatement run with the config frozen identical to the 2026-06-10 run; only universe (PIT delisted-inclusive, pre-registered top-N) and exits (close-based) changed — no re-tuning to recover Sharpe
   - Restated Sharpe + daily-return series produced with a full provenance line in memory/nonml_book_results.md (script, SHA, input hashes, cost, universe+N, dates)
@@ -47,12 +49,16 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260613-1712
+    model: claude-opus-4-8
+    started: 2026-06-13T17:12:51Z
+    status: in_progress
 labels:
   - research
   - book
 attention: null
-version: 2
+version: 4
 ---
 
 ## Problem
