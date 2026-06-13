@@ -27,7 +27,7 @@ id_counters:
       pre_project: 6
     stock-predictions-engine:
       milestone: 16
-      decision: 12
+      decision: 13
       status_note: 1
 outbound_email:
   from: support@yahire.com

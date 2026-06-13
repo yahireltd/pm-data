@@ -2,9 +2,9 @@
 id: T-0341
 title: BB_Squeeze restatement on the PIT universe (it now carries the whole book)
 type: spike
-state: in_progress
+state: review
 created: 2026-06-10T01:51:27Z
-updated: 2026-06-13T17:37:03Z
+updated: 2026-06-13T21:17:22Z
 project: stock-predictions-engine
 section: null
 parent: null
@@ -53,12 +53,23 @@ agent_runs:
   - id: run-20260613-1712
     model: claude-opus-4-8
     started: 2026-06-13T17:12:51Z
-    status: in_progress
+    status: completed
+    ended: 2026-06-13T21:17:22Z
+    summary: "We re-tested the trading system's only remaining live strategy (\"BB_Squeeze\") honestly, on real data, fixing two ways the old result had been flattering itself: it now uses a fair list of stocks that includes ones that later went bust (not just today's survivors), and it sells positions the way the live bot actually does. The famous \"1.73\" score fell to 0.72. More importantly, we ran the decisive test: we compared the strategy's stock-picking to picking stocks at RANDOM and managing them the same way. They scored the same (0.72 vs 0.71). In plain terms: the strategy's clever entry signal adds nothing — its returns come from simply being invested in a rising market with a favorable exit rule, not from any real edge. The one ML signal (S2) separately passed its cost test but is very thin. Conclusion: the book currently has no strategy that beats random chance by a meaningful margin, so committing real money is not justified yet. This is the honest result the test was built to find before any capital was at risk."
+    test_plan: "1. Confirm the config was frozen identical to the 2026-06-10 run — only universe (PIT delisted-inclusive) and exit convention (close) changed, no parameter re-tuning (see out_of_scope). 2. Verify the provenance ladder in memory/bb_pit_restatement_results.md: 1.726 → 0.801 → 0.718. 3. Verify the entry-permutation null: REAL 0.718 vs null 0.708±0.413, z=+0.02 (bb_pit100_close_null.csv on the box). 4. Confirm adv_monthly was rebuilt delisted-inclusive (4,263 delisted) before the PIT rebuild. 5. Decision to ratify: EXECUTE=1 (MS-015) on hold — see the new ADR."
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
+      docs_note: memory/bb_pit_restatement_results.md committed f621e19 on branch t0341-bb-pit-close-exits
 labels:
   - research
   - book
-attention: null
-version: 5
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-13T21:17:22Z
+version: 6
 ---
 
 ## Problem
@@ -107,3 +118,5 @@ Explicitly forbidden: re-tuning tp/sl/hold/positions/N to recover the Sharpe aft
 So ~98% of the collapse is the **survivorship-tinted hand-picked universe**, not the touch=fill assumption we worried about. Same lesson as PEAD: the old current-name list was flattering the result. Close-vs-touch exit divergence is negligible for this strategy.
 
 **Still running / pending acceptance:** 200-run entry-permutation null (in progress) → does 0.80 beat random same-size entries through the identical machinery; delisted-cohort contribution breakout; adversarial re-derivation. **Implication if 0.80 holds:** the BB-only book sits below the charter's ≥1.0 target on its own — sleeve #2 (S2 h20 / S11) and the EXECUTE=1 decision (MS-015) need to weigh this.
+
+**2026-06-13 21:17 claude-code:** Run run-20260613-1712 completed — We re-tested the trading system's only remaining live strategy ("BB_Squeeze") honestly, on real data, fixing two ways the old result had been flattering itself: it now uses a fair list of stocks that includes ones that later went bust (not just today's survivors), and it sells positions the way the live bot actually does. The famous "1.73" score fell to 0.72. More importantly, we ran the decisive test: we compared the strategy's stock-picking to picking stocks at RANDOM and managing them the same way. They scored the same (0.72 vs 0.71). In plain terms: the strategy's clever entry signal adds nothing — its returns come from simply being invested in a rising market with a favorable exit rule, not from any real edge. The one ML signal (S2) separately passed its cost test but is very thin. Conclusion: the book currently has no strategy that beats random chance by a meaningful margin, so committing real money is not justified yet. This is the honest result the test was built to find before any capital was at risk.
