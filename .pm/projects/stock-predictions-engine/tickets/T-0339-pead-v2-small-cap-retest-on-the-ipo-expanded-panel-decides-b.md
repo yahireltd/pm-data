@@ -2,9 +2,9 @@
 id: T-0339
 title: PEAD v2 small-cap retest on the IPO-expanded panel (decides Benzinga keep/cancel)
 type: spike
-state: review
+state: done
 created: 2026-06-10T01:51:01Z
-updated: 2026-06-13T16:39:06Z
+updated: 2026-06-13T16:59:03Z
 project: stock-predictions-engine
 section: null
 parent: null
@@ -18,8 +18,8 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Re-run with unchanged registration on the expanded panel, adversarially audited
-  - Benzinga keep/cancel decision recorded as ADR amendment before next billing date
+  - "[x] Re-run with unchanged registration on the expanded panel, adversarially audited"
+  - "[x] Benzinga keep/cancel decision recorded as ADR amendment before next billing date"
 out_of_scope: []
 code_anchors:
   - path: scripts/train_pead_v2.py
@@ -45,11 +45,8 @@ agent_runs:
 labels:
   - research
   - deadline
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-13T16:39:06Z
-version: 6
+attention: null
+version: 10
 ---
 
 ## Problem
@@ -67,3 +64,9 @@ The retest ran with the registration unchanged on the repaired panel (131,115 ev
 Bonus data fix discovered mid-run: `data/daily_bars_delisted/` had never been merged into the main panel — 4,407 reversible symlinks added and logged (verdict holds with or without them).
 
 **2026-06-13 16:39 claude-code:** Run run-20260613-1638 completed — We re-tested the "earnings drift" trading idea (PEAD) one last time on the repaired, much larger price database — specifically the smaller, less-liquid stocks where the academic literature says this effect should live. It failed again, and an independent re-check from scratch reproduced the same numbers. The effect is statistically real but far too small and too easily eaten by trading costs to be worth trading. PEAD is now permanently closed. Consequence Austin needs to action: the Benzinga Earnings data feed ($99/mo, bought 2026-06-10 specifically to test this) is no longer used by any live strategy — the verdict is to CANCEL it before the next billing cycle (~2026-07-10). The historical data already downloaded stays on disk regardless. Finalizing original work; tracker was never moved off the backlog.
+
+---
+
+**2026-06-13 16:59 — you**
+
+done

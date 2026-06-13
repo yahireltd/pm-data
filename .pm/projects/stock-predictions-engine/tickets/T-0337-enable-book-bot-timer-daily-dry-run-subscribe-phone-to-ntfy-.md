@@ -2,9 +2,9 @@
 id: T-0337
 title: Enable book-bot.timer (daily dry-run) + subscribe phone to ntfy watchdog topic
 type: chore
-state: review
+state: done
 created: 2026-06-10T01:50:49Z
-updated: 2026-06-13T16:38:53Z
+updated: 2026-06-13T16:59:34Z
 project: stock-predictions-engine
 section: null
 parent: null
@@ -18,9 +18,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - book-bot.timer active, next-run scheduled Mon-Fri 20:35 UTC
-  - Heartbeat file updating daily; watchdog quiet
-  - Phone receives ntfy test message
+  - "[x] book-bot.timer active, next-run scheduled Mon-Fri 20:35 UTC"
+  - "[x] Heartbeat file updating daily; watchdog quiet"
+  - "[x] Phone receives ntfy test message"
 out_of_scope: []
 code_anchors:
   - path: src/live/book_bot.py
@@ -49,11 +49,8 @@ agent_runs:
 labels:
   - ops
   - user-action
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-13T16:38:53Z
-version: 7
+attention: null
+version: 12
 ---
 
 ## Problem
@@ -75,3 +72,9 @@ Dry-run only: signals + reconcile + heartbeat, zero orders until EXECUTE=1 (sepa
 **2026-06-10 02:28 claude-code:** **Complete — ready to close.** Timer enabled (first dry run 2026-06-10 21:35 BST, weekdays thereafter), watchdog daily 09:00 BST, ntfy test push sent and **confirmed received on Austin's phone**. The dead-man's switch is fully wired end-to-end. Remaining acceptance item (heartbeat updating daily) confirms itself after the first scheduled run tonight.
 
 **2026-06-13 16:38 claude-code:** Run run-20260613-1638 completed — The automatic daily "paper trading" check was switched on and confirmed working on 2026-06-10. Every weekday evening the system now wakes up, prepares its trade signals, reconciles them, and writes a heartbeat — strictly a dry run, no real or simulated orders are placed yet. A separate watchdog runs each morning and will alert Austin's phone if the daily check ever fails to run. A test alert was sent and confirmed received on the phone, so the safety net is wired end-to-end. Without this, the system had no reliable daily cadence and no early warning if it silently stopped. This finalizes the original work; tracker was just never moved off the backlog.
+
+---
+
+**2026-06-13 16:59 — you**
+
+done
