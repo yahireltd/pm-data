@@ -5,7 +5,7 @@ name: Target Tracker — BYO-model game-vision perception & control
 state: planning
 phase: build
 created: 2026-06-14T01:12:33Z
-updated: 2026-06-14T03:30:16Z
+updated: 2026-06-14T13:39:57Z
 owner:
   kind: human
   name: austin
@@ -61,7 +61,10 @@ workstream_ownership:
     owner: austin
   - workstream: Agent + control loop
     owner: austin
-version: 3
+version: 4
+private: true
+invited:
+  - austin@yahire.com
 ---
 
 # Target Tracker — BYO-model game-vision perception & control
