@@ -30,7 +30,7 @@ id_counters:
       decision: 13
       status_note: 1
     target-tracker-byo-model-game-vision-perception-control:
-      status_note: 1
+      status_note: 2
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
