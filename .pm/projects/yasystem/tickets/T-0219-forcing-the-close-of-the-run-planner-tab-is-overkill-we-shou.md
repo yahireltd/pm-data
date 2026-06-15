@@ -2,10 +2,10 @@
 id: T-0219
 title: Forcing the close of the run planner tab is overkill - we should be able to just take over without them closing it  and show the sketch planner active message on the run planner when sketch takes over
 type: feature
-state: in_progress
+state: done
 priority: p2
 created: 2026-06-04T14:04:09Z
-updated: 2026-06-15T14:23:57Z
+updated: 2026-06-15T18:31:50Z
 project: yasystem
 section: null
 parent: null
@@ -32,15 +32,14 @@ agent_runs:
     started: 2026-06-04T14:14:37Z
     status: in_progress
     summary: Claimed via web UI
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels: []
-attention:
-  needed_by: agent
-  reason: |-
-    for this i think we also need a way to take over the sketch planner from run planner if somone is using it and left open for example. (we need to make sure that they need to reload the live plan on the sketch planner again before editing continues
-    )
-  since: 2026-06-15T13:44:36Z
+attention: null
 branch: PickingSketchSalesDashFriday
-version: 9
+version: 13
 ---
 
 ## Problem
@@ -81,3 +80,15 @@ Picking up the follow-up request: be able to take over the sketch planner when s
 **Note:** there's a new DB column (`last_activity_at` on `planner_editing_sessions`) — the migration needs running on the test server after pulling.
 
 Not committed yet — awaiting the go-ahead since this branch is policy-locked.
+
+---
+
+**2026-06-15 18:31 — Austin Pickering**
+
+That is much cleaner now
+
+---
+
+**2026-06-15 18:31 — you**
+
+all verified changes work
