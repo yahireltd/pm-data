@@ -4,7 +4,7 @@ title: Turnaround data API on YaRuns (surface the numbers behind the eyes)
 type: feature
 state: in_progress
 created: 2026-06-15T15:37:05Z
-updated: 2026-06-15T15:40:29Z
+updated: 2026-06-15T15:45:25Z
 project: yasystem
 section: null
 parent: T-0374
@@ -46,10 +46,14 @@ agent_runs:
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-06-15T15:40:29Z
+    progress:
+      - at: 2026-06-15T15:45:25Z
+        note: Code-complete on branch t0374-turnaround-visualiser. Extracted the turnaround maths into YaRuns::getTurnaroundData($direction, $otherRun) returning structured figures (usable/working/load/unload mins, datetimes, load+unload weight/vol, band). checkTurnaroundNext/Prev now render the existing eye icon from this data via renderTurnaroundIcon() — output unchanged. Thresholds live once in turnaroundBand() (normal >4h, tight 3-4h, very_tight <=3h). getTurnaroundData accepts an explicit run pair so the visualiser isn't limited to locked runs. Not committed yet (policy).
+    test_plan: "1. On the run planner, hover the turnaround \"eyes\" on runs that previously showed blue/orange/red — colours, flashing (very tight) and tooltips (Next Run Start / Previous Run End + Load/Unload Weight/Vol) must be identical to before. 2. Confirm a run with no adjacent locked run shows no eye. 3. PHP: YaRuns::getTurnaroundData('next') returns the expected band for a known tight pair."
 labels:
   - turnaround-visualiser
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem

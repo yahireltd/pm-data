@@ -2,16 +2,18 @@
 id: T-0377
 title: Turn-around grid/timeline data endpoint (3-day fleet + hire)
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-15T15:37:19Z
-updated: 2026-06-15T15:39:33Z
+updated: 2026-06-15T15:46:45Z
 project: yasystem
 section: null
 parent: T-0374
 children: []
 order: 1024
 priority: p2
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Endpoint takes a perspective date, returns day-1/day/day+1 window + warehouse hours
   - Vehicles = active fleet + hire pool, grouped by type, ignore-flagged excluded, empty rows kept
@@ -32,11 +34,21 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260615-1546
+    model: claude-opus-4-8
+    started: 2026-06-15T15:46:45Z
+    status: in_progress
+    policy_ack:
+      branch: master
+      branch_source: project
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-06-15T15:46:45Z
 labels:
   - turnaround-visualiser
 attention: null
-version: 2
+version: 4
 ---
 
 ## Problem
