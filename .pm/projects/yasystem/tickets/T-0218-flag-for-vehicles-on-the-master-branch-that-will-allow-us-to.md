@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-04T14:04:06Z
-updated: 2026-06-12T01:15:53Z
+updated: 2026-06-15T14:03:38Z
 project: yasystem
 section: null
 parent: null
@@ -37,7 +37,7 @@ attention:
   reason: Implemented & committed (8b37aef5); needs the vehicle_day_pool migration deployed then human testing — steps in the Conversation.
   since: 2026-06-04T18:03:02Z
 branch: PickingSketchSalesDashFriday
-version: 4
+version: 5
 ---
 
 ## Problem
@@ -56,3 +56,9 @@ Hire vehicles = `Vehicles.ourVehicle = 0`. They're now excluded from the sketch 
 1. On a normal sketch solve → confirm hire vehicles aren't used and don't appear in the Add Route picker.
 2. On the run planner for a date → **Hire vehicles** → add one for that day → re-solve the sketch for that date → confirm it's now available/used.
 3. Remove it → re-solve → confirm it's excluded again.
+
+---
+
+**2026-06-15 14:03 — Austin Pickering**
+
+the hire vehicles button should also be on the sketch planner. the run planner and sketch planner should share the same pool for the day. Hire vehicles should not also appear on the run planner vehicle drop downs unless in the pool for that day
