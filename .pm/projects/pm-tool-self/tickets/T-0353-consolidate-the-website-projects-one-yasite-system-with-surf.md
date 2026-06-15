@@ -2,9 +2,9 @@
 id: T-0353
 title: "Consolidate duplicated projects: one Yasite system with surfaces; fold Logistics rollout into Yasystem; rename Yasystem (ADR-039)"
 type: chore
-state: review
+state: done
 created: 2026-06-10T15:00:58Z
-updated: 2026-06-12T01:18:04Z
+updated: 2026-06-15T19:24:44Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,12 +15,12 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - One yasite project (kind=system) carries all website work with the five surfaces configured
-  - T-0346 and T-0347 (and any other website tickets) moved in with correct surface tags, history intact
-  - yahire-website and yasite-backend no longer appear in the sidebar/projects list
-  - Logistics-route-planning-rollout's 7 tickets (T-0217–T-0223) moved into yasystem with their stream branch pinned on each ticket (T-0352 field); the logistics project retired with a pointer; no ticket ids change
-  - Yasystem renamed without 'Main Branch'; its in-flight stream branches (incl. refund-hardening) pinned on tickets
-  - No ticket id changes anywhere; all moved tickets open correctly at /tickets/<id>
+  - "[x] One yasite project (kind=system) carries all website work with the five surfaces configured"
+  - "[x] T-0346 and T-0347 (and any other website tickets) moved in with correct surface tags, history intact"
+  - "[x] yahire-website and yasite-backend no longer appear in the sidebar/projects list"
+  - "[x] Logistics-route-planning-rollout's 7 tickets (T-0217–T-0223) moved into yasystem with their stream branch pinned on each ticket (T-0352 field); the logistics project retired with a pointer; no ticket ids change"
+  - "[x] Yasystem renamed without 'Main Branch'; its in-flight stream branches (incl. refund-hardening) pinned on tickets"
+  - "[x] No ticket id changes anywhere; all moved tickets open correctly at /tickets/<id>"
 out_of_scope:
   - Any code changes (this is data work, gated on T-0350/T-0351/T-0352 shipping)
 code_anchors:
@@ -67,11 +67,8 @@ agent_runs:
 labels:
   - taxonomy
   - data-migration
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-12T01:18:04Z
-version: 8
+attention: null
+version: 16
 ---
 
 ## Problem
@@ -104,3 +101,9 @@ This is live-data surgery — do it through the tool (moves preserve ids/history
 **If we did nothing:** The route-planner tickets would have been orphaned in a dead-end project when their branch merges, the duplicate website projects would keep collecting tickets in the wrong places, and anyone glancing at the project list (including stakeholders) would see clutter instead of the actual shape of the work.
 
 **The benefit:** The sidebar now shows the true picture — one website system, one ERP system, the PM tool itself — and every in-flight piece of work records exactly which branch its code lives on, so nothing gets lost when branches merge or sessions change hands.
+
+---
+
+**2026-06-15 19:24 — you**
+
+done

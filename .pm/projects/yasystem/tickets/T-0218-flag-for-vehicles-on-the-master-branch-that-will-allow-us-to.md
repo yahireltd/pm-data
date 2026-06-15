@@ -2,10 +2,10 @@
 id: T-0218
 title: Flag for vehicles on the master branch that will allow us to ignore vehicles with that flag (do not use hire vehicles) - maybe should be date specific as they may need to use hire vehicles on a particular date
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-04T14:04:06Z
-updated: 2026-06-15T14:03:38Z
+updated: 2026-06-15T19:24:07Z
 project: yasystem
 section: null
 parent: null
@@ -31,13 +31,14 @@ agent_runs:
     started: 2026-06-04T14:09:29Z
     status: in_progress
     summary: Claimed via web UI
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Implemented & committed (8b37aef5); needs the vehicle_day_pool migration deployed then human testing — steps in the Conversation.
-  since: 2026-06-04T18:03:02Z
+attention: null
 branch: PickingSketchSalesDashFriday
-version: 5
+version: 7
 ---
 
 ## Problem
@@ -62,3 +63,9 @@ Hire vehicles = `Vehicles.ourVehicle = 0`. They're now excluded from the sketch 
 **2026-06-15 14:03 — Austin Pickering**
 
 the hire vehicles button should also be on the sketch planner. the run planner and sketch planner should share the same pool for the day. Hire vehicles should not also appear on the run planner vehicle drop downs unless in the pool for that day
+
+---
+
+**2026-06-15 19:24 — you**
+
+done

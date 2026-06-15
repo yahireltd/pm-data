@@ -2,10 +2,10 @@
 id: T-0223
 title: When finalisng can we sort the sketch planner the same way we sort the run planner on load- also introduce a sort runs on the sketch planner
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-04T14:04:28Z
-updated: 2026-06-12T01:15:58Z
+updated: 2026-06-15T19:23:44Z
 project: yasystem
 section: null
 parent: null
@@ -16,8 +16,8 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - Run planner default order should mirror the sketch planner order in the view
-  - add a sort to the runs on the sketch planenr
+  - "[x] Run planner default order should mirror the sketch planner order in the view"
+  - "[x] add a sort to the runs on the sketch planenr"
 out_of_scope: []
 code_anchors: []
 relates:
@@ -32,13 +32,14 @@ agent_runs:
     started: 2026-06-04T14:19:24Z
     status: in_progress
     summary: Claimed via web UI
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Implemented & committed (8b37aef5); ready for human review/testing — test steps in the Conversation.
-  since: 2026-06-04T18:03:11Z
+attention: null
 branch: PickingSketchSalesDashFriday
-version: 4
+version: 8
 ---
 
 ## Problem
@@ -57,3 +58,9 @@ When finalisng can we sort the sketch planner the same way we sort the run plann
 **To test:**
 1. Finalize a sketch → open the run planner for that date → runs appear top-to-bottom in the **same order** as the sketch columns (left→right).
 2. On the sketch click **Sort runs → Dispatch time** → columns reorder; click again → order reverses.
+
+---
+
+**2026-06-15 19:23 — you**
+
+done
