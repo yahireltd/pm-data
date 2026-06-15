@@ -2,10 +2,10 @@
 id: T-0220
 title: Do not load today as the default date on sketch planner
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-04T14:04:15Z
-updated: 2026-06-12T01:15:55Z
+updated: 2026-06-15T13:56:43Z
 project: yasystem
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - By default load no date
+  - "[x] By default load no date"
 out_of_scope: []
 code_anchors: []
 relates:
@@ -31,13 +31,14 @@ agent_runs:
     started: 2026-06-04T14:16:36Z
     status: in_progress
     summary: Claimed via web UI
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Implemented & committed (8b37aef5); ready for human review/testing — test steps in the Conversation.
-  since: 2026-06-04T18:03:07Z
+attention: null
 branch: PickingSketchSalesDashFriday
-version: 4
+version: 7
 ---
 
 ## Problem
@@ -55,3 +56,9 @@ Do not load today as the default date on sketch planner
 **To test:**
 1. Open `/route-planner/sketch` with no params → should show a **"Select a date to plan"** picker, not today's plan.
 2. Pick a date → loads that date's plan. (Existing date links / the in-app date nav are unaffected.)
+
+---
+
+**2026-06-15 13:56 — you**
+
+done
