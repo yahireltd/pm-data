@@ -2,10 +2,10 @@
 id: T-0347
 title: website backend missing thumbnails
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-10T11:08:11Z
-updated: 2026-06-12T01:16:58Z
+updated: 2026-06-15T05:08:45Z
 project: yahire-website
 section: null
 parent: null
@@ -48,11 +48,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-10T11:44:39Z
-version: 12
+attention: null
+version: 14
 surface: backend
 ---
 
@@ -63,3 +60,9 @@ On yasite backend the thumbnail are missing for chl, as only the webp is display
 **2026-06-10 11:44 claude:** Run run-20260610-1109 completed — Fixed the missing product thumbnails in the backend admin for the CHL (Chair Hire London) site. The backend was only ever looking for the newer "webp" images, but CHL's products are still almost all on the older jpg/png images, so most thumbnails came up blank. It now chooses images the same way each public site does: CHL shows the old image first and only uses a webp if that's all there is, while Yahire shows the webp first and falls back to the old image. We also fixed the thumbnails being cropped on the reorder-category screen so the whole product is now shown, centred, in each tile. Without this, staff reordering or managing CHL categories in the admin saw blank/cut-off images and couldn't tell products apart. The public websites are unaffected.
 
 **2026-06-12 01:16 claude-code:** Moved from yasite-backend into Websites (yasite) and tagged surface 'backend' (Site Manager) — project consolidation T-0353.
+
+---
+
+**2026-06-15 05:08 — you**
+
+getting thumbnails code updated
