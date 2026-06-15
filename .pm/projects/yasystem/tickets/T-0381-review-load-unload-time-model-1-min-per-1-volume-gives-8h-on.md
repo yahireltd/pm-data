@@ -4,7 +4,7 @@ title: Review load/unload time model — 1 min per 1% volume gives 8h+ on high-v
 type: spike
 state: triaged
 created: 2026-06-15T17:08:28Z
-updated: 2026-06-15T17:28:15Z
+updated: 2026-06-15T17:41:27Z
 project: yasystem
 section: null
 parent: T-0374
@@ -33,7 +33,7 @@ agent_runs: []
 labels:
   - turnaround-visualiser
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -57,3 +57,7 @@ This affects the turnaround "eyes" everywhere (run planner, warehouse screens) a
 It uses `status_change_log` — every run status change is logged there — and measures how long each run actually spent **in the loading status (10)** and **unloading status (60)**, i.e. entered-status → left-status. That's the real warehouse dwell time, with no assumption about the exact "loaded" code. It then compares that against the current formula (5 + 1×volume% + 1×weight/100) and, crucially, breaks it down by volume band to show the **empirical minutes-per-1%-volume and minutes-per-100kg rates** — which is what we'd reset the model to.
 
 Next step: run it on the server (read-only) and bring back the results of queries 0/1/2. If, as suspected, actual load time on 300%+ volume runs is far below the formula's prediction, the volume rate is the thing to dial down (or cap).
+
+**2026-06-15 17:41 claude-code:** Analysis run (1,104 loads, 6 months, from status_change_log status-10 dwell). Result: loading has a ~60-min fixed base and scales sub-linearly, plateauing ~3h. The legacy formula under-estimates small loads (~24% vol: 71m actual vs 32m formula) and over-estimates large ones (~377% vol: 174m actual vs 413m formula); 462% → 8h34m formula vs ~3h real. Calibrated fit: `min(180, 60 + 0.45 × volume%)`.
+
+Applied as `YaRuns::estLoadUnloadMinutes` and used by the visualiser only (model='v2'); the eyes keep the legacy formula. Full table + actual-vs-formula comparison is in T-0382, which carries the ops review + decision on rolling it into getLoadUnLoadMinutes globally. No unload dwell data (no status-60 runs) — unload modelled off the load curve for now. Spike complete.
