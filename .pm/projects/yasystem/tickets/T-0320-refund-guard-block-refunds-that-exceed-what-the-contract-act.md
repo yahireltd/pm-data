@@ -4,7 +4,7 @@ title: "Refund guard: block refunds that exceed what the contract actually holds
 type: feature
 state: in_progress
 created: 2026-06-09T19:14:46Z
-updated: 2026-06-12T01:07:51Z
+updated: 2026-06-15T19:14:07Z
 project: yasystem
 section: null
 parent: null
@@ -61,7 +61,7 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 7
+version: 8
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -128,3 +128,24 @@ Net refundable for the contract = cash received attributable to this contract (p
 4. Cap probe over post-refund states: all settled contracts compute cap = 0.00 exactly (accounting identity holds on real data); post-incident C090586 computes cap = −£1,261.85 — the phantom — so repeat attempts are also blocked.
 
 **Remaining for this ticket:** re-run the full 4-replay set under enforcement after tonight's restore re-arms the fixtures (1 of 5 shapes done under enforce); construct the credit-exceeds-payments and cross-contract edge fixtures; then the live shadow window (deploy → daily log review → promotion decision recorded here). Test box left in ENFORCE (`common/config/params-local.php`); live deploys with no param = shadow.
+
+**2026-06-15 19:14 claude-code:** **Reconciliation 2026-06-15 (Austin confirmed the testing record = the 2026-06-10 session in chat; all of it passed as expected). Verified against the test box's refund-guard.log, which survives nightly restores:**
+
+The log holds exactly 4 entries, all 2026-06-10 19:04–19:12, matching what was done:
+- 19:04:38 SHADOW, incident fixture C090586 → logged OVER-CAP, planned £1,399.85 vs cap £138.00, margin −£1,261.85, customerCap £138 (executed, shadow never blocks).
+- 19:07:48 + 19:11:41 ENFORCE, incident fixture → blocked; separately verified zero writes (payment_refunds 0, stripe_refunds 0, cnas 0, dry-run rows unchanged) and the on-screen 422 naming both figures.
+- 19:12:18 ENFORCE, C090897 £791.88 (sits EXACTLY at cap, margin 0, deposit-held) → passed, executed identically to the original live refund.
+
+Plus a cap probe over post-refund states: settled contracts compute cap 0.00 exactly; post-incident C090586 computes −£1,261.85 (repeat attempts also blocked).
+
+**Acceptance-criteria status (accurate):**
+- ✅ Pre-flight check after allocation, before any row/Stripe call
+- ✅ Shadow logs contract/planned/cap/breakdown/user
+- ✅ Enforce returns clear error, zero rows, zero Stripe (row-count + dry-run verified)
+- ✅ Incident fixture blocked (enforce) and logged (shadow)
+- ⏳ 5–10 real replays UNDER ENFORCE: only C090897 executed under enforce; the other 4 (C091790, C087727, C089519, incident) were matched to the penny in DRY-RUN under T-0331 *before the guard existed*, not re-run under enforcement. Outstanding.
+- ⏳ Edge cases (credit-exceeds-payments, cross-contract, SC contract, repeat-attempt): not yet run as recorded tests
+- ⏳ Live shadow window + promotion decision: not started (needs deploy)
+- ⏳ Process Deposit Refunds unaffected: deposit flow is separate and ungated by T-0320, but a confirmation pass is still owed
+
+**Operational note for whoever continues:** the test box is currently on branch `PickingSketchSalesDashFriday` and `RefundGuard.php` is NOT on that checkout — the box is not running the guard right now. To resume guard testing it must go back on `refund-hardening-t0331-stripe-dryrun` (or that branch merged forward). That branch has also since picked up two unrelated commits (a3608323 account segmentation PP-002, 489cf7c9 customer sales scores) that would ride along on any deploy — worth separating before the live shadow rollout.
