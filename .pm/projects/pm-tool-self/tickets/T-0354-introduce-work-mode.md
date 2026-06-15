@@ -2,10 +2,10 @@
 id: T-0354
 title: Work Mode — personal toggle that hides your private projects from your own view
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-10T15:08:48Z
-updated: 2026-06-12T02:08:00Z
+updated: 2026-06-15T13:19:22Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,11 +16,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "A 'Work mode' toggle in the top bar, persisted per browser (cookie, so server components can filter), hides every private project you can see from all aggregate surfaces: sidebar groups, dashboard, /projects, /me, search, dev-tickets, and the pickers (promote / move-to-system / project assignment)"
-  - Tickets belonging to hidden private projects disappear from cross-project lists (tickets, review, ready, in-progress, activity) while work mode is on
-  - A clear always-visible indicator shows work mode is ON; one click turns it off and everything returns
-  - Enforced at the visibleProjects()/visibleTickets() chokepoint (T-0348) — no per-page filtering that can drift
-  - "Colleagues' visibility is UNCHANGED: private projects are already hidden from other users server-side (ADR-035/T-0290/T-0348) — work mode is a personal de-clutter/screen-share filter, not a security boundary; direct URLs to your own private projects still open"
+  - "[x] A 'Work mode' toggle in the top bar, persisted per browser (cookie, so server components can filter), hides every private project you can see from all aggregate surfaces: sidebar groups, dashboard, /projects, /me, search, dev-tickets, and the pickers (promote / move-to-system / project assignment)"
+  - "[x] Tickets belonging to hidden private projects disappear from cross-project lists (tickets, review, ready, in-progress, activity) while work mode is on"
+  - "[x] A clear always-visible indicator shows work mode is ON; one click turns it off and everything returns"
+  - "[x] Enforced at the visibleProjects()/visibleTickets() chokepoint (T-0348) — no per-page filtering that can drift"
+  - "[x] Colleagues' visibility is UNCHANGED: private projects are already hidden from other users server-side (ADR-035/T-0290/T-0348) — work mode is a personal de-clutter/screen-share filter, not a security boundary; direct URLs to your own private projects still open"
 out_of_scope:
   - Changing who can see private projects (already enforced)
   - Per-project mute/pin (this is one global personal toggle)
@@ -81,11 +81,8 @@ agent_runs:
       status_note: none-needed
       docs_note: Dashboard help documents the toggle (private projects had no prior help mention — pre-existing gap noted).
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-12T02:08:00Z
-version: 7
+attention: null
+version: 14
 ---
 
 ## Problem
@@ -116,3 +113,9 @@ Personal projects would keep sitting in every list and menu — visual noise dai
 
 **The benefit**
 One click separates work from personal: a clean shared-screen-safe view at the office, everything back the moment you want it. Colleagues' view is untouched either way.
+
+---
+
+**2026-06-15 13:19 — you**
+
+working
