@@ -4,7 +4,7 @@ title: Turn-around grid/timeline data endpoint (3-day fleet + hire)
 type: feature
 state: in_progress
 created: 2026-06-15T15:37:19Z
-updated: 2026-06-15T15:46:45Z
+updated: 2026-06-15T15:59:02Z
 project: yasystem
 section: null
 parent: T-0374
@@ -45,10 +45,14 @@ agent_runs:
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-06-15T15:46:45Z
+    progress:
+      - at: 2026-06-15T15:59:02Z
+        note: Code-complete + committed (19d474d9) on branch t0374-turnaround-visualiser. actionTurnaroundData returns the 3-day window, warehouse hours, and active fleet+hire grouped by type with runs, per-run load/unload mins, turnaround links and overlap flags. Not pushed yet (policy).
+    test_plan: "Hit /route-planner/turnaround-data?date=YYYY-MM-DD and check JSON: groups ordered heaviest type first; vehicles incl. empty ones; each run has dispatch/return + load_mins/unload_mins; links carry band + overlap. Pick a date you know has a tight turnaround and confirm the link band matches the run-planner eye."
 labels:
   - turnaround-visualiser
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem

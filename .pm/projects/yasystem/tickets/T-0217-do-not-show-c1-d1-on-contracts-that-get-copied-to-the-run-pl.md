@@ -2,10 +2,10 @@
 id: T-0217
 title: Do not show c1 / d1 on contracts that get copied to the run planner
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-04T14:04:01Z
-updated: 2026-06-12T01:17:00Z
+updated: 2026-06-15T15:58:01Z
 project: yasystem
 section: null
 parent: null
@@ -16,8 +16,8 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - When we copy form sketch planner to run planner - do not enter a type count if the job is not split.
-  - we should not see c1 / d1 on not split jobs
+  - "[x] When we copy form sketch planner to run planner - do not enter a type count if the job is not split."
+  - "[x] we should not see c1 / d1 on not split jobs"
 out_of_scope: []
 code_anchors: []
 relates:
@@ -32,13 +32,14 @@ agent_runs:
     started: 2026-06-04T14:05:13Z
     status: in_progress
     summary: Claimed via web UI
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Implemented & committed (8b37aef5); ready for human review/testing — test steps in the Conversation.
-  since: 2026-06-04T18:03:00Z
+attention: null
 branch: PickingSketchSalesDashFriday
-version: 5
+version: 9
 ---
 
 ## Problem
@@ -58,3 +59,9 @@ Do not show c1 / d1 on contracts that get copied to the run planner
 2. Finalize a sketch with a **split** contract (delivery split across 2 vehicles) → those pieces **should still** show `(D1)/(D2)`.
 
 **2026-06-12 01:17 claude-code:** This ticket and its 6 siblings (T-0218–T-0223) moved from logistics-route-planning-rollout into Yasystem with their working branch pinned (PickingSketchSalesDashFriday) — project consolidation T-0353. The route-planning stream now lives inside Yasystem instead of a separate project.
+
+---
+
+**2026-06-15 15:58 — you**
+
+This is working fine
