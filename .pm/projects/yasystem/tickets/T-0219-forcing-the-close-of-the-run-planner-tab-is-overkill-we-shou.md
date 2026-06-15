@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T14:04:09Z
-updated: 2026-06-15T13:44:37Z
+updated: 2026-06-15T14:23:57Z
 project: yasystem
 section: null
 parent: null
@@ -40,7 +40,7 @@ attention:
     )
   since: 2026-06-15T13:44:36Z
 branch: PickingSketchSalesDashFriday
-version: 8
+version: 9
 ---
 
 ## Problem
@@ -58,3 +58,26 @@ The sketch now **supersedes** the run-planner session instead of asking you to c
 **To test:**
 1. Open the run planner for a date in one tab + the **finalized** sketch for the same date in another → click **Edit Plan** on the sketch → it should take over **without** a close-tab prompt, and the run-planner tab should show the read-only "Sketch Planner Active" modal within ~10s.
 2. With the sketch in **view** mode, make a change on the run planner, **then** click Edit Plan → the sketch should reflect that change.
+
+**2026-06-15 14:23 claude-code:** **Reverse takeover + "abandoned tab" detection — implemented (branch PickingSketchSalesDashFriday).**
+
+Picking up the follow-up request: be able to take over the sketch planner when someone left it open, and show how long since they last actually did something so it's obvious the tab was abandoned.
+
+**The core problem found:** the old logic only used a 60-second keepalive heartbeat. A tab left open keeps pinging forever, so an abandoned session looked identical to one in active use — nobody could ever reclaim it. Also, the sketch planner wasn't even watching for being taken over.
+
+**What now happens:**
+
+1. **"Last activity" vs "still connected" are now separate.** The browser only reports genuine activity (clicks, typing, scrolling, dragging) — so a session can show "opened 09:15, last activity 09:18, idle for 3h 10m — looks left open" even though the tab is technically still online.
+
+2. **Anyone blocked can take over (your call on scope).** When you try to edit a date someone else holds — whether you're on the run planner or the sketch planner — instead of a dead-end "you can't edit" message, you now see who has it, how long they've been idle, and a **Take over** button. Sketch-still-supersedes-run automatically as before; this adds the reverse and the second-sketch-user case.
+
+3. **The person who gets taken over is handled cleanly.** Their board immediately goes read-only and they get a clear "another planner took over — your changes are no longer being saved" notice. To carry on they click **Reload live plan to resume**, which pulls the current live state before letting them edit again (so they can't keep working off a stale plan).
+
+**Testing (on the test server once pulled):**
+- Open the sketch planner on a date and edit; in another browser/user open the run planner for the same date → the run planner shows the idle time + a Take over button → clicking it makes the run planner editable and the sketch user drops to read-only.
+- Leave a sketch session idle and confirm the idle timer climbs (last-activity does not advance just from the tab being open).
+- Take over, then on the displaced user click "Reload live plan to resume" → they get the current plan and can edit again.
+
+**Note:** there's a new DB column (`last_activity_at` on `planner_editing_sessions`) — the migration needs running on the test server after pulling.
+
+Not committed yet — awaiting the go-ahead since this branch is policy-locked.
