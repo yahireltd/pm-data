@@ -4,7 +4,7 @@ title: Vehicle turn-around visualiser (3-day fixed-position view)
 type: feature
 state: triaged
 created: 2026-06-15T15:21:22Z
-updated: 2026-06-15T15:21:22Z
+updated: 2026-06-15T15:32:38Z
 project: yasystem
 section: null
 parent: null
@@ -33,7 +33,7 @@ agent_runs: []
 labels:
   - concept
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -88,3 +88,11 @@ How much is `getLoadUnloadMinutes` trusted operationally? It decides whether the
 ## Out of scope (v1)
 
 Reassignment / drag between vehicles (v2).
+
+## Conversation
+
+**2026-06-15 15:32 claude-code:** **Open question resolved (Austin):** `getLoadUnloadMinutes` has been in use a long time and is "surprisingly reliable".
+
+So the linking element should present the load figure as first-class, not advisory — e.g. "2h to turn around 1.8T / 144%", showing both the usable turnaround time and the weight/vol to handle together. No need to hedge the load number.
+
+With that, the v1 (read-only) spec is fully scoped — no further unknowns. Ready for AP to slot in when prioritised.
