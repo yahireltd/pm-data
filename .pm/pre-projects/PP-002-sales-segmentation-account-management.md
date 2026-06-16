@@ -4,7 +4,7 @@ slug: sales-segmentation-account-management
 title: Sales Segmentation / Account Management
 state: planning
 created: 2026-06-05T12:25:32Z
-updated: 2026-06-10T01:17:57Z
+updated: 2026-06-16T17:28:08Z
 stakeholders:
   - name: Ben
     role: Business SME & Systems Architect
@@ -119,34 +119,34 @@ cost_of_inaction: |-
   Risk of losing key business if not managed properly
   Sales effort may be focused on customers / contracts that are not worth focusing on whist other worthwhile customers / contracts are brushed aside
 milestones:
-  - title: Scoping sessions held — criteria decided
+  - title: Phase 1 — Sales Efficiency
     acceptance_criteria:
-      - Value thresholds and BANT-per-level agreed with the team and written down
-      - Account-level definitions (system / incubation / account-managed / strategic) agreed
-      - Each of the six decision cycles documented as see / decide / act / outcome / review with a named owner and review cadence
-  - title: Unreleased-work release strategy executed (slice 1 live)
-    acceptance_criteria:
-      - "Slice plan agreed: what ships in what order, with gating and rollback for each slice"
-      - Production-ready slices (ML scoring pipeline, quote API, AI assistant, capacity insights) merged onto master and live
+      - "Slice plan agreed: what ships in what order, with gating + rollback for each slice"
+      - "Production-ready slices live on master: ML scoring pipeline, quote API, AI quote assistant, capacity insights"
       - Beta portals remain gated until their hardening checks pass (runtime test, login provisioning, Xero decision)
-  - title: Lead routing live
+      - "Efficiency wins shipped: menu/duplicate tidy-up, speed, email templates, UX"
+      - "Outcome: the same people process more work with less effort"
+  - title: Phase 2 — Sales Operating System Foundation
     acceptance_criteria:
-      - Every new quote carries a real-time score and is routed to a named conversion process
-      - Assignment to the right person/pool happens automatically from the routing rules
-      - Conversion-by-route is visible on a dashboard and reviewed on the agreed cadence
-  - title: Stop-chasing v2 live
+      - "Criteria decided with the team: value thresholds, BANT-per-level, and account-level definitions (system / incubation / account-managed / strategic)"
+      - Each of the six decision cycles documented as see / decide / act / outcome / review with a named owner + review cadence (T-0322)
+      - "Lead routing live: every new quote scored and routed to a named conversion process, with automatic assignment"
+      - Conversion-by-route visible on a dashboard and reviewed on the agreed cadence
+      - "Stop-chasing v2 live: stop state machine (stopped → nurturing → exhausted) on Teresa, multi-touch sequences, stopped-pool conversion + cost reported"
+      - "Outcome: the right customer receives the right level of attention"
+  - title: Phase 3 — Management & Learning System
     acceptance_criteria:
-      - Stop state machine live on top of Teresa (stopped → nurturing → exhausted) with multi-touch sequences
-      - Stopped-pool conversion rate and handling cost reported and reviewed
-  - title: Account levels + transfer windows operating
+      - A named non-salesperson steward owns system-managed revenue with pool KPIs (closing rate, repeat rate), reviewed regularly
+      - Leakage + process-conformance dashboards exist, each tied to the named decision it drives (T-0322)
+      - "Reviews operate at three levels: company/trend, steward, and individual"
+      - "Outcome: managers can systematically improve results"
+  - title: Phase 4 — Strategic Account Platform
     acceptance_criteria:
       - Every assigned account carries an ownership level and an actual-vs-potential position
-      - "Big-fish alerting live: managers alerted on threshold arrivals and the worklist is held to convert-or-cease"
-      - The first quarterly transfer-window review has been held and accounts demonstrably moved levels
-  - title: Steward + review loops operating
-    acceptance_criteria:
-      - A named non-salesperson steward owns system-managed revenue with pool KPIs
-      - Leakage and conformance dashboards exist, each tied to its named decision, and are reviewed in management meetings
+      - "Big-fish alerting live: managers alerted on threshold arrivals; the worklist is held until a convert-or-cease decision is recorded"
+      - Quarterly transfer-window reviews demonstrably move accounts between levels
+      - "Strategic account tooling: account plans, organograms, relationship mapping, share-of-wallet tracking"
+      - "Outcome: Yahire systematically grows its most valuable customers"
 workstream_ownership:
   - workstream: Programme lead / facilitation (Humanness 'Sales Coherence' journey)
     owner: Axel Ferreyrolles
@@ -165,7 +165,7 @@ scoping_held: true
 owner:
   kind: human
   name: Ben
-version: 5
+version: 6
 ---
 
 # PP-002: Sales Segmentation / Account Management
