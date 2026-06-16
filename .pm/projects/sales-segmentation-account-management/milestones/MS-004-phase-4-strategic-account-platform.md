@@ -6,13 +6,18 @@ project: sales-segmentation-account-management
 state: planned
 order: 4096
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T18:57:14Z
+updated: 2026-06-16T19:14:32Z
 acceptance_criteria:
-  - Quarterly transfer-window reviews demonstrably move accounts between levels
-  - "Strategic account tooling: account plans, organograms, relationship mapping, share-of-wallet tracking"
-  - "Outcome: Yahire systematically grows its most valuable customers"
+  - "Goal: grow major accounts and increase share of wallet."
+  - Account plans — structured plans per strategic account (objectives, actions, owners).
+  - Organograms — map the customer's org to know decision-makers and influencers.
+  - Relationship mapping — track strength/coverage of relationships across each account.
+  - Opportunity plans — plan and track specific opportunities within each account.
+  - Share-of-wallet tracking — actual vs potential spend per account and the gap to close.
+  - Strategic reviews — periodic account reviews (and the quarterly transfer-window ritual) that move accounts between levels.
+  - "Outcome: Yahire systematically grows its most valuable customers."
 slip_records: []
-version: 5
+version: 6
 stakeholders:
   - name: Sam
     channel: email

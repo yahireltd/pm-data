@@ -5,16 +5,11 @@ name: Sales Segmentation / Account Management
 state: planning
 phase: build
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T18:57:14Z
+updated: 2026-06-16T19:14:46Z
 owner:
   kind: human
   name: Ben
-goal: |-
-  1. Sales Workflow Redesign
-  2. Account Segmentation and Management : see freeform
-  3. Sales Cadence, Reviews and Enablement TBC
-  4. Sales Operations & Sales Franchise Design TBC
-  5. Sales processes and principles, account definitions. see freeform quick description
+goal: Transform Yahire's sales into a scalable, measured machine — every customer owned, every lead right-sized, every account at a defined level, and every dashboard tied to a decision — delivered in four phases (Efficiency → Operating-System Foundation → Management & Learning → Strategic Account Platform) on Yasystem.
 success_criteria:
   - "Lead routing live: every new account is auto-scored and routed; score accuracy and conversion-by-route are reviewed on a set cadence, and human corrections feed back into the scoring."
   - "Stop-chasing works: quotes a salesperson stops are picked up by system follow-up and still convert at near-zero handling cost; the stopped-pool conversion rate is reviewed."
@@ -142,7 +137,7 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:25:30Z
     role: Marketing / Sales Ops
-version: 22
+version: 27
 agent_policy:
   allow_commit: false
   allow_push: false

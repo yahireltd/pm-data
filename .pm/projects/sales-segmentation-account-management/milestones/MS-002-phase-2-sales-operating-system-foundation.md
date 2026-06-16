@@ -6,15 +6,18 @@ project: sales-segmentation-account-management
 state: planned
 order: 2048
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T18:57:09Z
+updated: 2026-06-16T19:14:26Z
 acceptance_criteria:
-  - Each of the six decision cycles documented as see / decide / act / outcome / review with a named owner + review cadence (T-0322)
-  - "Lead routing live: every new quote scored and routed to a named conversion process, with automatic assignment"
-  - Conversion-by-route visible on a dashboard and reviewed on the agreed cadence
-  - "Stop-chasing v2 live: stop state machine (stopped → nurturing → exhausted) on Teresa, multi-touch sequences, stopped-pool conversion + cost reported"
-  - "Outcome: the right customer receives the right level of attention"
+  - "Goal: create a structured, scalable sales engine."
+  - Customer segmentation — define/apply the segments (value bands, new vs repeat…) that drive how each account is handled.
+  - Customer scoring — score each lead/quote so attention follows likelihood and value.
+  - Golden nugget identification — surface high-value/high-potential opportunities automatically.
+  - Workflow definitions — the named conversion processes (system-only / quick / in-depth / lifetime / escalate) each segment routes to.
+  - Process design — design the end-to-end processes and the roles in them, not just screens.
+  - Task frameworks — cadence frameworks telling reps what to do next per account type.
+  - "Outcome: the right customer receives the right level of attention."
 slip_records: []
-version: 5
+version: 6
 stakeholders:
   - name: Ben
     channel: email

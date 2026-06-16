@@ -6,12 +6,18 @@ project: sales-segmentation-account-management
 state: planned
 order: 3072
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T18:57:11Z
+updated: 2026-06-16T19:14:29Z
 acceptance_criteria:
-  - "Reviews operate at three levels: company/trend, steward, and individual"
-  - "Outcome: managers can systematically improve results"
+  - "Goal: improve performance through visibility and accountability."
+  - Dashboards — leakage and process-conformance dashboards, each tied to a decision it drives.
+  - KPIs — pool/segment KPIs (closing rate, repeat rate, conversion-by-route) reviewed on a cadence.
+  - Activity tracking — make coverage and effort visible, not assumed.
+  - Manager reviews — a regular review ritual built on the dashboards/KPIs.
+  - Conformance reviews — check whether the defined processes are actually followed.
+  - Predictive indicators — lead indicators that flag issues before the lag numbers move.
+  - "Outcome: managers can systematically improve results."
 slip_records: []
-version: 5
+version: 6
 stakeholders:
   - name: Nathan
     channel: email
