@@ -6,15 +6,33 @@ project: sales-segmentation-account-management
 state: planned
 order: 4096
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T17:34:29Z
+updated: 2026-06-16T18:55:53Z
 acceptance_criteria:
-  - Every assigned account carries an ownership level and an actual-vs-potential position
   - "Big-fish alerting live: managers alerted on threshold arrivals; the worklist is held until a convert-or-cease decision is recorded"
   - Quarterly transfer-window reviews demonstrably move accounts between levels
   - "Strategic account tooling: account plans, organograms, relationship mapping, share-of-wallet tracking"
   - "Outcome: Yahire systematically grows its most valuable customers"
 slip_records: []
-version: 1
+version: 4
+stakeholders:
+  - name: Sam
+    channel: email
+    contact: sam@yahire.com
+    internal: true
+    added_by:
+      kind: agent
+      name: claude
+    added_at: 2026-06-16T18:46:47Z
+    role: Business Development Manager SME
+  - name: Nathan
+    channel: email
+    contact: nathan@yahire.com
+    internal: true
+    added_by:
+      kind: agent
+      name: claude
+    added_at: 2026-06-16T18:47:04Z
+    role: Sales Manager SME
 ---
 
 # Phase 4 — Strategic Account Platform
