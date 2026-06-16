@@ -8,8 +8,8 @@ updated: 2026-06-16T13:57:16Z
 scheduled_at: 2026-06-17T10:00:00Z
 duration_minutes: 60
 location: IT Office
-project: null
-pre_project: PP-002
+project: sales-segmentation-account-management
+pre_project: null
 organizer:
   kind: human
   name: unknown
@@ -60,7 +60,7 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: kickoff
-version: 8
+version: 9
 ---
 
 # **Strategic Goals**

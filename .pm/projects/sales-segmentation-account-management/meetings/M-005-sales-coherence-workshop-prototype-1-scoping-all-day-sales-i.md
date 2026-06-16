@@ -8,8 +8,8 @@ updated: 2026-06-11T20:00:12Z
 scheduled_at: 2026-06-12T08:00:00Z
 duration_minutes: 480
 location: Yahire office (all-day workshop)
-project: null
-pre_project: PP-002
+project: sales-segmentation-account-management
+pre_project: null
 organizer:
   kind: human
   name: Axel Ferreyrolles
@@ -116,7 +116,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: kickoff
-version: 27
+version: 28
 reminders:
   - minutes_before: 1440
     channels:

@@ -8,8 +8,8 @@ updated: 2026-06-10T00:11:14Z
 scheduled_at: 2026-04-29T08:00:00Z
 duration_minutes: 480
 location: Yahire office (full-day facilitated workshop)
-project: null
-pre_project: PP-002
+project: sales-segmentation-account-management
+pre_project: null
 organizer:
   kind: human
   name: Axel Ferreyrolles
@@ -50,7 +50,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: kickoff
-version: 7
+version: 8
 ---
 
 # The breakthrough workshop
