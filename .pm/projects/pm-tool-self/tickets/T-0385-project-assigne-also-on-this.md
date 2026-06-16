@@ -2,10 +2,10 @@
 id: T-0385
 title: project assigne / also on this
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-16T14:20:18Z
-updated: 2026-06-16T15:53:22Z
+updated: 2026-06-16T16:07:13Z
 project: pm-tool-self
 section: null
 parent: null
@@ -32,10 +32,10 @@ agent_runs:
     summary: Claimed via web UI
 labels: []
 attention:
-  needed_by: agent
-  reason: The assignee needs to be able to choose humans as well as agents and the also on this needs to filter out agents when humans is selected
-  since: 2026-06-16T15:53:21Z
-version: 10
+  needed_by: human
+  reason: 'Review feedback addressed: assignee now offers humans (org roster + admins) alongside agents; "also on this" filters suggestions by the Person/Agent selector. Pushed to master (a15296a); ready to re-review after deploy.'
+  since: 2026-06-16T16:07:13Z
+version: 12
 branch: master
 ---
 
@@ -52,3 +52,11 @@ both need to use the project register
 **Benefit:** Faster, mistake-proof assignment; the same person always reads the same way across the tool; and agents are first-class in the picker so you can hand work to Claude as easily as to a teammate.
 
 **Status:** Code is committed to master and pushed. It will appear on the live site after the next deploy.
+
+**2026-06-16 16:07 claude-code:** **Review feedback addressed — both points fixed.**
+
+1. **Assignee can now pick humans as well as agents.** Before, on a project that didn't yet have any team members or stakeholders listed, the assignee dropdown only offered the AI agents. The register now always includes every person the tool knows — anyone you've added before (the shared roster) plus the tool's admins — so you can assign a real person on any ticket, not just an agent.
+
+2. **"Also on this" now filters by the Person/Agent choice.** The Person/Agent selector sits in front of the name box and drives the suggestions: choose **Person** and only people are suggested; choose **Agent** and only agents are. So you won't see agents mixed in when you're adding a person.
+
+Committed and pushed to master (a15296a). It'll be on the live site after the next deploy.
