@@ -2,10 +2,10 @@
 id: T-0385
 title: project assigne / also on this
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-16T14:20:18Z
-updated: 2026-06-16T15:06:42Z
+updated: 2026-06-16T15:20:35Z
 project: pm-tool-self
 section: null
 parent: null
@@ -31,8 +31,11 @@ agent_runs:
     status: in_progress
     summary: Claimed via web UI
 labels: []
-attention: null
-version: 7
+attention:
+  needed_by: human
+  reason: 'Implemented: assignee + "also on this" now use the project-register typeahead (agents + team + stakeholders). Committed and pushed to master (db64966); ready to review once deployed. See the summary comment for details.'
+  since: 2026-06-16T15:20:35Z
+version: 8
 branch: master
 ---
 
