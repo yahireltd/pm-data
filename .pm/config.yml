@@ -10,12 +10,12 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 394
+  ticket: 395
   project: 18
   section: 13
   perProject:
     pm-tool-self:
-      decision: 41
+      decision: 42
       status_note: 7
       tech_session: 17
       sprint: 31
