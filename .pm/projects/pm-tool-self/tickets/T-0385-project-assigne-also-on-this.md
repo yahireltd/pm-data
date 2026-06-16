@@ -2,10 +2,10 @@
 id: T-0385
 title: project assigne / also on this
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-16T14:20:18Z
-updated: 2026-06-16T16:07:13Z
+updated: 2026-06-16T16:16:37Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,9 +14,9 @@ order: 100352
 reporter: null
 assignee:
   kind: agent
-  name: claude
+  name: claude-code
 acceptance_criteria:
-  - When in the ticket view,  assigning an asignee / also on this should use the project register (type / autofill)
+  - "[x] When in the ticket view,  assigning an asignee / also on this should use the project register (type / autofill)"
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -30,13 +30,17 @@ agent_runs:
     started: 2026-06-16T14:21:59Z
     status: in_progress
     summary: Claimed via web UI
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: 'Review feedback addressed: assignee now offers humans (org roster + admins) alongside agents; "also on this" filters suggestions by the Person/Agent selector. Pushed to master (a15296a); ready to re-review after deploy.'
-  since: 2026-06-16T16:07:13Z
-version: 12
+attention: null
+version: 18
 branch: master
+collaborators:
+  - kind: human
+    name: Austin
 ---
 
 both need to use the project register
@@ -60,3 +64,9 @@ both need to use the project register
 2. **"Also on this" now filters by the Person/Agent choice.** The Person/Agent selector sits in front of the name box and drives the suggestions: choose **Person** and only people are suggested; choose **Agent** and only agents are. So you won't see agents mixed in when you're adding a person.
 
 Committed and pushed to master (a15296a). It'll be on the live site after the next deploy.
+
+---
+
+**2026-06-16 16:16 — you**
+
+Confirmed working as expected
