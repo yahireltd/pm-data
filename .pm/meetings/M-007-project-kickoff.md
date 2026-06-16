@@ -4,7 +4,7 @@ slug: project-kickoff
 title: Project Kickoff
 state: scheduled
 created: 2026-06-15T12:49:29Z
-updated: 2026-06-16T13:54:39Z
+updated: 2026-06-16T13:57:16Z
 scheduled_at: 2026-06-17T10:00:00Z
 duration_minutes: 60
 location: IT Office
@@ -49,14 +49,18 @@ stakeholders:
       - assigned
       - meeting_scheduled
 agenda: []
-outcomes: []
+outcomes:
+  - description: Need to look more at the process for each segment in more detail in order to work backwards and define KPIs that will measue the process success
+    recorded_at: 2026-06-16T13:56:07Z
+  - description: Project was seperated in to 4 phases - see the notes at the bottom of this meeting record
+    recorded_at: 2026-06-16T13:57:16Z
 attachments: []
 calendar:
   graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdQcvlmAAA=
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: kickoff
-version: 6
+version: 8
 ---
 
 # **Strategic Goals**
