@@ -4,7 +4,7 @@ title: Make warehouse open/close hours configurable (default 06:00–22:00)
 type: chore
 state: in_progress
 created: 2026-06-15T15:37:11Z
-updated: 2026-06-15T15:45:28Z
+updated: 2026-06-16T11:35:57Z
 project: yasystem
 section: null
 parent: T-0374
@@ -46,7 +46,10 @@ agent_runs:
 labels:
   - turnaround-visualiser
 attention: null
-version: 5
+version: 6
+collaborators:
+  - kind: human
+    name: austin
 ---
 
 ## Problem
