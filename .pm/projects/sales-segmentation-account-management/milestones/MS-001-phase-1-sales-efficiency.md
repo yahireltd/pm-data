@@ -6,14 +6,13 @@ project: sales-segmentation-account-management
 state: planned
 order: 1024
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T18:55:41Z
+updated: 2026-06-16T18:57:07Z
 acceptance_criteria:
-  - "Production-ready slices live on master: ML scoring pipeline, quote API, AI quote assistant, capacity insights"
   - Beta portals remain gated until their hardening checks pass (runtime test, login provisioning, Xero decision)
   - "Efficiency wins shipped: menu/duplicate tidy-up, speed, email templates, UX"
   - "Outcome: the same people process more work with less effort"
 slip_records: []
-version: 5
+version: 6
 stakeholders:
   - name: Austin
     channel: email

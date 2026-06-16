@@ -6,13 +6,12 @@ project: sales-segmentation-account-management
 state: planned
 order: 3072
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T18:55:50Z
+updated: 2026-06-16T18:57:11Z
 acceptance_criteria:
-  - Leakage + process-conformance dashboards exist, each tied to the named decision it drives (T-0322)
   - "Reviews operate at three levels: company/trend, steward, and individual"
   - "Outcome: managers can systematically improve results"
 slip_records: []
-version: 4
+version: 5
 stakeholders:
   - name: Nathan
     channel: email

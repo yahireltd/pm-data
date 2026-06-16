@@ -6,14 +6,13 @@ project: sales-segmentation-account-management
 state: planned
 order: 4096
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T18:55:53Z
+updated: 2026-06-16T18:57:14Z
 acceptance_criteria:
-  - "Big-fish alerting live: managers alerted on threshold arrivals; the worklist is held until a convert-or-cease decision is recorded"
   - Quarterly transfer-window reviews demonstrably move accounts between levels
   - "Strategic account tooling: account plans, organograms, relationship mapping, share-of-wallet tracking"
   - "Outcome: Yahire systematically grows its most valuable customers"
 slip_records: []
-version: 4
+version: 5
 stakeholders:
   - name: Sam
     channel: email
