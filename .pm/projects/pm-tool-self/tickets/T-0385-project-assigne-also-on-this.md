@@ -2,10 +2,10 @@
 id: T-0385
 title: project assigne / also on this
 type: feature
-state: review
+state: in_progress
 priority: p2
 created: 2026-06-16T14:20:18Z
-updated: 2026-06-16T15:20:35Z
+updated: 2026-06-16T15:53:22Z
 project: pm-tool-self
 section: null
 parent: null
@@ -32,10 +32,10 @@ agent_runs:
     summary: Claimed via web UI
 labels: []
 attention:
-  needed_by: human
-  reason: 'Implemented: assignee + "also on this" now use the project-register typeahead (agents + team + stakeholders). Committed and pushed to master (db64966); ready to review once deployed. See the summary comment for details.'
-  since: 2026-06-16T15:20:35Z
-version: 8
+  needed_by: agent
+  reason: The assignee needs to be able to choose humans as well as agents and the also on this needs to filter out agents when humans is selected
+  since: 2026-06-16T15:53:21Z
+version: 10
 branch: master
 ---
 

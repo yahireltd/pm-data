@@ -23,7 +23,7 @@ id_counters:
       sprint: 4
       tech_session: 2
     org:
-      meeting: 8
+      meeting: 9
       pre_project: 7
     stock-predictions-engine:
       milestone: 16
