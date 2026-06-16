@@ -3,9 +3,9 @@ id: T-0311
 title: Server PHP Limit
 type: support
 state: triaged
-priority: p2
+priority: p0
 created: 2026-06-09T12:18:07Z
-updated: 2026-06-09T12:29:18Z
+updated: 2026-06-16T19:30:01Z
 project: yasystem
 section: null
 parent: null
@@ -39,6 +39,7 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdLlziRAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAJfQCcb1IsdBpnf3hH5Vc4M=
+version: 1
 ---
 
 ## Request
