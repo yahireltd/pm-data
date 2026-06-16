@@ -4,7 +4,7 @@ title: Milestone-level ownership + stakeholder controls
 type: feature
 state: triaged
 created: 2026-06-16T17:16:35Z
-updated: 2026-06-16T17:16:35Z
+updated: 2026-06-16T18:07:48Z
 project: pm-tool-self
 section: null
 parent: null
@@ -25,8 +25,11 @@ labels:
   - m-009
   - milestones
   - sales
-attention: null
-version: 1
+attention:
+  needed_by: human
+  reason: "Built + pushed (3e0d8cc): milestones now carry an owner + stakeholders, editable on the milestone card (owner picker reuses the T-0385 register picker; stakeholders reuse AddStakeholderDialog). Web + schema + types done; MCP-tool parity (set owner/stakeholders via MCP) is the remaining slice. Needs the server deploy unblocked to show live."
+  since: 2026-06-16T18:07:48Z
+version: 2
 ---
 
 ## Problem
