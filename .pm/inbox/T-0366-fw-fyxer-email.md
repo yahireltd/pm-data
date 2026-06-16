@@ -2,10 +2,10 @@
 id: T-0366
 title: "FW: fyxer email"
 type: support
-state: inbox
+state: duplicate
 priority: p2
 created: 2026-06-12T14:17:05Z
-updated: 2026-06-12T14:17:05Z
+updated: 2026-06-16T19:48:27Z
 project: null
 section: null
 parent: null
@@ -39,7 +39,7 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdOtLbrAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAES3NhhK9kXXjJbV21pDH24=
-version: 1
+version: 2
 ---
 
 ## Request

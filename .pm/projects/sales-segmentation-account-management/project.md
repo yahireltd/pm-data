@@ -5,18 +5,19 @@ name: Sales Segmentation / Account Management
 state: planning
 phase: build
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T19:36:04Z
+updated: 2026-06-16T19:41:04Z
 owner:
   kind: human
   name: Ben
 goal: Transform Yahire's sales into a scalable, measured machine — every customer owned, every lead right-sized, every account at a defined level, and every dashboard tied to a decision — delivered in four phases (Efficiency → Operating-System Foundation → Management & Learning → Strategic Account Platform) on Yasystem.
 success_criteria:
-  - "Lead routing live: every new account is auto-scored and routed; score accuracy and conversion-by-route are reviewed on a set cadence, and human corrections feed back into the scoring."
-  - "Stop-chasing works: quotes a salesperson stops are picked up by system follow-up and still convert at near-zero handling cost; the stopped-pool conversion rate is reviewed."
-  - "Big-fish alerting: high-potential arrivals alert a manager immediately and stay on a worked list until a convert-or-cease decision is recorded."
-  - "Account levels live: every assigned account carries a level and an actual-vs-potential position; quarterly transfer windows demonstrably move accounts up and down."
-  - "System estate owned: a named non-salesperson steward owns system-managed revenue with KPIs (closing rate, repeat rate) reviewed regularly."
-  - "Conformance visible: leakage / process-conformance dashboards exist and are reviewed in management meetings — each one tied to the decision it exists to drive."
+  - New enquiries are scored and routed automatically to the right process, the right person or pool picks them up, and we review how well the scoring and routing are working — and improve them.
+  - When a salesperson stops chasing a quote, the system keeps following up and still wins some of them at almost no cost — and we can see how many.
+  - When a big opportunity comes in, a manager is told straight away and it stays on their list until they decide to chase it or let it go.
+  - Every managed account has a level and a 'worth now vs could be worth' figure, and the quarterly review actually moves accounts up and down.
+  - A named non-salesperson owns the customers the system handles, with simple measures (how often we win, how often they come back) reviewed regularly.
+  - We have dashboards showing where opportunities are being lost or the process isn't being followed, reviewed in management meetings — each one there to drive a specific decision.
+  - The finished-but-unused work is live (the scoring, the quote tools, the AI quote assistant and the capacity views), and the busy sales screens are noticeably faster and simpler.
 parent_project: null
 related_projects: []
 parent_ticket: null
@@ -44,15 +45,13 @@ problems:
   - (‘becoming the best versions of ourselves’ is aiming for something tangible and improving who we were yesterday)
   - 8.	Things automate and systemise, but people by from people
 goals:
-  - Every customer has an accountable owner — human, or the named steward of the system-managed pool. No unowned revenue.
-  - Every new lead is scored and routed to a right-sized conversion process (system-only / quick / in-depth / lifetime / manager escalation) instead of uniform handling.
-  - Every assigned account sits at a defined level (system / incubation / account-managed / strategic) with visible actual-vs-potential momentum, governed by quarterly transfer windows.
-  - Every screen, score or dashboard we build is tied to a named decision, the action it drives, and a review loop — the decision-cycle scoping method (T-0322). Visibility with no decision attached doesn't get built.
-  - "Results are reviewed and iterated routinely at three levels: company/trend, system steward, and individual."
-cost_of_inaction: |-
-  We will not be maximising the potential of each of our customers.
-  Risk of losing key business if not managed properly
-  Sales effort may be focused on customers / contracts that are not worth focusing on whist other worthwhile customers / contracts are brushed aside
+  - Every customer has someone responsible for them — a salesperson, or a named person who looks after the ones the system handles. No customer is left with nobody.
+  - Every new enquiry is automatically sized up and sent down the right path — handled by the system, a quick reply, a fuller sell, long-term account care, or passed up to a manager — instead of treating everyone the same.
+  - Every account we look after has a clear level (system-handled, being grown, account-managed, or strategic) and a simple 'worth now vs could be worth' figure, and we review who looks after what every quarter.
+  - Anything we put on a screen exists to help someone make a decision and take action — and we check whether it did. If a screen doesn't change what we do, we don't build it.
+  - We review results and improve at three levels — the whole company, the person running the system-handled pool, and each individual.
+  - Switch on the value we've already built and cut the everyday hassle — release the finished-but-unused work and make the busy sales screens faster and simpler, so the same team gets more done with less effort.
+cost_of_inaction: "If we don't do this: we keep leaving money on the table with our existing customers; we risk losing important accounts because no one is clearly responsible for them; and we keep spending sales time on customers who don't really need it while better opportunities get ignored."
 scope_in:
   - "The criteria-decisions, settled with the team in scoping sessions: value thresholds, BANT-per-level, and the account-level definitions (system / incubation / account-managed / strategic) — every decision cycle captured as see / decide / act / outcome / review with an owner and a review cadence."
   - "Release strategy + staged shipping of the existing unreleased work (the MlUpdatesClaw / venue-exhibition-hardening line): production-ready slices first (ML scoring pipeline, quote API, AI quote assistant, capacity insights); the beta portals only after their hardening tail, behind gating that does not exist yet."
@@ -137,7 +136,7 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:25:30Z
     role: Marketing / Sales Ops
-version: 31
+version: 33
 agent_policy:
   allow_commit: false
   allow_push: false
@@ -152,10 +151,23 @@ risks:
 
 ## Overview
 
-Converted from pre-project PP-002.
+Make Yahire's sales work like a well-run machine instead of relying on memory and luck. The aim: every customer has someone responsible for them, every enquiry gets the right amount of attention for what it's worth, and we can see what's working and fix what isn't. "Sales" here means how our people work and how we manage — not just the screens. We'll deliver it in four phases, all built on our existing Yasystem:
+
+1. **Sales Efficiency** — tidy up and speed up the everyday work.
+2. **Sales Operating System Foundation** — build the engine that sends the right customer to the right place.
+3. **Management & Learning System** — dashboards and reviews so managers can improve results.
+4. **Strategic Account Platform** — grow our biggest accounts.
 
 ## Why now
 
+Three reasons this is the moment:
+
+1. **We're spending effort in the wrong places — and now we can prove it.** Looking at around 31,000 quotes: small repeat customers mostly buy again on their own (today over half of them still take up a salesperson's time for almost no extra gain), while big *new* customers — our hardest and most valuable to win — don't get enough attention. Salespeople clearly earn their keep on new customers; we just need to point them there.
+2. **We've already built a lot that isn't switched on yet.** The scoring, the quote tools and the AI quote assistant are built but not released. Much of what this project needs already exists — it just needs turning on and joining up.
+3. **We've been flying blind.** Our automatic follow-up has run for nearly two years with nobody checking it — and it turns out it isn't really helping. Without someone owning it and a simple dashboard, that went unnoticed for years.
+
+So now: switch on what we've built, point sales effort where it pays, and put the management and measurement in place — before more good opportunities slip away.
+
 ## Design
 
-## Milestones
+The plan is delivered as four phases — see the milestones (MS-001 to MS-004), each with its goal, the things we'll actually do, and the outcome. Each phase is delivered through one or more sprints.
