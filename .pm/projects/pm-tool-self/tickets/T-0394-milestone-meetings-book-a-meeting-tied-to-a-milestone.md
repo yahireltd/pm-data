@@ -4,7 +4,7 @@ title: "Milestone meetings: book a meeting tied to a milestone"
 type: feature
 state: triaged
 created: 2026-06-16T17:16:35Z
-updated: 2026-06-16T18:07:49Z
+updated: 2026-06-16T19:21:22Z
 project: pm-tool-self
 section: null
 parent: null
@@ -26,11 +26,8 @@ labels:
   - milestones
   - meetings
   - sales
-attention:
-  needed_by: human
-  reason: 'Built + pushed (3e0d8cc): meetings can be tied to a milestone — a "Milestone (optional)" picker in the new-meeting dialog, a milestone pill on meeting rows, and each milestone card lists its meetings with a "Book meeting" deep-link. Web + schema + types done; MCP pm_create_meeting milestone param is the remaining slice. Needs the server deploy unblocked to show live.'
-  since: 2026-06-16T18:07:49Z
-version: 2
+attention: null
+version: 3
 ---
 
 ## Problem
