@@ -2,9 +2,9 @@
 id: T-0330
 title: Serve the agent working rules (AGENTS.md) through the MCP so remote agents don't need the code checkout
 type: feature
-state: triaged
+state: ready
 created: 2026-06-09T19:28:25Z
-updated: 2026-06-09T19:28:25Z
+updated: 2026-06-16T14:19:49Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Austin
   channel: claude-code
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - An agent with ONLY the remote MCP connection (no code checkout) can retrieve the full working rules before touching any ticket
   - The served conventions and the repo AGENTS.md come from a single source of truth (no second copy to drift)
@@ -39,7 +41,10 @@ labels:
   - dogfood-find
   - agent-experience
 attention: null
-version: 1
+version: 4
+collaborators:
+  - kind: human
+    name: austin
 ---
 
 ## Problem
