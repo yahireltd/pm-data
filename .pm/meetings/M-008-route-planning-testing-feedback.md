@@ -4,7 +4,7 @@ slug: route-planning-testing-feedback
 title: Route Planning Testing Feedback
 state: scheduled
 created: 2026-06-16T12:51:58Z
-updated: 2026-06-16T12:52:33Z
+updated: 2026-06-16T12:54:10Z
 scheduled_at: 2026-06-19T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -48,15 +48,29 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:47:03Z
     role: Logistics Planner (Logistics SME)
+  - name: Zac Lesle
+    channel: email
+    contact: zac@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-06-06T01:48:39Z
+    role: Operations Director / Geography Teacher
 agenda:
   - topic: Gathering feedback on the testing of the route planning
 outcomes: []
 attachments: []
 calendar:
-  graph_event_id: null
+  graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdQcvlnAAA=
   ics_url: null
+  organizer_mailbox: support@yahire.com
 kind: uat
-version: 5
+version: 10
+reminders:
+  - minutes_before: 1440
+    channels:
+      - email
 ---
 
 # Route Planning Testing Feedback
