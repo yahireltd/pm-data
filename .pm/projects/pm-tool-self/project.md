@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements MAIN BRANCH
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-17T17:43:07Z
+updated: 2026-06-17T17:55:23Z
 owner:
   kind: human
   name: austin
@@ -174,7 +174,7 @@ go_live_target: 2026-06-30
 time_budget_hours: 120
 repo_url: https://github.com/yahireltd/pm-tool
 branch: master
-version: 201
+version: 203
 ---
 
 # pm-tool — dogfood improvements
@@ -200,13 +200,25 @@ The milestones bundle the work into chapters — the story of the tool, from whe
 5. **Everything in one sphere** _(next)_ — informal chats, small tickets and possible projects all in one place; the fast "what's going on / what next" overview; people, agents, projects and goals aligned.
 6. **Us as PMs** _(ongoing)_ — ringfenced learning/training, a self-assessment on our weakest areas, the real shift from reactive devs to AI-augmented transformation professionals.
 
-## Earlier milestones (archived 17 Jun 2026)
+## Earlier milestones — what we did and why (archived 17 Jun 2026)
 
-Before restructuring into chapters, the project tracked work as ten finer-grained milestones. They were retired in favour of the chapter model above — but the work itself lives on in the project's tickets, ADRs, and the `pm-data` git history (full acceptance criteria are recoverable there). For the record, mapped to their chapter:
+Before restructuring into chapters, the project tracked work as ten finer-grained milestones. They're retired now, but here's what each one actually was, in plain terms — so the history isn't lost. (The detail also lives on in the tickets, decisions and git history.)
 
-- **Ch1:** Layer 0 — Foundation _(hit)_
-- **Ch2:** v2 hard-guidance spine + makeover foundation _(hit, 29 May)_ · v2 back-half lifecycle entities _(planned)_ · Guided lifecycle has no human dead-ends _(planned)_ · Pre-projects reach parity with projects _(hit, 5 Jun)_
-- **Ch3:** v2 WYSIWYG editor + authoring surfaces + UI sweep _(hit)_ · Phase 2 — stakeholders, meetings, comms, MS-Graph integration _(hit, 6 May)_ · Hosted & remotely drivable _(hit, 3 Jun)_ · Multi-user access control _(hit, 3 Jun)_ · Two-way comms _(hit, 3 Jun)_
+**Chapter 1 — Make the work trackable**
+- **Laid the foundations.** _What:_ one place to record every project, ticket, decision and meeting, plus the loop where an AI agent picks up a job, does it, and hands it back. _Why:_ there was nowhere to track the work — you couldn't even answer "what is everyone working on right now?" _Benefit:_ every piece of work now has a home and a history you can look back on.
+
+**Chapter 2 — Force good planning**
+- **Put the planning rails in.** _What:_ a project now has to have its problem, goals and checkpoints written down before any building starts. _Why:_ now that AI does the coding fast, weak planning is what derails projects. _Benefit:_ vague or half-baked projects can't quietly slip through — you think first.
+- **Built the "finish and hand over" half of a project** _(was "back-half lifecycle entities")._ _What:_ the tools for the *later* stages — status updates, formal sign-off, hand-over notes, and logging issues found after launch. _Why:_ projects were easy to start but had no proper finish, so work drifted and never closed cleanly. _Benefit:_ a project can be taken all the way to a tidy finish and a real handover, not just kicked off.
+- **Removed the dead-ends.** _What:_ made sure that at every step the tool tells a person clearly what to do next. _Why:_ the guided process had spots where someone could get stuck, unsure of the next move. _Benefit:_ anyone can follow it start to finish without hitting a wall.
+- **Gave early ideas the same care as projects** _(pre-projects)._ _What:_ a half-formed idea can be shaped and pressure-tested with the same planning tools before it's promoted to a real project. _Why:_ ideas were either lost or rushed straight into being a project. _Benefit:_ you can test an idea properly before committing real time to it.
+
+**Chapter 3 — Bring the humans in**
+- **Made writing in the tool feel normal** _(rich-text editor + a tidy-up of the screens)._ _What:_ a proper document-style editor and a cleaner look. _Why:_ editing was clunky and built for developers. _Benefit:_ writing charters, notes and tickets feels like a normal document, and the tool looks approachable.
+- **Brought people and communication in.** _What:_ stakeholders, meetings, and real email + calendar through Microsoft. _Why:_ a project is about people, but that side lived outside the tool. _Benefit:_ the people, the meetings and the emails/invites all live in one place.
+- **Put it online.** _What:_ hosted the tool so it can be used from anywhere, and so Claude can drive it remotely. _Why:_ it only ran on one machine. _Benefit:_ anyone on the team can use it from anywhere.
+- **Added logins and roles.** _What:_ sign-in, with different views for an admin, a team member, and a stakeholder. _Why:_ everything was open — not safe or tidy for multiple people. _Benefit:_ each person sees the right thing, and outsiders only see what they should.
+- **Made communication two-way.** _What:_ emails coming *in* now become tickets and updates, not just emails going out. _Why:_ we could send but not receive inside the tool. _Benefit:_ a reply or an inbound request lands in the right place automatically — nothing falls through the cracks.
 
 ## Origins
 
