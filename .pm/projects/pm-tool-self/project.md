@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements MAIN BRANCH
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-17T18:13:59Z
+updated: 2026-06-17T18:26:16Z
 owner:
   kind: human
   name: austin
@@ -61,24 +61,31 @@ risks:
     reviewed_at: 2026-06-02T00:00:00Z
   - description: The director's brief is coherent but big — scope creep is likely without a forcing function
     severity: medium
-    mitigation: Time-box each slice; the Charter view itself is a forcing function (every project must justify its time budget vs expected outcome)
+    mitigation: Time-box each slice; the charter view itself is a forcing function (every project must justify its time budget vs expected outcome)
     status: open
     reviewed_at: 2026-06-02T00:00:00Z
-  - description: Yii vs Next.js debate stalls UI progress while we re-litigate the stack
-    severity: medium
-    mitigation: Build the next human-side feature in both stacks if needed; let velocity-on-real-feature decide, not theoretical preference
-    status: open
-    reviewed_at: 2026-06-02T00:00:00Z
-  - description: Agents-as-first-class is unique to this tool, but agent loop already works well — over-investing there means under-investing in the human side that's now the bottleneck
+  - description: Agents-as-first-class is unique, but the agent loop already works well — over-investing there means under-investing in the human side that's now the bottleneck
     severity: low
-    mitigation: Agent-side is feature-frozen until human-side has shipped Charter + role differentiation + meeting templates
+    mitigation: Agent-side stays feature-frozen until the human side has shipped (charter, role differentiation, meeting templates)
     status: open
     reviewed_at: 2026-06-02T00:00:00Z
+  - description: Bringing the whole workflow into one place makes the tool noisy or overwhelming — signal gets lost among small tickets and chatter
+    severity: medium
+    mitigation: Strong defaults, filtering, and a fast 'what's going on / what next' overview; keep informal capture lightweight
+    status: open
+    reviewed_at: 2026-06-17T00:00:00Z
+  - description: The team's growth as PMs gets squeezed out by delivery pressure — learning/training is the first thing cut when busy
+    severity: medium
+    mitigation: Ringfence learning/training time explicitly (Chapter 6 / MS-018) and review it; don't let it be optional
+    status: open
+    reviewed_at: 2026-06-17T00:00:00Z
 success_measures:
-  - Every active project in `.pm/projects/` has a populated Charter (problems, goals, risks, measures) before its first ticket leaves `triaged`
-  - Stakeholders post async responses to >50% of meetings within 24h of the meeting being scheduled
-  - PM, Dev, and Stakeholder roles each have a distinct view that's actually used (track which routes each role hits)
-  - Time-budget vs actual-spent visible on every project page; projects exceeding 150% of budget surface in Review automatically
+  - Every active project has a populated charter (problems, goals, risks, measures) before its first ticket leaves `triaged`.
+  - Stakeholders post async responses to >50% of meetings within 24h of the meeting being scheduled.
+  - PM, Dev and Stakeholder roles each have a distinct view that's actually used (track which routes each role hits).
+  - Time-budget vs actual-spent is visible on every project; projects over 150% of budget surface in Review automatically.
+  - At least one large, multi-phase transformation (the Sales programme) has been taken from charter → delivery → handover in the tool.
+  - Project context lives in the tool, not in email/chat/heads — measured by how rarely we go outside it to answer 'what's going on / what next?'.
 phase: test
 scope_in:
   - "Taking projects the whole way: planning → delivery → review → handover → after-care, with the people side (meetings, stakeholders, sign-off, user testing) in the tool."
@@ -91,6 +98,7 @@ scope_out:
   - Migrating the seeded example projects to the new schema
   - Reworking the agent-run loop — it already works well
   - "Solutions that turn out to be overkill: we capture the idea and the reasoning, but we don't force it into scope now — it's parked for a future revisit. Out-of-scope here means 'not now', not 'lost'."
+  - Rebuilding the tools the team already lives in (chat, email, calendar) — we pull the relevant workflow IN and integrate, we don't recreate Slack/Outlook.
 workstream_ownership: []
 time_plan:
   rows:
@@ -148,11 +156,12 @@ stakeholders:
     added_at: 2026-06-03T14:03:52Z
     role: Dev
 workflow_impact:
-  current_workflow: "We used to work on projects with very little planning. Ben would capture the problem from the user- come up with an idea to solve it and ask us devs to create the solution. "
-  new_workflow: "We now want to plan projects a lot more meticulously. We are to capture the problem with the users. Propose a solution, hold meetings to decide what is in scope and what is not. Organise user testing etc. Get the project over the line from start to finish + aftercare. We are shifting from devs (claude is now the main dev) to PM's /AI Ops "
+  current_workflow: We used to work on projects with very little planning. Ben would capture the problem from the user, come up with an idea to solve it, and ask us devs to build the solution.
+  new_workflow: "We now plan projects much more deliberately: capture the problem with the users, propose a solution, hold meetings to decide what's in and out of scope, organise user testing, and take the project from start to finish plus after-care. We're shifting from devs (Claude is now the main dev) to PMs / AI-Ops."
   who_affected:
-    - Developers
-    - austin@yahire.com
+    - The IT team — moving from building solutions to leading and designing the change
+    - End users and stakeholders — now involved earlier (scoping, user testing, sign-off)
+  migration_path: phased
 team:
   - austin@yahire.com
 adoption_readiness:
@@ -176,7 +185,7 @@ go_live_target: 2026-06-30
 time_budget_hours: 120
 repo_url: https://github.com/yahireltd/pm-tool
 branch: master
-version: 213
+version: 215
 ---
 
 # pm-tool — dogfood improvements
@@ -189,17 +198,17 @@ The **why** of this project is the three transformational goals (in the project'
 2. Turning the IT team from reactive developers into AI-augmented transformation professionals who lead, design and deliver real business change.
 3. Bringing the whole workflow — even informal chats and small tickets — into one sphere.
 
-Everything else — the views, the gates, the entities, the features — is the **content**: the tangible things that might add up to those goals, not the reason for them. When deciding whether something belongs, judge it against the *why*, not the feature list. 
+Everything else — the views, the gates, the entities, the features — is the **content**: the tangible things that might add up to those goals, not the reason for them. When deciding whether something belongs, judge it against the *why*, not the feature list. _(Framing from Ben, Jun 2026.)_
 
 ## The story — chapters
 
 The milestones bundle the work into chapters — the story of the tool, from where we started to where we're going. Each milestone (MS-013…MS-018) is a chapter; the work inside it is delivered through sprints and tickets. (Target dates, and which chapters are "hit", are for the team to set; the current push's `go_live_target` is 30 Jun 2026.)
 
-1. **Make the work trackable** — every piece of work has a home and a history; the agent loop runs end to end; the filesystem is the single source of truth.
-2. **Force good planning**— charter-before-build, phase gates that bite, close-the-loop; pre-projects for intake.
-3. **Bring the humans in** — meetings, stakeholders, two-way comms (email + calendar), hosting, login + roles, async stakeholder feedback, friendlier non-dev views.
-4. **Handle real scale** — systems vs initiatives, the Sales transformation as the first real big one, milestones-as-phases delivered through sprints (ADR-039 / ADR-040 / ADR-041).
-5. **Everything in one sphere** _ _— informal chats, small tickets and possible projects all in one place; the fast "what's going on / what next" overview; people, agents, projects and goals aligned.
+1. **Make the work trackable** _(done)_ — every piece of work has a home and a history; the agent loop runs end to end; the filesystem is the single source of truth.
+2. **Force good planning** _(done)_ — charter-before-build, phase gates that bite, close-the-loop; pre-projects for intake.
+3. **Bring the humans in** _(mostly done)_ — meetings, stakeholders, two-way comms (email + calendar), hosting, login + roles, async stakeholder feedback, friendlier non-dev views.
+4. **Handle real scale** _(in progress)_ — systems vs initiatives, the Sales transformation as the first real big one, milestones-as-phases delivered through sprints (ADR-039 / ADR-040 / ADR-041).
+5. **Everything in one sphere** _(next)_ — informal chats, small tickets and possible projects all in one place; the fast "what's going on / what next" overview; people, agents, projects and goals aligned.
 6. **Us as PMs** _(ongoing)_ — ringfenced learning/training, a self-assessment on our weakest areas, the real shift from reactive devs to AI-augmented transformation professionals.
 
 ## Earlier milestones — what we did and why (archived 17 Jun 2026)
@@ -208,29 +217,22 @@ Before restructuring into chapters, the project tracked work as ten finer-graine
 
 **Chapter 1 — Make the work trackable**
 
-* **Laid the foundations.** _What:_ one place to record every project, ticket, decision and meeting, plus the loop where an AI agent picks up a job, does it, and hands it back. _Why:_ there was nowhere to track the work — you couldn't even answer "what is everyone working on right now?" _Benefit:_ every piece of work now has a home and a history you can look back on.
+- **Laid the foundations.** _What:_ one place to record every project, ticket, decision and meeting, plus the loop where an AI agent picks up a job, does it, and hands it back. _Why:_ there was nowhere to track the work — you couldn't even answer "what is everyone working on right now?" _Benefit:_ every piece of work now has a home and a history you can look back on.
 
 **Chapter 2 — Force good planning**
 
-* **Put the planning rails in.** _What:_ a project now has to have its problem, goals and checkpoints written down before any building starts. _Why:_ now that AI does the coding fast, weak planning is what derails projects. _Benefit:_ vague or half-baked projects can't quietly slip through — you think first.
-
-* **Built the "finish and hand over" half of a project** _(was "back-half lifecycle entities")._ _What:_ the tools for the *later* stages — status updates, formal sign-off, hand-over notes, and logging issues found after launch. _Why:_ projects were easy to start but had no proper finish, so work drifted and never closed cleanly. _Benefit:_ a project can be taken all the way to a tidy finish and a real handover, not just kicked off.
-
-* **Removed the dead-ends.** _What:_ made sure that at every step the tool tells a person clearly what to do next. _Why:_ the guided process had spots where someone could get stuck, unsure of the next move. _Benefit:_ anyone can follow it start to finish without hitting a wall.
-
-* **Gave early ideas the same care as projects** _(pre-projects)._ _What:_ a half-formed idea can be shaped and pressure-tested with the same planning tools before it's promoted to a real project. _Why:_ ideas were either lost or rushed straight into being a project. _Benefit:_ you can test an idea properly before committing real time to it.
+- **Put the planning rails in.** _What:_ a project now has to have its problem, goals and checkpoints written down before any building starts. _Why:_ now that AI does the coding fast, weak planning is what derails projects. _Benefit:_ vague or half-baked projects can't quietly slip through — you think first.
+- **Built the "finish and hand over" half of a project** _(was "back-half lifecycle entities")._ _What:_ the tools for the *later* stages — status updates, formal sign-off, hand-over notes, and logging issues found after launch. _Why:_ projects were easy to start but had no proper finish, so work drifted and never closed cleanly. _Benefit:_ a project can be taken all the way to a tidy finish and a real handover, not just kicked off.
+- **Removed the dead-ends.** _What:_ made sure that at every step the tool tells a person clearly what to do next. _Why:_ the guided process had spots where someone could get stuck, unsure of the next move. _Benefit:_ anyone can follow it start to finish without hitting a wall.
+- **Gave early ideas the same care as projects** _(pre-projects)._ _What:_ a half-formed idea can be shaped and pressure-tested with the same planning tools before it's promoted to a real project. _Why:_ ideas were either lost or rushed straight into being a project. _Benefit:_ you can test an idea properly before committing real time to it.
 
 **Chapter 3 — Bring the humans in**
 
-* **Made writing in the tool feel normal** _(rich-text editor + a tidy-up of the screens)._ _What:_ a proper document-style editor and a cleaner look. _Why:_ editing was clunky and built for developers. _Benefit:_ writing charters, notes and tickets feels like a normal document, and the tool looks approachable.
-
-* **Brought people and communication in.** _What:_ stakeholders, meetings, and real email + calendar through Microsoft. _Why:_ a project is about people, but that side lived outside the tool. _Benefit:_ the people, the meetings and the emails/invites all live in one place.
-
-* **Put it online.** _What:_ hosted the tool so it can be used from anywhere, and so Claude can drive it remotely. _Why:_ it only ran on one machine. _Benefit:_ anyone on the team can use it from anywhere.
-
-* **Added logins and roles.** _What:_ sign-in, with different views for an admin, a team member, and a stakeholder. _Why:_ everything was open — not safe or tidy for multiple people. _Benefit:_ each person sees the right thing, and outsiders only see what they should.
-
-* **Made communication two-way.** _What:_ emails coming *in* now become tickets and updates, not just emails going out. _Why:_ we could send but not receive inside the tool. _Benefit:_ a reply or an inbound request lands in the right place automatically — nothing falls through the cracks.
+- **Made writing in the tool feel normal** _(rich-text editor + a tidy-up of the screens)._ _What:_ a proper document-style editor and a cleaner look. _Why:_ editing was clunky and built for developers. _Benefit:_ writing charters, notes and tickets feels like a normal document, and the tool looks approachable.
+- **Brought people and communication in.** _What:_ stakeholders, meetings, and real email + calendar through Microsoft. _Why:_ a project is about people, but that side lived outside the tool. _Benefit:_ the people, the meetings and the emails/invites all live in one place.
+- **Put it online.** _What:_ hosted the tool so it can be used from anywhere, and so Claude can drive it remotely. _Why:_ it only ran on one machine. _Benefit:_ anyone on the team can use it from anywhere.
+- **Added logins and roles.** _What:_ sign-in, with different views for an admin, a team member, and a stakeholder. _Why:_ everything was open — not safe or tidy for multiple people. _Benefit:_ each person sees the right thing, and outsiders only see what they should.
+- **Made communication two-way.** _What:_ emails coming *in* now become tickets and updates, not just emails going out. _Why:_ we could send but not receive inside the tool. _Benefit:_ a reply or an inbound request lands in the right place automatically — nothing falls through the cracks.
 
 ## Origins
 
@@ -238,6 +240,5 @@ The pm-tool repo lives in its own world: the `.pm/` directory contains seeded ex
 
 ## Conventions for this project
 
-* Code anchors here are **pm-tool-relative paths** (`cli/src/...`), not ya-hire paths.
-
-* Reporters here are typically `claude-code` (system-discovered gap) or `austin` (orchestrator request).
+- Code anchors here are **pm-tool-relative paths** (`cli/src/...`), not ya-hire paths.
+- Reporters here are typically `claude-code` (system-discovered gap) or `austin` (orchestrator request).
