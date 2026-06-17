@@ -4,19 +4,24 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements MAIN BRANCH
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-16T19:44:34Z
+updated: 2026-06-17T10:53:10Z
 owner:
   kind: human
   name: austin
-goal: |
-  The pm-tool repository is itself an active project. This is the place to
-  track the tool's own improvements: missing views, missing CLI commands,
-  bugs we hit while dogfooding. Keeping a meta-project means the tool is
-  visible to itself — every fix gets a ticket, agent run, and review gate.
+goal: |+
+  Consolidation of IT Management
+  Proper  project management of large projects - and us becoming successful project managers
+  Dealing with user requests / tickets
+  Managing AI agents
+  Keeping track of work done 
+
 success_criteria:
-  - Every dogfood-discovered gap has a ticket here, not just a chat message
-  - At least one feature delivered end-to-end via the agent loop (claim → run → complete → review)
-  - The /activity view answers "what has this agent done lately" without scrolling logs
+  - Evidence of completed projects that have been reviewed properly
+  - Completing projects from end to end
+  - Dealing with the people side - eg planning meetings / user testing / reviews
+  - User feedback on us personally - people notice the quality of the project
+  - Keeping on top of non project work via the ticketing system
+  - More clarity on the roadmap managements
 parent_project: null
 related_projects: []
 parent_ticket: null
@@ -29,6 +34,7 @@ key_decisions: []
 labels:
   - meta
   - dogfood
+  - project management
 order: 5120
 problems:
   - Project alignment fails — people's goals diverge silently and we only notice when work is already drifting
@@ -167,7 +173,7 @@ go_live_target: 2026-06-30
 time_budget_hours: 120
 repo_url: https://github.com/yahireltd/pm-tool
 branch: master
-version: 155
+version: 168
 ---
 
 # pm-tool — dogfood improvements
