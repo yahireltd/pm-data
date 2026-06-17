@@ -4,8 +4,8 @@ slug: progress-kick-off-catch-up
 title: Progress / Kick off / Catch up
 state: scheduled
 created: 2026-06-17T11:09:44Z
-updated: 2026-06-17T11:09:44Z
-scheduled_at: 2026-06-17T11:10:00Z
+updated: 2026-06-17T17:17:47Z
+scheduled_at: 2026-06-18T11:00:00Z
 duration_minutes: 30
 location: TBD
 project: pm-tool-self
@@ -22,7 +22,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: design-review
-version: 1
+version: 3
 ---
 
 # Progress / Kick off / Catch up

@@ -4,17 +4,16 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements MAIN BRANCH
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-17T11:09:44Z
+updated: 2026-06-17T17:17:47Z
 owner:
   kind: human
   name: austin
-goal: |+
-  Consolidation of IT Management
-  Proper  project management of large projects - and us becoming successful project managers
-  Dealing with user requests / tickets
-  Managing AI agents
-  Keeping track of work done 
-
+goal: |
+  1. Create a project management capability that allows Yahire to identify, design, prioritise and deliver business transformation at a scale and speed that would previously have been impossible.
+   
+  2. Transform our IT team from reactive developers into AI-augmented transformation professionals who lead, design and deliver meaningful business change.
+   
+  3. Ensure all information related to projects or possible projects is conveniently sorted, by bringing in our entire workflow including informal chats and small tickets into the same sphere.
 success_criteria:
   - Evidence of completed projects that have been reviewed properly
   - Completing projects from end to end
@@ -174,7 +173,7 @@ go_live_target: 2026-06-30
 time_budget_hours: 120
 repo_url: https://github.com/yahireltd/pm-tool
 branch: master
-version: 170
+version: 177
 ---
 
 # pm-tool — dogfood improvements
