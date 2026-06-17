@@ -2,16 +2,16 @@
 id: T-0406
 title: Sub-Hires
 type: feature
-state: inbox
+state: triaged
 priority: p2
 created: 2026-06-17T15:23:01Z
-updated: 2026-06-17T15:23:01Z
-project: null
+updated: 2026-06-17T15:23:38Z
+project: yasystem
 section: null
 parent: null
 milestone: null
 children: []
-order: 22528
+order: 33792
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -25,7 +25,8 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 3
+department: Logistics
 ---
 
 Yo both,
