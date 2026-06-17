@@ -5,7 +5,7 @@ name: Sales Segmentation / Account Management
 state: planning
 phase: build
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T19:41:04Z
+updated: 2026-06-17T10:36:48Z
 owner:
   kind: human
   name: Ben
@@ -136,7 +136,7 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:25:30Z
     role: Marketing / Sales Ops
-version: 33
+version: 35
 agent_policy:
   allow_commit: false
   allow_push: false
@@ -145,6 +145,7 @@ risks:
   - description: Large Project on existing system has integration risks
     severity: high
     mitigation: Work on branches, make sure we merge master over branch before merging so we do not loose any work / break anything that is already working
+project_type: non-tech
 ---
 
 # Sales Segmentation / Account Management
