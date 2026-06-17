@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements MAIN BRANCH
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-17T17:37:46Z
+updated: 2026-06-17T17:43:07Z
 owner:
   kind: human
   name: austin
@@ -174,7 +174,7 @@ go_live_target: 2026-06-30
 time_budget_hours: 120
 repo_url: https://github.com/yahireltd/pm-tool
 branch: master
-version: 182
+version: 201
 ---
 
 # pm-tool — dogfood improvements
@@ -187,19 +187,32 @@ The **why** of this project is the three transformational goals (in the project'
 2. Turning the IT team from reactive developers into AI-augmented transformation professionals who lead, design and deliver real business change.
 3. Bringing the whole workflow — even informal chats and small tickets — into one sphere.
 
-Everything else — the views, the gates, the entities, the features — is the **content**: the tangible things that might add up to those goals, not the reason for them. When deciding whether something belongs, judge it against the *why*, not the feature list.
+Everything else — the views, the gates, the entities, the features — is the **content**: the tangible things that might add up to those goals, not the reason for them. When deciding whether something belongs, judge it against the *why*, not the feature list. _(Framing from Ben, Jun 2026.)_
 
-## The story so far — chapters
+## The story — chapters
 
-The milestones bundle the work into chapters — the story of the tool, from where we started to where we're going. (Target dates per chapter are for the team to set; the current push's `go_live_target` is 30 Jun 2026.)
+The milestones bundle the work into chapters — the story of the tool, from where we started to where we're going. Each milestone (MS-013…MS-018) is a chapter; the work inside it is delivered through sprints and tickets. (Target dates, and which chapters are "hit", are for the team to set; the current push's `go_live_target` is 30 Jun 2026.)
 
-1. **Make the work trackable** _ _— every piece of work has a home and a history; the agent loop runs end to end; the filesystem is the single source of truth. — *MS-001*
-2. **Force good planning** — charter-before-build, phase gates that bite, close-the-loop; pre-projects for intake. — *MS-002, MS-004, MS-006, MS-010*
-3. **Bring the humans in** — meetings, stakeholders, two-way comms (email + calendar), hosting, login + roles, async stakeholder feedback, friendlier non-dev views. — *MS-003, MS-005, MS-007, MS-008, MS-009*
-4. **Handle real scale** _(in progress)_ — systems vs initiatives, the Sales transformation as the first real big one, milestones-as-phases delivered through sprints. — *ADR-039 / ADR-040 / ADR-041 + the Sales initiative*
-5. **Everything in one sphere** _(next)_ — informal chats, small tickets and possible projects all in one place; the fast "what's going on / what next" overview; people, agents, projects and goals aligned. — *MS-011*
-6. **Us as PMs** _(ongoing)_ — ringfenced learning/training, a self-assessment on our weakest areas, the real shift from reactive devs to AI-augmented transformation professionals. — *MS-012*
+1. **Make the work trackable** _(done)_ — every piece of work has a home and a history; the agent loop runs end to end; the filesystem is the single source of truth.
+2. **Force good planning** _(done)_ — charter-before-build, phase gates that bite, close-the-loop; pre-projects for intake.
+3. **Bring the humans in** _(mostly done)_ — meetings, stakeholders, two-way comms (email + calendar), hosting, login + roles, async stakeholder feedback, friendlier non-dev views.
+4. **Handle real scale** _(in progress)_ — systems vs initiatives, the Sales transformation as the first real big one, milestones-as-phases delivered through sprints (ADR-039 / ADR-040 / ADR-041).
+5. **Everything in one sphere** _(next)_ — informal chats, small tickets and possible projects all in one place; the fast "what's going on / what next" overview; people, agents, projects and goals aligned.
+6. **Us as PMs** _(ongoing)_ — ringfenced learning/training, a self-assessment on our weakest areas, the real shift from reactive devs to AI-augmented transformation professionals.
 
-_(First-cut mapping of the existing milestones into chapters — refine freely.)_
+## Earlier milestones (archived 17 Jun 2026)
 
-##
+Before restructuring into chapters, the project tracked work as ten finer-grained milestones. They were retired in favour of the chapter model above — but the work itself lives on in the project's tickets, ADRs, and the `pm-data` git history (full acceptance criteria are recoverable there). For the record, mapped to their chapter:
+
+- **Ch1:** Layer 0 — Foundation _(hit)_
+- **Ch2:** v2 hard-guidance spine + makeover foundation _(hit, 29 May)_ · v2 back-half lifecycle entities _(planned)_ · Guided lifecycle has no human dead-ends _(planned)_ · Pre-projects reach parity with projects _(hit, 5 Jun)_
+- **Ch3:** v2 WYSIWYG editor + authoring surfaces + UI sweep _(hit)_ · Phase 2 — stakeholders, meetings, comms, MS-Graph integration _(hit, 6 May)_ · Hosted & remotely drivable _(hit, 3 Jun)_ · Multi-user access control _(hit, 3 Jun)_ · Two-way comms _(hit, 3 Jun)_
+
+## Origins
+
+The pm-tool repo lives in its own world: the `.pm/` directory contains seeded examples that demonstrate the tool against the ya-hire codebase. Work *on the tool itself* — missing views, missing CLI commands, bugs found while using it — had no home; this project is that home. The first ticket delivered the `/activity` view — the README's own pitch ("what is each agent working on?") turned out to apply to the tool itself.
+
+## Conventions for this project
+
+- Code anchors here are **pm-tool-relative paths** (`cli/src/...`), not ya-hire paths.
+- Reporters here are typically `claude-code` (system-discovered gap) or `austin` (orchestrator request).

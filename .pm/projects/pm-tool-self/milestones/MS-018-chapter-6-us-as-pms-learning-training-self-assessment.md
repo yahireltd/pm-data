@@ -1,12 +1,12 @@
 ---
-id: MS-012
+id: MS-018
 slug: chapter-6-us-as-pms-learning-training-self-assessment
 title: "Chapter 6 — Us as PMs: learning, training & self-assessment"
 project: pm-tool-self
 state: planned
-order: 12288
-created: 2026-06-17T17:31:42Z
-updated: 2026-06-17T17:31:42Z
+order: 6144
+created: 2026-06-17T17:42:19Z
+updated: 2026-06-17T17:42:19Z
 acceptance_criteria:
   - Learning/training time is ringfenced and reviewed, not squeezed out by delivery.
   - The team has run a self-assessment of its weakest areas (e.g. ideation, communication, time-scoping) and repeats it over time to track growth.

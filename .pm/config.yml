@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 411
+  ticket: 412
   project: 18
   section: 13
   perProject:
@@ -20,7 +20,7 @@ id_counters:
       tech_session: 17
       sprint: 31
       meeting: 5
-      milestone: 12
+      milestone: 18
     yasystem:
       sprint: 4
       tech_session: 2
