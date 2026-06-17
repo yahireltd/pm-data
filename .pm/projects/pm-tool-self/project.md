@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements MAIN BRANCH
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-17T10:53:10Z
+updated: 2026-06-17T10:56:06Z
 owner:
   kind: human
   name: austin
@@ -22,6 +22,7 @@ success_criteria:
   - User feedback on us personally - people notice the quality of the project
   - Keeping on top of non project work via the ticketing system
   - More clarity on the roadmap managements
+  - Clear responsibility on projects for everyone involved e.g  the end user to be on board and understand we need there time
 parent_project: null
 related_projects: []
 parent_ticket: null
@@ -173,7 +174,7 @@ go_live_target: 2026-06-30
 time_budget_hours: 120
 repo_url: https://github.com/yahireltd/pm-tool
 branch: master
-version: 168
+version: 169
 ---
 
 # pm-tool — dogfood improvements
