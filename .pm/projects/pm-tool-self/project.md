@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements MAIN BRANCH
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-06-17T17:18:04Z
+updated: 2026-06-17T17:37:46Z
 owner:
   kind: human
   name: austin
@@ -83,6 +83,7 @@ scope_out:
   - Multi-tenant / multi-company support — single team for now
   - Migrating the seeded example projects to the new schema
   - Reworking the agent-run loop — it already works well
+  - "Solutions that turn out to be overkill: we capture the idea and the reasoning, but we don't force it into scope now — it's parked for a future revisit. Out-of-scope here means 'not now', not 'lost'."
 workstream_ownership:
   - workstream: Foundation, engine, and surfaces
     owner: claude
@@ -173,32 +174,32 @@ go_live_target: 2026-06-30
 time_budget_hours: 120
 repo_url: https://github.com/yahireltd/pm-tool
 branch: master
-version: 178
+version: 182
 ---
 
 # pm-tool — dogfood improvements
 
-## Overview
+## The why and the what
 
-The pm-tool repo lives in its own world: the `.pm/` directory contains
-seeded examples (agency-rates, sales-dashboard, etc) that demonstrate the
-tool against the ya-hire codebase. But work *on the tool itself* —
-missing views, missing CLI commands, bugs found while using it — has had
-no home. This project is that home.
+The **why** of this project is the three transformational goals (in the project's goals):
 
-## Why now
+1. A project-management capability that lets Yahire identify, design, prioritise and deliver business transformation at a scale and speed that wasn't possible before.
+2. Turning the IT team from reactive developers into AI-augmented transformation professionals who lead, design and deliver real business change.
+3. Bringing the whole workflow — even informal chats and small tickets — into one sphere.
 
-While exercising the agent loop end-to-end (Austin orchestrates, Claude
-claims and runs), the README's pitch — "you can't answer 'what is each
-agent currently working on?'" — turned out to apply to the tool itself.
-There's no `/activity` view, no `pm activity` CLI. So the first ticket
-here delivers exactly that, and the project hosts whatever else surfaces.
+Everything else — the views, the gates, the entities, the features — is the **content**: the tangible things that might add up to those goals, not the reason for them. When deciding whether something belongs, judge it against the *why*, not the feature list.
 
-## Conventions for this project
+## The story so far — chapters
 
-- Code anchors here are **pm-tool-relative paths** (`cli/src/...`),
-  not ya-hire paths. The default `code_root` in `.pm/config.yml` points
-  at ya-hire, so the linter will currently flag these — that's a known
-  v1.1 gap (per-project `code_root` override).
-- Reporters here are typically `claude-code` (system-discovered gap)
-  or `austin` (orchestrator request).
+The milestones bundle the work into chapters — the story of the tool, from where we started to where we're going. (Target dates per chapter are for the team to set; the current push's `go_live_target` is 30 Jun 2026.)
+
+1. **Make the work trackable** _ _— every piece of work has a home and a history; the agent loop runs end to end; the filesystem is the single source of truth. — *MS-001*
+2. **Force good planning** — charter-before-build, phase gates that bite, close-the-loop; pre-projects for intake. — *MS-002, MS-004, MS-006, MS-010*
+3. **Bring the humans in** — meetings, stakeholders, two-way comms (email + calendar), hosting, login + roles, async stakeholder feedback, friendlier non-dev views. — *MS-003, MS-005, MS-007, MS-008, MS-009*
+4. **Handle real scale** _(in progress)_ — systems vs initiatives, the Sales transformation as the first real big one, milestones-as-phases delivered through sprints. — *ADR-039 / ADR-040 / ADR-041 + the Sales initiative*
+5. **Everything in one sphere** _(next)_ — informal chats, small tickets and possible projects all in one place; the fast "what's going on / what next" overview; people, agents, projects and goals aligned. — *MS-011*
+6. **Us as PMs** _(ongoing)_ — ringfenced learning/training, a self-assessment on our weakest areas, the real shift from reactive devs to AI-augmented transformation professionals. — *MS-012*
+
+_(First-cut mapping of the existing milestones into chapters — refine freely.)_
+
+##

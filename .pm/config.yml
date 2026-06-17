@@ -20,6 +20,7 @@ id_counters:
       tech_session: 17
       sprint: 31
       meeting: 5
+      milestone: 12
     yasystem:
       sprint: 4
       tech_session: 2
