@@ -2,9 +2,9 @@
 id: T-0420
 title: Real "My work" — personal ticket view (assigned to me / unassigned / who's assigned)
 type: feature
-state: review
+state: done
 created: 2026-06-18T08:58:41Z
-updated: 2026-06-18T16:15:49Z
+updated: 2026-06-18T18:09:56Z
 project: pm-tool-self
 section: null
 parent: null
@@ -21,13 +21,13 @@ assignee:
   name: claude
 acceptance_criteria:
   - "[x] /me shows the current user's assigned tickets, not just projects and settings."
-  - Unassigned tickets and tickets assigned to others are visible, with the assignee shown.
-  - /tickets supports an assignee filter, including 'assigned to me' and 'unassigned'.
-  - Admin/member users have a personal ticket view equivalent to the stakeholder 'Tickets you're following'.
-  - Personal display settings remain reachable but are no longer the primary content of 'My work'.
-  - The per-project List view has search and state/type filters (parity with /tickets).
-  - Done/closed tickets are separated from open ones in the per-project List view.
-  - The per-project List view offers a sensible sort (e.g. newest-first) alongside the manual drag order.
+  - "[x] Unassigned tickets and tickets assigned to others are visible, with the assignee shown."
+  - "[x] /tickets supports an assignee filter, including 'assigned to me' and 'unassigned'."
+  - "[x] Admin/member users have a personal ticket view equivalent to the stakeholder 'Tickets you're following'."
+  - "[x] Personal display settings remain reachable but are no longer the primary content of 'My work'."
+  - "[x] The per-project List view has search and state/type filters (parity with /tickets)."
+  - "[x] Done/closed tickets are separated from open ones in the per-project List view."
+  - "[x] The per-project List view offers a sensible sort (e.g. newest-first) alongside the manual drag order."
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -65,11 +65,8 @@ labels:
   - ui
   - dogfood
   - for-austin
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-18T14:10:22Z
-version: 6
+attention: null
+version: 15
 ---
 
 ## Problem
@@ -106,3 +103,9 @@ Assignment itself is currently weak — there's no MCP way to assign a ticket to
 ## Conversation
 
 **2026-06-18 14:10 claude:** Run run-20260618-1251 completed — Made "My work" actually about your work, and brought the per-project ticket list up to scratch. The "My work" page (/me) used to show only your projects and a couple of display settings; it now leads with the tickets assigned to you (open, newest first, with their project and status), and the text-size / avatar-colour settings move to a "Display settings" area at the bottom — still there, just no longer the headline. The All-tickets page gains an "Assignee" filter so you can show just what's assigned to you, or what's unassigned and up for grabs. And the per-project List view now has the same conveniences as the All-tickets page: a search box, filters by status and type, a sort option (manual drag order, newest, or oldest), and finished/closed tickets tucked into their own collapsible section so they don't bury the active work. Before this, a person couldn't answer "what's assigned to me / what's unassigned?", and the project List was hard to work because it had no search, no filters, and mixed finished work in with live work. Benefit: everyone can see their own work at a glance, and the project list is far easier to scan and work from. (We also recorded ADR-044: the top-bar count badges stay a global overview, while this personal view is the place for "my work".)
+
+---
+
+**2026-06-18 18:09 — you**
+
+all done

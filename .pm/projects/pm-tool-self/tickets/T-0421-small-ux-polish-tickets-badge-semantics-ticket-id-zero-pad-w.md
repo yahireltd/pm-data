@@ -4,7 +4,7 @@ title: "Small UX polish: count/label correctness (nav + dashboard) + ticket-ID z
 type: chore
 state: review
 created: 2026-06-18T08:58:46Z
-updated: 2026-06-18T13:57:47Z
+updated: 2026-06-18T18:12:08Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,9 +20,9 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - Each top-nav badge has a clear meaning consistent with the page it opens (e.g. a tooltip + label); the Tickets badge vs Tickets page mismatch is reconciled.
-  - The 'Review' badge and the Review page agree (resolve attention-flag vs state=review).
-  - The Tickets vs Inbox badge overlap is resolved (distinct meanings, or one consolidated).
+  - "[x] Each top-nav badge has a clear meaning consistent with the page it opens (e.g. a tooltip + label); the Tickets badge vs Tickets page mismatch is reconciled."
+  - "[x] The 'Review' badge and the Review page agree (resolve attention-flag vs state=review)."
+  - "[x] The Tickets vs Inbox badge overlap is resolved (distinct meanings, or one consolidated)."
   - A decision is recorded and reflected on whether the badges are global or personal (ties to T-0420).
   - The dashboard 'Open tickets' tile either counts only open tickets (excluding done/wontfix/duplicate) or is relabelled to match what it shows.
   - Ticket IDs zero-pad to a width that keeps string-sort order correct beyond 9999 (decide 5 vs 6; decide whether to re-pad existing IDs).
@@ -59,7 +59,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-18T13:57:47Z
-version: 7
+version: 10
 ---
 
 ## Problem

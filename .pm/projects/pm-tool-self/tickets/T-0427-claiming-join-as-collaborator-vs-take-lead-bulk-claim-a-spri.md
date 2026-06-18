@@ -2,9 +2,9 @@
 id: T-0427
 title: "Claiming: join as collaborator vs take lead, bulk-claim a sprint, and surface my collaborations"
 type: feature
-state: review
+state: done
 created: 2026-06-18T16:22:32Z
-updated: 2026-06-18T16:32:13Z
+updated: 2026-06-18T18:10:57Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,11 +20,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Claiming offers two clear modes: join as a collaborator (keeps the current lead, normally the agent) OR take it as the main dev (become the primary assignee)."
-  - Claiming as a collaborator never removes the existing primary assignee (e.g. claude stays the lead).
-  - A whole sprint's committed tickets can be claimed (as collaborator) in one action.
-  - "The 'My work' views include tickets where I'm a collaborator, not just where I'm the primary assignee: /me and the /tickets 'mine' assignee filter both match collaborator membership."
-  - It's visible whether I'm the lead or a collaborator on a ticket in these views.
+  - "[x] Claiming offers two clear modes: join as a collaborator (keeps the current lead, normally the agent) OR take it as the main dev (become the primary assignee)."
+  - "[x] Claiming as a collaborator never removes the existing primary assignee (e.g. claude stays the lead)."
+  - "[x] A whole sprint's committed tickets can be claimed (as collaborator) in one action."
+  - "[x] The 'My work' views include tickets where I'm a collaborator, not just where I'm the primary assignee: /me and the /tickets 'mine' assignee filter both match collaborator membership."
+  - "[x] It's visible whether I'm the lead or a collaborator on a ticket in these views."
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/ClaimControl.tsx
@@ -75,11 +75,8 @@ labels:
   - workflow
   - dogfood
   - for-austin
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-18T16:32:13Z
-version: 5
+attention: null
+version: 12
 branch: facelift/rbac-look
 ---
 
@@ -104,3 +101,9 @@ The model already has `assignee` (primary) + `collaborators` ("also on this", AD
 ## Conversation
 
 **2026-06-18 16:32 claude-code:** Run run-20260618-1631 completed — Made it easy to get involved in a ticket without taking it away from whoever's leading it, and to surface your own work. The agent is normally the main developer on a ticket; now when you want in, the main "Claim" action adds you as a collaborator ("also on this") and leaves the agent as the lead — there's a separate, quieter "as lead" if you actually want to take it over as the main dev. You can also claim a whole sprint in one click: a "Claim all" button on each sprint joins you (as a collaborator) to every ticket committed in it, skipping finished ones and any you're already on. And the "My work" views now count collaborations, not just tickets you're the primary owner of: your "My work" page and the "mine" filter on the All-tickets page both show tickets where you're a collaborator, each tagged so you can tell at a glance whether you're the lead or a collaborator. Before this, claiming replaced the existing owner (so you couldn't quietly join), there was no way to claim a sprint in bulk, and tickets you were only collaborating on were invisible in your personal views. Benefit: people can join the agent's work as a second pair of eyes without disrupting it, sign up for a sprint in one click, and actually see everything they're involved in.
+
+---
+
+**2026-06-18 18:10 — you**
+
+working
