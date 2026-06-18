@@ -2,10 +2,10 @@
 id: T-0311
 title: Server PHP Limit
 type: support
-state: in_progress
+state: review
 priority: p0
 created: 2026-06-09T12:18:07Z
-updated: 2026-06-18T18:25:00Z
+updated: 2026-06-18T19:22:41Z
 project: yasystem
 section: null
 parent: null
@@ -31,7 +31,10 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention: null
+attention:
+  needed_by: human
+  reason: Fix is live and confirmed working (server memory cap raised + Revenue Splitter queries narrowed to only the columns used; committed to master a71ee913, validated over a 12-month range). Needs human review/sign-off to close, and a decision on dialing the temporary 4 GB FPM memory cap back down.
+  since: 2026-06-18T19:21:14Z
 customer_impact: Check the memory limit on yasystem main server, ben can not run more than 6mo on the revenue splitter.
 intake_channel: email
 intake_mailbox: support@yahire.com
@@ -39,7 +42,10 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdLlziRAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAJfQCcb1IsdBpnf3hH5Vc4M=
-version: 7
+version: 10
+collaborators:
+  - kind: human
+    name: zsolt@yahire.com
 ---
 
 ## Request
@@ -90,3 +96,19 @@ This is a hard ceiling for every page (the server has 15 GB RAM with ~14 GB free
 **Next step for Ben:** please re-run the Revenue Splitter over the 6‑month range that was failing and confirm it now completes. If a much longer range (e.g. a full year) still struggles, that points to the durable fix below rather than another bump.
 
 **Durable fix (still to do):** the report loads every quote and contract in the range fully into memory at once. Recommended follow-up is to rework it to aggregate in the database / process in batches so it no longer needs a large memory limit at all. Can be scheduled as a separate piece of work.
+
+**2026-06-18 19:20 claude-code:** **Resolved and live in production (deployed by Austin, confirmed working).**
+
+**What was wrong:** the Revenue Splitter loaded every column of every quote and contract in the date range as full database objects, so memory use grew with the length of the range. On ~6+ months it exceeded the web server's per-page memory cap and crashed. The page's own attempt to lift the cap in code was being silently overridden by a server-level setting (`php_admin_value[memory_limit]`), so it had no effect.
+
+**Two-part fix:**
+
+1. *Server (stop-gap):* raised the web memory cap on the Ya System server from 512 MB → 2 GB → 4 GB. 2 GB still wasn't enough, which confirmed the real problem was in the code, not the limit.
+
+2. *Code (the actual fix):* updated `revenueSplitterSearch()` in `common/models/RevenueSplitter.php` so each of the 14 date-range queries only loads the ~10–11 columns the report actually uses (plus the keys needed to keep the related customer/address/rating/etc. data working), instead of all ~105–112 columns. The drill-down and profit views were deliberately left unchanged.
+   - Committed to `master` (`a71ee913`), pushed, and deployed.
+   - Validated over a full **12-month** range — runs fine and figures are correct.
+
+**Status:** the original problem (Ben unable to run more than ~6 months) is fixed.
+
+**Recommended follow-up (optional, not urgent):** now that the report is much lighter, the temporary 4 GB web memory cap can likely be dialed back toward the original 512 MB — worth checking the real memory peak on a long run first, then lowering. Separately, noted that the prod web server has some pre-existing uncommitted file drift (`.htaccess`, `composer.lock`, `AppAsset.php`, etc.) unrelated to this work — flagging for awareness.

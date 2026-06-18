@@ -1,17 +1,17 @@
 ---
-id: T-0396
-title: Timeline visualiser
+id: T-0397
+title: Kill parts that are not needed
 type: feature
-state: inbox
+state: triaged
 priority: p2
-created: 2026-06-17T10:56:51Z
-updated: 2026-06-17T10:56:51Z
-project: null
+created: 2026-06-17T11:19:03Z
+updated: 2026-06-18T19:14:38Z
+project: pm-tool-self
 section: null
 parent: null
 milestone: null
 children: []
-order: 19456
+order: 109568
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -25,7 +25,13 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
-A way to visualise what we are working on and when. A visual timeline so we can see where we are at
+## Problem
+
+_What's wrong / what's needed?_
+
+## Context
+
+## Design notes

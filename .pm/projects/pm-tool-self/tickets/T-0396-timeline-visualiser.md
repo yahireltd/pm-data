@@ -1,17 +1,17 @@
 ---
-id: T-0425
-title: Check ticket / other ids to make sure we can go over T-9999 for example
+id: T-0396
+title: Timeline visualiser
 type: feature
-state: inbox
+state: triaged
 priority: p2
-created: 2026-06-18T12:53:42Z
-updated: 2026-06-18T12:53:42Z
-project: null
+created: 2026-06-17T10:56:51Z
+updated: 2026-06-18T19:14:24Z
+project: pm-tool-self
 section: null
 parent: null
 milestone: null
 children: []
-order: 24576
+order: 108544
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -25,13 +25,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
-## Problem
-
-_What's wrong / what's needed?_
-
-## Context
-
-## Design notes
+A way to visualise what we are working on and when. A visual timeline so we can see where we are at

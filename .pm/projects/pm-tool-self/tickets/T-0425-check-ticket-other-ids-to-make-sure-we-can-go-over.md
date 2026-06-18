@@ -1,17 +1,17 @@
 ---
-id: T-0397
-title: Kill parts that are not needed
+id: T-0425
+title: Check ticket / other ids to make sure we can go over T-9999 for example
 type: feature
-state: inbox
+state: triaged
 priority: p2
-created: 2026-06-17T11:19:03Z
-updated: 2026-06-17T11:19:03Z
-project: null
+created: 2026-06-18T12:53:42Z
+updated: 2026-06-18T19:15:04Z
+project: pm-tool-self
 section: null
 parent: null
 milestone: null
 children: []
-order: 20480
+order: 111616
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -25,7 +25,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem

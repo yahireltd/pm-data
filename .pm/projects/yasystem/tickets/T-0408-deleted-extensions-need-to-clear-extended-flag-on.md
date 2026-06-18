@@ -2,16 +2,16 @@
 id: T-0408
 title: Deleted extensions need to clear extended flag on parent contract
 type: feature
-state: inbox
+state: triaged
 priority: p2
 created: 2026-06-17T15:29:17Z
-updated: 2026-06-17T15:29:17Z
-project: null
+updated: 2026-06-18T19:16:36Z
+project: yasystem
 section: null
 parent: null
 milestone: null
 children: []
-order: 22528
+order: 38912
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -25,7 +25,8 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 3
+department: Customer Service
 ---
 
 This contract **will be self-returned** today via Addison lee.  I am unable to edit the collection as it was initially extended, and even though I have deleted the extension, I am unable to edit the collection details ([@Austin Pickering](mailto:austin@yahire.com))

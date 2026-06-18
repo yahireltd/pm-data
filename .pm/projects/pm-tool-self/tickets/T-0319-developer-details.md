@@ -5,12 +5,12 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-09T17:05:07Z
-updated: 2026-06-09T20:56:11Z
+updated: 2026-06-18T19:12:03Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
-order: 94208
+order: 104448
 reporter: null
 assignee: null
 acceptance_criteria:
@@ -25,7 +25,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 6
 ---
 
 In the help section of tickets there is the following text: \

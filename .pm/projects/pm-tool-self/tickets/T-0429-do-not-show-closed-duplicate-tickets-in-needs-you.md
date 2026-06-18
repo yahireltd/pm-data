@@ -1,17 +1,17 @@
 ---
-id: T-0398
-title: Time plan needs complete revamp
+id: T-0429
+title: Do not show closed / duplicate tickets in needs you now on dashboard
 type: feature
-state: inbox
+state: triaged
 priority: p2
-created: 2026-06-17T11:21:34Z
-updated: 2026-06-17T11:21:34Z
-project: null
+created: 2026-06-18T19:11:08Z
+updated: 2026-06-18T19:14:54Z
+project: pm-tool-self
 section: null
 parent: null
 milestone: null
 children: []
-order: 21504
+order: 110592
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -25,13 +25,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
-## Problem
-
-_What's wrong / what's needed?_
-
-## Context
-
-## Design notes
+No need to show closed tickets here as they do not need us!

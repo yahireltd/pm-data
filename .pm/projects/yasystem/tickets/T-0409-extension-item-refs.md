@@ -2,16 +2,16 @@
 id: T-0409
 title: Extension Item Refs
 type: feature
-state: inbox
+state: triaged
 priority: p2
 created: 2026-06-17T15:30:27Z
-updated: 2026-06-17T15:31:00Z
-project: null
+updated: 2026-06-18T19:16:27Z
+project: yasystem
 section: null
 parent: null
 milestone: null
 children: []
-order: 23552
+order: 37888
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -25,7 +25,11 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 5
+collaborators:
+  - kind: human
+    name: Austin
+department: Customer Service
 ---
 
 ## Hi Austin,

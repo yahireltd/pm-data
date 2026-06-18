@@ -1,20 +1,20 @@
 ---
-id: T-0304
-title: test
+id: T-0398
+title: Time plan needs complete revamp
 type: feature
 state: triaged
 priority: p2
-created: 2026-06-08T12:06:13Z
-updated: 2026-06-18T19:11:56Z
+created: 2026-06-17T11:21:34Z
+updated: 2026-06-18T19:16:44Z
 project: pm-tool-self
-section: parking-lot
+section: null
 parent: null
+milestone: null
 children: []
-order: 2048
+order: 112640
 reporter: null
 assignee: null
-acceptance_criteria:
-  - the test is complete
+acceptance_criteria: []
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -25,7 +25,13 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
-tetst
+## Problem
+
+_What's wrong / what's needed?_
+
+## Context
+
+## Design notes
