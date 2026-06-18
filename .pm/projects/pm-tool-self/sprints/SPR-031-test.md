@@ -6,7 +6,7 @@ project: pm-tool-self
 state: cancelled
 order: 31744
 created: 2026-06-16T14:09:20Z
-updated: 2026-06-18T11:57:06Z
+updated: 2026-06-18T12:04:33Z
 committed_items: []
 velocity_history:
   - sprint: SPR-029
@@ -19,7 +19,7 @@ capacity:
   total: 4
   unit: tickets
 velocity_committed: 4
-version: 4
+version: 6
 ---
 
 # SPR-031: Test
