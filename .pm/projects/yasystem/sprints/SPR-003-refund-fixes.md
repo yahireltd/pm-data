@@ -6,7 +6,7 @@ project: yasystem
 state: in_progress
 order: 1024
 created: 2026-06-09T20:22:24Z
-updated: 2026-06-12T00:15:22Z
+updated: 2026-06-18T15:45:15Z
 committed_items:
   - T-0320
   - T-0321
@@ -17,8 +17,9 @@ committed_items:
   - T-0325
   - T-0326
   - T-0332
+  - T-0426
 goal: a refund happened with real money that shouldnt have steps needed to fix and test the fix
-version: 11
+version: 12
 ---
 
 # SPR-003: Refund Fixes
