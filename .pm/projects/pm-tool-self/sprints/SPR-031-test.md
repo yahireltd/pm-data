@@ -3,12 +3,11 @@ id: SPR-031
 slug: test
 title: Test
 project: pm-tool-self
-state: planned
+state: cancelled
 order: 31744
 created: 2026-06-16T14:09:20Z
-updated: 2026-06-16T14:09:21Z
-committed_items:
-  - T-0329
+updated: 2026-06-18T11:57:06Z
+committed_items: []
 velocity_history:
   - sprint: SPR-029
     actual: 3
@@ -20,7 +19,7 @@ capacity:
   total: 4
   unit: tickets
 velocity_committed: 4
-version: 2
+version: 4
 ---
 
 # SPR-031: Test
