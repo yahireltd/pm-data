@@ -4,7 +4,7 @@ title: Real "My work" — personal ticket view (assigned to me / unassigned / wh
 type: feature
 state: review
 created: 2026-06-18T08:58:41Z
-updated: 2026-06-18T14:10:22Z
+updated: 2026-06-18T16:15:49Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,7 +20,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - /me shows the current user's assigned tickets, not just projects and settings.
+  - "[x] /me shows the current user's assigned tickets, not just projects and settings."
   - Unassigned tickets and tickets assigned to others are visible, with the assignee shown.
   - /tickets supports an assignee filter, including 'assigned to me' and 'unassigned'.
   - Admin/member users have a personal ticket view equivalent to the stakeholder 'Tickets you're following'.
@@ -69,7 +69,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-18T14:10:22Z
-version: 5
+version: 6
 ---
 
 ## Problem
