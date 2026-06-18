@@ -2,9 +2,9 @@
 id: T-0428
 title: Project filter should reach "My work" + keep the focused project expanded in the nav
 type: bug
-state: review
+state: done
 created: 2026-06-18T16:41:42Z
-updated: 2026-06-18T16:42:21Z
+updated: 2026-06-18T18:57:49Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,9 +20,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - /me ('My work') honors the sidebar project filter — 'My tickets' shows only the focused project's tickets when a filter is set.
-  - /me shows it's filtered to the selected project, with an easy 'show all' escape.
-  - When a project is focused via the filter, the sidebar keeps that project expanded everywhere (not only on its own routes).
+  - "[x] /me ('My work') honors the sidebar project filter — 'My tickets' shows only the focused project's tickets when a filter is set."
+  - "[x] /me shows it's filtered to the selected project, with an easy 'show all' escape."
+  - "[x] When a project is focused via the filter, the sidebar keeps that project expanded everywhere (not only on its own routes)."
 out_of_scope: []
 code_anchors:
   - path: web/app/me/page.tsx
@@ -60,11 +60,8 @@ labels:
   - ui
   - dogfood
   - for-austin
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-18T16:42:21Z
-version: 5
+attention: null
+version: 10
 branch: facelift/rbac-look
 ---
 
@@ -83,3 +80,9 @@ Follow-up to T-0362 (persistent project filter). Two surfaces didn't honor it:
 ## Conversation
 
 **2026-06-18 16:42 claude-code:** Run run-20260618-1642 completed — Made the project filter actually reach two places it was missing. When you focus the app on one project (the filter in the left sidebar), the "My work" page now shows only that project's tickets instead of everything — and it tells you it's filtered ("Filtered to <project>"), with a one-click "show all" if you want the full picture. Separately, the sidebar now keeps the focused project expanded wherever you are, so the project you're concentrating on stays open in the navigation rather than collapsing the moment you leave its pages. Before this, "My work" ignored the filter (it listed tickets from every project even when you'd narrowed to one), which was confusing, and the focused project would fold shut in the sidebar. Benefit: focusing on a project now behaves consistently across the whole app, including your personal work view and the nav.
+
+---
+
+**2026-06-18 18:57 — you**
+
+done
