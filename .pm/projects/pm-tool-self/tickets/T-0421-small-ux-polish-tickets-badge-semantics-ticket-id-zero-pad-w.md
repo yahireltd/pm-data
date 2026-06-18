@@ -2,9 +2,9 @@
 id: T-0421
 title: "Small UX polish: count/label correctness (nav + dashboard) + ticket-ID zero-pad width"
 type: chore
-state: triaged
+state: in_progress
 created: 2026-06-18T08:58:46Z
-updated: 2026-06-18T11:16:56Z
+updated: 2026-06-18T12:48:46Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   name: Zsolt
   channel: email
   contact: zsolt@yahire.com
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - Each top-nav badge has a clear meaning consistent with the page it opens (e.g. a tooltip + label); the Tickets badge vs Tickets page mismatch is reconciled.
   - The 'Review' badge and the Review page agree (resolve attention-flag vs state=review).
@@ -31,13 +33,18 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260618-1248
+    model: claude
+    started: 2026-06-18T12:48:46Z
+    status: in_progress
+    summary: Claimed via web UI
 labels:
   - ui
   - dogfood
   - for-austin
 attention: null
-version: 3
+version: 5
 ---
 
 ## Problem

@@ -2,9 +2,9 @@
 id: T-0420
 title: Real "My work" — personal ticket view (assigned to me / unassigned / who's assigned)
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-18T08:58:41Z
-updated: 2026-06-18T09:07:24Z
+updated: 2026-06-18T12:51:40Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   name: Zsolt
   channel: email
   contact: zsolt@yahire.com
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - /me shows the current user's assigned tickets, not just projects and settings.
   - Unassigned tickets and tickets assigned to others are visible, with the assignee shown.
@@ -33,13 +35,18 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260618-1251
+    model: claude
+    started: 2026-06-18T12:51:40Z
+    status: in_progress
+    summary: Claimed via web UI
 labels:
   - ui
   - dogfood
   - for-austin
 attention: null
-version: 2
+version: 4
 ---
 
 ## Problem

@@ -2,9 +2,9 @@
 id: T-0419
 title: "Modal bugs: new-ticket modal off-screen + add-stakeholder modal closes on name select"
 type: bug
-state: triaged
+state: in_progress
 created: 2026-06-18T08:58:32Z
-updated: 2026-06-18T08:58:32Z
+updated: 2026-06-18T12:51:24Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   name: Zsolt
   channel: email
   contact: zsolt@yahire.com
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - "New-ticket modal: with long content the modal stays within the viewport and its body scrolls; Add/Cancel remain reachable (sticky footer)."
   - A long new ticket can be created end to end.
@@ -30,13 +32,19 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260618-1251
+    model: claude
+    started: 2026-06-18T12:51:24Z
+    status: in_progress
+    summary: Claimed via web UI
 labels:
   - ui
   - dogfood
   - for-austin
 attention: null
-version: 1
+version: 6
+defect_status: confirmed
 ---
 
 ## Problem

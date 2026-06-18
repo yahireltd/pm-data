@@ -2,9 +2,9 @@
 id: T-0422
 title: Parking lot / icebox for not-now tickets & ideas (separate from the active backlog)
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-18T09:17:48Z
-updated: 2026-06-18T09:18:02Z
+updated: 2026-06-18T12:49:32Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   name: Zsolt
   channel: email
   contact: zsolt@yahire.com
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - There is a place for 'not-now' tickets that is clearly separate from the active backlog (parked items don't clutter the default triaged/backlog views).
   - A ticket can be moved into and out of the parking lot easily, without losing its history.
@@ -30,14 +32,19 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260618-1249
+    model: claude
+    started: 2026-06-18T12:49:32Z
+    status: in_progress
+    summary: Claimed via web UI
 labels:
   - ui
   - workflow
   - dogfood
   - for-austin
 attention: null
-version: 2
+version: 4
 ---
 
 ## Problem
