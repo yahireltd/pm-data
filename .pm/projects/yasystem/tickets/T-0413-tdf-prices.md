@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-18T07:00:03Z
-updated: 2026-06-18T07:05:47Z
+updated: 2026-06-18T07:12:04Z
 project: yasystem
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
@@ -93,3 +93,24 @@ version: 4
 &#x20; Priority: Not urgent (Nathan), but will recur often — agree timeline with Ben.
 
 &#x20; Note: Not a small QB change — touches the three existing recalc paths.
+
+## Conversation
+
+**2026-06-18 07:12 Zsolt:** Before we build the "select items, apply a %" tool, a few pricing rules need agreeing — each one changes the final price a customer sees, so I'd rather lock them now than guess. A quick answer/pick on each:
+
+**1. What does the % come off — the base price, or the already-discounted price?**
+If an item is normally £100 and the customer already has 10% off, and we apply a 32% special:
+- Option A — off the base price (replaces the 10%): **£68.** One clear number; matches "this is their discount."
+- Option B — on top of the 10% (stacks): **£61.20.**
+Recommendation: **Option A.**
+
+**2. Does a specific discount replace the overall one, or add to it?**
+Proposed: an item or category discount overrides the overall blanket % (strength order: item → category → overall). Please confirm.
+
+**3. Long-term hire (LTH).** Long hires already lower the unit price. For a special-priced item on a long hire, does the customer get **(a) both** — the 32% on top of the reduced long-term price — or **(b) whichever is lower**? Recommendation: (a), but flag if that's too generous.
+
+**4. Whole-quote discount.** If a blanket discount is applied to a whole quote, should special-priced lines be **excluded** (they already have their deal) or **included** (discounted again)? Recommendation: excluded.
+
+**5. Category cleanup.** Discounting by category only works if the product categories are tidy — currently they're not. OK to invest some time tidying them as part of this?
+
+Q1 and Q2 are the blockers — the build can't start without them. Once settled I'll firm up the ticket and we'll agree timing with Ben.
