@@ -2,9 +2,9 @@
 id: T-0420
 title: Real "My work" — personal ticket view (assigned to me / unassigned / who's assigned)
 type: feature
-state: in_progress
+state: review
 created: 2026-06-18T08:58:41Z
-updated: 2026-06-18T12:51:40Z
+updated: 2026-06-18T14:10:22Z
 project: pm-tool-self
 section: null
 parent: null
@@ -39,14 +39,37 @@ agent_runs:
   - id: run-20260618-1251
     model: claude
     started: 2026-06-18T12:51:40Z
-    status: in_progress
-    summary: Claimed via web UI
+    status: completed
+    summary: "Made \"My work\" actually about your work, and brought the per-project ticket list up to scratch. The \"My work\" page (/me) used to show only your projects and a couple of display settings; it now leads with the tickets assigned to you (open, newest first, with their project and status), and the text-size / avatar-colour settings move to a \"Display settings\" area at the bottom — still there, just no longer the headline. The All-tickets page gains an \"Assignee\" filter so you can show just what's assigned to you, or what's unassigned and up for grabs. And the per-project List view now has the same conveniences as the All-tickets page: a search box, filters by status and type, a sort option (manual drag order, newest, or oldest), and finished/closed tickets tucked into their own collapsible section so they don't bury the active work. Before this, a person couldn't answer \"what's assigned to me / what's unassigned?\", and the project List was hard to work because it had no search, no filters, and mixed finished work in with live work. Benefit: everyone can see their own work at a glance, and the project list is far easier to scan and work from. (We also recorded ADR-044: the top-bar count badges stay a global overview, while this personal view is the place for \"my work\".)"
+    ended: 2026-06-18T14:10:22Z
+    test_plan: |-
+      My work (/me):
+      1. Open "My work". It should lead with an "Assigned to me" list (open tickets assigned to you, with project + status). Text-size and avatar-colour settings should now sit at the bottom under "Display settings".
+      2. If nothing is assigned to you, you get a friendly empty state (admins also get a "Browse unassigned work" link).
+
+      All tickets (/tickets) — assignee filter:
+      3. In the Filters panel there's a new "Assignee" row: all / mine / unassigned.
+      4. "mine" shows only tickets assigned to you; "unassigned" shows only tickets with no assignee; the counts in the header update accordingly.
+
+      Per-project List view (Projects → a project → List):
+      5. There's a control bar: a search box, a state filter, a type filter, and a sort selector.
+      6. Search narrows by id/title/label; state and type filters work; sort offers manual / newest / oldest.
+      7. With no filters and manual sort, you can still drag tickets to reorder and between sections exactly as before. When you apply a filter or pick a non-manual sort, dragging is paused (a "drag paused" note shows) so a filtered view can't reshuffle the real order.
+      8. Finished/closed tickets appear in a collapsible "Closed (N)" section at the bottom, separate from open work.
+      9. Cross-impact: this is the same component used for the section board + parking lot (T-0422) — confirm the parking lot still collapses/accepts drops, and normal section reordering still works.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - ui
   - dogfood
   - for-austin
-attention: null
-version: 4
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-18T14:10:22Z
+version: 5
 ---
 
 ## Problem
@@ -79,3 +102,7 @@ For reference, `/tickets` already has search, state/type/project filters, a coll
 ## Note
 
 Assignment itself is currently weak — there's no MCP way to assign a ticket to a human, and the UI assignment is limited; worth confirming the human-assignment flow as part of this.
+
+## Conversation
+
+**2026-06-18 14:10 claude:** Run run-20260618-1251 completed — Made "My work" actually about your work, and brought the per-project ticket list up to scratch. The "My work" page (/me) used to show only your projects and a couple of display settings; it now leads with the tickets assigned to you (open, newest first, with their project and status), and the text-size / avatar-colour settings move to a "Display settings" area at the bottom — still there, just no longer the headline. The All-tickets page gains an "Assignee" filter so you can show just what's assigned to you, or what's unassigned and up for grabs. And the per-project List view now has the same conveniences as the All-tickets page: a search box, filters by status and type, a sort option (manual drag order, newest, or oldest), and finished/closed tickets tucked into their own collapsible section so they don't bury the active work. Before this, a person couldn't answer "what's assigned to me / what's unassigned?", and the project List was hard to work because it had no search, no filters, and mixed finished work in with live work. Benefit: everyone can see their own work at a glance, and the project list is far easier to scan and work from. (We also recorded ADR-044: the top-bar count badges stay a global overview, while this personal view is the place for "my work".)
