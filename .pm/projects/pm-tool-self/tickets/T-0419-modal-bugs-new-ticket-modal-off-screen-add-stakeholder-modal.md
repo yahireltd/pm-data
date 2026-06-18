@@ -2,9 +2,9 @@
 id: T-0419
 title: "Modal bugs: new-ticket modal off-screen + add-stakeholder modal closes on name select"
 type: bug
-state: review
+state: done
 created: 2026-06-18T08:58:32Z
-updated: 2026-06-18T13:17:56Z
+updated: 2026-06-18T16:08:07Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,11 +20,11 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - "New-ticket modal: with long content the modal stays within the viewport and its body scrolls; Add/Cancel remain reachable (sticky footer)."
-  - A long new ticket can be created end to end.
-  - "Add-stakeholder: searching and clicking a suggested name fills the fields and the modal stays open."
-  - A stakeholder can be added to a ticket end to end.
-  - Outside-click still closes both modals when clicking genuinely outside them.
+  - "[x] New-ticket modal: with long content the modal stays within the viewport and its body scrolls; Add/Cancel remain reachable (sticky footer)."
+  - "[x] A long new ticket can be created end to end."
+  - "[x] Add-stakeholder: searching and clicking a suggested name fills the fields and the modal stays open."
+  - "[x] A stakeholder can be added to a ticket end to end."
+  - "[x] Outside-click still closes both modals when clicking genuinely outside them."
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -60,12 +60,9 @@ labels:
   - ui
   - dogfood
   - for-austin
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-18T13:17:56Z
-version: 7
-defect_status: confirmed
+attention: null
+version: 19
+defect_status: in_progress
 ---
 
 ## Problem
@@ -92,3 +89,9 @@ function onClick(e) {
 ## Conversation
 
 **2026-06-18 13:17 claude:** Run run-20260618-1251 completed — Fixed two bugs that made pop-up windows (modals) hard or impossible to use. First, when creating a ticket with a long description, the "New ticket" window grew past the bottom of the screen and you couldn't scroll down to reach the Create button — so long tickets couldn't be submitted. The window now stays within the screen, its middle section scrolls, and the Create/Cancel buttons are pinned to the bottom so they're always reachable. Second, when adding a stakeholder, typing a name and clicking one of the suggested people closed the whole window instead of filling in their details — so you couldn't add a stakeholder that way. Clicking a suggestion now fills the fields and keeps the window open. If we'd done nothing, people couldn't create long tickets or add stakeholders from the suggestion list. Benefit: both common actions now work end to end.
+
+---
+
+**2026-06-18 16:08 — you**
+
+All working as expected

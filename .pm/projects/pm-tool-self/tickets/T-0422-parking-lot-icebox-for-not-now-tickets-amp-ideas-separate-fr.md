@@ -2,9 +2,9 @@
 id: T-0422
 title: Parking lot / icebox for not-now tickets & ideas (separate from the active backlog)
 type: feature
-state: review
+state: done
 created: 2026-06-18T09:17:48Z
-updated: 2026-06-18T13:52:44Z
+updated: 2026-06-18T16:12:29Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,11 +20,11 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - There is a place for 'not-now' tickets that is clearly separate from the active backlog (parked items don't clutter the default triaged/backlog views).
-  - A ticket can be moved into and out of the parking lot easily, without losing its history.
-  - Parked items are visibly distinct from 'we won't do this' (wontfix) and from genuinely next-up work.
-  - The mechanism (new state vs section vs global view) is agreed with Ben/Austin and documented.
-  - "The boundary with pre-projects is clear: pre-project = future project being shaped; parking lot = ticket-level 'not now'."
+  - "[x] There is a place for 'not-now' tickets that is clearly separate from the active backlog (parked items don't clutter the default triaged/backlog views)."
+  - "[x] A ticket can be moved into and out of the parking lot easily, without losing its history."
+  - "[x] Parked items are visibly distinct from 'we won't do this' (wontfix) and from genuinely next-up work."
+  - "[x] The mechanism (new state vs section vs global view) is agreed with Ben/Austin and documented."
+  - "[x] The boundary with pre-projects is clear: pre-project = future project being shaped; parking lot = ticket-level 'not now'."
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -56,11 +56,8 @@ labels:
   - workflow
   - dogfood
   - for-austin
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-18T13:52:44Z
-version: 5
+attention: null
+version: 12
 ---
 
 ## Problem
@@ -93,3 +90,9 @@ This is partly a workflow decision, not just a build — confirm the mechanism w
 ## Conversation
 
 **2026-06-18 13:52 claude:** Run run-20260618-1249 completed — Added a "parking lot" so tickets you're not ready to work on can be set aside without losing them — and without pretending you've decided not to do them. After agreeing the approach with you (recorded as a decision), we made it a dedicated "Parking Lot" area inside each project. On a project's List view there's now an "Add parking lot" button; once added, you simply drag a ticket into the Parking Lot to park it, and drag it back out when it's time. Parked tickets keep their full history. They're shown in their own collapsed area, clearly separate from active work and clearly different from "won't do" (won't-fix). They're also pulled out of the main All-tickets list into a separate "Parked" group, so they stop cluttering the view of what's actually next. Before this, "not now" items had nowhere to live except mixed into the backlog or wrongly marked won't-fix. Benefit: a clean, honest home for "later" that keeps the active backlog focused. (A parking lot is ticket-level "not now"; it's deliberately different from a pre-project, which is a whole future project being shaped.)
+
+---
+
+**2026-06-18 16:12 — you**
+
+Working

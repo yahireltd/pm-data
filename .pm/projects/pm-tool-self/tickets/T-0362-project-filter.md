@@ -2,10 +2,10 @@
 id: T-0362
 title: project filter
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-12T01:47:37Z
-updated: 2026-06-18T13:36:54Z
+updated: 2026-06-18T16:05:33Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - persistent project selector that filters on all views to that project
+  - "[x] persistent project selector that filters on all views to that project"
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -44,11 +44,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-18T13:36:54Z
-version: 6
+attention: null
+version: 9
 ---
 
 project filter below search tickets all notifications and lists are filtered to said project when selected
@@ -56,3 +53,9 @@ project filter below search tickets all notifications and lists are filtered to 
 ## Conversation
 
 **2026-06-18 13:36 claude:** Run run-20260612-0148 completed — Added a project filter so you can focus the whole tool on one project at a time. There's now a selector in the left sidebar, just under the search box: pick a project and every shared view — the dashboard, the all-tickets list, Review, Ready, In progress, the Progress feed, and the little count badges in the top bar — narrows to just that project's work. Pick "All projects" to go back to everything. Your choice sticks as you move around the app (it's remembered for 30 days) until you change it. It only ever hides things you could already see — it can't reveal anything you don't have access to. Before this, the only way to focus on a project was to filter each page separately, and the counts always showed everything. Benefit: one click puts the entire workspace into the context of a single project, which is much faster when you're heads-down on one thing.
+
+---
+
+**2026-06-18 16:05 — you**
+
+project filter tested and filters the data to the correct project
