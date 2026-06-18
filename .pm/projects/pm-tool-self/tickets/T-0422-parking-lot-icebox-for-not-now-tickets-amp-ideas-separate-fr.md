@@ -2,9 +2,9 @@
 id: T-0422
 title: Parking lot / icebox for not-now tickets & ideas (separate from the active backlog)
 type: feature
-state: in_progress
+state: review
 created: 2026-06-18T09:17:48Z
-updated: 2026-06-18T12:49:32Z
+updated: 2026-06-18T13:52:44Z
 project: pm-tool-self
 section: null
 parent: null
@@ -36,15 +36,31 @@ agent_runs:
   - id: run-20260618-1249
     model: claude
     started: 2026-06-18T12:49:32Z
-    status: in_progress
-    summary: Claimed via web UI
+    status: completed
+    summary: "Added a \"parking lot\" so tickets you're not ready to work on can be set aside without losing them — and without pretending you've decided not to do them. After agreeing the approach with you (recorded as a decision), we made it a dedicated \"Parking Lot\" area inside each project. On a project's List view there's now an \"Add parking lot\" button; once added, you simply drag a ticket into the Parking Lot to park it, and drag it back out when it's time. Parked tickets keep their full history. They're shown in their own collapsed area, clearly separate from active work and clearly different from \"won't do\" (won't-fix). They're also pulled out of the main All-tickets list into a separate \"Parked\" group, so they stop cluttering the view of what's actually next. Before this, \"not now\" items had nowhere to live except mixed into the backlog or wrongly marked won't-fix. Benefit: a clean, honest home for \"later\" that keeps the active backlog focused. (A parking lot is ticket-level \"not now\"; it's deliberately different from a pre-project, which is a whole future project being shaped.)"
+    ended: 2026-06-18T13:52:44Z
+    test_plan: |-
+      1. Open a project's List view (Projects → a project → List). With no parking lot yet, you'll see an "Add parking lot" button next to "New section".
+      2. Click it. A "Parking Lot" area appears, pinned at the bottom, collapsed, with a snowflake and a one-line caption ("not now — kept out of the active backlog, not won't-fix"). The "Add parking lot" button disappears (only one per project).
+      3. Drag a ticket from any section into the Parking Lot (expand it first or drop on the collapsed strip). The ticket moves there and keeps its history; drag it back out to un-park.
+      4. Go to the global All tickets page. Parked tickets should NOT appear in the main open list; instead there's a "Parked (N)" collapsible, and the header count reads "… open · N parked · … closed".
+      5. Confirm a parked ticket is visibly distinct from a won't-fix one (won't-fix is a closed state in its own collapsible; parked is its own group and the ticket keeps its real state).
+      6. Edge: clicking "Add parking lot" twice must not create two — it's idempotent. A project that already has a plain section named "parking-lot" gets promoted in place rather than erroring.
+      7. Cross-impact: this reuses the section move/drag flow and the shared ticket reader. Sanity-check normal sections still drag/reorder, and that non-admin/stakeholder views are unaffected.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - ui
   - workflow
   - dogfood
   - for-austin
-attention: null
-version: 4
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-18T13:52:44Z
+version: 5
 ---
 
 ## Problem
@@ -73,3 +89,7 @@ A pre-project = a *future project* being shaped through intake gates. The parkin
 ## Note
 
 This is partly a workflow decision, not just a build — confirm the mechanism with Ben/Austin before implementing.
+
+## Conversation
+
+**2026-06-18 13:52 claude:** Run run-20260618-1249 completed — Added a "parking lot" so tickets you're not ready to work on can be set aside without losing them — and without pretending you've decided not to do them. After agreeing the approach with you (recorded as a decision), we made it a dedicated "Parking Lot" area inside each project. On a project's List view there's now an "Add parking lot" button; once added, you simply drag a ticket into the Parking Lot to park it, and drag it back out when it's time. Parked tickets keep their full history. They're shown in their own collapsed area, clearly separate from active work and clearly different from "won't do" (won't-fix). They're also pulled out of the main All-tickets list into a separate "Parked" group, so they stop cluttering the view of what's actually next. Before this, "not now" items had nowhere to live except mixed into the backlog or wrongly marked won't-fix. Benefit: a clean, honest home for "later" that keeps the active backlog focused. (A parking lot is ticket-level "not now"; it's deliberately different from a pre-project, which is a whole future project being shaped.)
