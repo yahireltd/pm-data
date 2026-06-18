@@ -4,7 +4,7 @@ title: Inventory report (stock by date range) → fixed-asset / stock-reconcilia
 type: feature
 state: triaged
 created: 2026-06-18T07:34:34Z
-updated: 2026-06-18T07:34:34Z
+updated: 2026-06-18T07:53:11Z
 project: yasystem
 section: null
 parent: null
@@ -17,7 +17,16 @@ reporter:
   channel: email
   contact: jhuztine@yahire.com
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - The report lists every product that had stock in the selected date range, with Start count and End count columns.
+  - End count = Start count + Additions - Repaired - Disposed - Lost/Missing, verifiable per row.
+  - Product name links through to the product view (/stock/view-product).
+  - The Additions value links through to the matching stock transactions (/stock/view-all-transactions).
+  - "Columns present and populated: On hire, Additions, Purchase price, Selling price, Repaired, Disposed, Lost/Missing, Replacement cost."
+  - Purchase price reconciles to the invoice value.
+  - Repaired / Disposed / Lost are split out by transaction type. (Depends on the transaction sub-typing prerequisite.)
+  - Purchase / Selling / Replacement cost are sourced from the product record. (Depends on confirming those fields exist or are added.)
+  - "'On hire' uses the agreed definition. (Open question: end-of-period vs peak during the period.)"
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -31,7 +40,7 @@ labels:
   - reporting
   - finance
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
