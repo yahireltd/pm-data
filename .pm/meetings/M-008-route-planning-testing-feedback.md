@@ -66,11 +66,13 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 10
+version: 11
 reminders:
   - minutes_before: 1440
     channels:
       - email
+reminders_sent:
+  - 1440@2026-06-19T11:30:00Z
 ---
 
 # Route Planning Testing Feedback
