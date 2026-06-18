@@ -4,7 +4,7 @@ title: Parking lot / icebox for not-now tickets & ideas (separate from the activ
 type: feature
 state: done
 created: 2026-06-18T09:17:48Z
-updated: 2026-06-18T16:12:29Z
+updated: 2026-06-18T19:06:37Z
 project: pm-tool-self
 section: null
 parent: null
@@ -57,7 +57,10 @@ labels:
   - dogfood
   - for-austin
 attention: null
-version: 12
+version: 13
+collaborators:
+  - kind: human
+    name: austin@yahire.com
 ---
 
 ## Problem

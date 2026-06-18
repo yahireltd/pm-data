@@ -2,9 +2,9 @@
 id: T-0421
 title: "Small UX polish: count/label correctness (nav + dashboard) + ticket-ID zero-pad width"
 type: chore
-state: review
+state: in_progress
 created: 2026-06-18T08:58:46Z
-updated: 2026-06-18T18:12:08Z
+updated: 2026-06-18T19:08:12Z
 project: pm-tool-self
 section: null
 parent: null
@@ -22,10 +22,10 @@ assignee:
 acceptance_criteria:
   - "[x] Each top-nav badge has a clear meaning consistent with the page it opens (e.g. a tooltip + label); the Tickets badge vs Tickets page mismatch is reconciled."
   - "[x] The 'Review' badge and the Review page agree (resolve attention-flag vs state=review)."
-  - "[x] The Tickets vs Inbox badge overlap is resolved (distinct meanings, or one consolidated)."
-  - A decision is recorded and reflected on whether the badges are global or personal (ties to T-0420).
-  - The dashboard 'Open tickets' tile either counts only open tickets (excluding done/wontfix/duplicate) or is relabelled to match what it shows.
-  - Ticket IDs zero-pad to a width that keeps string-sort order correct beyond 9999 (decide 5 vs 6; decide whether to re-pad existing IDs).
+  - The Tickets vs Inbox badge overlap is resolved (distinct meanings, or one consolidated).
+  - "[x] A decision is recorded and reflected on whether the badges are global or personal (ties to T-0420)."
+  - "[x] The dashboard 'Open tickets' tile either counts only open tickets (excluding done/wontfix/duplicate) or is relabelled to match what it shows."
+  - "[x] Ticket IDs zero-pad to a width that keeps string-sort order correct beyond 9999 (decide 5 vs 6; decide whether to re-pad existing IDs)."
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -59,7 +59,10 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-18T13:57:47Z
-version: 10
+version: 17
+collaborators:
+  - kind: human
+    name: Austin Pickering
 ---
 
 ## Problem
@@ -93,3 +96,9 @@ IDs use `padStart(4)` (`cli/src/lib/ids.ts:35`). Not a cap — `T-9999` rolls to
 ## Conversation
 
 **2026-06-18 13:57 claude:** Run run-20260618-1248 completed — Tidied up the little count badges in the top bar and a number on the dashboard so they say what they actually mean. The "Review" badge now matches the Review page exactly (it counts what's in review or flagged for your attention; before, it quietly undercounted). The "Tickets" badge no longer shows a number, because the Tickets page lists everything, so a count there never lined up — untriaged work is what the "Inbox" badge is for, which also clears up the old Tickets-vs-Inbox confusion. Every badge now has a hover tooltip explaining it. On the dashboard, the "Open tickets" tile used to show the grand total (including finished and won't-fix tickets); it now counts only genuinely open tickets. We also recorded a decision (ADR-044): these badges stay a global overview for admins, and the personal "what's assigned to me" view is handled separately by the My-work ticket (T-0420). One part is deliberately deferred: widening the zero-padding in ticket IDs (e.g. T-0421 → T-00421). Doing that for new IDs only would actually break sort order against the hundreds of existing 4-digit IDs, so it needs a one-off migration that re-pads them all at once — too risky to bundle here. Benefit: the numbers people glance at now tell the truth, and we avoided introducing a worse sorting bug.
+
+---
+
+**2026-06-18 19:05 — Austin Pickering**
+
+looks like the tickets count still isnt quite right need to investigate that further tomorrow

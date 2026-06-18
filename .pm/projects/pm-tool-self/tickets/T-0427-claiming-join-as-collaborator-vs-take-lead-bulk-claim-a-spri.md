@@ -4,7 +4,7 @@ title: "Claiming: join as collaborator vs take lead, bulk-claim a sprint, and su
 type: feature
 state: done
 created: 2026-06-18T16:22:32Z
-updated: 2026-06-18T18:10:57Z
+updated: 2026-06-18T19:06:48Z
 project: pm-tool-self
 section: null
 parent: null
@@ -76,8 +76,11 @@ labels:
   - dogfood
   - for-austin
 attention: null
-version: 12
+version: 13
 branch: facelift/rbac-look
+collaborators:
+  - kind: human
+    name: austin@yahire.com
 ---
 
 ## Problem

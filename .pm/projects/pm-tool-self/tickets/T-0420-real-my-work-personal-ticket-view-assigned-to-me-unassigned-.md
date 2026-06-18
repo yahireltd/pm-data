@@ -4,7 +4,7 @@ title: Real "My work" — personal ticket view (assigned to me / unassigned / wh
 type: feature
 state: done
 created: 2026-06-18T08:58:41Z
-updated: 2026-06-18T18:09:56Z
+updated: 2026-06-18T19:06:59Z
 project: pm-tool-self
 section: null
 parent: null
@@ -66,7 +66,10 @@ labels:
   - dogfood
   - for-austin
 attention: null
-version: 15
+version: 16
+collaborators:
+  - kind: human
+    name: austin@yahire.com
 ---
 
 ## Problem

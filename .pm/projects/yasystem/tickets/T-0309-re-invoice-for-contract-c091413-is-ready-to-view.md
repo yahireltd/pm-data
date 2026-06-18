@@ -5,7 +5,7 @@ type: support
 state: triaged
 priority: p2
 created: 2026-06-08T14:41:24Z
-updated: 2026-06-08T15:39:40Z
+updated: 2026-06-18T19:09:20Z
 project: yasystem
 section: null
 parent: null
@@ -40,6 +40,10 @@ intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdLlziPAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAJqMKXJHeABLkdSrc_4lIyE=
 department: Accounts
+collaborators:
+  - kind: human
+    name: austin@yahire.com
+version: 1
 ---
 
 ## Request
