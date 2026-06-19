@@ -35,6 +35,7 @@ id_counters:
       status_note: 4
       milestone: 10
       decision: 8
+      tech_session: 1
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
