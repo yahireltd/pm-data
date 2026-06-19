@@ -3,10 +3,10 @@ id: MS-004
 slug: m4-honest-foundations-git-ci-substrate-guardrail-enforcement
 title: "M4 — Honest foundations: git/CI substrate, guardrail enforcement, ADRs, reproducible env"
 project: target-tracker-byo-model-game-vision-perception-control
-state: planned
+state: hit
 order: 4096
 created: 2026-06-19T00:28:21Z
-updated: 2026-06-19T00:28:21Z
+updated: 2026-06-19T03:16:58Z
 acceptance_criteria:
   - git repo initialized (.gitignore for venv/runs/__pycache__/datasets/weights) + branch/PR policy + a single test entrypoint (pytest/Make) and CI hook host — the substrate every later gate/manifest depends on (repo is NOT under version control today)
   - GUARDRAIL.md exists and is linked from README; every profiles/*.toml carries a required [scope] single_player_offline attestation; live.py + capture.py refuse profiles lacking it; a check_guardrail check fails CI on the evasion denylist or a missing [scope]
@@ -16,7 +16,7 @@ acceptance_criteria:
   - RISK_REGISTER.md seeded with each named unknown (uinput-on-Xash, headless bring-up, generalization, leaky/low-diversity metrics, unverified qualify/train, data-provenance, guardrail drift), each with likelihood/impact/mitigation/trigger/owner
 slip_records: []
 phase: planning
-version: 1
+version: 2
 ---
 
 # M4 — Honest foundations: git/CI substrate, guardrail enforcement, ADRs, reproducible env

@@ -2,9 +2,9 @@
 id: T-0368
 title: Stand up a GPU-accelerated X11 display on the headless server
 type: chore
-state: review
+state: done
 created: 2026-06-14T01:15:43Z
-updated: 2026-06-14T01:20:00Z
+updated: 2026-06-19T03:13:32Z
 project: target-tracker-byo-model-game-vision-perception-control
 section: null
 parent: null
@@ -18,9 +18,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "`glxinfo -B` on the chosen DISPLAY shows OpenGL renderer = NVIDIA GeForce RTX 5070 Ti (NOT llvmpipe)"
-  - The display is X11 (not Wayland) and reachable by tools run as austin
-  - DISPLAY + XAUTHORITY for the working display documented for reuse by later tickets
+  - "[x] `glxinfo -B` on the chosen DISPLAY shows OpenGL renderer = NVIDIA GeForce RTX 5070 Ti (NOT llvmpipe)"
+  - "[x] The display is X11 (not Wayland) and reachable by tools run as austin"
+  - "[x] DISPLAY + XAUTHORITY for the working display documented for reuse by later tickets"
 out_of_scope:
   - Installing Xash3D (separate ticket)
   - Any Wayland setup
@@ -57,11 +57,8 @@ labels:
   - ms-001
   - infra
   - server
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-14T01:20:00Z
-version: 5
+attention: null
+version: 10
 ---
 
 ## Problem
@@ -79,3 +76,9 @@ The Ubuntu server is headless; we need a GPU-accelerated X11 display the game ca
 ## Conversation
 
 **2026-06-14 01:20 claude-code:** Run run-20260614-0119 completed — We needed a way for the GPU server to show a game on screen so the tool can "watch" it, since the server has no monitor attached. It turned out the server already had everything we needed: it's running a graphical session powered by the NVIDIA RTX 5070 Ti graphics card, and we confirmed the graphics card (not slow software fallback) is doing the drawing. So we can use that existing screen straight away — no extra setup, no reconfiguring the machine. Without this we'd have been stuck rebuilding the server's display from scratch; instead the next steps (installing the game and capturing what's on screen) are unblocked immediately.
+
+---
+
+**2026-06-19 03:13 — you**
+
+d

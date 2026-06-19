@@ -3,10 +3,10 @@ id: MS-005
 slug: m5-reproducible-data-spine-provenance-versioning-held-out-te
 title: "M5 — Reproducible data spine: provenance, versioning, held-out TEST split, QA gates"
 project: target-tracker-byo-model-game-vision-perception-control
-state: planned
+state: hit
 order: 5120
 created: 2026-06-19T00:28:29Z
-updated: 2026-06-19T00:28:29Z
+updated: 2026-06-19T03:17:00Z
 acceptance_criteria:
   - Every dataset carries a manifest (per-frame source game/map/session, origin type, labeling-model hashes+thresholds, qualify verdict, RNG seeds, pinned tool versions); identical inputs reproduce the same content hash; datasets.py lists/summarizes/diffs versions
   - train.py emits train/val/TEST lists (TEST never used for training, early-stop, or model selection); grouping upgradeable pHash->scene/session id; same version+seed reproduces byte-identical split lists (asserted by a test). Reproducibility scoped to dataset+split bit-identity, NOT model bit-identity (CUDA nondeterminism documented)
@@ -16,7 +16,7 @@ acceptance_criteria:
   - An adversarial regression suite proves each gate fires (planted cross-split near-dups stay same-side, off-domain art rejected, bad boxes caught, single-scene pool trips the degenerate gate) — retires the qualify/train 'unverified' gap
 slip_records: []
 phase: build
-version: 1
+version: 2
 ---
 
 # M5 — Reproducible data spine: provenance, versioning, held-out TEST split, QA gates

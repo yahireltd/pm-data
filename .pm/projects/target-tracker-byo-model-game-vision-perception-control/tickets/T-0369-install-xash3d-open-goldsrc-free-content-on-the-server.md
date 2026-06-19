@@ -2,9 +2,9 @@
 id: T-0369
 title: Install Xash3D (open GoldSrc) + free content on the server
 type: chore
-state: review
+state: done
 created: 2026-06-14T01:15:48Z
-updated: 2026-06-14T01:46:50Z
+updated: 2026-06-19T03:14:06Z
 project: target-tracker-byo-model-game-vision-perception-control
 section: null
 parent: null
@@ -18,9 +18,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - xash3d launches and reaches a menu/map on the GPU display
-  - Only free/open content is used (no paid Half-Life assets)
-  - The launch command is documented for the capture ticket
+  - "[x] xash3d launches and reaches a menu/map on the GPU display"
+  - "[x] Only free/open content is used (no paid Half-Life assets)"
+  - "[x] The launch command is documented for the capture ticket"
 out_of_scope:
   - Online/multiplayer of any kind (excluded by project scope)
   - Detector / agent work (later milestones)
@@ -53,11 +53,8 @@ labels:
   - ms-001
   - engine
   - xash3d
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-14T01:46:50Z
-version: 6
+attention: null
+version: 11
 ---
 
 ## Problem
@@ -85,3 +82,9 @@ So "free Half-Life on Linux" is a multi-step build, not a quick download. Three 
 Engine install is complete regardless of choice.
 
 **2026-06-14 01:46 claude-code:** Run run-20260614-0131 completed — We needed a real game running on the server so the tool has something to "watch" and aim at. We installed the lightweight Xash3D (old Half-Life) engine and confirmed it runs on the server's graphics card. But the only FREE Half-Life content is a 1999 Windows installer that Linux can't unpack with normal tools, and the old engine would also need its game code rebuilt for Linux — a multi-step job, not a quick download. Rather than get stuck there, we switched the test game to Godot (a free, open game engine): it installed cleanly, renders on the RTX 5070 Ti, and we captured a live frame of it back to the dev machine. So we now have a real, controllable game on screen — which unblocks the next steps (detecting on-screen targets and steering aim). The Xash3D work isn't wasted; real Half-Life remains an option later if wanted.
+
+---
+
+**2026-06-19 03:14 — you**
+
+d

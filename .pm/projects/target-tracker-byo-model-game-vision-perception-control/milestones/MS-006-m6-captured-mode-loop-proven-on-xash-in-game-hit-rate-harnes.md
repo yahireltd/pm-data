@@ -3,10 +3,10 @@ id: MS-006
 slug: m6-captured-mode-loop-proven-on-xash-in-game-hit-rate-harnes
 title: M6 — Captured-mode loop proven on Xash + in-game hit-rate harness (real-engine ground truth)
 project: target-tracker-byo-model-game-vision-perception-control
-state: planned
+state: in_progress
 order: 6144
 created: 2026-06-19T00:28:43Z
-updated: 2026-06-19T00:28:43Z
+updated: 2026-06-19T03:17:03Z
 acceptance_criteria:
   - An xinput trace proves uinput motion arrives as XI_RawMotion (not XTEST) on :1; a calibrated Xash profile (sens/fov/gain, raw-input cvars, accel off) is committed; Xash launched windowed at a fixed region with a real frame pulled back (closes T-0370)
   - live.py --fps --backend uinput drives Xash look so angular error to a detected NPC converges below a numerically-defined fire tolerance within a bounded window (median <=5 loop iterations, oscillation amplitude bounded), with the OS cursor engine-captured (not a visible reticle); debug video of look-convergence + fire; --fps promoted to first-class
@@ -15,7 +15,7 @@ acceptance_criteria:
   - An oracle-detector baseline isolates control-only vs detection-attributable hit-rate loss; a focus/grab watchdog lets a >=10-minute headless run complete unattended (auto-recover + log loss); per-stage latency (capture/detect/inject) reported against a budget
 slip_records: []
 phase: build
-version: 1
+version: 2
 ---
 
 # M6 — Captured-mode loop proven on Xash + in-game hit-rate harness (real-engine ground truth)
