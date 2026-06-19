@@ -5,7 +5,7 @@ type: support
 state: review
 priority: p0
 created: 2026-06-09T12:18:07Z
-updated: 2026-06-18T19:22:41Z
+updated: 2026-06-19T00:37:16Z
 project: yasystem
 section: null
 parent: null
@@ -42,7 +42,7 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdLlziRAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAJfQCcb1IsdBpnf3hH5Vc4M=
-version: 10
+version: 12
 collaborators:
   - kind: human
     name: zsolt@yahire.com

@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 436
+  ticket: 437
   project: 18
   section: 14
   perProject:
@@ -32,7 +32,7 @@ id_counters:
       decision: 13
       status_note: 1
     target-tracker-byo-model-game-vision-perception-control:
-      status_note: 3
+      status_note: 4
       milestone: 10
       decision: 7
 outbound_email:
