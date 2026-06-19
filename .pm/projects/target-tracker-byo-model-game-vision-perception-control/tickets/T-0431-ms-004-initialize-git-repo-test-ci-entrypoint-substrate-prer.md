@@ -4,7 +4,7 @@ title: "MS-004: Initialize git repo + test/CI entrypoint substrate (prerequisite
 type: chore
 state: triaged
 created: 2026-06-19T00:31:44Z
-updated: 2026-06-19T00:31:44Z
+updated: 2026-06-19T01:33:00Z
 project: target-tracker-byo-model-game-vision-perception-control
 section: null
 parent: null
@@ -27,7 +27,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -37,3 +37,7 @@ The repo is NOT under version control (`git rev-parse` fails) and has no test ru
 git init + .gitignore (venv/, runs/, __pycache__/, datasets/, *.onnx/*.pt weights, /tmp artifacts); remote + branch/PR policy; ONE test entrypoint (Makefile target or pytest config); a CI runner or documented local pre-commit/CI hook host that check_guardrail, dataset QA, and the regression gate all attach to.
 
 Milestone: MS-004. Blocks the other MS-004 tickets.
+
+## Conversation
+
+**2026-06-19 01:33 claude-code:** Done (commit f1c7143). The project is now under version control: a git repo with a `.gitignore`, an initial commit on `main`, and this work on branch `ms-004-honest-foundations`. Added a `make check` test entrypoint (runs with no ML dependencies), a pytest suite under `tests/`, and a GitHub Actions CI workflow. One step left to fully close: push to GitHub so it's browsable online — that needs the owner to run `gh auth login` once.

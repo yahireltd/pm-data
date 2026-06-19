@@ -4,7 +4,7 @@ title: "MS-004: LICENSE + RESPONSIBLE_USE, pin requirements-ml.txt, SERVER_SETUP
 type: chore
 state: triaged
 created: 2026-06-19T00:32:15Z
-updated: 2026-06-19T00:32:15Z
+updated: 2026-06-19T01:33:19Z
 project: target-tracker-byo-model-game-vision-perception-control
 section: null
 parent: null
@@ -26,10 +26,14 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
 ## Scope
 Add a LICENSE (owner picks; a field-of-use restriction reinforcing offline/no-evasion is an option — flag it as intent-only, not technically enforceable post-download) + a RESPONSIBLE_USE notice. Produce requirements-ml.txt pinning exact torch/ultralytics/open_clip_torch/onnxruntime-gpu/imagehash/evdev/opencv versions matching ~/mlenv (current requirements.txt is 4 lines, missing every ML dep). Write a SERVER_SETUP/runbook: nvidia-driver-580-open, display :1, Xash3D-FWGS native build + hlsdk-portable -8, runml.sh LD_LIBRARY_PATH, the LIVE_LOOP headless gotchas — so the stock-yolov8n-0 -> fine-tuned-0.91 result reproduces on a clean box.
 
 Milestone: MS-004.
+
+## Conversation
+
+**2026-06-19 01:33 claude-code:** Done (commit f1c7143). Added requirements-ml.txt pinning the exact GPU library versions, a RESPONSIBLE_USE.md notice, and a SERVER_SETUP.md runbook that reproduces the headline result (an off-the-shelf model detecting nothing on the Half-Life character vs. the fine-tuned model detecting it at 0.91) on a clean machine. The software LICENSE was intentionally left for the owner to choose.

@@ -4,7 +4,7 @@ title: "MS-004: Excise anti-cheat-evasion framing across the whole repo (control
 type: chore
 state: triaged
 created: 2026-06-19T00:31:52Z
-updated: 2026-06-19T00:31:52Z
+updated: 2026-06-19T01:33:02Z
 project: target-tracker-byo-model-game-vision-perception-control
 section: null
 parent: null
@@ -27,7 +27,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -37,3 +37,7 @@ control.py's module + UinputController docstrings sell uinput as events "indisti
 Rewrite ALL such text to the legitimate rationale ONLY: captured-mode SDL2/Godot engines read XInput2 raw motion, so uinput is a functional requirement for our own offline test games — zero anti-cheat references. Grep the whole repo for the evasion denylist (anti-cheat, bypass, undetect, indistinguishable, stealth, "XTEST flag") and reframe/remove every hit. Reconcile the denylist's "XTEST" term so honest engineering notes aren't red-flagged (reword or a precise allowlist). Deliver an audit log.
 
 Milestone: MS-004. Implements ADR-001/ADR-002. Depends on git substrate.
+
+## Conversation
+
+**2026-06-19 01:33 claude-code:** Done (commit f1c7143). Removed the anti-cheat-evasion wording from control.py and docs/LIVE_LOOP.md and reframed it to the legitimate reason the tool uses kernel input (captured-mode game engines read raw mouse motion). A repo-wide automated check now confirms no such wording remains anywhere outside the guardrail documents.
