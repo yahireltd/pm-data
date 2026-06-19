@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 430
+  ticket: 436
   project: 18
   section: 14
   perProject:
@@ -33,6 +33,8 @@ id_counters:
       status_note: 1
     target-tracker-byo-model-game-vision-perception-control:
       status_note: 3
+      milestone: 10
+      decision: 7
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
