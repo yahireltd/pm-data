@@ -5,7 +5,7 @@ type: bug
 state: ready
 priority: p2
 created: 2026-06-19T09:15:24Z
-updated: 2026-06-19T09:17:36Z
+updated: 2026-06-19T09:34:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -17,7 +17,7 @@ assignee:
   kind: human
   name: austin@yahire.com
 acceptance_criteria:
-  - A single person renders with identical initials AND identical colour across every surface (tickets list, kanban, inbox, dashboard, ticket detail) regardless of how   their name is stored.
+  - A single person renders with identical initials AND identical colour across every surface (tickets list, kanban, inbox, dashboard, ticket detail) regardless of how their name is stored.
   - Austin's variants ("Austin Pickering", "Austin", "austin", "austin@yahire.com") all resolve to one avatar (same initials, same colour).
   - Zsolt's variants ("Zsolt Turu", "Zsolt", "zsolt@yahire.com") all resolve to one avatar.
   - An `avatar_colors` override set for a person applies to ALL of their name variants, not just the exact configured key.
@@ -27,6 +27,8 @@ acceptance_criteria:
   - The resolver reads the roster/config once per render pass, not once per avatar (no N+1 disk reads on a long list).
   - Hovering an avatar shows the canonical person name in the title tooltip.
   - "No avatar regressions on: comments, meeting attendees, decision owners, project owners, stakeholder lists."
+  - 'Avatar colour selection is exclusive: when a user picks a colour already claimed by a different person, setMyAvatarColor rejects it with a clear error (e.g. "That colour is already taken.") and the choice is not saved.'
+  - "The colour picker on /me reflects taken colours: swatches already claimed by other people are visibly disabled/greyed (with a 'taken' affordance), so only free colours can be selected; clearing your colour (Auto) frees it for others."
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -37,88 +39,43 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 14
+version: 16
 defect_status: confirmed
 ---
 
-\## Problem
+## Problem
 
-&#x20; The same person renders as multiple different avatar circles across ticket lists —
+The same person renders as multiple different avatar circles across ticket lists — different initials AND different colours. E.g. Austin appears as "AP" (rose) on one ticket and "AU" (blue/other) on another; same for Zsolt (ZS vs ZT).
 
-&#x20; different initials AND different colours. E.g. Austin appears as "AP" (rose) on one
+## Context
 
-&#x20; ticket and "AU" (blue/other) on another; same for Zsolt (ZS vs ZT).
+Avatars derive BOTH facets from the raw free-text `name` string:
+- `initials(name)` (web/app/_lib/colors.ts) — slices letters from the raw string.
+- `avatarColor(name)` (same file) — hashes the raw string to a palette colour.
 
-&#x20; \## Context
+The ticket data stores one person under many inconsistent strings, so each hashes differently and slices differently. Observed for Austin alone: "Austin Pickering" → AP | "Austin" → AU | "austin" → AU (case-sensitive, different hash) | "austin@yahire.com" → AU.
 
-&#x20; Avatars derive BOTH facets from the raw free-text \`name\` string:
+A partial colour canonicalizer already exists — resolveAvatarColor() in web/app/_lib/avatar-prefs.ts, keyed on actorNameKey(name) against config `avatar_colors` — but it only matches the EXACT name ("austin pickering" hits, "austin" misses) and isn't applied at every <Avatar> call site. Initials have no canonicalization at all.
 
-&#x20; \- \`initials(name)\` (web/app/\_lib/colors.ts) — slices letters from the raw string.
+There is already an identity source: .pm/roster.md maps name↔email, and its isSamePerson() logic ("same email OR same name") knows how to dedupe people.
 
-&#x20; \- \`avatarColor(name)\` (same file) — hashes the raw string to a palette colour.
+## Proposed approach (render-time, no data migration)
 
-&#x20; The ticket data stores one person under many inconsistent strings, so each hashes
+Add a server resolver resolvePerson(rawName) → { displayName, colorClass } that:
+1. Builds an alias index from the roster + config (full name, email, email local-part, first name → canonical person).
+2. Derives initials from the canonical display name and colour from a stable key (email), honouring the avatar_colors override.
+3. Falls back to current behaviour when a name isn't in the roster (no regression).
 
-&#x20; differently and slices differently. Observed for Austin alone:
+Then feed canonical name + colour into <Avatar> at the list/row render points. Leave agent/system avatars (claude, claude-code → icon-forward circles) untouched.
 
-&#x20;   "Austin Pickering" → AP   |   "Austin" → AU   |   "austin" → AU (case-sensitive,
+## Open decision
 
-&#x20;   different hash)   |   "austin\@yahire.com" → AU
+How to handle bare first names shared by two different people ("Austin" when there are two) — auto-match only when unambiguous, vs. require an explicit alias map in config.
 
-&#x20; A partial colour canonicalizer already exists — resolveAvatarColor() in
+## Out of scope
 
-&#x20; web/app/\_lib/avatar-prefs.ts, keyed on actorNameKey(name) against config
+- Normalising the stored name fields in the pm-data repo (possible follow-up).
 
-&#x20; \`avatar\_colors\` — but it only matches the EXACT name ("austin pickering" hits,
+## Key files
 
-&#x20; "austin" misses) and isn't applied at every \<Avatar> call site. Initials have no
-
-&#x20; canonicalization at all.
-
-&#x20; There is already an identity source: .pm/roster.md maps name↔email, and its
-
-&#x20; isSamePerson() logic ("same email OR same name") knows how to dedupe people.
-
-&#x20; \## Proposed approach (render-time, no data migration)
-
-&#x20; Add a server resolver resolvePerson(rawName) → { displayName, colorClass } that:
-
-&#x20; 1\. Builds an alias index from the roster + config (full name, email, email
-
-&#x20;    local-part, first name → canonical person).
-
-&#x20; 2\. Derives initials from the canonical display name and colour from a stable key
-
-&#x20;    (email), honouring the avatar\_colors override.
-
-&#x20; 3\. Falls back to current behaviour when a name isn't in the roster (no regression).
-
-&#x20; Then feed canonical name + colour into \<Avatar> at the list/row render points.
-
-&#x20; Leave agent/system avatars (claude, claude-code → icon-forward circles) untouched.
-
-&#x20; \## Open decision
-
-&#x20; How to handle bare first names shared by two different people ("Austin" when there
-
-&#x20; are two) — auto-match only when unambiguous, vs. require an explicit alias map in
-
-&#x20; config.
-
-&#x20; \## Out of scope
-
-&#x20; \- Normalising the stored name fields in the pm-data repo (possible follow-up).
-
-&#x20; Acceptance criteria:
-
-&#x20; \- A person shows the same initials and colour in every list/row regardless of how their name is stored (Austin always AP/rose; Zsolt always one circle).
-
-&#x20; \- avatar\_colors overrides apply across all name variants of that person, not just the exact key.
-
-  - Agent/system avatars (claude, claude-code) are unchanged. 
-
-&#x20; \- No regression for names not in the roster (fall back to current hash/initials).
-
-&#x20; Key files: web/app/\_lib/colors.ts, web/app/\_lib/avatar-prefs.ts, web/app/\_components/Avatar.tsx, cli/src/lib/roster.ts, plus the list call sites (SectionedList.tsx,
-
-&#x20; TicketRow\.tsx, KanbanBoard.tsx, SortableInboxList.tsx, app/page.tsx).
+web/app/_lib/colors.ts, web/app/_lib/avatar-prefs.ts, web/app/_components/Avatar.tsx, cli/src/lib/roster.ts, plus the list call sites (SectionedList.tsx, TicketRow.tsx, KanbanBoard.tsx, SortableInboxList.tsx, app/page.tsx). Colour-exclusivity work touches web/app/_actions/preferences.ts (setMyAvatarColor) and web/app/_components/AvatarColorControl.tsx.
