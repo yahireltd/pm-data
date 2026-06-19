@@ -2,21 +2,25 @@
 id: ADR-006
 slug: data-sourcing-licensing-provenance-and-dataset-versioning-po
 title: Data sourcing, licensing, provenance, and dataset-versioning policy
-state: proposed
+state: accepted
 decided: 2026-06-19
-decided_by: []
+decided_by:
+  - austin
 project: target-tracker-byo-model-game-vision-perception-control
 supersedes: null
 superseded_by: null
 tickets: []
-version: 1
+version: 2
 ---
 
 ## Context
-The hosted-service direction makes datasets and weights DISTRIBUTABLE artifacts whose provenance determines legal exposure. The preference for capture/licensed/synthetic over scraping is currently aspirational, not enforced.
+The released-tooling direction makes datasets and weights potentially distributable artifacts whose provenance determines legal exposure. Owner decided (2026-06-19) to ALLOW limited web scraping as a data source, alongside capture/licensed/synthetic.
 
-## Decision (PROPOSED — owner sets the risk posture)
-Source tiers: self-captured = a user's own specialist only; explicitly-licensed / CC / public-domain + synthetic = redistributable BASE; scraped copyrighted art = NOT redistributable, gated. Rule: CLIP domain-match != license clearance. HL/Xash posture: open-source engine, owned game data used locally and NOT redistributed. Versioning: lightweight content-hash + provenance manifest (DVC/git-lfs noted as future). No redistributable artifact is produced without a provenance manifest, and a base build refuses unknown-license sources.
+## Decision
+Source tiers, with a redistribution boundary:
+- self-captured gameplay, explicitly-licensed/CC/public-domain, and engine-rendered synthetic = clean tier, usable in REDISTRIBUTABLE artifacts (a published base model).
+- limited web-scraped gameplay behind the CLIP domain gate = ALLOWED for NON-redistributable / research / personal datasets and as a labeling/bootstrap input, but NOT for redistributable artifacts.
+Rule: CLIP domain-match != license clearance. The provenance manifest records a source tier per image, so a "redistributable" base build automatically filters to the clean tier. HL/Xash: owned game data used locally, not redistributed. Versioning: content-hash + provenance manifest (DVC/git-lfs as future option).
 
 ## Consequences
-Capturing copyrighted commercial single-player titles for a redistributable base is itself a derivative-work question independent of "scraping" — needs owner decisions on which titles are permitted and whether to invest in genuinely free/public-domain/synthetic content for shippable demos.
+Fits the research/hobbyist beachhead (ADR-008), where personal/research use of scraped frames is more defensible. The qualify funnel must tag source tier; base-build refuses non-clean tiers. Owner still to confirm which commercial single-player titles may be captured.

@@ -34,7 +34,7 @@ id_counters:
     target-tracker-byo-model-game-vision-perception-control:
       status_note: 4
       milestone: 10
-      decision: 7
+      decision: 8
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
