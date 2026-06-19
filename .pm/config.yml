@@ -32,7 +32,7 @@ id_counters:
       decision: 13
       status_note: 1
     target-tracker-byo-model-game-vision-perception-control:
-      status_note: 5
+      status_note: 6
       milestone: 11
       decision: 9
       tech_session: 1

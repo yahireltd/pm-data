@@ -4,7 +4,7 @@ title: Extend control.py UinputController with stateful held-key support (WASD/s
 type: feature
 state: triaged
 created: 2026-06-19T04:47:57Z
-updated: 2026-06-19T04:47:57Z
+updated: 2026-06-19T16:17:45Z
 project: target-tracker-byo-model-game-vision-perception-control
 section: null
 parent: null
@@ -33,7 +33,7 @@ labels:
   - MS-011
   - ADR-009
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -47,3 +47,9 @@ We have ALREADY proven uinput keyboard injection registers in GoldSrc/Xash captu
 - Add a stateful API: `press(key)`, `release(key)`, `set_held(set_of_keys)` that diffs against currently-held and emits only the deltas (so +forward stays down across ticks).
 - On shutdown / KeyboardInterrupt, release ALL held keys (avoid a stuck +forward).
 - Map the 9-dim action vector (ADR-009) → key set: move_fwd→W/S, move_side→A/D, use→E, jump→SPACE, duck→LEFTCTRL, attack→BTN_LEFT.
+
+## Conversation
+
+**2026-06-19 16:17 claude-code:** PROVEN IN-ENGINE (2026-06-19). Built as `control_move.py` (a self-contained `MoveController` — a fresh uinput device with REL_X/Y + BTN_LEFT + KEY_W/A/S/D/E/SPACE/LEFTCTRL, stateful set_held/press/release, release-all on every exit path), rather than editing control.py in place (uinput caps are fixed at device creation). Adversarial review fix applied: SIGINT handler is now opt-in (default off) so it doesn't seize the process from a runner.
+
+Live test: the movement policy drove Half-Life through `MoveController` — it held W/D/S and the player physically walked, strafed, and turned through hldemo1 (recording /tmp/policy_drive.mp4; start/mid/end frames show real position + view change). This resolves the long-standing question (logged under MS-006) of whether uinput KEYBOARD events drive captured-mode GoldSrc — they do. The earlier "keyboard 'w' didn't move the player" was the XTEST/xdotool path, not uinput. The full uinput stack (look + movement + fire) is now proven. Remaining cleanup: the look-head is jerky (clamp), and the controller's settle-sleep stacking note for callers.
