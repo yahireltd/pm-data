@@ -2,9 +2,9 @@
 id: T-0314
 title: "[security] GitHub read-only token: fine-grained least-privilege + own secret"
 type: chore
-state: triaged
+state: done
 created: 2026-06-09T16:10:33Z
-updated: 2026-06-09T16:10:33Z
+updated: 2026-06-22T11:21:05Z
 project: pm-tool-self
 section: null
 parent: null
@@ -34,6 +34,7 @@ agent_runs: []
 labels:
   - security
 attention: null
+version: 1
 ---
 
 ## Problem
@@ -47,3 +48,15 @@ A fine-grained PAT (or GitHub App installation token) scoped to only the referen
 ## Context
 
 Follow-on to **T-0257**. Files: `web/app/_actions/projects.ts` (`getGithubToken`, `listRepoBranches`). Note the stale comment there referencing a `pmToolGithub` secret that doesn't match the code (it reads `tokenGithubFine` off `pmToolAuth`).
+
+## Conversation
+
+**2026-06-22 11:21 — you**
+
+done
+
+---
+
+**2026-06-22 11:21 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

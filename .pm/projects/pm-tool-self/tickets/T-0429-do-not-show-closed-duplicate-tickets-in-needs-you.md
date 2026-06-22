@@ -2,10 +2,10 @@
 id: T-0429
 title: Do not show closed / duplicate tickets in needs you now on dashboard
 type: feature
-state: triaged
+state: ready
 priority: p2
 created: 2026-06-18T19:11:08Z
-updated: 2026-06-18T19:14:54Z
+updated: 2026-06-22T11:24:10Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,8 @@ children: []
 order: 110592
 reporter: null
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - make sure only tickets that need our input are visible
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -25,7 +26,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 4
 ---
 
 No need to show closed tickets here as they do not need us!

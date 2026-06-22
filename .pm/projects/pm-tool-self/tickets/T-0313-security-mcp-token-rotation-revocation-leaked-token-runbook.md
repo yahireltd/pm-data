@@ -2,9 +2,9 @@
 id: T-0313
 title: "[security] MCP token rotation / revocation + leaked-token runbook"
 type: chore
-state: triaged
+state: done
 created: 2026-06-09T16:09:34Z
-updated: 2026-06-09T16:09:34Z
+updated: 2026-06-22T11:20:46Z
 project: pm-tool-self
 section: null
 parent: null
@@ -33,6 +33,7 @@ agent_runs: []
 labels:
   - security
 attention: null
+version: 1
 ---
 
 ## Problem
@@ -42,3 +43,15 @@ Per-user MCP tokens (ADR-037 / T-0257) are long-lived shared secrets held in the
 ## Context
 
 Follow-on to **T-0257** (which shipped per-user tokens + the write audit log). The audit log makes a leaked token traceable; this ticket adds the rotation/revocation lifecycle + runbook around it. Files: `mcp-server/src/http.ts` (loadTokens). The shared token currently still resolves to a "shared" principal for backward-compatible migration — that fallback is what gets retired here.
+
+## Conversation
+
+**2026-06-22 11:20 — you**
+
+this was done
+
+---
+
+**2026-06-22 11:20 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
