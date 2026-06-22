@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-18T12:53:42Z
-updated: 2026-06-22T15:51:30Z
+updated: 2026-06-22T18:05:18Z
 project: pm-tool-self
 section: null
 parent: null
@@ -21,7 +21,8 @@ acceptance_criteria:
   - A quick check confirms creating/rendering/linking/sorting a >T-9999 id works end to end
 out_of_scope: []
 code_anchors: []
-relates: []
+relates:
+  - T-0421
 blocks: []
 blocked_by: []
 duplicates: []
@@ -29,7 +30,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem

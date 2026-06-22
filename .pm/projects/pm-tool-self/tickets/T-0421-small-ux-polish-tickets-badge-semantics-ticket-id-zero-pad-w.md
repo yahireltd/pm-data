@@ -2,9 +2,9 @@
 id: T-0421
 title: "Small UX polish: count/label correctness (nav + dashboard) + ticket-ID zero-pad width"
 type: chore
-state: review
+state: done
 created: 2026-06-18T08:58:46Z
-updated: 2026-06-22T16:16:19Z
+updated: 2026-06-22T18:09:06Z
 project: pm-tool-self
 section: null
 parent: null
@@ -22,13 +22,14 @@ assignee:
 acceptance_criteria:
   - "[x] Each top-nav badge has a clear meaning consistent with the page it opens (e.g. a tooltip + label); the Tickets badge vs Tickets page mismatch is reconciled."
   - "[x] The 'Review' badge and the Review page agree (resolve attention-flag vs state=review)."
-  - The Tickets vs Inbox badge overlap is resolved (distinct meanings, or one consolidated).
+  - "[x] The Tickets vs Inbox badge overlap is resolved (distinct meanings, or one consolidated)."
   - "[x] A decision is recorded and reflected on whether the badges are global or personal (ties to T-0420)."
   - "[x] The dashboard 'Open tickets' tile either counts only open tickets (excluding done/wontfix/duplicate) or is relabelled to match what it shows."
   - "[x] Ticket IDs zero-pad to a width that keeps string-sort order correct beyond 9999 (decide 5 vs 6; decide whether to re-pad existing IDs)."
 out_of_scope: []
 code_anchors: []
-relates: []
+relates:
+  - T-0425
 blocks: []
 blocked_by: []
 duplicates: []
@@ -56,7 +57,7 @@ labels:
   - dogfood
   - for-austin
 attention: null
-version: 21
+version: 25
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -111,3 +112,9 @@ The only thing still genuinely open *on T-0421 itself* is your 2026-06-18 note t
 **2026-06-22 16:16 — Austin Pickering**
 
 Tickets show as 0 but there are many in the view that we click into
+
+---
+
+**2026-06-22 18:09 — you**
+
+Done and the ticket vs inbox badge is a follow up ticket

@@ -2,34 +2,48 @@
 id: T-0395
 title: "Docs-drift gate: fail the build when schema/types/tools change without a docs update (§8 enforcement)"
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-16T19:53:44Z
-updated: 2026-06-22T16:16:29Z
+updated: 2026-06-22T18:10:38Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
 priority: p2
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - A change that edits a schema/type/tool (schemas/, cli/src/types.ts, mcp-server/src/tools/) without a matching doc edit (SCHEMA.md / web/app/docs/content.ts / web/app/help/content/) is flagged by the lint/build
   - "An explicit escape hatch (e.g. a docs-ok: <reason> marker) lets a genuine no-docs-needed change through, recording the reason"
   - Wired into the deploy build (the existing type-gate) so it actually blocks; warn-first then promote to hard fail
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: linter/src/docs-drift.ts
+    symbol: checkDocsDrift (new source-diff check)
+  - path: linter/bin/pm-docs-drift
+    symbol: runner bin (new)
+  - path: docs/development.md
+    symbol: pm-deploy docs-drift step
+  - path: AGENTS.md
+    symbol: §8 docs-travel-with-change enforcement
 relates: []
 blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260622-1810
+    model: claude-opus-4-8
+    started: 2026-06-22T18:10:38Z
+    status: in_progress
 labels:
   - forcing-function
   - docs
   - dx
 attention: null
-version: 5
+version: 8
 collaborators:
   - kind: human
     name: Austin Pickering

@@ -2,9 +2,9 @@
 id: T-0267
 title: Link follow-up tickets to their source (relates on update_ticket + show linked/spike-output tickets)
 type: feature
-state: review
+state: done
 created: 2026-06-05T22:52:59Z
-updated: 2026-06-22T17:59:30Z
+updated: 2026-06-22T18:12:42Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,12 +15,12 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - pm_update_ticket (MCP) accepts relates / blocks / blocked_by as optional arrays of ticket ids; invalid ids are rejected; the changed list is returned (mirrors how `labels` works — wholesale replace).
-  - "Web parity: a ticket's links can be set/edited in the UI — a simple add/remove picker in the 'Related work' section (which today only DISPLAYS links)."
-  - A finished spike surfaces the follow-up tickets it produced prominently (not buried in the Developer-details dropdown), so it's no longer a dead end.
-  - The schema already defines relates/blocks/blocked_by/duplicates and delete already cleans them up — verify both still hold after the change.
-  - "DECIDE BEFORE CODING: 'wholesale replace like labels' (AC1) conflicts with the reciprocal-link invariant in cli/src/lib/links.ts (relates↔relates, blocks↔blocked_by). A blind replace leaves the inverse side stale and the link graph asymmetric — choose reciprocal-via-links.ts or a documented one-sided write first."
-  - we also need a place to do this in the ui (create and link followup)
+  - "[x] pm_update_ticket (MCP) accepts relates / blocks / blocked_by as optional arrays of ticket ids; invalid ids are rejected; the changed list is returned (mirrors how `labels` works — wholesale replace)."
+  - "[x] Web parity: a ticket's links can be set/edited in the UI — a simple add/remove picker in the 'Related work' section (which today only DISPLAYS links)."
+  - "[x] A finished spike surfaces the follow-up tickets it produced prominently (not buried in the Developer-details dropdown), so it's no longer a dead end."
+  - "[x] The schema already defines relates/blocks/blocked_by/duplicates and delete already cleans them up — verify both still hold after the change."
+  - "[x] DECIDE BEFORE CODING: 'wholesale replace like labels' (AC1) conflicts with the reciprocal-link invariant in cli/src/lib/links.ts (relates↔relates, blocks↔blocked_by). A blind replace leaves the inverse side stale and the link graph asymmetric — choose reciprocal-via-links.ts or a documented one-sided write first."
+  - "[x] we also need a place to do this in the ui (create and link followup)"
 out_of_scope: []
 code_anchors:
   - path: mcp-server/src/tools/update-ticket.ts
@@ -71,14 +71,11 @@ agent_runs:
       status_note: none-needed
       docs_note: Dev wiki (/docs MCP-surface) updated to note pm_update_ticket can set relates/blocks/blocked_by. The pm_update_ticket tool description was also updated.
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-22T17:59:30Z
+attention: null
 collaborators:
   - kind: human
     name: Austin Pickering
-version: 8
+version: 16
 branch: t0267-ticket-linking
 ---
 
@@ -103,3 +100,9 @@ Confirms what we hit live this session: `pm_update_ticket` still can't set relat
 **If we did nothing:** Follow-up work would keep getting disconnected from where it came from — someone reading a finished investigation wouldn't see what it led to, and the assistant would keep being unable to wire related tickets together (a gap we hit repeatedly this very session).
 
 **The benefit:** Tickets now form a connected web you can navigate from either end, the links stay consistent on both sides automatically, and an investigation's outputs are visible right where you'd look for them.
+
+---
+
+**2026-06-22 18:12 — you**
+
+done

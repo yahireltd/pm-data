@@ -2,9 +2,9 @@
 id: T-0192
 title: "Commit-msg hook + pm reconcile: nudge a T-NNNN per commit, surface untracked shipped work"
 type: feature
-state: ready
+state: wontfix
 created: 2026-06-03T22:23:12Z
-updated: 2026-06-22T17:40:29Z
+updated: 2026-06-22T18:10:19Z
 project: pm-tool-self
 section: null
 parent: null
@@ -41,14 +41,11 @@ labels:
   - dogfood
   - dx
   - backfill
-attention:
-  needed_by: human
-  reason: "Agent run abandoned: Stopping work on this for now — parked, not failed, and no code was written (the branch is discarded). On review with Austin: the commit-message hook plus `pm reconcile` is more than the current setup needs. The hook only warns *locally* — in the terminal of "
-  since: 2026-06-22T17:39:56Z
+attention: null
 collaborators:
   - kind: human
     name: Austin Pickering
-version: 9
+version: 11
 backlog_status: parked
 ---
 
