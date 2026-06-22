@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-11T21:29:39Z
-updated: 2026-06-18T19:13:39Z
+updated: 2026-06-22T16:14:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -25,7 +25,10 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
+collaborators:
+  - kind: human
+    name: Austin Pickering
 ---
 
 The behaviour should be that it only goes to those stakeholder that have subscribed to that action

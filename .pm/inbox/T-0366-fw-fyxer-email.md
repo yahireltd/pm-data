@@ -5,7 +5,7 @@ type: support
 state: duplicate
 priority: p2
 created: 2026-06-12T14:17:05Z
-updated: 2026-06-18T19:09:43Z
+updated: 2026-06-22T16:14:56Z
 project: null
 section: null
 parent: null
@@ -28,10 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: Inbound email — needs triage
-  since: 2026-06-12T14:17:05Z
+attention: null
 customer_impact: "Hi guys For the sales efficiencies project Taran is very keen to have some email automation (as well as the templates we intend to do) He shows this company as an example. I said we would likely do our own thing Kind Regards, Ben Leslie Co-Founder Direct: 0203 696 0201 www.yahire"
 intake_channel: email
 intake_mailbox: support@yahire.com
@@ -39,7 +36,7 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdOtLbrAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAES3NhhK9kXXjJbV21pDH24=
-version: 5
+version: 6
 collaborators:
   - kind: human
     name: Austin

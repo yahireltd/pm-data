@@ -6,12 +6,11 @@ project: pm-tool-self
 state: in_progress
 order: 27648
 created: 2026-06-05T22:52:16Z
-updated: 2026-06-22T15:50:38Z
+updated: 2026-06-22T16:09:09Z
 committed_items:
   - T-0265
   - T-0266
   - T-0267
-  - T-0268
   - T-0269
   - T-0264
   - T-0364
@@ -31,7 +30,7 @@ capacity:
   total: 5
   unit: tickets
 velocity_committed: 5
-version: 7
+version: 8
 ---
 
 # SPR-027: Human-agent dynamic + dogfood hardening

@@ -4,7 +4,7 @@ title: Marking a meeting "held" is one click and irreversible — add confirm + 
 type: bug
 state: triaged
 created: 2026-06-10T00:12:38Z
-updated: 2026-06-10T00:12:38Z
+updated: 2026-06-22T16:14:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -31,7 +31,10 @@ labels:
   - ux
   - dogfood-finding
 attention: null
-version: 1
+version: 2
+collaborators:
+  - kind: human
+    name: Austin Pickering
 ---
 
 ## Problem

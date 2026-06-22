@@ -4,7 +4,7 @@ title: Refresh open browser tabs after a deploy (bust the stale client bundle)
 type: feature
 state: triaged
 created: 2026-06-05T22:52:44Z
-updated: 2026-06-08T19:10:06Z
+updated: 2026-06-22T16:13:34Z
 project: pm-tool-self
 section: null
 parent: null
@@ -34,6 +34,10 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
+collaborators:
+  - kind: human
+    name: Austin Pickering
+version: 1
 ---
 
 ## Problem

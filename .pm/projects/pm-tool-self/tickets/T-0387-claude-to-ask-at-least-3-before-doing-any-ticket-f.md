@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-16T16:50:03Z
-updated: 2026-06-22T15:39:03Z
+updated: 2026-06-22T16:13:37Z
 project: pm-tool-self
 section: null
 parent: null
@@ -27,7 +27,10 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 3
+collaborators:
+  - kind: human
+    name: Austin Pickering
 ---
 
 When a ticket is claimed for the agent. ask at least three questions - or as many as needed to get all the context needed. This needs to also be a rule for agents to start a ticket. There may be some where the requirements are scoped correctly and do not need further questions but in most cases ask questions unless crystal clear scoping

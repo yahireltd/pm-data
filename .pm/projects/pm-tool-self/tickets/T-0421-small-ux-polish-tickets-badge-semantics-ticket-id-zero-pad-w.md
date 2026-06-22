@@ -2,9 +2,9 @@
 id: T-0421
 title: "Small UX polish: count/label correctness (nav + dashboard) + ticket-ID zero-pad width"
 type: chore
-state: in_progress
+state: review
 created: 2026-06-18T08:58:46Z
-updated: 2026-06-22T15:51:33Z
+updated: 2026-06-22T16:16:19Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,11 +55,8 @@ labels:
   - ui
   - dogfood
   - for-austin
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-18T13:57:47Z
-version: 18
+attention: null
+version: 21
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -108,3 +105,9 @@ looks like the tickets count still isnt quite right need to investigate that fur
 The id zero-pad / sort-past-9999 work this run deliberately deferred is now scoped and tracked in **T-0425** (with the two options laid out: sort-by-numeric-suffix vs a widen-and-re-pad migration). So when you review T-0421, the id part is accounted for — it doesn't need to block closing this ticket.
 
 The only thing still genuinely open *on T-0421 itself* is your 2026-06-18 note that the **Tickets count still isn't quite right** — that's a remaining badge-count bug to investigate, separate from the id work.
+
+---
+
+**2026-06-22 16:16 — Austin Pickering**
+
+Tickets show as 0 but there are many in the view that we click into

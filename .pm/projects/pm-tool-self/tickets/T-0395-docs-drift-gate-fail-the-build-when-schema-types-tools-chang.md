@@ -4,7 +4,7 @@ title: "Docs-drift gate: fail the build when schema/types/tools change without a
 type: feature
 state: triaged
 created: 2026-06-16T19:53:44Z
-updated: 2026-06-22T15:39:01Z
+updated: 2026-06-22T16:16:29Z
 project: pm-tool-self
 section: null
 parent: null
@@ -29,7 +29,10 @@ labels:
   - docs
   - dx
 attention: null
-version: 2
+version: 5
+collaborators:
+  - kind: human
+    name: Austin Pickering
 ---
 
 ## Problem
@@ -46,3 +49,9 @@ Add a docs-drift check to the lint/deploy build:
 - A change that edits a schema/type/tool without a matching doc edit is flagged by the lint/build.
 - An explicit escape hatch lets a genuine no-docs-needed change through, recording the reason.
 - Wired into the deploy build (the existing type-gate) so it actually blocks.
+
+## Conversation
+
+**2026-06-22 16:16 claude-code:** **Verified 2026-06-22 (deep check, re-confirmed) — unbuilt; build THIRD (after T-0265 + T-0192).**
+
+§8 "docs travel with the change" is still pure prose, no gate anywhere. **Scope correction:** the existing pm-lint linter is the *wrong* host — it only lints `.pm/` data markdown, so this needs a **new source-diff check**, not a new lint rule. Sequence it after **T-0265** (which gives it a real pre-deploy gate to hook into) and reuse **T-0192's** commit-hook + git-diff plumbing rather than rebuilding. Note: the agent-run `docs_note` field is self-reported, not an enforced gate — don't mistake it for partial work.

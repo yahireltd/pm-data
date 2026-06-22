@@ -2,10 +2,10 @@
 id: T-0445
 title: Route Planning Testing Feedback
 type: support
-state: inbox
+state: wontfix
 priority: p2
 created: 2026-06-19T08:40:33Z
-updated: 2026-06-19T08:48:11Z
+updated: 2026-06-22T16:12:51Z
 project: null
 section: null
 parent: null
@@ -37,7 +37,7 @@ intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdScBK6AAA=
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdScBK8AAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAA60ZxCgSeZJvCx1B3U0gug=
-version: 2
+version: 3
 ---
 
 ## Request

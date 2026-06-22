@@ -2,9 +2,9 @@
 id: T-0378
 title: Vue turn-around timeline view (lanes, bars, overlaps)
 type: feature
-state: in_progress
+state: done
 created: 2026-06-15T15:37:27Z
-updated: 2026-06-15T15:59:08Z
+updated: 2026-06-22T16:18:41Z
 project: yasystem
 section: null
 parent: T-0374
@@ -15,14 +15,14 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Timeline with continuous time axis across day-1/day/day+1 and a perspective-date picker centring the middle day
-  - Vehicle lanes fixed-position, grouped by type, empty lanes shown
-  - Runs drawn as time-positioned bars with code + weight/vol
-  - Load/unload shoulders drawn before/after each run bar, giving latest-start-loading and occupied-until times
-  - Non-open warehouse hours shaded
-  - Turnaround gaps coloured by band with usable time + load shown
-  - Time-overlaps on a vehicle highlighted red
-  - Read-only
+  - "[x] Timeline with continuous time axis across day-1/day/day+1 and a perspective-date picker centring the middle day"
+  - "[x] Vehicle lanes fixed-position, grouped by type, empty lanes shown"
+  - "[x] Runs drawn as time-positioned bars with code + weight/vol"
+  - "[x] Load/unload shoulders drawn before/after each run bar, giving latest-start-loading and occupied-until times"
+  - "[x] Non-open warehouse hours shaded"
+  - "[x] Turnaround gaps coloured by band with usable time + load shown"
+  - "[x] Time-overlaps on a vehicle highlighted red"
+  - "[x] Read-only"
 out_of_scope: []
 code_anchors:
   - path: backend/web/js/SketchPlanner.js
@@ -49,10 +49,14 @@ agent_runs:
       - at: 2026-06-15T15:59:08Z
         note: "Code-complete + committed (0c374237) on branch t0374-turnaround-visualiser. Vue timeline at /route-planner/turnaround: continuous 3-day axis with date picker, vehicle lanes grouped by type, run bars with load/unload shoulders, shaded non-open hours, turnaround connectors coloured by band, overlaps hatched red. Read-only. Not pushed yet (policy). Needs a real-server run-through (no app runtime locally)."
     test_plan: 1. Open /route-planner/turnaround — defaults to today; use the date picker / arrows to set a perspective day. 2. Confirm 3 day blocks (before/day/after), vehicles grouped 18T→3.5T with empty lanes shown, HIRE tag on non-fleet. 3. A run with a tight next-run shows an orange/red connector with usable time; hover for the breakdown. 4. Load (blue) shoulder sits before each bar, unload (purple) after — check the latest-start-loading reads correctly. 5. Non-open hours (outside 06:00–22:00) shaded. 6. Force two overlapping runs on one vehicle → red hatch.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - turnaround-visualiser
 attention: null
-version: 5
+version: 16
 ---
 
 ## Problem
@@ -71,3 +75,9 @@ New Vue page (model on the sketch planner app):
 - Turnaround gap between consecutive bars coloured by band (blue normal / orange tight / red very-tight), with the usable time + weight/vol to turn around shown on/around the connector.
 - Genuine time overlaps on one vehicle rendered as overlapping bars highlighted red.
 - Read-only (no reassignment in v1).
+
+## Conversation
+
+**2026-06-22 16:18 — you**
+
+Done and shipped to live

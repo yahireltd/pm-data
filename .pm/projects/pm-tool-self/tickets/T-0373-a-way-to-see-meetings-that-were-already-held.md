@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-15T14:51:32Z
-updated: 2026-06-22T15:39:06Z
+updated: 2026-06-22T16:14:01Z
 project: pm-tool-self
 section: null
 parent: null
@@ -27,7 +27,10 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
+collaborators:
+  - kind: human
+    name: Austin Pickering
 ---
 
 Its difficult to find a meeting after it has been held we need a way to show them / add the the meetinngs view previous meetings

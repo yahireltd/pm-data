@@ -4,7 +4,7 @@ title: Link follow-up tickets to their source (relates on update_ticket + show l
 type: feature
 state: triaged
 created: 2026-06-05T22:52:59Z
-updated: 2026-06-08T18:55:27Z
+updated: 2026-06-22T16:16:38Z
 project: pm-tool-self
 section: null
 parent: null
@@ -17,6 +17,7 @@ acceptance_criteria:
   - "Web parity: a ticket's links can be set/edited in the UI — a simple add/remove picker in the 'Related work' section (which today only DISPLAYS links)."
   - A finished spike surfaces the follow-up tickets it produced prominently (not buried in the Developer-details dropdown), so it's no longer a dead end.
   - The schema already defines relates/blocks/blocked_by/duplicates and delete already cleans them up — verify both still hold after the change.
+  - "DECIDE BEFORE CODING: 'wholesale replace like labels' (AC1) conflicts with the reciprocal-link invariant in cli/src/lib/links.ts (relates↔relates, blocks↔blocked_by). A blind replace leaves the inverse side stale and the link graph asymmetric — choose reciprocal-via-links.ts or a documented one-sided write first."
 out_of_scope: []
 code_anchors:
   - path: mcp-server/src/tools/update-ticket.ts
@@ -35,6 +36,10 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
+collaborators:
+  - kind: human
+    name: Austin Pickering
+version: 3
 ---
 
 ## Problem
@@ -44,3 +49,9 @@ T-0249 (a security-review spike) confused the human because its 5 output tickets
 ## Context
 
 Surfaced dogfooding on 2026-06-05 (T-0249 → T-0253–T-0257).
+
+## Conversation
+
+**2026-06-22 16:16 claude-code:** **Verified 2026-06-22 (deep check, re-confirmed) — 3 of 4 criteria unbuilt (the 4th is already true).**
+
+Confirms what we hit live this session: `pm_update_ticket` still can't set relates/blocks, the web "Related work" is display-only, and a spike's follow-ups stay buried in the Developer-details dropdown. The schema-defines-the-fields + delete-cleans-them-up criterion already holds. **One design call to make BEFORE coding** (now a 5th acceptance criterion): AC1 says "wholesale replace like labels," but `cli/src/lib/links.ts` keeps links reciprocal (relates↔relates, blocks↔blocked_by) — a blind replace leaves the other side stale and the link graph asymmetric. Decide reciprocal-via-links.ts vs a documented one-sided write first. Self-contained otherwise; schedule **last** so that call isn't rushed.

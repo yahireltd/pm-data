@@ -4,7 +4,7 @@ title: Move display settings (text size + avatar colour) from /me to the Setting
 type: feature
 state: ready
 created: 2026-06-19T09:38:42Z
-updated: 2026-06-19T09:40:13Z
+updated: 2026-06-22T16:14:10Z
 project: pm-tool-self
 section: null
 parent: null
@@ -37,7 +37,10 @@ labels:
   - facelift
   - ui
 attention: null
-version: 4
+version: 5
+collaborators:
+  - kind: human
+    name: Austin Pickering
 ---
 
 ## Problem

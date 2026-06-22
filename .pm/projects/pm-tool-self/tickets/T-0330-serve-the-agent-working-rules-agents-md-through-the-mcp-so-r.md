@@ -4,13 +4,13 @@ title: Serve the agent working rules (AGENTS.md) through the MCP so remote agent
 type: feature
 state: ready
 created: 2026-06-09T19:28:25Z
-updated: 2026-06-16T14:19:49Z
+updated: 2026-06-22T16:16:34Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
-priority: p2
+priority: p1
 reporter:
   kind: human
   name: Austin
@@ -41,10 +41,12 @@ labels:
   - dogfood-find
   - agent-experience
 attention: null
-version: 4
+version: 7
 collaborators:
   - kind: human
     name: austin
+  - kind: human
+    name: Austin Pickering
 ---
 
 ## Problem
@@ -60,3 +62,9 @@ Pick whichever fits the architecture best:
 - Return a short conventions digest inside pm_get_project (which agents already call first), alongside the agent_policy it already returns.
 
 The conventions text should be served from one source of truth so the repo copy and the served copy cannot drift.
+
+## Conversation
+
+**2026-06-22 16:16 claude-code:** **Verified 2026-06-22 (deep check, re-confirmed) — genuinely unbuilt; small, self-contained.**
+
+The MCP server serves nothing from AGENTS.md today: no `instructions` field, no conventions tool or resource, and AGENTS.md is never read by any code path (the only "conventions" text anywhere is a hand-typed mirror in the web docs page — which is itself the drift this ticket warns about). Cleanest build: read AGENTS.md **once on disk** at server startup and expose it two ways from that single read — the MCP `instructions` field (every client gets it automatically) **+** a `pm://conventions` resource. Heads-up: the claim-time "nudge" bonus (AC4) is hard because the server is stateless per request — keep it a static one-line pointer or skip. And the MCP server needs a **restart** to pick this up (a deploy won't hot-load it). No dependency on the other four — orderable anywhere.

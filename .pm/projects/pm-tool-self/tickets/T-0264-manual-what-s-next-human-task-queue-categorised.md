@@ -4,7 +4,7 @@ title: Manual "What's next" — human task queue (categorised)
 type: feature
 state: triaged
 created: 2026-06-05T22:43:55Z
-updated: 2026-06-08T19:09:44Z
+updated: 2026-06-22T16:13:35Z
 project: pm-tool-self
 section: null
 parent: null
@@ -40,6 +40,10 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
+collaborators:
+  - kind: human
+    name: Austin Pickering
+version: 1
 ---
 
 ## Problem

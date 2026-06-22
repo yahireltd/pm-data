@@ -4,7 +4,7 @@ title: "Branch protocol gap: resolved branch vs actual checkout in shared workin
 type: chore
 state: triaged
 created: 2026-06-12T02:59:38Z
-updated: 2026-06-12T02:59:38Z
+updated: 2026-06-22T16:13:36Z
 project: pm-tool-self
 section: null
 parent: null
@@ -38,7 +38,10 @@ labels:
   - agents-md
   - branch-on-ticket
 attention: null
-version: 1
+version: 2
+collaborators:
+  - kind: human
+    name: Austin Pickering
 ---
 
 ## Problem

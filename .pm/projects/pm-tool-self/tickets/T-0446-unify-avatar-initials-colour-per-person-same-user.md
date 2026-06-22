@@ -5,7 +5,7 @@ type: bug
 state: ready
 priority: p2
 created: 2026-06-19T09:15:24Z
-updated: 2026-06-19T09:34:00Z
+updated: 2026-06-22T16:14:10Z
 project: pm-tool-self
 section: null
 parent: null
@@ -39,8 +39,11 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 16
+version: 17
 defect_status: confirmed
+collaborators:
+  - kind: human
+    name: Austin Pickering
 ---
 
 ## Problem

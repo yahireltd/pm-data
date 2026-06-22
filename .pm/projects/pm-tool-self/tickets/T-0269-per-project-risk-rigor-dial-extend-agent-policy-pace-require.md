@@ -4,7 +4,7 @@ title: "Per-project risk / rigor dial (extend agent-policy: pace + required rigo
 type: feature
 state: triaged
 created: 2026-06-05T22:53:29Z
-updated: 2026-06-08T19:09:52Z
+updated: 2026-06-22T16:13:35Z
 project: pm-tool-self
 section: null
 parent: null
@@ -43,6 +43,10 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
+collaborators:
+  - kind: human
+    name: Austin Pickering
+version: 1
 ---
 
 ## Problem
