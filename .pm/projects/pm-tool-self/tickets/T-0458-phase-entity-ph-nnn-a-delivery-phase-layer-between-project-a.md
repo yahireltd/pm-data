@@ -4,7 +4,7 @@ title: "Phase entity (PH-NNN): a delivery-phase layer between project and milest
 type: feature
 state: in_progress
 created: 2026-06-22T22:07:14Z
-updated: 2026-06-22T22:42:11Z
+updated: 2026-06-22T23:07:26Z
 project: pm-tool-self
 section: null
 parent: null
@@ -58,23 +58,19 @@ agent_runs:
     progress:
       - at: 2026-06-22T22:42:11Z
         note: "Built the first half of the new Phase layer — the data model and the agent (MCP) tools. You can now group a project's milestones under a named Phase (e.g. \"Phase 2 — Sales OS Foundation\"), give each phase a goal, an owner, an entry gate (what must be true to start it) and an order, and the tool can roll a phase's progress up from its milestones → sprints → tickets. This is the structure that was missing: until now \"phases\" only existed as words typed into milestone titles, so a phase that needed several milestones had nowhere to live and couldn't be tracked. Still to come: the visual phase view in the web app, the relabel of the existing lifecycle \"Phase\" to \"Lifecycle\" so the word isn't used twice, and the docs. Work is on a feature branch and not yet deployed, so it won't appear live until we push and restart the server."
+      - at: 2026-06-22T23:07:26Z
+        note: "Built and deployed the second half — the visual side. Every project now has a \"Phases\" tab showing a tree: each phase, the milestones filed under it, the sprints planned from those milestones, and the tickets — with a running \"X of Y tickets done\" count at every level, plus an \"owner / entry-gate / depends-on\" line per phase and a section listing any milestones not yet placed in a phase. To stop the word \"phase\" meaning two different things, the old tab that shows a project's intake→ship lifecycle stage is now labelled \"Lifecycle\", leaving \"Phases\" for the new delivery grouping. The whole feature (data, the agent tools, and this view) is now live on the server."
     test_plan: |-
-      Branch: t0458-phase-entity (ticket resolved branch was master; cut a feature branch and recording that here per the branch-on-ticket convention). Not pushed yet.
+      DEPLOYED: commits db2f1d7 (data + MCP) and e1d4adf (web view + Lifecycle relabel + docs) are live; pm-tool + pm-mcp both restarted active; the cross-package typecheck gate passed both deploys.
 
-      LOCAL VALIDATION DONE: cli, mcp-server and linter all typecheck clean (bunx tsc --noEmit, exit 0); the mcp tools-list guard test passes with a refreshed 65-tool snapshot (also re-synced pre-existing tools that had drifted out of it). Remaining suite failures are pre-existing + environmental — the cli/mcp fixtures copy a `.pm` data seed that isn't present in this code-only checkout (code/data split), so they ENOENT identically on master.
+      TO SEE THE VIEW (web): open any project → the new "Phases" tab (e.g. /projects/sales-segmentation-account-management/phases). HARD-REFRESH the browser (Cmd/Ctrl+Shift+R) — a deploy doesn't refresh already-open tabs. With no phases created yet it shows "No phases yet" plus the project's milestones under "Milestones not yet in a phase". Confirm the old lifecycle tab now reads "Lifecycle" and that opening /phases does NOT also highlight the Lifecycle tab (the phase/phases prefix-collision fix).
 
-      TO VERIFY ONCE DEPLOYED (push → pm-deploy → restart pm-mcp → reconnect MCP client; new tools need a reconnect to appear):
-      1. pm_create_phase on a test project → returns PH-001; pm_list_phases shows it with goal/state/milestone-count.
-      2. pm_create_milestone with phase_id=PH-001 (or pm_set_milestone_phase on an existing one) → pm_get_phase PH-001 lists that milestone under it.
-      3. pm_update_phase (title/goal/target_date/entry_gate/depends_on) and pm_update_phase_state (planned→in_progress→hit) round-trip and persist.
-      4. pm_set_phase_owner / pm_add_phase_stakeholder / pm_remove_phase_stakeholder behave like the milestone equivalents (same validation).
-      5. CROSS-IMPACT — milestone tools: pm_create_milestone now accepts an OPTIONAL phase_id; confirm creating a milestone WITHOUT it still works and existing milestones are untouched. pm_list_milestones/pm_get_milestone unchanged.
-      6. Schema: a phase doc validates against schemas/phase.schema.json; a milestone with phase_id still validates.
+      TO USE THE TOOLS (agent): the MCP client must RECONNECT (restart Claude Code) before pm_create_phase etc. appear — they were registered at this deploy. Then: create PH-01..PH-04 on the Sales project, file MS-001..004 under them with pm_set_milestone_phase, and refresh the Phases tab — the tree should populate and the per-phase counts roll up.
 
-      NOT YET BUILT (next): CLI `pm new phase`; web rollup view (Phase→Milestone→Sprint→Ticket tree) + the lifecycle-"Phase"→"Lifecycle" relabel; docs (SCHEMA.md, dev wiki, help).
+      STILL TO DO (follow-up, not yet built): CLI `pm new phase`; the deeper relabel of the lifecycle "Phase" wording inside the command-center page (only the tab is relabelled so far); fuller docs (dev wiki + help). The worked example (Sales phases) needs the reconnect above.
 labels: []
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
