@@ -4,7 +4,7 @@ title: Phase 2 · 2b — Customer segmentation / account levels (derive level fr
 type: feature
 state: triaged
 created: 2026-06-22T19:03:45Z
-updated: 2026-06-22T19:03:45Z
+updated: 2026-06-22T19:07:01Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -31,7 +31,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 3
 ---
 
 ## Deliverable (2b of the scoring↔segmentation pair)
