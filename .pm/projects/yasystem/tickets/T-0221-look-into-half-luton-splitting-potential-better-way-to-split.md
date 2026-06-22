@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T14:04:19Z
-updated: 2026-06-12T01:15:55Z
+updated: 2026-06-22T16:29:41Z
 project: yasystem
 section: null
 parent: null
@@ -13,7 +13,8 @@ children: []
 order: 18432
 reporter: null
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - add a half luton option in the split options on the sketch planner that makes it through to the solver
 out_of_scope: []
 code_anchors: []
 relates:
@@ -26,7 +27,7 @@ agent_runs: []
 labels: []
 attention: null
 branch: PickingSketchSalesDashFriday
-version: 4
+version: 5
 ---
 
 ## Problem

@@ -2,9 +2,9 @@
 id: T-0377
 title: Turn-around grid/timeline data endpoint (3-day fleet + hire)
 type: feature
-state: in_progress
+state: done
 created: 2026-06-15T15:37:19Z
-updated: 2026-06-15T15:59:02Z
+updated: 2026-06-22T16:21:53Z
 project: yasystem
 section: null
 parent: T-0374
@@ -15,12 +15,12 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Endpoint takes a perspective date, returns day-1/day/day+1 window + warehouse hours
-  - Vehicles = active fleet + hire pool, grouped by type, ignore-flagged excluded, empty rows kept
-  - Each run carries absolute dispatch/return datetimes + card data (code, hours, start/end weight, vol, status, lock/pushed)
-  - Each run carries its own load_mins and unload_mins
-  - Turnaround links between consecutive runs incl. across days
-  - Time-overlaps between a vehicle's runs flagged
+  - "[x] Endpoint takes a perspective date, returns day-1/day/day+1 window + warehouse hours"
+  - "[x] Vehicles = active fleet + hire pool, grouped by type, ignore-flagged excluded, empty rows kept"
+  - "[x] Each run carries absolute dispatch/return datetimes + card data (code, hours, start/end weight, vol, status, lock/pushed)"
+  - "[x] Each run carries its own load_mins and unload_mins"
+  - "[x] Turnaround links between consecutive runs incl. across days"
+  - "[x] Time-overlaps between a vehicle's runs flagged"
 out_of_scope: []
 code_anchors:
   - path: backend/controllers/RoutePlannerController.php
@@ -49,10 +49,14 @@ agent_runs:
       - at: 2026-06-15T15:59:02Z
         note: Code-complete + committed (19d474d9) on branch t0374-turnaround-visualiser. actionTurnaroundData returns the 3-day window, warehouse hours, and active fleet+hire grouped by type with runs, per-run load/unload mins, turnaround links and overlap flags. Not pushed yet (policy).
     test_plan: "Hit /route-planner/turnaround-data?date=YYYY-MM-DD and check JSON: groups ordered heaviest type first; vehicles incl. empty ones; each run has dispatch/return + load_mins/unload_mins; links carry band + overlap. Pick a date you know has a tight turnaround and confirm the link band matches the run-planner eye."
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - turnaround-visualiser
 attention: null
-version: 5
+version: 26
 ---
 
 ## Problem
@@ -70,3 +74,9 @@ New controller action: given a perspective date, return JSON:
 - overlap flag where a vehicle has two runs whose time ranges intersect
 
 Reuse Vehicles::getActiveFleet() and the hire-pool logic in LogisticsController.
+
+## Conversation
+
+**2026-06-22 16:21 — you**
+
+done and live
