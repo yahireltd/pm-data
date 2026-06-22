@@ -2,9 +2,9 @@
 id: T-0395
 title: "Docs-drift gate: fail the build when schema/types/tools change without a docs update (§8 enforcement)"
 type: feature
-state: review
+state: done
 created: 2026-06-16T19:53:44Z
-updated: 2026-06-22T18:15:07Z
+updated: 2026-06-22T18:26:27Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,9 +15,9 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - A change that edits a schema/type/tool (schemas/, cli/src/types.ts, mcp-server/src/tools/) without a matching doc edit (SCHEMA.md / web/app/docs/content.ts / web/app/help/content/) is flagged by the lint/build
-  - "An explicit escape hatch (e.g. a docs-ok: <reason> marker) lets a genuine no-docs-needed change through, recording the reason"
-  - Wired into the deploy build (the existing type-gate) so it actually blocks; warn-first then promote to hard fail
+  - "[x] A change that edits a schema/type/tool (schemas/, cli/src/types.ts, mcp-server/src/tools/) without a matching doc edit (SCHEMA.md / web/app/docs/content.ts / web/app/help/content/) is flagged by the lint/build"
+  - "[x] An explicit escape hatch (e.g. a docs-ok: <reason> marker) lets a genuine no-docs-needed change through, recording the reason"
+  - "[x] Wired into the deploy build (the existing type-gate) so it actually blocks; warn-first then promote to hard fail"
 out_of_scope: []
 code_anchors:
   - path: linter/src/docs-drift.ts
@@ -70,11 +70,8 @@ labels:
   - forcing-function
   - docs
   - dx
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-22T18:15:07Z
-version: 10
+attention: null
+version: 16
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -109,3 +106,17 @@ Add a docs-drift check to the lint/deploy build:
 **If we did nothing:** Documentation would keep silently drifting out of sync with the code, so the next person — or assistant — reading the docs would be misled, and the gap would only surface much later when something didn't match.
 
 **The benefit:** The deploy now points out documentation that's fallen behind the moment it happens, so it gets fixed while it's fresh — turning a good-intentions rule into something the system actually checks.
+
+**2026-06-22 18:25 claude-code:** **Post-deploy fix 2026-06-22 (commit `ff1be4e`) — the gate's first live run caught a bug in itself.**
+
+On the T-0395 deploy, the docs-drift step printed "skipped — docs-ok…" even though nothing needed skipping. The cause: the `docs-ok:` escape-hatch regex matched the marker *anywhere* in a commit message — and this ticket's own commit message *describes* the docs-ok feature, so it was wrongly read as opted-out. A real tool change whose message merely mentioned `docs-ok:` would have been silently let through.
+
+Fix: the marker must now sit on its **own line** (a deliberate trailer), so prose that merely mentions "docs-ok:" can't trip it. Also reordered the reporting so the printed message always matches the decision (no-code → OK; docs-travelled → OK; trailer → skipped; else → drift).
+
+Re-verified live: the T-0395 range now reports "OK — no schema/type/tool changes"; a real tool-change-without-docs commit still warns; a genuine `docs-ok:` trailer is still recognised. Deployed and live.
+
+---
+
+**2026-06-22 18:26 — you**
+
+Check shows up doc drift
