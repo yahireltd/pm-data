@@ -2,22 +2,25 @@
 id: T-0267
 title: Link follow-up tickets to their source (relates on update_ticket + show linked/spike-output tickets)
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-05T22:52:59Z
-updated: 2026-06-22T16:16:38Z
+updated: 2026-06-22T17:45:09Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
 priority: p2
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - pm_update_ticket (MCP) accepts relates / blocks / blocked_by as optional arrays of ticket ids; invalid ids are rejected; the changed list is returned (mirrors how `labels` works — wholesale replace).
   - "Web parity: a ticket's links can be set/edited in the UI — a simple add/remove picker in the 'Related work' section (which today only DISPLAYS links)."
   - A finished spike surfaces the follow-up tickets it produced prominently (not buried in the Developer-details dropdown), so it's no longer a dead end.
   - The schema already defines relates/blocks/blocked_by/duplicates and delete already cleans them up — verify both still hold after the change.
   - "DECIDE BEFORE CODING: 'wholesale replace like labels' (AC1) conflicts with the reciprocal-link invariant in cli/src/lib/links.ts (relates↔relates, blocks↔blocked_by). A blind replace leaves the inverse side stale and the link graph asymmetric — choose reciprocal-via-links.ts or a documented one-sided write first."
+  - we also need a place to do this in the ui (create and link followup)
 out_of_scope: []
 code_anchors:
   - path: mcp-server/src/tools/update-ticket.ts
@@ -33,13 +36,17 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260622-1745
+    model: claude-opus-4-8
+    started: 2026-06-22T17:45:09Z
+    status: in_progress
 labels: []
 attention: null
 collaborators:
   - kind: human
     name: Austin Pickering
-version: 3
+version: 6
 ---
 
 ## Problem
