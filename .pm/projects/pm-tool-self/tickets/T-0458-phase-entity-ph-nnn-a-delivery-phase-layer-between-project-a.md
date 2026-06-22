@@ -4,7 +4,7 @@ title: "Phase entity (PH-NNN): a delivery-phase layer between project and milest
 type: feature
 state: in_progress
 created: 2026-06-22T22:07:14Z
-updated: 2026-06-22T22:18:33Z
+updated: 2026-06-22T22:42:11Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,9 +55,26 @@ agent_runs:
     model: claude-opus-4-8
     started: 2026-06-22T22:18:33Z
     status: in_progress
+    progress:
+      - at: 2026-06-22T22:42:11Z
+        note: "Built the first half of the new Phase layer — the data model and the agent (MCP) tools. You can now group a project's milestones under a named Phase (e.g. \"Phase 2 — Sales OS Foundation\"), give each phase a goal, an owner, an entry gate (what must be true to start it) and an order, and the tool can roll a phase's progress up from its milestones → sprints → tickets. This is the structure that was missing: until now \"phases\" only existed as words typed into milestone titles, so a phase that needed several milestones had nowhere to live and couldn't be tracked. Still to come: the visual phase view in the web app, the relabel of the existing lifecycle \"Phase\" to \"Lifecycle\" so the word isn't used twice, and the docs. Work is on a feature branch and not yet deployed, so it won't appear live until we push and restart the server."
+    test_plan: |-
+      Branch: t0458-phase-entity (ticket resolved branch was master; cut a feature branch and recording that here per the branch-on-ticket convention). Not pushed yet.
+
+      LOCAL VALIDATION DONE: cli, mcp-server and linter all typecheck clean (bunx tsc --noEmit, exit 0); the mcp tools-list guard test passes with a refreshed 65-tool snapshot (also re-synced pre-existing tools that had drifted out of it). Remaining suite failures are pre-existing + environmental — the cli/mcp fixtures copy a `.pm` data seed that isn't present in this code-only checkout (code/data split), so they ENOENT identically on master.
+
+      TO VERIFY ONCE DEPLOYED (push → pm-deploy → restart pm-mcp → reconnect MCP client; new tools need a reconnect to appear):
+      1. pm_create_phase on a test project → returns PH-001; pm_list_phases shows it with goal/state/milestone-count.
+      2. pm_create_milestone with phase_id=PH-001 (or pm_set_milestone_phase on an existing one) → pm_get_phase PH-001 lists that milestone under it.
+      3. pm_update_phase (title/goal/target_date/entry_gate/depends_on) and pm_update_phase_state (planned→in_progress→hit) round-trip and persist.
+      4. pm_set_phase_owner / pm_add_phase_stakeholder / pm_remove_phase_stakeholder behave like the milestone equivalents (same validation).
+      5. CROSS-IMPACT — milestone tools: pm_create_milestone now accepts an OPTIONAL phase_id; confirm creating a milestone WITHOUT it still works and existing milestones are untouched. pm_list_milestones/pm_get_milestone unchanged.
+      6. Schema: a phase doc validates against schemas/phase.schema.json; a milestone with phase_id still validates.
+
+      NOT YET BUILT (next): CLI `pm new phase`; web rollup view (Phase→Milestone→Sprint→Ticket tree) + the lifecycle-"Phase"→"Lifecycle" relabel; docs (SCHEMA.md, dev wiki, help).
 labels: []
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
