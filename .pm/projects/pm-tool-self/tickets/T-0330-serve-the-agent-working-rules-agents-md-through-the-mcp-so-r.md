@@ -2,9 +2,9 @@
 id: T-0330
 title: Serve the agent working rules (AGENTS.md) through the MCP so remote agents don't need the code checkout
 type: feature
-state: ready
+state: in_progress
 created: 2026-06-09T19:28:25Z
-updated: 2026-06-22T16:16:34Z
+updated: 2026-06-22T16:49:52Z
 project: pm-tool-self
 section: null
 parent: null
@@ -25,28 +25,34 @@ acceptance_criteria:
   - "Bonus: pm_claim_ticket nudges agents who have not fetched the conventions (only if cheap to implement)"
 out_of_scope: []
 code_anchors:
-  - path: AGENTS.md
   - path: mcp-server/src/server.ts
-    symbol: server instructions / tool registration
+    symbol: loadAgentsConventions + instructions option + pm://conventions resource
   - path: web/app/docs/content.ts
-    symbol: MCP tool surface section
+    symbol: MCP tool surface (Resources) + Conventions sections
+  - path: AGENTS.md
+    symbol: the served source (unchanged)
 relates: []
 blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260622-1645
+    model: claude-opus-4-8
+    started: 2026-06-22T16:45:26Z
+    status: in_progress
 labels:
   - mcp
   - dogfood-find
   - agent-experience
 attention: null
-version: 7
+version: 9
 collaborators:
   - kind: human
     name: austin
   - kind: human
     name: Austin Pickering
+branch: t0330-serve-agents-md-mcp
 ---
 
 ## Problem
