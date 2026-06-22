@@ -2,9 +2,9 @@
 id: T-0265
 title: Cross-package typecheck (cli, mcp-server, comms) — not just the web build
 type: chore
-state: review
+state: done
 created: 2026-06-05T22:52:32Z
-updated: 2026-06-22T17:10:51Z
+updated: 2026-06-22T17:30:36Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,13 +15,13 @@ assignee:
   kind: agent
   name: claude
 acceptance_criteria:
-  - A single root command (e.g. `bun run typecheck`) runs tsc --noEmit across cli/, mcp-server/, comms/, linter/ AND web/ in one pass, exiting non-zero if any package fails.
-  - Runnable locally from the repo root so type errors are caught before push (today each package has its own typecheck script but there's no aggregate; cli/ has none).
-  - pm-deploy runs the aggregate typecheck before `bun run build` and fails fast if any package fails — type errors no longer first surface as a server build failure.
-  - "AGENTS.md §9 (deploy contract) updated: a local typecheck gate now exists (it currently says 'there is no local typecheck')."
-  - All five packages typecheck clean once wired.
-  - "Fix the two pre-existing type errors that block a clean aggregate run (the repo does NOT typecheck clean today): mcp-server/src/tools/record-outcome.ts:84 (TS2322 string|null vs string|undefined) and linter/tsconfig.json 'types' (deprecated 'bun-types' → 'bun', TS2688)."
-  - Wire the gate into the REAL server pm-deploy (/usr/local/bin/pm-deploy), not only the doc snippet; enumerate packages explicitly since linter isn't in root workspaces (a --workspaces aggregate would silently skip it).
+  - "[x] A single root command (e.g. `bun run typecheck`) runs tsc --noEmit across cli/, mcp-server/, comms/, linter/ AND web/ in one pass, exiting non-zero if any package fails."
+  - "[x] Runnable locally from the repo root so type errors are caught before push (today each package has its own typecheck script but there's no aggregate; cli/ has none)."
+  - "[x] pm-deploy runs the aggregate typecheck before `bun run build` and fails fast if any package fails — type errors no longer first surface as a server build failure."
+  - "[x] AGENTS.md §9 (deploy contract) updated: a local typecheck gate now exists (it currently says 'there is no local typecheck')."
+  - "[x] All five packages typecheck clean once wired."
+  - "[x] Fix the two pre-existing type errors that block a clean aggregate run (the repo does NOT typecheck clean today): mcp-server/src/tools/record-outcome.ts:84 (TS2322 string|null vs string|undefined) and linter/tsconfig.json 'types' (deprecated 'bun-types' → 'bun', TS2688)."
+  - "[x] Wire the gate into the REAL server pm-deploy (/usr/local/bin/pm-deploy), not only the doc snippet; enumerate packages explicitly since linter isn't in root workspaces (a --workspaces aggregate would silently skip it)."
 out_of_scope: []
 code_anchors:
   - path: package.json
@@ -73,14 +73,11 @@ agent_runs:
       status_note: none-needed
       docs_note: AGENTS.md §9 (deploy contract) and docs/development.md (pm-deploy snippet + prose) updated to document the new aggregate typecheck gate.
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-22T17:10:51Z
+attention: null
 collaborators:
   - kind: human
     name: Austin Pickering
-version: 7
+version: 17
 branch: t0265-cross-package-typecheck
 ---
 
@@ -105,3 +102,19 @@ No root aggregate typecheck exists, `cli/` has no typecheck script, `pm-deploy` 
 **If we did nothing:** Type-mistakes in those four unchecked parts would keep slipping through to production and only show up as confusing failures after deploy, costing time to trace back to the real cause.
 
 **The benefit:** One command now checks all five parts in one pass and runs automatically before every deploy, so a whole class of mistakes is stopped before it ever reaches the live system. The two pre-existing mistakes are fixed too, so the project is clean today.
+
+**2026-06-22 17:20 claude-code:** **Folded in 2026-06-22 (commit `820d714`) — AGENTS.md §9 reframed to be project-agnostic.**
+
+Why this landed here: T-0330 (just shipped) serves AGENTS.md to every agent over the MCP regardless of which project they're on, so §9's pm-tool-specific deploy steps were reaching agents working on *other* projects (yasystem, websites…) as if they were universal — a real hazard. And my earlier T-0265 edit had added *more* pm-tool deploy detail to that broadcast section.
+
+So §9 is now a general principle: **deploy is per-project, default is do-not-deploy, hand off if you don't have a project-specific process.** pm-tool-self's actual deploy mechanics — `pm-deploy`, the new typecheck-before-build gate, and the push-auth / lockfile / tool-reload gotchas — moved to `docs/development.md`, which isn't broadcast.
+
+Effect on this ticket's AC4 ("AGENTS.md §9 updated — it currently says 'there is no local typecheck'"): **satisfied** — §9 no longer makes that stale claim, and the typecheck gate is documented in `docs/development.md` instead of the served conventions.
+
+The full project-level deploy-contract feature (a `deploy` field on `agent_policy`, default do-not-deploy, web editor, migration of all existing projects) is **T-0451** — now committed to SPR-027.
+
+---
+
+**2026-06-22 17:30 — you**
+
+done
