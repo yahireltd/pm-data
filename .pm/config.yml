@@ -38,6 +38,8 @@ id_counters:
       tech_session: 1
     sales-segmentation-account-management:
       tech_session: 1
+      phase: 4
+      milestone: 10
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph

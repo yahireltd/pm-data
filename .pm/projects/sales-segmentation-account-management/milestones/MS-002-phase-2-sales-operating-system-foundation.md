@@ -6,7 +6,7 @@ project: sales-segmentation-account-management
 state: planned
 order: 2048
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-22T18:55:30Z
+updated: 2026-06-22T23:21:45Z
 acceptance_criteria:
   - "Goal: create a structured, scalable sales engine."
   - Customer segmentation — define/apply the segments (value bands, new vs repeat…) that drive how each account is handled.
@@ -17,7 +17,7 @@ acceptance_criteria:
   - Task frameworks — cadence frameworks telling reps what to do next per account type.
   - "Outcome: the right customer receives the right level of attention."
 slip_records: []
-version: 8
+version: 9
 stakeholders:
   - name: Ben
     channel: email
@@ -49,6 +49,7 @@ stakeholders:
 owner:
   kind: human
   name: Austin
+phase_id: PH-002
 ---
 
 # Phase 2 — Sales Operating System Foundation

@@ -6,7 +6,7 @@ project: sales-segmentation-account-management
 state: planned
 order: 3072
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T19:14:29Z
+updated: 2026-06-22T23:20:58Z
 acceptance_criteria:
   - "Goal: improve performance through visibility and accountability."
   - Dashboards — leakage and process-conformance dashboards, each tied to a decision it drives.
@@ -17,7 +17,7 @@ acceptance_criteria:
   - Predictive indicators — lead indicators that flag issues before the lag numbers move.
   - "Outcome: managers can systematically improve results."
 slip_records: []
-version: 6
+version: 7
 stakeholders:
   - name: Nathan
     channel: email
@@ -37,6 +37,7 @@ stakeholders:
       name: claude
     added_at: 2026-06-16T18:47:02Z
     role: Business Development Manager SME
+phase_id: PH-003
 ---
 
 # Phase 3 — Management & Learning System

@@ -6,7 +6,7 @@ project: sales-segmentation-account-management
 state: planned
 order: 1024
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-22T18:55:30Z
+updated: 2026-06-22T23:20:55Z
 acceptance_criteria:
   - "Goal: remove waste and improve productivity across the sales workflow."
   - Menu tidy-up — prune/reorganise the sales menus so everyday paths are short; remove dead/duplicate entries.
@@ -18,7 +18,7 @@ acceptance_criteria:
   - UX improvements — targeted usability fixes on the most-used screens, fewer clicks.
   - "Outcome: the same people can process more work with less effort."
 slip_records: []
-version: 9
+version: 10
 stakeholders:
   - name: Austin
     channel: email
@@ -50,6 +50,7 @@ stakeholders:
 owner:
   kind: human
   name: Zsolt
+phase_id: PH-001
 ---
 
 # Phase 1 — Sales Efficiency

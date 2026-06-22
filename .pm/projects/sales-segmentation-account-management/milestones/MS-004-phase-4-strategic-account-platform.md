@@ -6,7 +6,7 @@ project: sales-segmentation-account-management
 state: planned
 order: 4096
 created: 2026-06-16T17:34:29Z
-updated: 2026-06-16T19:14:32Z
+updated: 2026-06-22T23:20:58Z
 acceptance_criteria:
   - "Goal: grow major accounts and increase share of wallet."
   - Account plans — structured plans per strategic account (objectives, actions, owners).
@@ -17,7 +17,7 @@ acceptance_criteria:
   - Strategic reviews — periodic account reviews (and the quarterly transfer-window ritual) that move accounts between levels.
   - "Outcome: Yahire systematically grows its most valuable customers."
 slip_records: []
-version: 6
+version: 7
 stakeholders:
   - name: Sam
     channel: email
@@ -37,6 +37,7 @@ stakeholders:
       name: claude
     added_at: 2026-06-16T18:47:04Z
     role: Sales Manager SME
+phase_id: PH-004
 ---
 
 # Phase 4 — Strategic Account Platform
