@@ -6,7 +6,7 @@ project: pm-tool-self
 state: in_progress
 order: 27648
 created: 2026-06-05T22:52:16Z
-updated: 2026-06-09T15:11:13Z
+updated: 2026-06-22T15:40:11Z
 committed_items:
   - T-0265
   - T-0266
@@ -14,6 +14,10 @@ committed_items:
   - T-0268
   - T-0269
   - T-0264
+  - T-0364
+  - T-0192
+  - T-0387
+  - T-0395
 goal: "Improve the human<->agent working dynamic and fix the dogfood frictions surfaced in the 2026-06-05 build session: agent identity/audit, a manual human queue, a risk/rigor dial, richer review handoff, and a tighter dev loop (cross-package typecheck, deploy refresh, ticket linking)."
 velocity_history:
   - sprint: SPR-024
@@ -26,6 +30,7 @@ capacity:
   total: 5
   unit: tickets
 velocity_committed: 5
+version: 6
 ---
 
 # SPR-027: Human-agent dynamic + dogfood hardening

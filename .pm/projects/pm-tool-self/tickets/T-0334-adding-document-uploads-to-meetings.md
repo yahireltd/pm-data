@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-10T00:01:59Z
-updated: 2026-06-10T00:02:07Z
+updated: 2026-06-22T15:39:04Z
 project: pm-tool-self
 section: null
 parent: null
@@ -13,7 +13,10 @@ children: []
 order: 96256
 reporter: null
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - A meeting can have documents/files attached, the same way tickets already support attachments
+  - Attached documents are listed on the meeting and can be downloaded
+  - Uploads reuse the existing ticket-attachment storage/mechanism rather than a new one
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -24,7 +27,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 3
 ---
 
 same as with tickets

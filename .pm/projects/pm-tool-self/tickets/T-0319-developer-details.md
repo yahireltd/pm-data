@@ -2,10 +2,10 @@
 id: T-0319
 title: Developer details
 type: feature
-state: triaged
+state: done
 priority: p2
 created: 2026-06-09T17:05:07Z
-updated: 2026-06-18T19:12:03Z
+updated: 2026-06-22T15:46:36Z
 project: pm-tool-self
 section: null
 parent: null
@@ -25,7 +25,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 6
+version: 7
 ---
 
 In the help section of tickets there is the following text: \
@@ -54,3 +54,15 @@ test
 No data-model, command-line, or agent changes are needed — the underlying fields already exist.
 
 **One decision for you:** should Developer details be visible to **stakeholders** at all, or stay PM/dev-only? That's the product call that decides whether the fix is just the help wording or also a stakeholder-facing view.
+
+---
+
+**2026-06-22 15:46 — you**
+
+already exists
+
+---
+
+**2026-06-22 15:46 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

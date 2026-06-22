@@ -4,7 +4,7 @@ title: "Docs-drift gate: fail the build when schema/types/tools change without a
 type: feature
 state: triaged
 created: 2026-06-16T19:53:44Z
-updated: 2026-06-16T19:53:44Z
+updated: 2026-06-22T15:39:01Z
 project: pm-tool-self
 section: null
 parent: null
@@ -12,7 +12,10 @@ children: []
 order: 1024
 priority: p2
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - A change that edits a schema/type/tool (schemas/, cli/src/types.ts, mcp-server/src/tools/) without a matching doc edit (SCHEMA.md / web/app/docs/content.ts / web/app/help/content/) is flagged by the lint/build
+  - "An explicit escape hatch (e.g. a docs-ok: <reason> marker) lets a genuine no-docs-needed change through, recording the reason"
+  - Wired into the deploy build (the existing type-gate) so it actually blocks; warn-first then promote to hard fail
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -26,7 +29,7 @@ labels:
   - docs
   - dx
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
