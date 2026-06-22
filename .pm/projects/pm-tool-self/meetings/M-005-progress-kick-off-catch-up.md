@@ -4,7 +4,7 @@ slug: progress-kick-off-catch-up
 title: Progress / Kick off / Catch up
 state: scheduled
 created: 2026-06-17T11:09:44Z
-updated: 2026-06-22T17:46:55Z
+updated: 2026-06-22T18:01:16Z
 scheduled_at: 2026-06-18T11:00:00Z
 duration_minutes: 60
 location: TBD
@@ -16,13 +16,15 @@ organizer:
   name: unknown
 stakeholders: []
 agenda: []
-outcomes: []
+outcomes:
+  - description: We are weak at the points where the projects meet end users at both the planning stage and the testing stage
+    recorded_at: 2026-06-22T18:01:16Z
 attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
 kind: design-review
-version: 5
+version: 6
 ---
 
 **Transformational/aspirational goal setting** **\
