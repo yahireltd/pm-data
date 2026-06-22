@@ -5,12 +5,12 @@ type: support
 state: triaged
 priority: p2
 created: 2026-06-08T14:41:24Z
-updated: 2026-06-18T19:09:20Z
+updated: 2026-06-22T13:05:01Z
 project: yasystem
 section: null
 parent: null
 children: []
-order: 4096
+order: 39936
 reporter:
   kind: customer
   name: Ben
@@ -28,10 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: Inbound email — needs triage
-  since: 2026-06-08T14:41:24Z
+attention: null
 customer_impact: Hi guys @Accounts can you please credit this off to £0? I tried to add a discount (was for a school event), not sure what happened @Yahire Support can you please add an ‘if balance say “Balance of X is now due” ‘ to the email template? Kind regards, Ben Leslie | Co-Founder ☎️ 020
 intake_channel: email
 intake_mailbox: support@yahire.com
@@ -43,7 +40,7 @@ department: Accounts
 collaborators:
   - kind: human
     name: austin@yahire.com
-version: 1
+version: 4
 ---
 
 ## Request

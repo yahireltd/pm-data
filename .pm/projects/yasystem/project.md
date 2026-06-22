@@ -5,7 +5,7 @@ name: Yasystem
 state: active
 phase: intake
 created: 2026-06-05T19:54:47Z
-updated: 2026-06-22T11:56:02Z
+updated: 2026-06-22T13:05:01Z
 owner:
   kind: human
   name: you
@@ -29,7 +29,7 @@ agent_policy:
   allow_commit: false
   allow_push: false
   note: Main branch proceed with caution - ask user in terminal before any pushes or commits
-version: 165
+version: 179
 kind: system
 ---
 

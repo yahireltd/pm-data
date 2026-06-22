@@ -2,9 +2,9 @@
 id: T-0449
 title: 'Run planner: contracts can be assigned to a soft-deleted run, leaving "deleted" runs full of live jobs'
 type: bug
-state: triaged
+state: done
 created: 2026-06-22T11:28:33Z
-updated: 2026-06-22T11:56:02Z
+updated: 2026-06-22T13:03:17Z
 project: yasystem
 section: null
 parent: null
@@ -16,10 +16,10 @@ reporter:
   name: Austin
 assignee: null
 acceptance_criteria:
-  - actionPlanContract rejects (or reactivates) when the target run is missing or active = 0, for both the existing-run-contract move branch and the new-contract branch
-  - RunPlanner.js surfaces a clear message when a plan-onto-inactive-run is rejected, matching the existing containsContracts UX
-  - YaRuns::afterSave() writes an 'active' change to run_changes so run deletions/restores are auditable
-  - No regression to normal drag-to/from the unassigned (-1) pool or normal run-to-run moves
+  - "[x] actionPlanContract rejects (or reactivates) when the target run is missing or active = 0, for both the existing-run-contract move branch and the new-contract branch"
+  - "[x] RunPlanner.js surfaces a clear message when a plan-onto-inactive-run is rejected, matching the existing containsContracts UX"
+  - "[x] YaRuns::afterSave() writes an 'active' change to run_changes so run deletions/restores are auditable"
+  - "[x] No regression to normal drag-to/from the unassigned (-1) pool or normal run-to-run moves"
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -33,8 +33,8 @@ labels:
   - run-planner
   - data-integrity
 attention: null
-version: 4
-defect_status: in_progress
+version: 14
+defect_status: closed
 ---
 
 ## Problem
@@ -65,3 +65,15 @@ JOIN ya_run_contracts rc ON rc.runID = r.id AND rc.active = 1
 WHERE r.active = 0 AND r.runDate >= CURDATE()
 GROUP BY r.id ORDER BY r.runDate, r.runID;
 ```
+
+## Conversation
+
+**2026-06-22 13:03 — you**
+
+Fix is in place for this
+
+---
+
+**2026-06-22 13:03 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
