@@ -2,9 +2,9 @@
 id: T-0458
 title: "Phase entity (PH-NNN): a delivery-phase layer between project and milestone (consolidates the M-009 modeling cluster)"
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-22T22:07:14Z
-updated: 2026-06-22T22:07:14Z
+updated: 2026-06-22T22:18:33Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,9 @@ priority: p1
 reporter:
   kind: human
   name: Austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - A first-class Phase entity PH-NNN exists per project/initiative — id/slug/title/order/goal/owner/stakeholders/target-window/state (mirrors the milestone state machine) + entry_gate + depends_on[PH-NNN] — race-safe id allocation and version stamping like other entities.
   - Milestones gain an optional `phase` parent (MS → PH); a Phase rolls up progress derived from its milestones → their sprints → tickets.
@@ -48,10 +50,14 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260622-2218
+    model: claude-opus-4-8
+    started: 2026-06-22T22:18:33Z
+    status: in_progress
 labels: []
 attention: null
-version: 1
+version: 3
 ---
 
 ## Problem
