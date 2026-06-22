@@ -2,10 +2,10 @@
 id: T-0322
 title: Decision cycle
 type: feature
-state: triaged
+state: done
 priority: p2
 created: 2026-06-09T19:20:55Z
-updated: 2026-06-09T23:27:41Z
+updated: 2026-06-22T15:48:24Z
 project: pm-tool-self
 section: null
 parent: null
@@ -24,7 +24,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 attachments:
   - key: tickets/T-0322/1781042073447-Screenshot_2026-06-09_at_22-54-25_Sales_process_analysis_framework_-_Claude.png
     filename: Screenshot 2026-06-09 at 22-54-25 Sales process analysis framework - Claude.png
@@ -56,3 +56,15 @@ To capture what is needed we can get the users to come up with what they need to
 The board's open questions (BANT per level, value thresholds, "do we agree these levels?") all land in the decision column as criteria-decisions the scoping sessions must settle first.
 
 **Where this lands:** PP-002's goals + success criteria are now filled from these cycles (the review column literally becomes the success criteria — the framework's promised payoff). **Recommended build path:** keep using it as a method (template + scoping-meeting agenda) on PP-002; once it has survived contact with the team sessions, promote it to a charter section — rows of see/decision/action/outcome/review, each row spawnable into tickets with the review becoming acceptance criteria.
+
+---
+
+**2026-06-22 15:48 — you**
+
+done
+
+---
+
+**2026-06-22 15:48 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

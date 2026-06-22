@@ -4,7 +4,7 @@ title: "Small UX polish: count/label correctness (nav + dashboard) + ticket-ID z
 type: chore
 state: in_progress
 created: 2026-06-18T08:58:46Z
-updated: 2026-06-18T19:08:12Z
+updated: 2026-06-22T15:51:33Z
 project: pm-tool-self
 section: null
 parent: null
@@ -59,7 +59,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-18T13:57:47Z
-version: 17
+version: 18
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -102,3 +102,9 @@ IDs use `padStart(4)` (`cli/src/lib/ids.ts:35`). Not a cap — `T-9999` rolls to
 **2026-06-18 19:05 — Austin Pickering**
 
 looks like the tickets count still isnt quite right need to investigate that further tomorrow
+
+**2026-06-22 15:51 claude-code:** **Backlog triage 2026-06-22 — note on the deferred ticket-ID zero-pad item.**
+
+The id zero-pad / sort-past-9999 work this run deliberately deferred is now scoped and tracked in **T-0425** (with the two options laid out: sort-by-numeric-suffix vs a widen-and-re-pad migration). So when you review T-0421, the id part is accounted for — it doesn't need to block closing this ticket.
+
+The only thing still genuinely open *on T-0421 itself* is your 2026-06-18 note that the **Tickets count still isn't quite right** — that's a remaining badge-count bug to investigate, separate from the id work.

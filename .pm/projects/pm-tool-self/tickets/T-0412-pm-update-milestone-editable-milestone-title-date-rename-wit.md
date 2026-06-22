@@ -2,9 +2,9 @@
 id: T-0412
 title: pm_update_milestone + editable milestone title/date — rename without delete+recreate
 type: feature
-state: triaged
+state: done
 created: 2026-06-17T17:43:26Z
-updated: 2026-06-17T17:43:26Z
+updated: 2026-06-22T15:58:05Z
 project: pm-tool-self
 section: null
 parent: null
@@ -25,7 +25,7 @@ labels:
   - dx
   - milestones
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -39,3 +39,15 @@ A milestone's title (and target_date) can't be edited anywhere. MCP has create /
 ## Acceptance criteria
 - A milestone's title and target_date are editable via MCP and the web, without delete+recreate.
 - (Stretch) a milestone is deletable via MCP.
+
+## Conversation
+
+**2026-06-22 15:58 — you**
+
+previously done
+
+---
+
+**2026-06-22 15:58 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
