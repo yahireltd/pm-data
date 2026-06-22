@@ -4,7 +4,7 @@ title: Richer review handoff — surface what changed + what to test inline at r
 type: feature
 state: triaged
 created: 2026-06-05T22:53:16Z
-updated: 2026-06-08T19:10:03Z
+updated: 2026-06-22T14:04:33Z
 project: pm-tool-self
 section: null
 parent: null
@@ -34,6 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
+version: 1
 ---
 
 ## Re-scoped 2026-06-08 — mostly already built
@@ -47,3 +48,9 @@ The only gap: the **/review LIST** doesn't indicate that this rich change-info e
 ## Out of scope
 
 Inline list-row expansion or a click-to-open drawer (the detail page is the review surface); auto-posting the test_plan as a comment.
+
+## Conversation
+
+**2026-06-22 14:04 claude-code:** **Backlog triage 2026-06-22 — largely already built; close or trim.**
+
+The richer review handoff is mostly live: the ticket detail page already shows a `ReviewBanner` with the run summary, files changed, the acceptance-criteria checklist and the test_plan at review time. The only residual is surfacing a "what changed / what to test" marker on the **list row** (not just the detail page). Recommend either closing as done, or trimming the scope down to just that list-row marker.

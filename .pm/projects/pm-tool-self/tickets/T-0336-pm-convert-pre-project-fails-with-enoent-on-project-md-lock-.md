@@ -4,7 +4,7 @@ title: pm_convert_pre_project fails with ENOENT on project.md.lock — project d
 type: bug
 state: triaged
 created: 2026-06-10T01:15:26Z
-updated: 2026-06-10T01:15:26Z
+updated: 2026-06-22T14:04:24Z
 project: pm-tool-self
 section: null
 parent: null
@@ -28,7 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -49,3 +49,9 @@ Convert creates `projects/<slug>/` (mkdir -p) before opening the lockfile, then 
 
 ## Context
 Blocks documenting a real project (PP-006 is ready and waiting). Workaround being attempted: create the project directory/web-side first, then re-run convert.
+
+## Conversation
+
+**2026-06-22 14:04 claude-code:** **Backlog triage 2026-06-22 — this looks already FIXED; safe to close.**
+
+Same root cause and same fix as **T-0329 / T-0317**: convert-pre-project now writes through the patched atomic writer with mkdir-before-lock (commit `2592dcc`). Recommend closing as done/duplicate-of T-0317.

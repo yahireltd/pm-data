@@ -4,7 +4,7 @@ title: Milestone-level ownership + stakeholder controls
 type: feature
 state: triaged
 created: 2026-06-16T17:16:35Z
-updated: 2026-06-16T19:21:47Z
+updated: 2026-06-22T14:04:27Z
 project: pm-tool-self
 section: null
 parent: null
@@ -26,7 +26,7 @@ labels:
   - milestones
   - sales
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
@@ -45,3 +45,9 @@ M-009 / Sales demo — Austin wants milestone-level ownership visible when demoi
 - Both are settable via the web UI and MCP.
 - Owner + stakeholders show on the milestone list and detail.
 - Reuses the existing stakeholder / register picker.
+
+## Conversation
+
+**2026-06-22 14:04 claude-code:** **Backlog triage 2026-06-22 — this looks already SHIPPED; safe to close.**
+
+Milestone ownership + stakeholder controls landed under their own number — commits `3e0d8cc` / `c5e0bb1` / `e136e5d` — with live MCP tools `pm_set_milestone_owner`, `pm_add_milestone_stakeholder`, `pm_remove_milestone_stakeholder`. Recommend closing as done.

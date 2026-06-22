@@ -4,7 +4,7 @@ title: "Milestone meetings: book a meeting tied to a milestone"
 type: feature
 state: triaged
 created: 2026-06-16T17:16:35Z
-updated: 2026-06-16T19:21:22Z
+updated: 2026-06-22T14:04:29Z
 project: pm-tool-self
 section: null
 parent: null
@@ -27,7 +27,7 @@ labels:
   - meetings
   - sales
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
@@ -45,3 +45,9 @@ M-009 / Sales demo — milestone-level review meetings are part of the phased go
 - A meeting can be scoped to a milestone (in addition to its project).
 - A meeting is bookable directly from a milestone.
 - The milestone shows its associated meeting(s).
+
+## Conversation
+
+**2026-06-22 14:04 claude-code:** **Backlog triage 2026-06-22 — this looks already SHIPPED; safe to close.**
+
+Booking a meeting tied to a milestone shipped in the same milestone-governance commits (`3e0d8cc` + `c5e0bb1`, "milestone owner/stakeholders + milestone meetings"). Recommend closing as done.
