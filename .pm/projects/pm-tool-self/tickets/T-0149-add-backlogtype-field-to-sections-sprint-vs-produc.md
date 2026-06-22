@@ -2,10 +2,10 @@
 id: T-0149
 title: Add backlog_type field to sections (sprint vs product)
 type: feature
-state: triaged
+state: wontfix
 priority: p2
 created: 2026-05-29T17:57:12Z
-updated: 2026-06-22T14:04:31Z
+updated: 2026-06-22T15:35:26Z
 project: pm-tool-self
 section: null
 parent: null
@@ -26,7 +26,7 @@ labels: []
 attention: null
 backlog_status: rejected
 source: charter
-version: 1
+version: 2
 ---
 
 # T-0149: Add backlog_type field to sections (sprint vs product)

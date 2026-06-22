@@ -2,16 +2,16 @@
 id: T-0430
 title: Make your own aim assist site
 type: feature
-state: inbox
+state: triaged
 priority: p2
 created: 2026-06-18T22:59:26Z
-updated: 2026-06-19T00:35:17Z
-project: null
+updated: 2026-06-22T15:34:45Z
+project: target-tracker-byo-model-game-vision-perception-control
 section: null
 parent: null
 milestone: null
 children: []
-order: 15360
+order: 2048
 reporter: null
 assignee:
   kind: agent
@@ -27,7 +27,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
 collaborators:
   - kind: human
     name: Austin

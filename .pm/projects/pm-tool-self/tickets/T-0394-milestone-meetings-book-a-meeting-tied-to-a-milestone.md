@@ -2,9 +2,9 @@
 id: T-0394
 title: "Milestone meetings: book a meeting tied to a milestone"
 type: feature
-state: triaged
+state: done
 created: 2026-06-16T17:16:35Z
-updated: 2026-06-22T14:04:29Z
+updated: 2026-06-22T15:28:48Z
 project: pm-tool-self
 section: null
 parent: null
@@ -27,7 +27,7 @@ labels:
   - meetings
   - sales
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
@@ -51,3 +51,15 @@ M-009 / Sales demo — milestone-level review meetings are part of the phased go
 **2026-06-22 14:04 claude-code:** **Backlog triage 2026-06-22 — this looks already SHIPPED; safe to close.**
 
 Booking a meeting tied to a milestone shipped in the same milestone-governance commits (`3e0d8cc` + `c5e0bb1`, "milestone owner/stakeholders + milestone meetings"). Recommend closing as done.
+
+---
+
+**2026-06-22 15:28 — you**
+
+This is now working
+
+---
+
+**2026-06-22 15:28 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
