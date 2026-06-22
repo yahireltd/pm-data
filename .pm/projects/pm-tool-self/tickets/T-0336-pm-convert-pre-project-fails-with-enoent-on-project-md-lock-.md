@@ -2,9 +2,9 @@
 id: T-0336
 title: pm_convert_pre_project fails with ENOENT on project.md.lock — project dir never created
 type: bug
-state: triaged
+state: done
 created: 2026-06-10T01:15:26Z
-updated: 2026-06-22T14:04:24Z
+updated: 2026-06-22T15:26:08Z
 project: pm-tool-self
 section: null
 parent: null
@@ -28,7 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -55,3 +55,15 @@ Blocks documenting a real project (PP-006 is ready and waiting). Workaround bein
 **2026-06-22 14:04 claude-code:** **Backlog triage 2026-06-22 — this looks already FIXED; safe to close.**
 
 Same root cause and same fix as **T-0329 / T-0317**: convert-pre-project now writes through the patched atomic writer with mkdir-before-lock (commit `2592dcc`). Recommend closing as done/duplicate-of T-0317.
+
+---
+
+**2026-06-22 15:26 — you**
+
+Done
+
+---
+
+**2026-06-22 15:26 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

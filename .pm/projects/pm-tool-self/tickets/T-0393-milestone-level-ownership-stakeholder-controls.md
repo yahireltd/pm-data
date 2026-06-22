@@ -2,9 +2,9 @@
 id: T-0393
 title: Milestone-level ownership + stakeholder controls
 type: feature
-state: triaged
+state: duplicate
 created: 2026-06-16T17:16:35Z
-updated: 2026-06-22T14:04:27Z
+updated: 2026-06-22T15:27:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -26,7 +26,7 @@ labels:
   - milestones
   - sales
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
