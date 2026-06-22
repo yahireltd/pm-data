@@ -2,9 +2,9 @@
 id: T-0330
 title: Serve the agent working rules (AGENTS.md) through the MCP so remote agents don't need the code checkout
 type: feature
-state: review
+state: done
 created: 2026-06-09T19:28:25Z
-updated: 2026-06-22T17:00:02Z
+updated: 2026-06-22T17:00:33Z
 project: pm-tool-self
 section: null
 parent: null
@@ -22,7 +22,7 @@ acceptance_criteria:
   - "[x] An agent with ONLY the remote MCP connection (no code checkout) can retrieve the full working rules before touching any ticket"
   - "[x] The served conventions and the repo AGENTS.md come from a single source of truth (no second copy to drift)"
   - "[x] The dev wiki section on the MCP tool surface documents how conventions are served"
-  - "Bonus: pm_claim_ticket nudges agents who have not fetched the conventions (only if cheap to implement)"
+  - "[x] Bonus: pm_claim_ticket nudges agents who have not fetched the conventions (only if cheap to implement)"
 out_of_scope: []
 code_anchors:
   - path: mcp-server/src/server.ts
@@ -74,11 +74,8 @@ labels:
   - mcp
   - dogfood-find
   - agent-experience
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-22T16:50:11Z
-version: 13
+attention: null
+version: 16
 collaborators:
   - kind: human
     name: austin
@@ -114,3 +111,9 @@ The MCP server serves nothing from AGENTS.md today: no `instructions` field, no 
 **If we did nothing:** Assistants working from other machines would keep missing steps the tool quietly expects — claiming work before starting, recording decisions, closing the loop — simply because they couldn't see the rulebook. That means untracked work and broken conventions, the exact problem this tool exists to prevent.
 
 **The benefit:** Every connecting assistant now starts already knowing how we work, from a single copy of the rules that can't fall out of sync with a duplicate — and our developer guide explains how it's delivered.
+
+---
+
+**2026-06-22 17:00 — you**
+
+done and live

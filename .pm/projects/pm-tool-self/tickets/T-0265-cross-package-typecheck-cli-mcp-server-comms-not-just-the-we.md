@@ -2,16 +2,18 @@
 id: T-0265
 title: Cross-package typecheck (cli, mcp-server, comms) — not just the web build
 type: chore
-state: triaged
+state: in_progress
 created: 2026-06-05T22:52:32Z
-updated: 2026-06-22T16:16:22Z
+updated: 2026-06-22T17:02:35Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
 priority: p2
-assignee: null
+assignee:
+  kind: agent
+  name: claude
 acceptance_criteria:
   - A single root command (e.g. `bun run typecheck`) runs tsc --noEmit across cli/, mcp-server/, comms/, linter/ AND web/ in one pass, exiting non-zero if any package fails.
   - Runnable locally from the repo root so type errors are caught before push (today each package has its own typecheck script but there's no aggregate; cli/ has none).
@@ -35,13 +37,17 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260622-1702
+    model: claude-opus-4-8
+    started: 2026-06-22T17:02:35Z
+    status: in_progress
 labels: []
 attention: null
 collaborators:
   - kind: human
     name: Austin Pickering
-version: 3
+version: 5
 ---
 
 ## Problem
