@@ -4,7 +4,7 @@ title: Creating the first sprint in a project fails with ENOENT (lock taken befo
 type: bug
 state: triaged
 created: 2026-06-09T19:28:10Z
-updated: 2026-06-09T19:28:10Z
+updated: 2026-06-22T14:04:22Z
 project: pm-tool-self
 section: null
 parent: null
@@ -44,7 +44,7 @@ labels:
   - mcp
   - dogfood-find
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -62,3 +62,9 @@ The SPR id counter increments even when the write fails — the failed attempts 
 ## Workaround
 
 mkdir the project's sprints directory on the server by hand, e.g. `mkdir -p /opt/pm-tool/data/.pm/projects/<slug>/sprints` — pm_create_sprint succeeds afterwards.
+
+## Conversation
+
+**2026-06-22 14:04 claude-code:** **Backlog triage 2026-06-22 — this looks already FIXED; safe to close.**
+
+The first-sprint ENOENT (lock taken before the project dir exists) was fixed by **T-0317** — commit `2592dcc` added `mkdirSync(dir, { recursive: true })` before `withLock` in `mcp-server/src/lib/io.ts:84` (the code comment cites the yasystem first-sprint failure this ticket reported). CLI mirror fixed too (`cli/src/lib/io.ts:60`). Recommend closing as done/duplicate-of T-0317.
