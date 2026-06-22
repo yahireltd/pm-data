@@ -2,9 +2,9 @@
 id: T-0192
 title: "Commit-msg hook + pm reconcile: nudge a T-NNNN per commit, surface untracked shipped work"
 type: feature
-state: triaged
+state: ready
 created: 2026-06-03T22:23:12Z
-updated: 2026-06-22T16:31:40Z
+updated: 2026-06-22T17:40:29Z
 project: pm-tool-self
 section: null
 parent: null
@@ -30,16 +30,26 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260622-1735
+    model: claude-opus-4-8
+    started: 2026-06-22T17:35:57Z
+    status: abandoned
+    ended: 2026-06-22T17:39:56Z
+    summary: "Stopping work on this for now — parked, not failed, and no code was written (the branch is discarded). On review with Austin: the commit-message hook plus `pm reconcile` is more than the current setup needs. The hook only warns *locally* — in the terminal of the one repo, on the one machine where it's installed — and we run work across several separate project repositories that share one ticket-numbering space. Making this genuinely useful would mean installing and maintaining it in every project's repo, which is premature right now. Worth revisiting once the multi-project setup is more settled."
 labels:
   - dogfood
   - dx
   - backfill
-attention: null
+attention:
+  needed_by: human
+  reason: "Agent run abandoned: Stopping work on this for now — parked, not failed, and no code was written (the branch is discarded). On review with Austin: the commit-message hook plus `pm reconcile` is more than the current setup needs. The hook only warns *locally* — in the terminal of "
+  since: 2026-06-22T17:39:56Z
 collaborators:
   - kind: human
     name: Austin Pickering
-version: 4
+version: 9
+backlog_status: parked
 ---
 
 ## Problem
@@ -61,3 +71,11 @@ No commit-msg hook and no `pm reconcile` exist (the only hook is a pre-commit `.
 **2026-06-22 16:31 — Austin Pickering**
 
 we want to allow but be aware not fully block the commit
+
+**2026-06-22 17:40 claude-code:** **Parked 2026-06-22 (decision with Austin) — too advanced for the current project state.**
+
+Why: a commit-message git hook is a **local, per-repo, per-machine, warn-only** nudge — it only fires in the terminal of the one repository, on the one machine, where it's installed. We run work across several separate project repos that share one global ticket-numbering space, so doing this properly means rolling the hook out and maintaining it in *every* project's repo (the `pm reconcile` audit is likewise per-repo). That's more setup than the current state warrants.
+
+Done as part of parking: released the in-progress claim, removed from SPR-027, set backlog status to **parked**. No code was written; the branch was discarded.
+
+Revisit when the multi-project setup is more settled. If you'd rather take it off the board entirely, close it as wontfix — that stays a human action.
