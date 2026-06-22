@@ -2,9 +2,9 @@
 id: T-0395
 title: "Docs-drift gate: fail the build when schema/types/tools change without a docs update (§8 enforcement)"
 type: feature
-state: in_progress
+state: review
 created: 2026-06-16T19:53:44Z
-updated: 2026-06-22T18:10:38Z
+updated: 2026-06-22T18:15:07Z
 project: pm-tool-self
 section: null
 parent: null
@@ -37,16 +37,48 @@ agent_runs:
   - id: run-20260622-1810
     model: claude-opus-4-8
     started: 2026-06-22T18:10:38Z
-    status: in_progress
+    status: completed
+    ended: 2026-06-22T18:15:07Z
+    summary: |-
+      **What we did:** Added an automatic check that runs on every deploy and flags when someone changes the core data definitions or the assistant's tools but forgets to update the matching documentation. For now it's a gentle warning — it points out the gap in the deploy log without stopping the deploy — and there's an explicit way to say "no docs needed here, and here's why."
+
+      **Why:** We have a written rule that documentation should travel with the change, but it was only a norm — easy to forget under load. A whole feature session once shipped with the data-model doc, the developer wiki, and the user help all left out of date. Rules that rely on remembering eventually fail.
+
+      **If we did nothing:** Documentation would keep silently drifting out of sync with the code, so the next person — or assistant — reading the docs would be misled, and the gap would only surface much later when something didn't match.
+
+      **The benefit:** The deploy now points out documentation that's fallen behind the moment it happens, so it gets fixed while it's fresh — turning a good-intentions rule into something the system actually checks.
+    test_plan: |-
+      Verified before handoff against real commit history:
+      1. A deploy range that changed a tool AND its doc (T-0267's range) → passes ("travels with a docs edit").
+      2. A commit that changed a tool file with no matching doc (T-0265's record-outcome fix) → flagged as drift (warning).
+      3. The same with --strict → exits non-zero (the future hard-block mode).
+      4. A docs-only / no-code range → passes.
+      5. The 'docs-ok: <reason>' escape-hatch regex is recognised and captures the reason.
+
+      Reviewer:
+      - Run `bun linter/bin/pm-docs-drift --range <a..b>` on any range to see it; add `--strict` to make it block.
+      - After deploy, the deploy log shows a "docs-drift" line (warn-only) for the just-pulled range.
+      - DEPLOY NOTE (the not-in-repo half, like T-0265): at deploy time the real `/usr/local/bin/pm-deploy` gains a warn-mode docs-drift step — capture the pre-pull SHA, then `bun linter/bin/pm-docs-drift --range OLD..NEW || true` so it never blocks while in warn mode.
+
+      Scope: warn-first by design; promoting to a hard block (drop the `|| true`, pass `--strict`) is a deliberate later step once the team's used to it. v1 matching is coarse — any of the three doc surfaces satisfies any code change; tightening per-surface mapping can come later.
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
+      docs_note: AGENTS.md §8 (the docs-travel-with-change norm) now documents the enforcing gate, and docs/development.md describes the warn-mode docs-drift step in pm-deploy.
 labels:
   - forcing-function
   - docs
   - dx
-attention: null
-version: 8
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-22T18:15:07Z
+version: 10
 collaborators:
   - kind: human
     name: Austin Pickering
+branch: t0395-docs-drift-gate
 ---
 
 ## Problem
@@ -69,3 +101,11 @@ Add a docs-drift check to the lint/deploy build:
 **2026-06-22 16:16 claude-code:** **Verified 2026-06-22 (deep check, re-confirmed) — unbuilt; build THIRD (after T-0265 + T-0192).**
 
 §8 "docs travel with the change" is still pure prose, no gate anywhere. **Scope correction:** the existing pm-lint linter is the *wrong* host — it only lints `.pm/` data markdown, so this needs a **new source-diff check**, not a new lint rule. Sequence it after **T-0265** (which gives it a real pre-deploy gate to hook into) and reuse **T-0192's** commit-hook + git-diff plumbing rather than rebuilding. Note: the agent-run `docs_note` field is self-reported, not an enforced gate — don't mistake it for partial work.
+
+**2026-06-22 18:15 claude:** Run run-20260622-1810 completed — **What we did:** Added an automatic check that runs on every deploy and flags when someone changes the core data definitions or the assistant's tools but forgets to update the matching documentation. For now it's a gentle warning — it points out the gap in the deploy log without stopping the deploy — and there's an explicit way to say "no docs needed here, and here's why."
+
+**Why:** We have a written rule that documentation should travel with the change, but it was only a norm — easy to forget under load. A whole feature session once shipped with the data-model doc, the developer wiki, and the user help all left out of date. Rules that rely on remembering eventually fail.
+
+**If we did nothing:** Documentation would keep silently drifting out of sync with the code, so the next person — or assistant — reading the docs would be misled, and the gap would only surface much later when something didn't match.
+
+**The benefit:** The deploy now points out documentation that's fallen behind the moment it happens, so it gets fixed while it's fresh — turning a good-intentions rule into something the system actually checks.
