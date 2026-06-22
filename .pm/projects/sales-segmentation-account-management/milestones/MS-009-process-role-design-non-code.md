@@ -1,7 +1,7 @@
 ---
 id: MS-009
-slug: process-amp-role-design-non-code
-title: Process &amp; role design (non-code)
+slug: process-role-design-non-code
+title: Process & role design (non-code)
 project: sales-segmentation-account-management
 state: planned
 order: 9216
@@ -16,7 +16,7 @@ phase_id: PH-002
 version: 1
 ---
 
-# Process &amp; role design (non-code)
+# Process & role design (non-code)
 
 ## Acceptance criteria
 

@@ -4,7 +4,7 @@ title: "Phase entity (PH-NNN): a delivery-phase layer between project and milest
 type: feature
 state: in_progress
 created: 2026-06-22T22:07:14Z
-updated: 2026-06-22T23:07:26Z
+updated: 2026-06-22T23:27:33Z
 project: pm-tool-self
 section: null
 parent: null
@@ -60,6 +60,8 @@ agent_runs:
         note: "Built the first half of the new Phase layer — the data model and the agent (MCP) tools. You can now group a project's milestones under a named Phase (e.g. \"Phase 2 — Sales OS Foundation\"), give each phase a goal, an owner, an entry gate (what must be true to start it) and an order, and the tool can roll a phase's progress up from its milestones → sprints → tickets. This is the structure that was missing: until now \"phases\" only existed as words typed into milestone titles, so a phase that needed several milestones had nowhere to live and couldn't be tracked. Still to come: the visual phase view in the web app, the relabel of the existing lifecycle \"Phase\" to \"Lifecycle\" so the word isn't used twice, and the docs. Work is on a feature branch and not yet deployed, so it won't appear live until we push and restart the server."
       - at: 2026-06-22T23:07:26Z
         note: "Built and deployed the second half — the visual side. Every project now has a \"Phases\" tab showing a tree: each phase, the milestones filed under it, the sprints planned from those milestones, and the tickets — with a running \"X of Y tickets done\" count at every level, plus an \"owner / entry-gate / depends-on\" line per phase and a section listing any milestones not yet placed in a phase. To stop the word \"phase\" meaning two different things, the old tab that shows a project's intake→ship lifecycle stage is now labelled \"Lifecycle\", leaving \"Phases\" for the new delivery grouping. The whole feature (data, the agent tools, and this view) is now live on the server."
+      - at: 2026-06-22T23:27:33Z
+        note: Used the new Phase layer for real on the Sales project — the worked example. Created the four delivery phases (Sales Efficiency → Operating-System Foundation → Management & Learning → Strategic Account Platform), each with its goal, the condition that must be true to start it, an owner, and the order they run in. Filed the project's existing milestones under their phases, and — for Phase 2, the one being planned with the team tomorrow — broke it out of a single crammed milestone into six real, separately-trackable deliverables (segmentation, lead scoring & routing, golden-nugget identification, conversion workflows, process & role design, and cadence frameworks), each carrying the acceptance criteria that were already written. The Phases tab now shows the whole programme as a navigable tree that rolls progress up — which is exactly the "can the tool plan from the big picture down to the work" question this was meant to answer.
     test_plan: |-
       DEPLOYED: commits db2f1d7 (data + MCP) and e1d4adf (web view + Lifecycle relabel + docs) are live; pm-tool + pm-mcp both restarted active; the cross-package typecheck gate passed both deploys.
 
@@ -70,7 +72,7 @@ agent_runs:
       STILL TO DO (follow-up, not yet built): CLI `pm new phase`; the deeper relabel of the lifecycle "Phase" wording inside the command-center page (only the tab is relabelled so far); fuller docs (dev wiki + help). The worked example (Sales phases) needs the reconnect above.
 labels: []
 attention: null
-version: 5
+version: 6
 ---
 
 ## Problem

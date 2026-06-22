@@ -6,11 +6,14 @@ project: sales-segmentation-account-management
 state: planned
 order: 1024
 created: 2026-06-22T23:18:11Z
-updated: 2026-06-22T23:18:11Z
+updated: 2026-06-22T23:26:39Z
 depends_on: []
 goal: Switch on the value we've already built and cut the everyday hassle — release the finished-but-unused work and make the busy sales screens faster and simpler.
 entry_gate: Charter agreed; the finished-but-unused work (ML scoring, quote API, AI quote assistant, capacity views) inventoried and a release strategy drafted.
-version: 1
+version: 2
+owner:
+  kind: human
+  name: Ben
 ---
 
 # Phase 1 — Sales Efficiency

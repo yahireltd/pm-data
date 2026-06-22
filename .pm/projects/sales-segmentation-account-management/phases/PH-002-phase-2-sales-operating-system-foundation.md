@@ -6,12 +6,15 @@ project: sales-segmentation-account-management
 state: planned
 order: 2048
 created: 2026-06-22T23:18:18Z
-updated: 2026-06-22T23:18:18Z
+updated: 2026-06-22T23:26:39Z
 depends_on:
   - PH-001
 goal: Build the engine that sends the right customer to the right place — so the right customer receives the right level of attention.
 entry_gate: Phase 1 shipped; the criteria-decisions agreed with the team — segment definitions, account-level definitions (system / incubation / account-managed / strategic), value thresholds and BANT-per-level.
-version: 1
+version: 2
+owner:
+  kind: human
+  name: Austin
 ---
 
 # Phase 2 — Sales Operating System Foundation
