@@ -4,7 +4,7 @@ title: 'Run planner: contracts can be assigned to a soft-deleted run, leaving "d
 type: bug
 state: triaged
 created: 2026-06-22T11:28:33Z
-updated: 2026-06-22T11:28:33Z
+updated: 2026-06-22T11:56:02Z
 project: yasystem
 section: null
 parent: null
@@ -33,7 +33,8 @@ labels:
   - run-planner
   - data-integrity
 attention: null
-version: 1
+version: 4
+defect_status: in_progress
 ---
 
 ## Problem

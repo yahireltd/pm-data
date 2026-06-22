@@ -6,7 +6,7 @@ project: pm-tool-self
 state: in_progress
 order: 32768
 created: 2026-06-18T12:46:36Z
-updated: 2026-06-19T09:40:23Z
+updated: 2026-06-22T11:54:55Z
 committed_items:
   - T-0421
   - T-0424
@@ -28,7 +28,7 @@ capacity:
   total: 5
   unit: tickets
 velocity_committed: 5
-version: 13
+version: 14
 ---
 
 # SPR-032: Zsolt Features

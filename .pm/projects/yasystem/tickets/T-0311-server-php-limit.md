@@ -2,10 +2,10 @@
 id: T-0311
 title: Server PHP Limit
 type: support
-state: review
+state: done
 priority: p0
 created: 2026-06-09T12:18:07Z
-updated: 2026-06-19T00:37:16Z
+updated: 2026-06-22T11:53:47Z
 project: yasystem
 section: null
 parent: null
@@ -20,7 +20,7 @@ assignee:
   kind: human
   name: Austin Pickering
 acceptance_criteria:
-  - Check the server memory limit. Increase if possible
+  - "[x] Check the server memory limit. Increase if possible"
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -31,10 +31,7 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: Fix is live and confirmed working (server memory cap raised + Revenue Splitter queries narrowed to only the columns used; committed to master a71ee913, validated over a 12-month range). Needs human review/sign-off to close, and a decision on dialing the temporary 4 GB FPM memory cap back down.
-  since: 2026-06-18T19:21:14Z
+attention: null
 customer_impact: Check the memory limit on yasystem main server, ben can not run more than 6mo on the revenue splitter.
 intake_channel: email
 intake_mailbox: support@yahire.com
@@ -42,7 +39,7 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdLlziRAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAJfQCcb1IsdBpnf3hH5Vc4M=
-version: 12
+version: 15
 collaborators:
   - kind: human
     name: zsolt@yahire.com
@@ -112,3 +109,15 @@ This is a hard ceiling for every page (the server has 15 GB RAM with ~14 GB free
 **Status:** the original problem (Ben unable to run more than ~6 months) is fixed.
 
 **Recommended follow-up (optional, not urgent):** now that the report is much lighter, the temporary 4 GB web memory cap can likely be dialed back toward the original 512 MB — worth checking the real memory peak on a long run first, then lowering. Separately, noted that the prod web server has some pre-existing uncommitted file drift (`.htaccess`, `composer.lock`, `AppAsset.php`, etc.) unrelated to this work — flagging for awareness.
+
+---
+
+**2026-06-22 11:53 — you**
+
+done
+
+---
+
+**2026-06-22 11:53 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
