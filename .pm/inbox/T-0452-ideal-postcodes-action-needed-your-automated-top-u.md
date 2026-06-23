@@ -5,7 +5,7 @@ type: support
 state: inbox
 priority: p2
 created: 2026-06-22T17:52:20Z
-updated: 2026-06-22T17:52:20Z
+updated: 2026-06-23T01:03:30Z
 project: null
 section: null
 parent: null
@@ -39,7 +39,7 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdU3NfgAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAIFf-O-Hb7xFmN961WYGln4=
-version: 1
+version: 2
 ---
 
 ## Request
@@ -81,3 +81,9 @@ Floor 3
 London
 W1B 3HH
 United Kingdom
+
+---
+
+**2026-06-23 01:03 — Austin Pickering**
+
+need to add a diff card as. mine is used for aws and other expensive and growing costs i have 2k limit aws + google is almost that then add in claude going to be a problem
