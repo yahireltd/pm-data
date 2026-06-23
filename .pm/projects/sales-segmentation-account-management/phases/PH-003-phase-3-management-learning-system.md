@@ -4,6 +4,8 @@ slug: phase-3-management-learning-system
 title: Phase 3 — Management & Learning System
 project: sales-segmentation-account-management
 state: planned
+start_date: 2026-11-01
+target_date: 2026-12-31
 order: 3072
 created: 2026-06-22T23:18:24Z
 updated: 2026-06-22T23:26:43Z

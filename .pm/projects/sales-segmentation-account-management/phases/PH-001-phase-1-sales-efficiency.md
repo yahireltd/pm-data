@@ -4,6 +4,8 @@ slug: phase-1-sales-efficiency
 title: Phase 1 — Sales Efficiency
 project: sales-segmentation-account-management
 state: planned
+start_date: 2026-07-01
+target_date: 2026-08-15
 order: 1024
 created: 2026-06-22T23:18:11Z
 updated: 2026-06-22T23:26:39Z

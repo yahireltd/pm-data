@@ -4,6 +4,8 @@ slug: phase-2-sales-operating-system-foundation
 title: Phase 2 — Sales Operating System Foundation
 project: sales-segmentation-account-management
 state: planned
+start_date: 2026-08-16
+target_date: 2026-10-31
 order: 2048
 created: 2026-06-22T23:18:18Z
 updated: 2026-06-22T23:26:39Z
