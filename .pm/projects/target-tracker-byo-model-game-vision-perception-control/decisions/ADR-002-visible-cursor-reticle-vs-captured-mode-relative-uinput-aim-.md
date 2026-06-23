@@ -9,7 +9,7 @@ project: target-tracker-byo-model-game-vision-perception-control
 supersedes: null
 superseded_by: null
 tickets: []
-version: 1
+version: 3
 ---
 
 ## Context
