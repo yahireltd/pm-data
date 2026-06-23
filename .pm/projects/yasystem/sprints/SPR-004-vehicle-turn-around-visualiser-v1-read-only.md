@@ -3,10 +3,10 @@ id: SPR-004
 slug: vehicle-turn-around-visualiser-v1-read-only
 title: Vehicle turn-around visualiser v1 (read-only)
 project: yasystem
-state: in_progress
+state: completed
 order: 2048
 created: 2026-06-15T15:36:11Z
-updated: 2026-06-15T15:38:44Z
+updated: 2026-06-23T12:04:02Z
 committed_items:
   - T-0375
   - T-0376
@@ -19,7 +19,8 @@ capacity:
   total: 4
   unit: tickets
 velocity_committed: 4
-version: 6
+version: 7
+velocity_actual: 4
 ---
 
 # SPR-004: Vehicle turn-around visualiser v1 (read-only)

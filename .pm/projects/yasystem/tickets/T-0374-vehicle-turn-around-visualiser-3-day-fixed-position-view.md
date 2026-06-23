@@ -2,9 +2,9 @@
 id: T-0374
 title: Vehicle turn-around visualiser (3-day fixed-position view)
 type: feature
-state: triaged
+state: done
 created: 2026-06-15T15:21:22Z
-updated: 2026-06-15T15:32:38Z
+updated: 2026-06-23T12:04:27Z
 project: yasystem
 section: null
 parent: null
@@ -33,7 +33,7 @@ agent_runs: []
 labels:
   - concept
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -96,3 +96,15 @@ Reassignment / drag between vehicles (v2).
 So the linking element should present the load figure as first-class, not advisory — e.g. "2h to turn around 1.8T / 144%", showing both the usable turnaround time and the weight/vol to handle together. No need to hedge the load number.
 
 With that, the v1 (read-only) spec is fully scoped — no further unknowns. Ready for AP to slot in when prioritised.
+
+---
+
+**2026-06-23 12:04 — you**
+
+done
+
+---
+
+**2026-06-23 12:04 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
