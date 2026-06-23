@@ -4,7 +4,7 @@ title: "Phase entity (PH-NNN): a delivery-phase layer between project and milest
 type: feature
 state: in_progress
 created: 2026-06-22T22:07:14Z
-updated: 2026-06-22T23:57:40Z
+updated: 2026-06-23T01:27:21Z
 project: pm-tool-self
 section: null
 parent: null
@@ -64,10 +64,21 @@ agent_runs:
         note: Used the new Phase layer for real on the Sales project — the worked example. Created the four delivery phases (Sales Efficiency → Operating-System Foundation → Management & Learning → Strategic Account Platform), each with its goal, the condition that must be true to start it, an owner, and the order they run in. Filed the project's existing milestones under their phases, and — for Phase 2, the one being planned with the team tomorrow — broke it out of a single crammed milestone into six real, separately-trackable deliverables (segmentation, lead scoring & routing, golden-nugget identification, conversion workflows, process & role design, and cadence frameworks), each carrying the acceptance criteria that were already written. The Phases tab now shows the whole programme as a navigable tree that rolls progress up — which is exactly the "can the tool plan from the big picture down to the work" question this was meant to answer.
       - at: 2026-06-22T23:57:40Z
         note: "Added dev ownership at the sprint level — a sprint can now name the developer accountable for delivering it, the level a dev owns while agents do the ticket work. Then proved the whole model end-to-end on the Sales project: wrapped a real sprint (\"Phase 2 — Foundations\") around the two existing Phase 2 tickets (customer scoring and customer segmentation), set its owner, and it now renders as a full tree on the Phases tab — initiative → phase → milestone → sprint (with the dev's name) → tickets. Also moved the Phases tab to the front so it's the first thing you see on a phased project. This makes the tool's planning visibly span the whole ladder, from the big picture down to a dev's actual sprint of work."
-    test_plan: "DEPLOYED 346d894 (pm-tool + pm-mcp restarted active; typecheck gate passed). Verify on the Sales project's Phases tab (hard-refresh): the Phases tab is now FIRST; PH-002 shows MS-002 → SPR-001 \"Phase 2 — Foundations (Sprint 1)\" with a \"dev: Austin\" badge → tickets T-0456 + T-0457. New tool pm_set_sprint_owner is live (needs an MCP client reconnect to call from an agent session). Note: this session set SPR-001's owner via a direct data edit because the new tool wasn't hot-loaded yet. Schema: sprint.owner validates (object {kind,name} or null). Docs-drift warned (sprint schema/tool changed without SCHEMA.md) — follow-up to document sprint.owner. STILL TO BUILD: the unified INTERACTIVE Phases view (edit phases/milestones/sprints inline incl. sprint owner — needs a web setSprintOwner action), the per-dev roadmap (filter by sprint owner), and resolving the redundant MS-002."
+      - at: 2026-06-23T01:27:21Z
+        note: "Built and deployed a whole delivery-planning layer and used it to lay out the Sales programme for real. Shipped this session: a Phase layer that groups milestones into sequenced stages; dev ownership at the sprint level (a dev owns a sprint, agents work its tickets); an INTERACTIVE Phases planner where you build the plan top-to-bottom — create phases, file milestones under them, add sprints, allocate tickets, set owners, all inline; a Project → Phase → Milestone → Sprint cascade on every ticket so you can see and change where any ticket sits, each picker narrowing the next; the ability to delete a sprint (which was impossible before); and a cross-project Roadmap that shows every dev's sprints on a timeline, filterable to one dev. We also ran an automated adversarial review of the planner and fixed what it found (stale pickers, silent failures, a couple of data-integrity gaps). The Sales project now has its four phases, Phase 2 decomposed into six deliverable milestones, and a foundations sprint wrapping its first two real tickets. Still to tidy (minor): a now-redundant Phase-2 umbrella milestone, a handful of small polish items, renaming the old lifecycle 'Phase' wording to 'Lifecycle' inside one page, and the docs."
+    test_plan: |-
+      DEPLOYED across commits db2f1d7 → de2c946 (all passed the cross-package typecheck gate; pm-tool + pm-mcp active). Verify (hard-refresh — deploys don't bust open tabs):
+      1. PLANNER: project → Phases tab (now first). Expand a phase: create phase / new milestone-in-phase / move-milestone-via-the-phase-combobox / add-sprint / set phase+sprint owners / add-ticket (commit existing or scope new) / delete-sprint (trash → confirm). Owner + phase pickers are type-or-pick and re-sync after save.
+      2. TICKET CASCADE: open a ticket → "Where it sits" = Project→Phase→Milestone→Sprint, each select narrows the next (pick a phase, milestone list filters; pick a milestone, sprint list filters).
+      3. ROADMAP: sidebar → Roadmap. Lanes per dev (Austin SPR-001, Zsolt [example] SPR-005), bars by date coloured by phase, All-devs/one-dev filter.
+      4. DATA-INTEGRITY: filing a milestone under a non-existent phase is rejected; committing a ticket already in another sprint is rejected.
+
+      EXAMPLE DATA TO REMOVE WHEN READY: sprint "[example] Segmentation build" (SPR-005, Zsolt) — delete via the trash button; placeholder dates on PH-001..004 + SPR-001 (blank or set real ones).
+
+      REMAINING (open): MS-002 redundant umbrella; 8 low review findings (sprint-delete warning text, rollup double-count of a cross-milestone ticket, stale-version guards on the new phase/sprint write actions, etc.); the lifecycle "Phase"→"Lifecycle" text relabel inside PhaseCommandCenter; docs (sprint.owner/phase in SCHEMA.md, dev wiki, help).
 labels: []
 attention: null
-version: 7
+version: 8
 ---
 
 ## Problem
