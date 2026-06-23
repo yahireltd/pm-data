@@ -3,14 +3,14 @@ id: SPR-008
 slug: phase-1-sales-efficiency-sprint
 title: Phase 1 — Sales Efficiency — Sprint
 project: sales-segmentation-account-management
-state: planned
+state: cancelled
 order: 4096
 created: 2026-06-23T12:02:39Z
-updated: 2026-06-23T12:02:39Z
+updated: 2026-06-23T12:19:54Z
 committed_items: []
 goal: Advance Phase 1 — Sales Efficiency
 milestone: MS-001
-version: 1
+version: 2
 ---
 
 # SPR-008: Phase 1 — Sales Efficiency — Sprint

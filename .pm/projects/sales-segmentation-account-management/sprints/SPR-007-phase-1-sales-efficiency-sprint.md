@@ -6,7 +6,7 @@ project: sales-segmentation-account-management
 state: planned
 order: 3072
 created: 2026-06-23T12:00:53Z
-updated: 2026-06-23T12:02:23Z
+updated: 2026-06-23T12:21:17Z
 committed_items:
   - T-0467
   - T-0468
@@ -14,10 +14,12 @@ committed_items:
   - T-0469
 goal: Advance Phase 1 — Sales Efficiency
 milestone: MS-001
-version: 8
+version: 9
 owner:
   kind: human
   name: Zsolt
+start_date: 2026-07-13
+end_date: 2026-08-31
 ---
 
 # SPR-007: Phase 1 — Sales Efficiency — Sprint
