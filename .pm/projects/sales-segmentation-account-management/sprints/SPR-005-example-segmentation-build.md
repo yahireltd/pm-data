@@ -6,12 +6,8 @@ project: sales-segmentation-account-management
 state: planned
 order: 2048
 created: 2026-06-23T01:16:28Z
-updated: 2026-06-23T11:51:37Z
-committed_items:
-  - T-0467
-  - T-0468
-  - T-0469
-  - T-0470
+updated: 2026-06-23T12:01:39Z
+committed_items: []
 goal: "[EXAMPLE DATA] Build the segmentation engine — placeholder sprint for the roadmap demo; safe to delete."
 milestone: MS-005
 owner:
@@ -21,7 +17,7 @@ capacity:
   total: 2
   unit: tickets
 velocity_committed: 2
-version: 6
+version: 10
 start_date: 2026-08-30
 end_date: 2026-09-12
 ---
