@@ -40,7 +40,7 @@ id_counters:
       tech_session: 1
       phase: 4
       milestone: 11
-      sprint: 8
+      sprint: 9
       meeting: 8
 outbound_email:
   from: support@yahire.com
