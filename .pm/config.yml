@@ -15,9 +15,9 @@ id_counters:
   section: 14
   perProject:
     pm-tool-self:
-      decision: 44
+      decision: 47
       status_note: 7
-      tech_session: 17
+      tech_session: 18
       sprint: 33
       meeting: 5
       milestone: 18
