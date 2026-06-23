@@ -2,7 +2,7 @@
 id: ADR-002
 slug: segmentation-data-model-reuse-existing-structures-new-contro
 title: "Segmentation data model: reuse existing structures; new controlled-vocabulary industry with review-queue governance"
-state: proposed
+state: rejected
 decided: 2026-06-23
 decided_by:
   - Austin
@@ -12,7 +12,7 @@ superseded_by: null
 tickets:
   - T-0457
   - T-0456
-version: 1
+version: 2
 ---
 
 ## Context

@@ -2,7 +2,7 @@
 id: ADR-005
 slug: customer-segment-vocabulary-v0-2-fuller-class-industry-event
 title: Customer segment vocabulary v0.2 — fuller class/industry/event-type tables + coverage-by-construction
-state: proposed
+state: rejected
 decided: 2026-06-23
 decided_by:
   - Austin
@@ -13,7 +13,7 @@ tickets:
   - T-0473
   - T-0457
   - T-0456
-version: 1
+version: 2
 ---
 
 ## Context

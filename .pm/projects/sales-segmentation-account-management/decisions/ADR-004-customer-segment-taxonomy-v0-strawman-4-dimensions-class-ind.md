@@ -2,7 +2,7 @@
 id: ADR-004
 slug: customer-segment-taxonomy-v0-strawman-4-dimensions-class-ind
 title: "Customer segment taxonomy v0 (strawman): 4 dimensions — class / industry / event-types / labels"
-state: proposed
+state: rejected
 decided: 2026-06-23
 decided_by:
   - Austin
@@ -12,7 +12,7 @@ superseded_by: null
 tickets:
   - T-0457
   - T-0456
-version: 1
+version: 2
 ---
 
 ## Context

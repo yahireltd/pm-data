@@ -2,7 +2,7 @@
 id: ADR-003
 slug: segmentation-data-model-corrected-extend-existing-company-ty
 title: "Segmentation data model (corrected): extend existing company_type as the industry base; rebuild event-type/sub-type; closed-vocab review-queue governance"
-state: proposed
+state: rejected
 decided: 2026-06-23
 decided_by:
   - Austin
@@ -12,7 +12,7 @@ superseded_by: null
 tickets:
   - T-0457
   - T-0456
-version: 1
+version: 2
 ---
 
 ## Context
