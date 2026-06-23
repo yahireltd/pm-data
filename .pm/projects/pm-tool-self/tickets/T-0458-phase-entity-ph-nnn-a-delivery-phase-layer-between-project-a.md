@@ -4,7 +4,7 @@ title: "Phase entity (PH-NNN): a delivery-phase layer between project and milest
 type: feature
 state: in_progress
 created: 2026-06-22T22:07:14Z
-updated: 2026-06-22T23:27:33Z
+updated: 2026-06-22T23:57:40Z
 project: pm-tool-self
 section: null
 parent: null
@@ -62,17 +62,12 @@ agent_runs:
         note: "Built and deployed the second half — the visual side. Every project now has a \"Phases\" tab showing a tree: each phase, the milestones filed under it, the sprints planned from those milestones, and the tickets — with a running \"X of Y tickets done\" count at every level, plus an \"owner / entry-gate / depends-on\" line per phase and a section listing any milestones not yet placed in a phase. To stop the word \"phase\" meaning two different things, the old tab that shows a project's intake→ship lifecycle stage is now labelled \"Lifecycle\", leaving \"Phases\" for the new delivery grouping. The whole feature (data, the agent tools, and this view) is now live on the server."
       - at: 2026-06-22T23:27:33Z
         note: Used the new Phase layer for real on the Sales project — the worked example. Created the four delivery phases (Sales Efficiency → Operating-System Foundation → Management & Learning → Strategic Account Platform), each with its goal, the condition that must be true to start it, an owner, and the order they run in. Filed the project's existing milestones under their phases, and — for Phase 2, the one being planned with the team tomorrow — broke it out of a single crammed milestone into six real, separately-trackable deliverables (segmentation, lead scoring & routing, golden-nugget identification, conversion workflows, process & role design, and cadence frameworks), each carrying the acceptance criteria that were already written. The Phases tab now shows the whole programme as a navigable tree that rolls progress up — which is exactly the "can the tool plan from the big picture down to the work" question this was meant to answer.
-    test_plan: |-
-      DEPLOYED: commits db2f1d7 (data + MCP) and e1d4adf (web view + Lifecycle relabel + docs) are live; pm-tool + pm-mcp both restarted active; the cross-package typecheck gate passed both deploys.
-
-      TO SEE THE VIEW (web): open any project → the new "Phases" tab (e.g. /projects/sales-segmentation-account-management/phases). HARD-REFRESH the browser (Cmd/Ctrl+Shift+R) — a deploy doesn't refresh already-open tabs. With no phases created yet it shows "No phases yet" plus the project's milestones under "Milestones not yet in a phase". Confirm the old lifecycle tab now reads "Lifecycle" and that opening /phases does NOT also highlight the Lifecycle tab (the phase/phases prefix-collision fix).
-
-      TO USE THE TOOLS (agent): the MCP client must RECONNECT (restart Claude Code) before pm_create_phase etc. appear — they were registered at this deploy. Then: create PH-01..PH-04 on the Sales project, file MS-001..004 under them with pm_set_milestone_phase, and refresh the Phases tab — the tree should populate and the per-phase counts roll up.
-
-      STILL TO DO (follow-up, not yet built): CLI `pm new phase`; the deeper relabel of the lifecycle "Phase" wording inside the command-center page (only the tab is relabelled so far); fuller docs (dev wiki + help). The worked example (Sales phases) needs the reconnect above.
+      - at: 2026-06-22T23:57:40Z
+        note: "Added dev ownership at the sprint level — a sprint can now name the developer accountable for delivering it, the level a dev owns while agents do the ticket work. Then proved the whole model end-to-end on the Sales project: wrapped a real sprint (\"Phase 2 — Foundations\") around the two existing Phase 2 tickets (customer scoring and customer segmentation), set its owner, and it now renders as a full tree on the Phases tab — initiative → phase → milestone → sprint (with the dev's name) → tickets. Also moved the Phases tab to the front so it's the first thing you see on a phased project. This makes the tool's planning visibly span the whole ladder, from the big picture down to a dev's actual sprint of work."
+    test_plan: "DEPLOYED 346d894 (pm-tool + pm-mcp restarted active; typecheck gate passed). Verify on the Sales project's Phases tab (hard-refresh): the Phases tab is now FIRST; PH-002 shows MS-002 → SPR-001 \"Phase 2 — Foundations (Sprint 1)\" with a \"dev: Austin\" badge → tickets T-0456 + T-0457. New tool pm_set_sprint_owner is live (needs an MCP client reconnect to call from an agent session). Note: this session set SPR-001's owner via a direct data edit because the new tool wasn't hot-loaded yet. Schema: sprint.owner validates (object {kind,name} or null). Docs-drift warned (sprint schema/tool changed without SCHEMA.md) — follow-up to document sprint.owner. STILL TO BUILD: the unified INTERACTIVE Phases view (edit phases/milestones/sprints inline incl. sprint owner — needs a web setSprintOwner action), the per-dev roadmap (filter by sprint owner), and resolving the redundant MS-002."
 labels: []
 attention: null
-version: 6
+version: 7
 ---
 
 ## Problem

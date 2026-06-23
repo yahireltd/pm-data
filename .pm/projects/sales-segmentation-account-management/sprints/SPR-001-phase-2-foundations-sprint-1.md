@@ -12,6 +12,9 @@ committed_items:
   - T-0457
 goal: Make customer scoring repeatable and stand up account-level segmentation — the data foundation the rest of Phase 2 routes on.
 milestone: MS-002
+owner:
+  kind: human
+  name: Austin
 capacity:
   total: 2
   unit: tickets
