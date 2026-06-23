@@ -1,10 +1,10 @@
 ---
 id: T-0457
-title: Phase 2 · Customer segmentation / account levels
+title: Phase 2 · Account levels & assignment (system / incubation / account / strategic)
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-22T21:41:39Z
+updated: 2026-06-23T14:11:19Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -31,26 +31,22 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
 ## What this is
 
-Give every customer a clear **account level** (system / incubation / account-managed / strategic) and segment, so routing, ownership and attention all have something to act on. It builds on the customer **score** (the scoring deliverable) plus the customer's value. This is the "definitions table" the scoping workshop named as the unblocker for the whole phase.
-
-## Where we are
-
-Scores exist for ~530 customers, and the system already has customer tiers. What's missing is the agreed **level definitions** and the **thresholds** that turn a score + value into a level.
+The **account-level / assignment** layer (the "C" in [[ADR-001]]): give every customer a level — system / incubation / account-managed / strategic — and route it to a conversion process. It **consumes** the segment (T-0473) + the score (T-0456); it is not the segmentation itself (which moved to MS-011 / T-0473 after we untangled the three layers).
 
 ## The plan
 
-- **Agree the account-level definitions** and the value/score **thresholds** that map score + value → level (a short, data-informed session against the live scores).
-- **Apply** the level + segment to each customer; add a **confirm/override tick-box** on the quote/customer screens; **log corrections** (those corrections also improve future routing).
-- Show **actual value** (human-entered) vs **potential value** (system-suggested, human-overridable).
-- Stand up the **review loop** — who checks segmentation accuracy, and how often.
+- Agree the **level definitions** + the **score+value thresholds** that map (segment + score + value) → level.
+- Apply level to each customer; **confirm/override tick-box** (doubles as the segmentation review-queue's human side); **log corrections**.
+- Show **actual value** (from contracts) vs **potential value** (system-suggested, overridable).
+- Stand up the **review loop** (owner + cadence) — the quarterly transfer-window reassignment.
 
-## Open / still to decide (the gating dependencies)
+## Open / to decide
+- The value/score thresholds. The qualification approach. Review owner + cadence. (These are the workshop's to settle.)
 
-- The value/score **thresholds** — not decided yet.
-- The **qualification** approach (qualified vs not, industry-specific questions) — needs further meetings.
-- The **review owner + cadence**.
+## Links
+Consumes T-0456 (score) + T-0473 (segment vocab); pairs with T-0474 (scrape build).
