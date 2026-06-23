@@ -2,7 +2,7 @@
 id: ADR-001
 slug: segment-score-and-account-level-are-three-distinct-layers
 title: Segment, Score and Account-Level are three distinct layers
-state: proposed
+state: rejected
 decided: 2026-06-23
 decided_by:
   - Austin
@@ -12,7 +12,7 @@ superseded_by: null
 tickets:
   - T-0456
   - T-0457
-version: 1
+version: 2
 ---
 
 ## Context

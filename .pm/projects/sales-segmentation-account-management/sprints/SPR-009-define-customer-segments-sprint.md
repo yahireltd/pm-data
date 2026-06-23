@@ -6,11 +6,13 @@ project: sales-segmentation-account-management
 state: planned
 order: 5120
 created: 2026-06-23T13:42:11Z
-updated: 2026-06-23T13:42:11Z
-committed_items: []
+updated: 2026-06-23T18:55:51Z
+committed_items:
+  - T-0457
+  - T-0475
 goal: Advance Define Customer Segments
 milestone: MS-011
-version: 1
+version: 3
 ---
 
 # SPR-009: Define Customer Segments — Sprint
