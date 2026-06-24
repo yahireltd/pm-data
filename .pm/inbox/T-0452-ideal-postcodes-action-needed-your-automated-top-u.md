@@ -2,10 +2,10 @@
 id: T-0452
 title: "[Ideal Postcodes] ACTION NEEDED: Your Automated Top-Up Failed"
 type: support
-state: inbox
+state: done
 priority: p2
 created: 2026-06-22T17:52:20Z
-updated: 2026-06-23T01:03:30Z
+updated: 2026-06-24T12:13:09Z
 project: null
 section: null
 parent: null
@@ -28,10 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels:
   - inbound-email
-attention:
-  needed_by: human
-  reason: Inbound email — needs triage
-  since: 2026-06-22T17:52:20Z
+attention: null
 customer_impact: "Still over 1200 credits left but needs action From: Ideal Postcodes <support@ideal-postcodes.co.uk> Date: Monday, 22 June 2026 at 18:10 To: Austin Pickering <austin@yahire.com> Subject: [Ideal Postcodes] ACTION NEEDED: Your Automated Top-Up Failed Hi there, We wanted to let you k"
 intake_channel: email
 intake_mailbox: support@yahire.com
@@ -39,7 +36,7 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdU3NfgAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAIFf-O-Hb7xFmN961WYGln4=
-version: 2
+version: 4
 ---
 
 ## Request
@@ -87,3 +84,15 @@ United Kingdom
 **2026-06-23 01:03 — Austin Pickering**
 
 need to add a diff card as. mine is used for aws and other expensive and growing costs i have 2k limit aws + google is almost that then add in claude going to be a problem
+
+---
+
+**2026-06-24 12:13 — you**
+
+Details updated
+
+---
+
+**2026-06-24 12:13 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
