@@ -2,9 +2,9 @@
 id: T-0320
 title: "Refund guard: block refunds that exceed what the contract actually holds (shadow mode first)"
 type: feature
-state: in_progress
+state: done
 created: 2026-06-09T19:14:46Z
-updated: 2026-06-15T19:14:07Z
+updated: 2026-06-24T20:08:30Z
 project: yasystem
 section: null
 parent: null
@@ -56,12 +56,16 @@ agent_runs:
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-06-10T18:13:52Z
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - refunds
   - payments
   - incident-c090586
 attention: null
-version: 8
+version: 9
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -149,3 +153,9 @@ Plus a cap probe over post-refund states: settled contracts compute cap 0.00 exa
 - ⏳ Process Deposit Refunds unaffected: deposit flow is separate and ungated by T-0320, but a confirmation pass is still owed
 
 **Operational note for whoever continues:** the test box is currently on branch `PickingSketchSalesDashFriday` and `RefundGuard.php` is NOT on that checkout — the box is not running the guard right now. To resume guard testing it must go back on `refund-hardening-t0331-stripe-dryrun` (or that branch merged forward). That branch has also since picked up two unrelated commits (a3608323 account segmentation PP-002, 489cf7c9 customer sales scores) that would ride along on any deploy — worth separating before the live shadow rollout.
+
+---
+
+**2026-06-24 20:08 — you**
+
+Tested again extensively on 24th june confirmed 3000 refunds would be the same ( barring penny differences )

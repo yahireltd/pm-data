@@ -2,9 +2,9 @@
 id: T-0327
 title: Repair contract C090586 and reconcile the customer over-refund
 type: support
-state: triaged
+state: done
 created: 2026-06-09T19:25:57Z
-updated: 2026-06-10T13:55:37Z
+updated: 2026-06-24T20:10:59Z
 project: yasystem
 section: null
 parent: null
@@ -43,7 +43,7 @@ labels:
   - incident-c090586
   - data-repair
 attention: null
-version: 4
+version: 5
 backlog_status: confirmed_for_release
 estimated_effort: S
 source: discovered
@@ -91,3 +91,15 @@ Independent of the code tickets — can run in parallel as an operations task. T
 **Fleet check results:** over-allocation sweep returns only 47215 and one historic case (payment 2493, £1,836.97 over, July 2021 — the known early-system contract).
 
 **Three additional repairs to fold into this ticket** — payments 44320 (£2,673.01, C086707), 44321 (£491.77, C087714), 44322 (£371.15) and their allocations `invoice_payments` 45027/45028/45029: keyed by Jahzel on 2 Jan 2026 07:13–07:15 but dated 31-12-**2026** (year typo for 31-12-2025, proven by ID bracket — the batch sits between Stripe rows of 1 Jan and 2 Jan 2026). Until 31-12-26 these payments look 100% unused to `getUnusedPayment` (£3,535.93 total). They are NOT over-allocated today (their invoices were settled exactly at entry, so the page-view allocator's `balance > 0` gate never fires), but any new invoice on those contracts arms the C090586 mechanism instantly. Xero has NOT been fed phantom overpayments for them (no `overpayment` rows in xero_posting_logs for these payment ids). Repair: shift `created` back one year on all six rows, preserving the +1-minute convention on the allocation rows; rehearse on the test box first like the main repair.
+
+---
+
+**2026-06-24 20:10 — you**
+
+This was the contract that flagged the issue. I have been through it again  reset the records back to how it was at the time of refund (before and after fix) before fix it did the same (replicated) after it refunded the expected amount
+
+---
+
+**2026-06-24 20:10 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

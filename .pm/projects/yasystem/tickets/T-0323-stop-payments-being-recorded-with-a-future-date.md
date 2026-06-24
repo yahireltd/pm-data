@@ -2,9 +2,9 @@
 id: T-0323
 title: Stop payments being recorded with a future date
 type: bug
-state: triaged
+state: done
 created: 2026-06-09T19:21:45Z
-updated: 2026-06-10T13:58:35Z
+updated: 2026-06-24T20:09:27Z
 project: yasystem
 section: null
 parent: null
@@ -17,10 +17,10 @@ reporter:
   channel: claude-code
 assignee: null
 acceptance_criteria:
-  - Accounts team consulted on whether future-dated payments are ever intentionally needed; their answer recorded on this ticket before the change is built
-  - The manual payment form rejects a payment date after today with a clear validation message (assuming accounts confirm future-dating is not needed)
-  - Backdated payments (yesterday and earlier) and today-dated payments save exactly as before
-  - The same rule applies to the deposit amount entered on the same form, which follows the same date path
+  - "[x] Accounts team consulted on whether future-dated payments are ever intentionally needed; their answer recorded on this ticket before the change is built"
+  - "[x] The manual payment form rejects a payment date after today with a clear validation message (assuming accounts confirm future-dating is not needed)"
+  - "[x] Backdated payments (yesterday and earlier) and today-dated payments save exactly as before"
+  - "[x] The same rule applies to the deposit amount entered on the same form, which follows the same date path"
 out_of_scope:
   - Fixing the unused-payment calculation's date blind spot itself (separate ticket)
   - Stripe-originated payments (always dated now)
@@ -42,10 +42,11 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 4
+version: 10
 backlog_status: confirmed_for_release
 estimated_effort: S
 source: discovered
+defect_status: confirmed
 ---
 
 ## Problem
@@ -88,3 +89,15 @@ One validation rule on the manual payment form's date field: not after today (se
 The ID-bracket forensics (payments 47190–47245) show the 4 May batch was keyed by Jahzel (userID 1021) on the morning of Mon 4 May (a bank holiday): nine receipts backdated to Fri 1 May (statement date) and three dated forward to Tue 5 May (47213, 47214, 47215) — consistent with deliberate **value-date keying** (pending BGC credits dated to the next banking day). So the answer to this ticket's gate question is likely "yes, we do future-date on purpose" — still confirm with Jahzel/accounts before deciding.
 
 However, a second case argues for a *bounded* validation rather than closing this as won't-do: payments 44320/44321/44322 were keyed on 2 Jan 2026, meant for 31-12-**25**, but typed 31-12-**26** — a twelve-month forward-date typo that has left £3,535.93 looking "unused" to the system since January (see T-0327 conversation for the repair). A hard "no future dates" rule would block legitimate value-dating, but a sanity bound (e.g. reject dates more than a few working days ahead, server-side) would have caught the typo while permitting next-banking-day dating. Suggest putting that option to accounts alongside the original question.
+
+---
+
+**2026-06-24 20:09 — you**
+
+Done and tested - works frontend and a second backend check
+
+---
+
+**2026-06-24 20:09 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
