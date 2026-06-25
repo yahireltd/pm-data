@@ -24,6 +24,7 @@ id_counters:
     yasystem:
       sprint: 4
       tech_session: 2
+      status_note: 1
     org:
       meeting: 9
       pre_project: 9

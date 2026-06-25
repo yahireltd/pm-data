@@ -4,7 +4,7 @@ title: Route the remaining refund-creating Stripe paths through the gateway (dep
 type: chore
 state: triaged
 created: 2026-06-09T22:34:27Z
-updated: 2026-06-10T15:23:34Z
+updated: 2026-06-25T19:03:51Z
 project: yasystem
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - testing
   - incident-c090586
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
@@ -90,3 +90,17 @@ Per converted path, on the test box (sandbox): exercise the flow end-to-end (dep
 **Known limitations recorded:** (1) dry-run synthesises payment_intent from local stripe_payments — a nightly-copy row with NULL paymentIntentID will fail StripeRefunds validation loudly (HTTP 500) where live might succeed; (2) pre-existing `$contract->contractID` vs `$contract->id` inconsistency at the old endpoint's split-payment site (ContractsController ~line 1711) left untouched — live behaviour unchanged, but on the test box stripe_dryrun_requests.contractID and StripeRefunds.contractID can disagree at that one site.
 
 **2026-06-10 15:23 claude-code:** Committed as `59b861fe` on branch refund-hardening-t0331-stripe-dryrun (local only, not pushed). The branch is now three commits ahead of master and self-contained: gateway harness (a9615bdd), review fixes (84444136), bypass closures + dry-run hardening + the C090586 forensic query pack (59b861fe). Test-server walkthrough lives on T-0331 (comment of 2026-06-10 14:27).
+
+**2026-06-25 19:03 claude-code:** **Deposit-refund Stripe path hardened (2026-06-25).**
+
+`DepositRefundService::processNew` previously committed the DB rows then called Stripe and **silently swallowed** any Stripe error (`continue` + returned `'ok'`), leaving the deposit recorded as refunded, the `stripe_refunds` row stuck at `refundID='PENDING'`, and no retry — i.e. customer not refunded but system says done. Fixed:
+- **Idempotency key** tied to the committed `StripeRefunds` row → a retry/reconciliation can never double-refund (Stripe returns the original for the same key).
+- **Honest status** — `succeeded` on success, `failed` on Stripe error (was left `pending`).
+- **Surface failures** — returns `status:'partial'` + `stripeFailed:[...]`, keeps failed deposits out of `refunded`; `ContractsController::actionProcessRefund` no longer marks the contract complete when a deposit refund didn't reach Stripe.
+- Commit-first order kept deliberately (avoids the worse double-refund-on-lost-response exposure). Gateway made injectable for testing.
+
+Validated on **17 distinct real Stripe deposits**, both failure (injected error) and happy (dry-run) paths. Committed `20bb3dec`.
+
+`processLegacy` left as-is (Austin confirmed all legacy-accounting contracts are already processed).
+
+**Remaining (cross-ref T-0328 / T-0349):** a Stripe-failed deposit still *reads* as refunded via `getUnusedDeposit` (it sums the committed allocation regardless of Stripe status); and a reconciliation sweep for stuck `stripe_refunds` (type=1, `status='failed'` or `refundID='PENDING'`). Suggest this ticket move to review for the gateway-routing + deposit-hardening portion.

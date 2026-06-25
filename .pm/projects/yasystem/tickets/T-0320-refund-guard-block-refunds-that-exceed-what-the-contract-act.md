@@ -4,7 +4,7 @@ title: "Refund guard: block refunds that exceed what the contract actually holds
 type: feature
 state: done
 created: 2026-06-09T19:14:46Z
-updated: 2026-06-24T20:08:30Z
+updated: 2026-06-25T19:03:32Z
 project: yasystem
 section: null
 parent: null
@@ -65,7 +65,7 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 9
+version: 10
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -159,3 +159,13 @@ Plus a cap probe over post-refund states: settled contracts compute cap 0.00 exa
 **2026-06-24 20:08 — you**
 
 Tested again extensively on 24th june confirmed 3000 refunds would be the same ( barring penny differences )
+
+**2026-06-25 19:03 claude-code:** **Guard cap refined + validated against the full refund history (2026-06-25).**
+
+Two false-positive classes (which would wrongly block legitimate refunds in enforce mode) were found by the replay harness and fixed:
+1. **Split payments** — the cap under-counted cash for a contract that received part of a payment *owned* by a sibling contract. Added the mirror term: portions of other contracts' payments allocated to this contract's invoices.
+2. **Penny rounding** — refunds over cap by a literal £0.01 were flagged. Tolerance raised £0.009 → £0.05.
+
+**Validated by replaying all 3,023 historical refunds:** guard over-cap 13 → 8 (the 5 false positives cleared — 2 split-payment, 3 penny-rounding), the incident C090586 still blocked (£1,399.85 vs £138), and no new misses. The 8 that remain are genuine (the incident + small historical over-refunds from over-sized compensation credits + drift).
+
+Committed `88098dac`. Guard still defaults to SHADOW. Go-live: shadow window on live traffic, then flip `refundGuardMode=enforce`.

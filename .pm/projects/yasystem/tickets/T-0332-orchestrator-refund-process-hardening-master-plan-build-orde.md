@@ -4,7 +4,7 @@ title: "ORCHESTRATOR — Refund Process Hardening: master plan, build order, and
 type: chore
 state: triaged
 created: 2026-06-09T20:27:05Z
-updated: 2026-06-10T18:14:34Z
+updated: 2026-06-25T19:03:27Z
 project: yasystem
 section: null
 parent: null
@@ -56,7 +56,7 @@ labels:
   - incident-c090586
   - orchestrator
 attention: null
-version: 4
+version: 5
 backlog_status: confirmed_for_release
 estimated_effort: runs whole sprint
 source: discovered
@@ -185,3 +185,30 @@ All decisive code is long-standing (date filter Mar 2024, +1-min stamping Jul 20
 Only T-0331 exists in code (branch refund-hardening-t0331-stripe-dryrun, commits a9615bdd + 84444136; note a9615bdd's message "Branch to test account fixes" understates that it contains the bulk of the implementation). Nothing deployed or run anywhere yet. All other tickets unstarted; build order in this ticket remains correct, with the phase-0 addition: close the test-box bypass paths and run the trio date repair before integration testing begins.
 
 **2026-06-10 18:14 claude-code:** **Phase 1 complete, Phase 2 substantially through its test-box gate (2026-06-10).** Phase 1 (T-0331): all acceptance criteria verified — in review awaiting Austin's sign-off. Phase 2 (T-0320): guard built, adversarially reviewed (one formula blocker caught and fixed pre-deploy: cross-contract outflow blindness), and proven on the test box — incident fixture LOGGED in shadow (planned £1,399.85 vs cap £138, margin −£1,261.85) and BLOCKED in enforce with verified zero writes and zero Stripe calls; an exactly-at-cap real replay passed untouched under enforcement. Remaining before the Phase 2 live gate: re-run the full replay set under enforcement (after tonight's restore re-arms fixtures), edge fixtures (credit-exceeds-payments, cross-contract), then deploy and start the live shadow window. Branch refund-hardening-t0331-stripe-dryrun now carries both T-0331 and T-0320 plus the T-0333 conversions — note for the rollout sequence: the branch is no longer strictly "T-0331 alone", but everything in it is either passthrough-identical or shadow-by-default on live, so the deploy-first-alone property still holds.
+
+**2026-06-25 19:03 claude-code:** **Refund hardening — status & go-live plan (go-live targeted for NEXT WEEK, not before).**
+
+All work below is committed to branch `refund-hardening-t0331-stripe-dryrun` (now on GitHub) and tested on the sandbox/test box. Nothing is live yet.
+
+### Where we are — built, committed, tested
+- **Stripe dry-run for the test box (T-0331)** — DONE. The test box cannot touch real Stripe.
+- **Incident repair, C090586 (T-0327)** — DONE.
+- **Allocation cap (T-0325)** — the chokepoint that stops a payment being allocated more than it holds. It refuses the phantom over-allocation that started the incident.
+- **Refund guard (T-0320)** — built, plus two false-positive fixes added this week (credits split-payment cash; tolerates penny rounding). **Validated by replaying ALL 3,023 historical refunds**: 2,932 reproduce exactly, 0 errors; guard over-cap flags dropped 13→8 (the 5 false positives removed), and the original incident is still blocked (£1,399.85 vs £138 cap). Defaults to SHADOW (logs, never blocks).
+- **Forward-dated payments blocked (T-0323)** — manual payments can no longer be dated in the future. Closes the original trigger.
+- **Deposit refund Stripe failures no longer silent (T-0333 / T-0328)** — safe-retry idempotency key, honest succeeded/failed status, failures surfaced (contract not marked complete). Validated on 17 real Stripe deposits, both success and failure paths.
+- **Replay/test harness (this ticket, T-0332)** — reconstruct→replay→diff every historical refund + exercise the deposit fix; sandbox-only, every replay rolls back.
+
+### What's left before go-live (next week)
+**Deployment mechanics:**
+1. Deploy the branch to live (behaviour-identical except the new guard/cap/forward-date block); run the one migration once; confirm the live config has no `sandbox` flag.
+2. Run the guard in **SHADOW first** (logs over-cap refunds, blocks nothing), watch the log on real traffic for a few days, then flip to **ENFORCE** (`params['refundGuardMode']='enforce'`).
+
+**Remaining sprint tickets — decide blocker vs post-go-live:**
+- **T-0321** prevent double-submission — recommend before enforce (concurrency).
+- **T-0324** refund confirmation must show exactly what will be refunded — the guard now backstops it, but worth fixing for operator trust.
+- **T-0326** unused-payment future-date blind spot — now mitigated by the cap + guard + forward-date block; can follow go-live.
+- **T-0426** "BACS refund happened when Stripe selected" — investigate.
+- Deposit follow-ups (cross-ref **T-0328/T-0349**): a Stripe-failed deposit still *reads* as refunded via `getUnusedDeposit`; and a reconciliation sweep for stuck PENDING/failed Stripe refunds.
+
+**Bottom line:** the core incident is closed and validated (trigger blocked + over-allocation capped + over-refund guarded + deposit failures surfaced). Plan for next week: deploy in shadow, confirm clean, then enforce. Remaining items are hardening/UX, not incident-critical.
