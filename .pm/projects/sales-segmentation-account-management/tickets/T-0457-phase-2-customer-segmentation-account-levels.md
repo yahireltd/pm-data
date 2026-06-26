@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-26T20:44:00Z
+updated: 2026-06-26T21:40:15Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -54,7 +54,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 6
+version: 7
 ---
 
 ## What this is
@@ -110,3 +110,12 @@ T-0457a engine + param store; **T-0480** `email_domain` plumbing (predecessor); 
 **2026-06-26 20:44 claude-code:** **Update (26 Jun)** — added a **Grow** view to the account-level demo. It's the *same four levels* and the *same model*, just banded on a customer's **potential** instead of their realised spend — so it surfaces *where the growth is* (under-served accounts we could win more from) rather than *who's biggest today*. Already-won accounts (we hold ~80%+ of their wallet) are flagged "captured" and step aside. It's a presentation lens over the existing banding engine — no change to the model itself.
 
 Design note: `docs/p0018-sales-segmentation/P-0018-defend-grow-lens.md`; full design + the rejected alternatives are in TS-003 (decision #24). See **T-0479** for the important caveat that the demo's parameters and the "potential" figure are still provisional/uncalibrated. Branch `p0018-sales-segmentation-design`, commit 9c45b3ce1.
+
+**2026-06-26 21:40 claude-code:** **Requirement (Austin, 26 Jun): a "fast-track lane" for high-potential new quotes.** When a new quote is flagged as potentially valuable, it must be routed to a **prioritised lane** — a queue with an owner + an SLA — so a promising lead gets immediate senior attention instead of sitting in the normal pile. This is the "untriaged-whale queue" already foreshadowed in the scorecard/design.
+
+**Important re-scope from today's ML validation (see T-0481):** the original idea was to feed this lane from the *ML* white-whale model. Real-data validation shows that model **isn't viable** (whales too rare, and first-quote features don't beat quote size). So the fast-track lane should **not** wait on the ML — feed it from the signals we *do* have:
+- the **scorecard** £-potential (interpretable, no training needed),
+- the **quote value** itself (the strongest single predictor on the data),
+- the customer's **segment + score** (once point-in-time per T-0456 / T-0473-4).
+
+So this is a routing/workflow feature on top of the account-level model, not an ML dependency. Suggest it becomes its own ticket under T-0457's umbrella (lane definition, ownership, SLA, how a flagged quote enters/exits, and the threshold that triggers it — all tunable via T-0479). Flagging here so it's captured; happy to spin it into a dedicated ticket.

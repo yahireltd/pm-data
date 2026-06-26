@@ -4,7 +4,7 @@ title: Quote-intrinsic potential model — white-whale detection at first quote 
 type: feature
 state: triaged
 created: 2026-06-26T16:33:34Z
-updated: 2026-06-26T21:21:54Z
+updated: 2026-06-26T21:40:02Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -32,7 +32,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
 ---
 
 ## What this is
@@ -66,3 +66,10 @@ See the design doc §3 (leakage-safe label), §4 (model/calibration), §5 (blend
 **REQUIREMENT raised by Austin — the customer must be scored + segmented, and the model must NOT be blind to it.** Removing the score/segment join fixed a leak but mustn't drop the signal. Resolution: **live** score+segment at serve time (no leakage — it's the present), and a **point-in-time** snapshot (`scored_at <= t0`) for training. This makes the model depend on **T-0456** (scoring) + **T-0473/T-0474** (segment vocab+import) landing with a `scored_at` date. Until then `company_type` is NULL and the model leans on quote-intrinsic features only.
 
 **Defences added:** 4 leakage gates now run on every training (`train.py`) and block the ship-gate if tripped — label-shuffle null test, mutable-basket ablation, strict time-split assertion, and a single-feature probe that would catch any reintroduced score/spend column.
+
+**2026-06-26 21:40 claude-code:** **Real-data validation (26 Jun) — the model is NOT viable; ship the scorecard.** Ran the leakage-fixed export against the **sandbox RDS** (read-only): 6,898 first-quote domains over 2 years. The good news: the export runs clean on the real schema, and the leakage gates pass in every configuration (shuffle ≈ base rate, strict time-split, no single-feature leak). The sobering news:
+
+- Genuine new-customer **whales are vanishingly rare** — only **19–33** first quotes (out of 6,898) led to an £8k+/yr customer, depending on how generously we define the target (repeat-only / total / include-the-first-job). The model needs ~150 to train, so it can't.
+- More fundamentally: even ignoring the count, the **first-quote features don't beat the quote's own value** — without `quote_total`, the model ranks future value *worse* than just sorting by quote size (ablation gate fails). So "spot a hidden whale from the item mix / location of a small quote" **isn't supported by the data**. The great result we saw earlier was on synthetic data — it was the leakage, not real signal.
+
+**Decision:** keep the **interpretable scorecard** live; **park the ML model**. Revisit only with materially more history, or a deliberately different/lower target — and any such model would still have to clear the ablation gate (beat ranking-by-quote-size) to be worth deploying. Full numbers + the label distribution are in `docs/p0018-sales-segmentation/P-0018-leakage-audit.md` (commit 397b09e8f). Added `--totalValue`/`--coolingDays` export knobs for target experimentation.
