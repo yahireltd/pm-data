@@ -4,7 +4,7 @@ title: Finalise customer segment vocabulary (industry+sub-industry, event-type+s
 type: feature
 state: triaged
 created: 2026-06-23T14:09:30Z
-updated: 2026-06-23T14:09:30Z
+updated: 2026-06-26T14:50:41Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -25,7 +25,8 @@ acceptance_criteria:
   - The agreed vocabulary is recorded as an accepted ADR (superseding the v0 strawman ADR-004) and handed to the build ticket as the enum the scrape writes into.
 out_of_scope: []
 code_anchors: []
-relates: []
+relates:
+  - T-0457
 blocks: []
 blocked_by: []
 duplicates: []
@@ -36,7 +37,7 @@ labels:
   - research
   - for-austin
 attention: null
-version: 1
+version: 2
 ---
 
 ## What this is
