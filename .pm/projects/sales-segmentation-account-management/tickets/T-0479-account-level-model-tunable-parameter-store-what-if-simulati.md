@@ -4,7 +4,7 @@ title: "Account-level model: tunable parameter store + what-if simulation tool"
 type: feature
 state: triaged
 created: 2026-06-26T14:49:58Z
-updated: 2026-06-26T14:50:45Z
+updated: 2026-06-26T15:00:38Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -27,29 +27,35 @@ relates:
   - T-0457
   - T-0456
 blocks: []
-blocked_by: []
+blocked_by:
+  - T-0480
 duplicates: []
 duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
 ---
 
 ## What this is
 
-The **tuning + simulation layer** for the account-level model ([[T-0457]]). Every model parameter lives in a named, versioned **parameter set**, and a **what-if screen** recomputes proposed levels over the real base in memory so you can SEE how the account-type assignments shift before committing a set to live. (Direct ask: "we need to be able to easily tune model parameters so we can see how the proposed account types change with different parameters.")
+The **tuning + simulation layer** for the account-level model ([[T-0457]]). Every model parameter lives in a named, versioned **parameter set**, and a **no-write what-if screen** recomputes proposed levels over the real base in memory so you can SEE how the account-type assignments shift before committing a set to live. (Direct ask: "easily tune model parameters so we can see how the proposed account types change with different parameters.")
 
-## Why
+Design: `~/Documents/P-0018-account-level-blend-addendum.md` §D (parameter store) + §E (simulator). Decisions + calibration: **TS-003**. Hard prerequisite: [[T-0480]] (`email_domain` — the fact-frame rollup needs it; without it the sim is an unindexed scan, not "runnable today").
 
-The level model has many judgement-call parameters (band cuts, the alpha evidence-weight curve, segment multipliers, the initial-quote weight beta, the white-whale threshold, the Strategic capacity cap). These are the workshop's to settle, and the only honest way to tune them is to see the effect on real customers — not argue in the abstract. The sandbox data (TS-003) already shows how sensitive the picture is (86% of active customers < £2k/yr; only ~22 at £40k+), so small threshold moves shift hundreds of customers.
+## Architecture
 
-## The plan
+- **Pure engine** `common/components/AccountLevelEngine.php` — `computeRow(facts, params)`, **no DB, no side-effects**, returns the level + α/γ/realised_blend/realised_gate/potential/gap/status_stage/conversion_process/band_reason. The nightly recompute and the simulator call the **same** function — so the what-if's band logic is byte-identical to production. (Hysteresis / dormancy / committed_fwd demote-exemption stay in the nightly job — they need prior persisted state — and are approximated + labelled in the sim.)
+- **Parameter store** — new `account_level_param_sets` table: one JSON bundle per set, `status ∈ draft/candidate/live/archived`, **exactly one live** (enforced transactionally in `actionPromote`), **immutable once promoted** (clone-to-edit), **schema-validated on save** (monotonic score anchors, `floor ≤ cut`, every knob range-checked). `customer_account_levels.compute_version` stamps which set produced each row.
+- **Cached fact-frame** — `account_level_facts`: the param-INDEPENDENT raw windows + per-order ages + **frozen home-row identity**, built once so re-scoring the whole base per tweak is in-memory PHP.
 
-- **Parameter store** — an `account_level_params` table of named, versioned sets (one flagged live). Every tunable lives here; `customer_account_levels.compute_version` records which set produced a row.
-- **In-memory recompute service** — runs the [[T-0457]] level logic for a given param set over (a) the existing scored base + `ya_contracts` and (b) the recent-new-quotes cohort, returning proposed levels WITHOUT persisting.
-- **What-if screen** — extend the `SalesScoresController` / `sales-scores/index.php` pattern (sibling `AccountLevelsController`): distribution by level (counts + £), a Value×Potential scatter, a DIFF vs the live set, drill-down; save a set, compare, promote to live.
+## The screen — `AccountLevelsController` (sibling of `SalesScoresController`, manager-RBAC)
+- **LEFT** parameter editor: constrained **monotonic curve editor** (server-validated so a non-dev can't draw a decreasing curve), the 4-row α maturity matrix, sliders/inputs for k/α_max/H/T0/β/quote_cap/band cuts/realised floors/graduation/value floors/lapsed-review/committed-fwd/white-whale/capacity/hysteresis/big-fish. Load-saved-set + compare-to-live.
+- **TOP** distribution cards (count + Σexpected + Σrealised + Δ-vs-live); Strategic shows *suggested* AND *confirmable-under-cap* (joins live senior-AM headcount).
+- **CENTRE** Value×Potential scatter (X potential, Y realised_blend, colour level, size expected); band-cut + floor reference lines move live; pending-quote overlay for mature-account pipeline.
+- **DIFF vs live — TWO matrices:** suggested→suggested move count ("N move X→Y") + a separate confirmed-override panel (confirmed rows excluded from the raw count, no double-count).
+- **DRILL-DOWN** per domain with α (+ binding term), realised_blend/gate, potential, quote, expected, gap, status_stage, conversion_process, live-vs-sim level, plain-English band_reason → full basis_json.
+- **FOOTER** save-as-draft (new version) / promote-to-live (transactional, optional immediate recompute) behind a confirm modal re-showing the diff. Required honesty banners: frame-age (blocks promote if the frame predates the last live recompute) + "expected_value is steering value, not a forecast".
 
 ## References
-
-Full design: `~/Documents/P-0018-account-level-design.md` §D/§E (parameter store + what-if tool); decisions + calibration in **TS-003**. Consumes [[T-0457]] (the level logic) and [[T-0456]] (scores). Refined design from the blend/tuning design pass will be appended here.
+Consumes [[T-0457]] (level logic) and [[T-0456]] (scores). Blocked by [[T-0480]].

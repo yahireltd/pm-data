@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-26T14:50:41Z
+updated: 2026-06-26T15:00:13Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -17,12 +17,13 @@ reporter:
   name: Austin
 assignee: null
 acceptance_criteria:
-  - Every active customer carries a system-computed suggested_level (system / incubation / account / strategic), recomputed nightly, from the confidence-weighted blend of realised value (ya_contracts, contractTotal inc-VAT) and potential (score + segment + deduped quoted demand), with the new-vs-existing weight (alpha) applied and guardrails enforced (no-realised-history is capped at Incubation; Strategic respects a per-senior-AM capacity cap).
-  - Quoted demand is deduped to opportunities (customer + hireStartDate +/-2 days; £0 and internal yahire.com quotes excluded; copiedQuote flag NOT used) and a win-rate (realised/quoted) metric flags quotes-a-lot/wins-little conversion-problem customers.
-  - "A suggest->confirm workflow exists: a human can propose / confirm / override the level (mandatory reason, logged to an audit table), ownership is assigned via salesID, and each level has its ownership-requirement gate that must be met before 'confirmed'."
-  - Per customer the screen shows actual value (ya_contracts), potential value (model) and the potential-minus-realised gap; filters/queries use effective_level = COALESCE(confirmed_level, suggested_level); the level surfaces on my-accounts and a new manager screen.
-  - A quarterly transfer-window review worklist runs (suggested != confirmed, lapsed, split-ownership, white-whale) with a named owner + cadence.
-  - The new-vs-existing test uses real ya_contracts history (a delivered, unconverted=0, contractType=1 contract), NOT ya_customers.totalContracts.
+  - Every active customer carries a system-computed suggested_level, recomputed nightly by a SHARED pure engine, from the confidence-weighted blend (alpha-weighted realised_blend + quote nudge + potential). expected_value only STEERS; the level is BANDED on a realised £ FLOOR (realised_gate), never on alpha.
+  - Account requires realised_gate >= floor AND a graduation test (so a single first delivered order graduates via Incubation, not straight to Account); Strategic requires realised_gate >= floor AND a repeat_signal; both read DELIVERED hire revenue (hireEndDate in the past), never a forward-dated/converted-but-undelivered booking.
+  - "Guards enforced: lapsed-high-tier (Diamond/Gold/VIP/keyAccount/high-lifetime never silently dropped to System), committed_fwd demote-exemption, and the per-senior-AM Strategic capacity cap at confirm."
+  - Quoted demand is deduped to opportunities (customer + hireStartDate +/-2 days; MAX of one engaged live quote not SUM; £0 + internal yahire.com excluded); a win-rate (realised/quoted) flags quotes-a-lot/wins-little customers; big-fish alerts read the RAW uncapped quote.
+  - "A suggest->confirm workflow exists: propose/confirm/override (mandatory reason, logged to audit; compute_version stamped on every write path), ownership via salesID, per-level ownership gate before 'confirmed'; effective_level = COALESCE(confirmed, suggested)."
+  - Per customer the screen shows realised (actual), potential, and the gap; the level surfaces on my-accounts + a new manager screen; a quarterly transfer-window worklist runs with a named owner + cadence.
+  - New-vs-existing uses real ya_contracts delivered history, NOT ya_customers.totalContracts; realised queries exclude archived/dead-status rows.
 out_of_scope: []
 code_anchors:
   - path: common/models/YaCustomers.php
@@ -44,64 +45,60 @@ relates:
   - T-0473
   - T-0479
 blocks: []
-blocked_by: []
+blocked_by:
+  - T-0480
 duplicates: []
 duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
 ---
 
 ## What this is
 
-The **account-level layer** of P-0018: give every customer one of four stewardship levels — **System-only / Incubation / Account / Strategic** — and the **suggest→confirm workflow** by which a human turns a system suggestion into a real, *owned* account at that level. It consumes the **score** ([[T-0456]]) and **segment** ([[T-0473]]) plus a new **quoted-demand** signal, and is the concrete home of the "Conversion Process" the original sales flow left vague.
+The **account-level layer** of P-0018: give every customer one of four stewardship levels — **System-only / Incubation / Account / Strategic** — and the **suggest→confirm workflow** by which a human turns a system suggestion into a real, *owned* account at that level. It consumes the **score** ([[T-0456]]), **segment** ([[T-0473]]) and a **quoted-demand** signal, and is the concrete home of the "Conversion Process" the original sales flow left vague.
 
-Full written design (10 sections + flow diagram): `~/Documents/P-0018-account-level-design.md`, `P-0018-account-level-flow.{drawio,mmd}`. Decisions + sandbox calibration: **TS-003**. Canon: ADR-007/008/009. Tuning + what-if simulation: [[T-0479]].
+**Design docs:** base = `~/Documents/P-0018-account-level-design.md`; **refinement = `~/Documents/P-0018-account-level-blend-addendum.md`** (the confidence-weighted blend, the parameter store, the what-if tool); flow = `P-0018-account-level-flow.{drawio,mmd}`. Decisions + sandbox calibration: **TS-003** (12 decisions). Tuning + simulation: [[T-0479]]. Hard prerequisite: [[T-0480]] (`email_domain` plumbing).
 
-## The model — confidence-weighted blend
+## The model — confidence-weighted blend (REFINED)
 
-Three distinct layers: **segment** (who) / **score** (potential) / **account-level** (stewardship — this ticket). Account-level sits **beside, never replaces** the existing `tierID` value-grade and `accountType` billing type.
+Three layers: **segment** (who) / **score** (potential, blind to spend) / **account-level** (stewardship — this ticket). Account-level sits **beside, never replaces** the existing `tierID` value-grade and `accountType` billing type. Scoring is the **prior for the whole base** (existing customers are scored too); new-vs-existing is just *how much weight* the score carries.
 
-Proposed level comes from a **confidence-weighted blend**, not a hard new/existing split:
+A **steering value** blends the three signals, weighted by the customer's own evidence:
 
-`expected_value = α · realised_value + (1 − α) · potential_value`
+`expected_value = α·realised_blend + γ·quote_signal + (1 − α − γ)·potential_value`
 
-- **realised_value** — annualised hire-only revenue from `ya_contracts` (`contractTotal` inc-VAT, `contractType=1`, `unconverted=0`). *Do NOT use `ya_customer_stats.contractsValue` — it is ex-VAT `contractPrice`.*
-- **potential_value** — score→£ curve × segment fit, **or** revealed demand from **deduped annualised quoted value** (`quotes.quoteTotal`); revealed demand is trusted over the cold score when present.
-- **α (evidence weight, 0–1)** — how much realised history exists (delivered-order count, tenure, recency). New customer α≈0 → driven by score + segment + a weighted dab of the **initial quote value (β)**; established repeat α≈0.8–0.9 → history dominates, score only nudges. α *earns itself* as orders land. The exact curve is TUNABLE → [[T-0479]].
+- **α (evidence weight, 0–0.90)** from a recency-decayed **delivered**-order count + NULL-safe tenure → α≈0 for a new lead (potential + a small quote nudge drive it), α≈0.7–0.9 for an established repeat (history dominates, score only nudges). Earns itself order-by-order.
+- **potential** = blind score→£ curve × segment fit (NULL→0 inside the blend; segment multipliers ship neutralised to 1.0 until enrichment lands).
+- **quote_signal** = MAX of **one** genuinely-engaged live quote (not SUM — resists padding), capped £30k + annualised.
 
-**Map to levels** via blended value + the **potential−realised gap**: low/low → System-only; **high potential + low realised (big gap) → Incubation / white-whale**; high realised → Account; high realised + high potential + repeat cadence → Strategic. Guardrails: a customer with **no realised history cannot be born Account/Strategic** (a consequence of α≈0 + the human gate); **Strategic respects a per-senior-AM capacity cap**.
+**CRITICAL — banding is on a realised £ FLOOR, not α.** `expected_value` only *steers* (scatter axis, queue ranking, big-fish trigger); it never confers a level. The level gate reads ground-truth realised £, with **two named realised bases** (both pure `contractTotal`): `realised_blend` (recency-smoothed) for steering, `realised_gate` (multi-year annualised) for the hard floors — so a biennial £80k venue annualises to £40k and isn't demoted in its off-year.
 
-**Quoted demand + win-rate.** Quoted value is deduped to opportunities — **customer + `hireStartDate` ±2 days** (the existing `UsefulFunctions` convention; the `copiedQuote` flag is unused/£0 so not relied on; £0 and internal `yahire.com` quotes excluded). **win-rate = realised ÷ quoted** flags "quotes-a-lot / wins-little" conversion-problem customers — e.g. **customer 8701: 132 opportunities, 4 won (3%), £69.6k quoted, ~£2k realised**: a realised-only model wrongly dumps them in System-only; the blend correctly elevates them to a high-priority Incubation gap.
+Ladder (first match wins; all TUNABLE via [[T-0479]]):
+- **0** `classification` disqualified→System / trade→trade-lane (held behind a manual competitor-exclusion checkpoint until the column exists — [[T-0456]]).
+- **1 Lapsed-high-tier guard:** a dormant Diamond/Gold/VIP/keyAccount/£50k-lifetime account is **never silently dropped to System** → `lapsed_review`, hold prior level.
+- **2 Strategic** (suggest): `realised_gate ≥ £40k` AND repeat_signal (`txn_12m≥2` OR ≥2 distinct order-years).
+- **3 Account:** `realised_gate ≥ £8k` AND a **graduation test** (txn≥2 OR ≥2 years OR tenure≥9m OR lifetime≥£20k with a **DELIVERED** hire) — so a single first order graduates through Incubation, never straight to Account.
+- **4 Incubation:** `realised_gate < £8k` AND high potential (`≥£15k` or white-whale) — the gap; the white-whale nursery + the high-potential new lead land here.
+- **5 Triage/System:** unscored personal lead with a live quote → named triage queue (owner + SLA), not a silent System sink; pure dead weight → System.
 
-## Conversion workflow (the "Conversion Process" made concrete)
+`committed_fwd` demote-exemption (a material forward book holds the level + fires big-fish). Three barriers between potential and a senior tier: **α** (shrinks steering value), the **realised floor + graduation** (band gate), the **human confirm + per-senior-AM capacity cap**.
 
-A suggest→confirm state machine per customer: `suggested → proposed → owner_assigned → requirements_met → confirmed` (+ rejected / demote). `effective_level = COALESCE(confirmed_level, suggested_level)`.
-- **System-only** — auto (suggested == confirmed); a named pool **steward** owns the pool, not individuals.
-- **Incubation** — owner = SE / junior AM; gate = segment + key contact captured (customerType-aware: personal / no-domain uses the same set minus `companyType`).
-- **Account** — owner = AM; gate = plan approved by a manager.
-- **Strategic** — owner = senior AM; gate = bespoke plan + manager sign-off + a capacity slot.
+**Quoted demand + win-rate.** Deduped to opportunities — customer + `hireStartDate` ±2 days (the existing `UsefulFunctions` convention; `copiedQuote` flag unused/£0; £0 + internal `yahire.com` excluded). **win-rate = realised ÷ quoted** flags conversion-problem customers — e.g. **customer 8701: 132 opportunities, 4 won (3%), £69.6k quoted, ~£2k realised** → a realised-only model dumps them in System; the blend elevates them to a high-priority Incubation gap.
 
-**Transfer windows** (quarterly): a review worklist of suggested≠confirmed, lapsed, split-ownership, white-whale. **Big-fish**: real-time manager alert on a large new opportunity (level still capped at Incubation until realised).
+## Conversion workflow
 
-## Calibrated starting numbers (sandbox, 2026-06-26 — all TUNABLE via [[T-0479]])
-- Band cuts: **System < £8k · Account ≥ £8k · Strategic ≥ £40k** realised/yr → ≈171 Account, ≈22 Strategic (staffable). 86% of active customers are < £2k/yr.
-- Quote dedup ≈ 15% of rows (27,393 → 23,395 opportunities last 12m).
+`suggested → proposed → owner_assigned → requirements_met → confirmed` (+ rejected/demote); `effective_level = COALESCE(confirmed_level, suggested_level)`. System-only auto (pool steward owns the pool); Incubation → SE/junior AM + segment & contact captured (customerType-aware); Account → AM + manager-approved plan; Strategic → senior AM + bespoke plan + sign-off + capacity slot. Quarterly **transfer-window** worklist (suggested≠confirmed / lapsed / split-ownership / white-whale). Real-time **big-fish** alert (reads the RAW quote; level still capped until realised).
+
+## Calibrated starting numbers (sandbox 2026-06-26 — TUNABLE)
+Band cuts System<£8k / Account≥£8k / Strategic≥£40k → ≈171 Account, ≈22 Strategic (staffable); 86% of active customers <£2k/yr; quote dedup ≈15%.
 
 ## Data model
-- New `customer_account_levels` (1 row per active customer; the **home row** per email-domain economic account carries the level + rolled values, satellites NULL) + append-only `customer_account_level_log`.
-- New nightly recompute `console/controllers/AccountLevelController::actionRecompute`.
-- New/existing test uses **real `ya_contracts` history**, NOT `ya_customers.totalContracts` (unreliable — established quoters show `totalContracts=0`).
-- Reuse `salesID` (owner), `keyAccount`/`vip`; keep `tierID` / `accountType` distinct.
-- Surfaces: extend `backend/views/sales/my-accounts.php` (level badge + confirm/override) + a new manager screen `AccountLevelsController`.
+New `customer_account_levels` (home-row per email-domain economic account; + α/γ/n_eff/realised_blend/realised_gate/expected_value/gap/status_stage/conversion_process columns) + append-only `customer_account_level_log`. Recompute `console/controllers/AccountLevelController::actionRecompute` calls the shared pure `AccountLevelEngine::computeRow()`, applies hysteresis/dormancy/demote-exemption (prior-state), stamps `compute_version`, logs material deltas only. Reuse `salesID`/`keyAccount`/`vip`; keep `tierID`/`accountType` distinct; new/existing uses real `ya_contracts` history NOT `totalContracts` (unreliable). Realised query excludes `archived`/dead status. Surfaces: `my-accounts.php` badge + confirm/override; new `AccountLevelsController` manager screen.
 
-## Build sequencing
-- **Phase 0** — indexed `ya_customers.email_domain`; `customer_sales_scores.classification` ([[T-0456]]).
-- **Phase 1 (MVP)** — tables + recompute + my-accounts badge + confirm/override + Strategic RBAC & capacity cap.
-- **Phase 2** — full state machine + ownership gates + transfer-window job + big-fish mailer.
-- **Phase 3** — segment enrichment-on-demand ([[T-0473]]/T-0474/T-0475).
-- **Phase 4** — the (currently unbuilt) System-only nurture engine + named steward.
+## Build sequencing (sub-tasks suggested)
+T-0457a engine + param store; **T-0480** `email_domain` plumbing (predecessor); T-0457b recompute + fact-frame; T-0457c simulator UI ([[T-0479]]); T-0457d promote/RBAC/audit. Then Phase 3 segment enrichment ([[T-0473]]); Phase 4 the (unbuilt) System-only nurture engine + named steward.
 
 ## Open decisions (workshop)
-£ thresholds; the α curve + β; ownership-requirement sets; the Strategic capacity number; the named steward (+ who funds Phase-4 nurture); the domain-ownership cascade rule — full 18 in TS-003 / design doc §9.
+£ thresholds; α curve (k/α_max/H/T0) + matrix-vs-smooth + tenure basis; graduation thresholds; lapsed/demote floors; Strategic capacity number; named steward (+ Phase-4 nurture funding); domain-ownership cascade; scoring-refresh SLA & cost. Full 16 in the addendum §H + base doc §9 — captured in TS-003.
