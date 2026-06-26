@@ -4,7 +4,7 @@ title: "Account-level model: tunable parameter store + what-if simulation tool"
 type: feature
 state: triaged
 created: 2026-06-26T14:49:58Z
-updated: 2026-06-26T16:17:14Z
+updated: 2026-06-26T20:43:51Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -35,7 +35,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 5
+version: 6
 ---
 
 ## What this is
@@ -60,3 +60,11 @@ Design: `~/Documents/P-0018-account-level-blend-addendum.md` §D (parameter stor
 
 ## References
 Consumes [[T-0457]] (level logic) and [[T-0456]] (scores). Blocked by [[T-0480]].
+
+## Conversation
+
+**2026-06-26 20:43 claude-code:** **Update (26 Jun)** — the interactive demo, which is the "what-if simulation tool" this ticket describes, now has a **Defend | Grow** toggle. *Defend* ranks customers by what they spend with us today (the retention view); *Grow* ranks the same customers by their **potential** — where the next growth is — with accounts we've already largely won stepping aside so they don't crowd the list.
+
+**Honesty note that belongs squarely on this ticket:** every threshold and weight in the demo right now is a **placeholder**, and the "potential" figure leans on an **uncalibrated** web-score, so the pound values it shows ("£X to win") are **indicative, not final**. Pinning these parameters down — and giving them a proper tunable store with someone signing them off — is the core of this ticket. The demo is the argument for *why* T-0479 is needed.
+
+Demo + a design note (`docs/p0018-sales-segmentation/P-0018-defend-grow-lens.md`) are committed on branch `p0018-sales-segmentation-design` (commit 9c45b3ce1). The live 849-customer version was shared with Ben for feedback. The 849-customer population HTML and the source CSVs stay out of git (real customer data).

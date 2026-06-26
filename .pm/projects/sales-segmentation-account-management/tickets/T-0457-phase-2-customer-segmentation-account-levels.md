@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-26T16:17:09Z
+updated: 2026-06-26T20:44:00Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -54,7 +54,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 5
+version: 6
 ---
 
 ## What this is
@@ -104,3 +104,9 @@ T-0457a engine + param store; **T-0480** `email_domain` plumbing (predecessor); 
 
 ## Open decisions (workshop)
 £ thresholds; α curve (k/α_max/H/T0) + matrix-vs-smooth + tenure basis; graduation thresholds; lapsed/demote floors; Strategic capacity number; named steward (+ Phase-4 nurture funding); domain-ownership cascade; scoring-refresh SLA & cost. Full 16 in the addendum §H + base doc §9 — captured in TS-003.
+
+## Conversation
+
+**2026-06-26 20:44 claude-code:** **Update (26 Jun)** — added a **Grow** view to the account-level demo. It's the *same four levels* and the *same model*, just banded on a customer's **potential** instead of their realised spend — so it surfaces *where the growth is* (under-served accounts we could win more from) rather than *who's biggest today*. Already-won accounts (we hold ~80%+ of their wallet) are flagged "captured" and step aside. It's a presentation lens over the existing banding engine — no change to the model itself.
+
+Design note: `docs/p0018-sales-segmentation/P-0018-defend-grow-lens.md`; full design + the rejected alternatives are in TS-003 (decision #24). See **T-0479** for the important caveat that the demo's parameters and the "potential" figure are still provisional/uncalibrated. Branch `p0018-sales-segmentation-design`, commit 9c45b3ce1.
