@@ -38,7 +38,7 @@ id_counters:
       decision: 9
       tech_session: 1
     sales-segmentation-account-management:
-      tech_session: 2
+      tech_session: 3
       phase: 4
       milestone: 11
       sprint: 9
