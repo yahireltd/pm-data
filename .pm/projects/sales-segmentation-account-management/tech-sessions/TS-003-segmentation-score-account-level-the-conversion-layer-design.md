@@ -4,7 +4,7 @@ slug: segmentation-score-account-level-the-conversion-layer-design
 title: "Segmentation+score → account-level: the conversion-layer design (two-track grid + suggest→confirm machine)"
 project: sales-segmentation-account-management
 created: 2026-06-26T13:45:54Z
-updated: 2026-06-26T15:07:23Z
+updated: 2026-06-26T15:21:11Z
 decisions:
   - THREE LAYERS STAY DISTINCT. Segment (who they are) / Score (how good a prospect — potential, blind to spend) / Account-level (how we steward them). Account-level is the missing third layer and is NEVER silently derived from the other two. It also sits BESIDE — never replaces — the existing tierID (Diamond/Gold/Silver/Bronze value-grade) and accountType (Cash/Credit billing).
   - "THE ENGINE = a two-track Value×Potential grid, both axes in £/yr. POTENTIAL (X) = a static, anti-leakage curve from the score (never moved by spend). ACTUAL (Y) = realised hire-only revenue from ya_contracts. Levels: low actual+low potential → System-only (default floor); low actual+high potential → Incubation (the ~311 white-whale nursery); high actual → Account; high actual+high potential+repeat cadence → Strategic. Movement is VERTICAL (realised value climbs toward the customer's own fixed potential ceiling); share-of-wallet = actual÷potential; white-whale gap = vertical distance to the diagonal. This resolves Ben's 'move toward top-right' — it's 'up toward the ceiling', not lateral."
@@ -30,10 +30,12 @@ actions:
     ticket: T-0457
   - text: "STAKEHOLDER DEMO decided (grounds the stuck decisions from M-005 outcome #9 'spent a long time on what to do with qualified customers... parameters not defined' + April's #1 issue = Visibility): build an INTERACTIVE HTML prototype (a clickable preview of the T-0479 what-if tool) seeded with FULLY-REAL data — a curated ~30-customer spanning sample (strategic / account / system-small / conversion-problem incl. 8701 / new-lead / high-performer buckets). Stakeholders drag the Account/Strategic/alpha/quote-weight thresholds and watch customers re-band live on a Value×Potential scatter + distribution, so the finer-point threshold decisions become decidable in the room. Build it via a workflow (build + adversarially verify every displayed number against the blend formula) once the sandbox query returns. Self-contained HTML, screen-shareable."
     ticket: T-0479
+  - text: "STAKEHOLDER DEMO BUILT + verified: ~/Documents/P-0018-account-level-demo.html — self-contained interactive prototype (25KB, no internet), 27 REAL sandbox customers across every level. Engine run in Node to verify: default-threshold distribution = Strategic 5 / Account 8 / Incubation 2 / Triage 6 / System 5 / Excluded 1. Drag Account/Strategic/Incubation/β/α-half-life/k sliders → live re-band + 'N customers moved X→Y' diff + Value×Potential scatter. Headline real cases it demonstrates: gpj.com (score 95, £29k realised, sow 0.30) + stratacreate (score 93, £12k realised, sow 0.12) = Account-but-white-whale+conversion-gap; drpgroup/corporate-events = conversion gap (quoted >> realised, low win); selainternational £24k BOOKED-not-delivered = Triage/big-fish not auto-promoted (forward-booking guard); yahire.com = Excluded (internal classification gate); smartgroupltd twice = the home-row/economic-account grain. Banding gates on realised £ floor (not α). NOTE the score→£ curve is visibly under-calibrated for proven top accounts (caterlondon £119k realised, score 72 → potential only £13.5k) — exactly the calibration refit flagged as a workshop decision; banding is unaffected because it uses realised_gate."
+    ticket: T-0479
 side_quests: []
 problem: "We have an initial scoring model (web-lookup, blind to spend, A/B/C) and an initial segmentation (industry) model, but no designed way to get a customer from there to ONE of the four account levels (System / Incubation / Account / Strategic), nor a process for how Sales actually CONVERTS a flagged customer into being that level. Two hard realities had to be handled: (1) existing customers have real order history (ya_contracts) but a brand-new customer has none — only potential; (2) segment is missing on ~95% of accounts and the only backfill (web-scrape) is keyed by email domain, so personal/webmail customers can't be segmented that way. Ben also corrected that peer/competitor suppliers must NOT be excluded — some sub-hire from us, so they are a legitimate trade segment."
 phase: build
-version: 19
+version: 20
 ---
 
 # TS-003: Segmentation+score → account-level: the conversion-layer design (two-track grid + suggest→confirm machine)
