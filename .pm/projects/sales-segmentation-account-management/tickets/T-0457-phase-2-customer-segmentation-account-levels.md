@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-26T15:00:13Z
+updated: 2026-06-26T16:17:09Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -24,6 +24,8 @@ acceptance_criteria:
   - "A suggest->confirm workflow exists: propose/confirm/override (mandatory reason, logged to audit; compute_version stamped on every write path), ownership via salesID, per-level ownership gate before 'confirmed'; effective_level = COALESCE(confirmed, suggested)."
   - Per customer the screen shows realised (actual), potential, and the gap; the level surfaces on my-accounts + a new manager screen; a quarterly transfer-window worklist runs with a named owner + cadence.
   - New-vs-existing uses real ya_contracts delivered history, NOT ya_customers.totalContracts; realised queries exclude archived/dead-status rows.
+  - Segment (industry/company-type, from ADR-006/007) is a FIRST-CLASS input via a tunable per-segment profile — a repeat_likelihood prior feeding the starting alpha + the Quick-vs-Lifetime conversion route, a segment-aware potential multiplier/curve, optional band-threshold overrides, and the industry-specific qualification set — NOT just a flat fit multiplier. classification (mainstream/trade/disqualified) routes trade->trade lane and disqualified->System.
+  - The web-lookup score + classification cover new leads too (esp. webmail/personal with no domain match handled via the quote-value proxy); ~39% of inbound quotes scored disqualified and ~24% A-tier on the 137-domain sample — the disqualified gate is a primary efficiency lever.
 out_of_scope: []
 code_anchors:
   - path: common/models/YaCustomers.php
@@ -52,7 +54,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 ---
 
 ## What this is

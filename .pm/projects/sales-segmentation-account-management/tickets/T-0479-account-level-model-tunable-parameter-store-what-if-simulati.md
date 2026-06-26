@@ -4,7 +4,7 @@ title: "Account-level model: tunable parameter store + what-if simulation tool"
 type: feature
 state: triaged
 created: 2026-06-26T14:49:58Z
-updated: 2026-06-26T15:00:38Z
+updated: 2026-06-26T16:17:14Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -18,8 +18,9 @@ reporter:
 assignee: null
 acceptance_criteria:
   - "Every model parameter lives in a named, versioned parameter set, editable WITHOUT a code deploy: the score->£ potential-curve anchors, the segment fit multipliers, the alpha/evidence-weight function (orders-to-full-trust, recency half-life), the initial-quote weight (beta), the £ band cuts for the 4 levels, the white-whale share-of-wallet threshold, and the Strategic per-senior-AM capacity cap."
+  - "The parameter set includes PER-SEGMENT PROFILES (one per industry/company-type from ADR-006/007): repeat_likelihood prior, potential_multiplier / segment-aware curve, default_conversion_process, optional band-threshold overrides, and qualification_set — so a user can tune one segment (e.g. 'venues' vs 'caterers') and watch that cohort re-band."
   - A what-if screen recomputes proposed account levels for any chosen parameter set IN MEMORY (no writes) over BOTH (a) the existing scored customer base + ya_contracts and (b) the recent-new-quotes cohort.
-  - "The screen shows: distribution by level (counts + £), a Value x Potential scatter, and a DIFF vs the live parameter set ('N customers move X->Y'), with drill-down to individual customers."
+  - "The screen shows: distribution by level (counts + £), a Value x Potential scatter, and a DIFF vs the live parameter set ('N customers move X->Y'), with drill-down to individual customers; segment is a filter/colour dimension."
   - A parameter set can be saved, compared and promoted to live; each customer_account_levels row stamps the compute_version (param set) that produced it, so assignments are reproducible.
 out_of_scope: []
 code_anchors: []
@@ -34,7 +35,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 ---
 
 ## What this is
