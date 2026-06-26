@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-26T21:40:15Z
+updated: 2026-06-26T22:18:11Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -54,7 +54,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 7
+version: 8
 ---
 
 ## What this is
@@ -119,3 +119,13 @@ Design note: `docs/p0018-sales-segmentation/P-0018-defend-grow-lens.md`; full de
 - the customer's **segment + score** (once point-in-time per T-0456 / T-0473-4).
 
 So this is a routing/workflow feature on top of the account-level model, not an ML dependency. Suggest it becomes its own ticket under T-0457's umbrella (lane definition, ownership, SLA, how a flagged quote enters/exits, and the threshold that triggers it — all tunable via T-0479). Flagging here so it's captured; happy to spin it into a dedicated ticket.
+
+**2026-06-26 22:18 claude-code:** **Fast-track lane — designed, with an important correction (26 Jun).** Full design: `docs/p0018-sales-segmentation/P-0018-fast-track-lane.md` (commit 00dd91a0b). Built via a design panel + adversarial critic + an **empirical backtest on the real 6,898 first-quotes**.
+
+**The headline changed during the work:** the lane was meant to be *scorecard-fed*, but the backtest shows that doesn't work — ranking the real quotes by the scorecard's "potential" catches **0 of 33 whales in the top 500** (worse than random; the scorecard floors small quotes and rewards high-volume-cheap orders over premium ones). **Plain quote value is the actual signal:** the 50 biggest new-customer quotes contain 7 of the 33 whales (14% precision); the top 500 catch about half. So the lane should trigger on **quote value** (plus the customer's web-score when we have it), *not* the scorecard.
+
+**Honest scope:** even quote value is modest — this is "put senior eyes on the biggest new-customer quotes," not a magic whale-finder (the ML validation already proved hidden whales aren't detectable from a first quote). But it's cheap and real.
+
+**What's solid (critic-confirmed):** the lifecycle / SLA / ownership / capacity / dedup scaffolding. **MVP:** a quote-value "biggest new quotes" star + filter on the existing `leads.php`, run in **shadow mode** for a few weeks to measure real precision before any SLA/senior-capacity commitment. Phased into the full lane (P2) and the account-level front door (P3). Depends on T-0480 (home row), T-0479 (params), and — for the web-score booster — the customer being scored+segmented point-in-time (T-0456 / T-0473-4).
+
+Suggest this becomes its **own ticket** under this umbrella. Happy to spin it up.
