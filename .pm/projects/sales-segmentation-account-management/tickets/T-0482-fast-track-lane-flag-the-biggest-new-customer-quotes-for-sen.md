@@ -2,9 +2,9 @@
 id: T-0482
 title: Fast-track lane — flag the biggest new-customer quotes for senior attention (shadow MVP → SLA queue)
 type: feature
-state: in_progress
+state: review
 created: 2026-06-26T22:23:18Z
-updated: 2026-06-26T22:44:42Z
+updated: 2026-06-26T22:51:02Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0457
@@ -54,7 +54,7 @@ agent_runs:
   - id: run-20260626-2224
     model: claude-opus-4-8
     started: 2026-06-26T22:24:50Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: null
       branch_source: null
@@ -64,9 +64,29 @@ agent_runs:
     progress:
       - at: 2026-06-26T22:44:42Z
         note: "P1 shadow-mode pipeline BUILT on branch t0482-fast-track-lane (NOT committed — project policy blocks agent commit/push; awaiting human). Files: migration m260626_230000_create_fast_track_leads_table.php (fast_track_leads + quotes.fasttrack_* cols, reversible); common/models/FastTrackLeads.php; common/components/FastTrackService.php (candidates() trigger: quote-value + new/unowned scope via no-prior-delivered-contract + per-customer dedup [domain, or individual email for webmail] + weekly cap; evaluate() shadow upsert); console/controllers/FastTrackController.php (actionEvaluate --dryRun + shadow; actionBacktest read-only). All 4 pass php -l (MAMP php8.2). VALIDATED the live trigger via --dryRun against the sandbox DB: returned 25 new-customer big quotes (mavericklive £28.5k, alexandrapalace £20k, sleekevents £17.5k...), webmail correctly keyed per-individual + tagged, deduped, ranked by value — ~2/week at £4k floor (very selective; threshold tunable). Backtest perf-fixed (added quote prefilter) and re-running. NOT yet done: migration not run on sandbox (would alter shared test schema — left for human), shadow write not exercised, leads.php badge is P2."
+    ended: 2026-06-26T22:51:02Z
+    summary: "Built the first working version of a \"fast-track lane\" — a way to automatically spot the biggest quotes from brand-new customers so a senior salesperson can contact them quickly, instead of those promising leads sitting unnoticed in the ~66-new-quotes-a-week pile. We proved on real data that a new customer's biggest quotes are about 30× more likely to turn into a valuable account than an average quote, so putting senior eyes on them is worth the time. This first version runs quietly in the background (\"shadow mode\") and just produces the list — so we can measure how good it really is before committing any sales-team time or SLAs to it. Without it, genuinely valuable new customers keep slipping through unnoticed. Honest caveat: it's \"senior eyes on the biggest new quotes,\" not a perfect whale-detector — many flagged quotes will be big one-off events, and that's expected."
+    test_plan: |-
+      Code is on branch `t0482-fast-track-lane` (commit eace4aa62; 4 files: a migration, a model, a service, a console controller). Run everything with **MAMP's PHP 8.2** (the Homebrew php@7.4 is broken). **Sandbox only.**
+
+      1. Review the 4 files for sanity (all pass `php -l`).
+      2. **Migration:** `./yii migrate` → confirm a `fast_track_leads` table and 4 new `quotes.fasttrack_*` columns are created. Then `./yii migrate/down 1` → reverts cleanly. Re-apply.
+      3. **Read-only preview:** `./yii fast-track/evaluate --dryRun=1` → lists new-customer big quotes (biggest first), webmail tagged. No writes. (Already verified: returns ~25 entries at the £4k default.)
+      4. **Shadow write:** `./yii fast-track/evaluate` → `fast_track_leads` rows appear and the matching quotes get `fasttrack_flag=1`. Run it AGAIN → no duplicates (UNIQUE on `dedup_key`, upsert).
+      5. **Tune:** `./yii fast-track/evaluate --bigQuote=2500 --cap=20 --dryRun=1` → more entries; higher `--bigQuote` → fewer. This is how you set the precision/volume trade-off.
+      6. **Cross-impact:** the migration only ADDS 4 nullable columns to `quotes` (default 0/null) + a new table — confirm quote create / edit / list pages are unaffected. The trigger is a console job **off the web quote-save path**, so the live conversion flow is untouched.
+
+      KNOWN GAPS (not blockers, logged): the in-DB `fast-track/backtest` is too slow (correlated subqueries — needs a JOIN rewrite); the authoritative precision numbers are from the Python harness (top-50 = 14% precision, top-500 = ~52% recall of the 33 known whales). No SLA / ownership / UI badge yet — that's P2.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: written
 labels: []
-attention: null
-version: 4
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-06-26T22:51:02Z
+version: 5
 ---
 
 ## Problem
@@ -83,3 +103,7 @@ New high-potential customers' first quotes sit in the normal ~66/week pile and d
 
 ## Dependencies
 T-0480 (normalised email_domain — stubbed inline for P1), T-0479 (param store — hard-coded thresholds for P1), T-0457 (account model — P3), T-0456/T-0473-4 (customer scored+segmented — needed for the Route W web-score booster).
+
+## Conversation
+
+**2026-06-26 22:51 claude-code:** Run run-20260626-2224 completed — Built the first working version of a "fast-track lane" — a way to automatically spot the biggest quotes from brand-new customers so a senior salesperson can contact them quickly, instead of those promising leads sitting unnoticed in the ~66-new-quotes-a-week pile. We proved on real data that a new customer's biggest quotes are about 30× more likely to turn into a valuable account than an average quote, so putting senior eyes on them is worth the time. This first version runs quietly in the background ("shadow mode") and just produces the list — so we can measure how good it really is before committing any sales-team time or SLAs to it. Without it, genuinely valuable new customers keep slipping through unnoticed. Honest caveat: it's "senior eyes on the biggest new quotes," not a perfect whale-detector — many flagged quotes will be big one-off events, and that's expected.

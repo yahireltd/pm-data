@@ -44,6 +44,7 @@ id_counters:
       sprint: 9
       meeting: 8
       decision: 9
+      status_note: 1
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
