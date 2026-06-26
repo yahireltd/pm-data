@@ -4,7 +4,7 @@ title: Quote-intrinsic potential model — white-whale detection at first quote 
 type: feature
 state: triaged
 created: 2026-06-26T16:33:34Z
-updated: 2026-06-26T16:57:39Z
+updated: 2026-06-26T21:21:54Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -32,7 +32,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 3
 ---
 
 ## What this is
@@ -49,3 +49,20 @@ On the 137-domain new-quote sample: 24% A-tier white whales arrive in the new-qu
 
 ## Build = scorecard now, ML later
 See the design doc §3 (leakage-safe label), §4 (model/calibration), §5 (blend integration), §6 (scorecard MVP), §10 (edge cases). Real tables verified in recon: `quotes`, `quoteitems`, `ya_products`, `quoteaddr`, `postcodescategory`, `venues`, `ya_contracts`, `QuotesArchive`/`QuoteitemsArchive`/`QuoteChangesLog`.
+
+## Conversation
+
+**2026-06-26 21:21 claude-code:** **Data-leakage audit (26 Jun) — important, read before training.** Ran an adversarial audit of the training extract (`QuotePotentialController`). Full write-up: `docs/p0018-sales-segmentation/P-0018-leakage-audit.md`. Fixes committed on branch `p0018-sales-segmentation-design` (commit 635db3fc5).
+
+**What was wrong (the two classic killers, both real):**
+- **The label leaked the quote's own conversion.** Contracts were matched to a lead by email domain only, so a quote's *own* slow conversion counted as its "future value" — the model was quietly learning "will this quote convert" instead of "will this customer become valuable." **Fixed** (exclude the quote's own contract).
+- **The extract didn't even run** — it selected a `company_type` column that doesn't exist on `customer_sales_scores`, so it threw and returned zero rows. So **nobody had trained on real data yet** — we caught this *before* any training. **Fixed** (that join was a leak anyway — a 2026 web-score applied to 2022 quotes — and is removed).
+- Plus: webmail addresses treated as one customer; duplicate-row fan-outs; and a label that changed every time you rebuilt it. **All fixed.**
+
+**Clean:** no quote status/won/converted field is used as a feature, and contracts never feed the features (label only).
+
+**Still blocked before a real training run:** (1) point-in-time feature reconstruction from the version-1 archives (needs DB); (2) proper customer-identity resolution so a customer using two emails isn't split — prereq **T-0480**.
+
+**REQUIREMENT raised by Austin — the customer must be scored + segmented, and the model must NOT be blind to it.** Removing the score/segment join fixed a leak but mustn't drop the signal. Resolution: **live** score+segment at serve time (no leakage — it's the present), and a **point-in-time** snapshot (`scored_at <= t0`) for training. This makes the model depend on **T-0456** (scoring) + **T-0473/T-0474** (segment vocab+import) landing with a `scored_at` date. Until then `company_type` is NULL and the model leans on quote-intrinsic features only.
+
+**Defences added:** 4 leakage gates now run on every training (`train.py`) and block the ship-gate if tripped — label-shuffle null test, mutable-basket ablation, strict time-split assertion, and a single-feature probe that would catch any reintroduced score/spend column.
