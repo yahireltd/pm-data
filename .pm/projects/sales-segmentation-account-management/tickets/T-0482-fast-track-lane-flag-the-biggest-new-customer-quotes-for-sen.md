@@ -4,7 +4,7 @@ title: Fast-track lane — flag the biggest new-customer quotes for senior atten
 type: feature
 state: in_progress
 created: 2026-06-26T22:23:18Z
-updated: 2026-06-26T22:24:50Z
+updated: 2026-06-26T22:44:42Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0457
@@ -61,9 +61,12 @@ agent_runs:
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-06-26T22:24:50Z
+    progress:
+      - at: 2026-06-26T22:44:42Z
+        note: "P1 shadow-mode pipeline BUILT on branch t0482-fast-track-lane (NOT committed — project policy blocks agent commit/push; awaiting human). Files: migration m260626_230000_create_fast_track_leads_table.php (fast_track_leads + quotes.fasttrack_* cols, reversible); common/models/FastTrackLeads.php; common/components/FastTrackService.php (candidates() trigger: quote-value + new/unowned scope via no-prior-delivered-contract + per-customer dedup [domain, or individual email for webmail] + weekly cap; evaluate() shadow upsert); console/controllers/FastTrackController.php (actionEvaluate --dryRun + shadow; actionBacktest read-only). All 4 pass php -l (MAMP php8.2). VALIDATED the live trigger via --dryRun against the sandbox DB: returned 25 new-customer big quotes (mavericklive £28.5k, alexandrapalace £20k, sleekevents £17.5k...), webmail correctly keyed per-individual + tagged, deduped, ranked by value — ~2/week at £4k floor (very selective; threshold tunable). Backtest perf-fixed (added quote prefilter) and re-running. NOT yet done: migration not run on sandbox (would alter shared test schema — left for human), shadow write not exercised, leads.php badge is P2."
 labels: []
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
