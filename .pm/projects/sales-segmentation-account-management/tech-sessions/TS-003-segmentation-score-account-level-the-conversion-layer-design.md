@@ -4,7 +4,7 @@ slug: segmentation-score-account-level-the-conversion-layer-design
 title: "Segmentation+score → account-level: the conversion-layer design (two-track grid + suggest→confirm machine)"
 project: sales-segmentation-account-management
 created: 2026-06-26T13:45:54Z
-updated: 2026-06-26T14:58:54Z
+updated: 2026-06-26T15:07:23Z
 decisions:
   - THREE LAYERS STAY DISTINCT. Segment (who they are) / Score (how good a prospect — potential, blind to spend) / Account-level (how we steward them). Account-level is the missing third layer and is NEVER silently derived from the other two. It also sits BESIDE — never replaces — the existing tierID (Diamond/Gold/Silver/Bronze value-grade) and accountType (Cash/Credit billing).
   - "THE ENGINE = a two-track Value×Potential grid, both axes in £/yr. POTENTIAL (X) = a static, anti-leakage curve from the score (never moved by spend). ACTUAL (Y) = realised hire-only revenue from ya_contracts. Levels: low actual+low potential → System-only (default floor); low actual+high potential → Incubation (the ~311 white-whale nursery); high actual → Account; high actual+high potential+repeat cadence → Strategic. Movement is VERTICAL (realised value climbs toward the customer's own fixed potential ceiling); share-of-wallet = actual÷potential; white-whale gap = vertical distance to the diagonal. This resolves Ben's 'move toward top-right' — it's 'up toward the ceiling', not lateral."
@@ -28,10 +28,12 @@ actions:
     ticket: T-0456
   - text: "RECOMPUTE-LOGIC CORRECTIONS exposed by the sandbox data: (1) ya_customers.totalContracts is UNRELIABLE for new-vs-existing — established quoters (e.g. 5249 tastingplates with 91 opps, 5534) show totalContracts=0/NULL. The track test MUST use realised ya_contracts history (a delivered, unconverted=0, contractType=1 contract with hireEndDate in the past) or prior-quote existence, NOT totalContracts. (2) Filter £0.00 quotes (empty/abandoned) and INTERNAL quotes on the yahire.com domain (e.g. customer 64358) before computing demand. (3) New-quote cohort is heavy on webmail/personal domains (gmail/hotmail/icloud/yahoo/outlook, ~1/3+) and shared domains (.ac.uk/.org.uk) -> the personal/no-domain track + quote-value proxy is a MAJORITY path, not an edge case; also handle typos like gamil.com. (4) Same-day multi-combo dups are real in the cohort (e.g. me.com cust 60405: 4 quotes same event date £1014/£415/£2441/£3427 = one opportunity -> take max)."
     ticket: T-0457
+  - text: "STAKEHOLDER DEMO decided (grounds the stuck decisions from M-005 outcome #9 'spent a long time on what to do with qualified customers... parameters not defined' + April's #1 issue = Visibility): build an INTERACTIVE HTML prototype (a clickable preview of the T-0479 what-if tool) seeded with FULLY-REAL data — a curated ~30-customer spanning sample (strategic / account / system-small / conversion-problem incl. 8701 / new-lead / high-performer buckets). Stakeholders drag the Account/Strategic/alpha/quote-weight thresholds and watch customers re-band live on a Value×Potential scatter + distribution, so the finer-point threshold decisions become decidable in the room. Build it via a workflow (build + adversarially verify every displayed number against the blend formula) once the sandbox query returns. Self-contained HTML, screen-shareable."
+    ticket: T-0479
 side_quests: []
 problem: "We have an initial scoring model (web-lookup, blind to spend, A/B/C) and an initial segmentation (industry) model, but no designed way to get a customer from there to ONE of the four account levels (System / Incubation / Account / Strategic), nor a process for how Sales actually CONVERTS a flagged customer into being that level. Two hard realities had to be handled: (1) existing customers have real order history (ya_contracts) but a brand-new customer has none — only potential; (2) segment is missing on ~95% of accounts and the only backfill (web-scrape) is keyed by email domain, so personal/webmail customers can't be segmented that way. Ben also corrected that peer/competitor suppliers must NOT be excluded — some sub-hire from us, so they are a legitimate trade segment."
 phase: build
-version: 18
+version: 19
 ---
 
 # TS-003: Segmentation+score → account-level: the conversion-layer design (two-track grid + suggest→confirm machine)
