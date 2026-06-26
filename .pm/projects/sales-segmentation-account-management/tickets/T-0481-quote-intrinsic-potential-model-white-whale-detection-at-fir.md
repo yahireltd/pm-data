@@ -4,7 +4,7 @@ title: Quote-intrinsic potential model — white-whale detection at first quote 
 type: feature
 state: triaged
 created: 2026-06-26T16:33:34Z
-updated: 2026-06-26T16:33:34Z
+updated: 2026-06-26T16:57:39Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -20,6 +20,7 @@ acceptance_criteria:
   - A quote-intrinsic POTENTIAL signal predicts a customer's annualised £ potential from the FIRST quote alone (line items via quoteitems×ya_products, location via quoteaddr→postcodescategory/venues, quote money + seasonality) — no order history, no web score required — and blends in as a THIRD potential source with its own tunable weight (down-weighted as realised history accrues).
   - Ships first as an INTERPRETABLE scorecard (sales-readable, no trained model); the ML upgrade swaps in behind an identical (£, confidence) contract only once it beats the scorecard on a time-split holdout.
   - "Strictly leakage-safe: features computed only from data timestamped <= t0 (creation-version reconstructed from QuotesArchive/QuoteitemsArchive; fallback quotes.edited=0); label = became a high-realised/LTV customer within N months, resolved by the normalised-email graph (not customerID) with a 30-day cooling-off; never conditions on this quote's conversion/contract value."
+  - "SEGMENT is a feature: the industry/company_type from ADR-007, using ONLY the segment derivable at first-quote time (domain web-lookup at t0; missing for webmail leads — the model must handle missing segment), plus segment×item-mix interactions. Segment is partly encoded by items+location already, so it adds signal without being required."
   - "Guardrails as CODE: the signal feeds expected_value (steering/queue) ONLY and can NEVER promote a level (levels stay banded on the realised £ floor); a quoteTotal-ablation + precision@k on SMALL first quotes are ship gates before its weight rises above advisory."
 out_of_scope: []
 code_anchors: []
@@ -31,7 +32,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
 ## What this is
