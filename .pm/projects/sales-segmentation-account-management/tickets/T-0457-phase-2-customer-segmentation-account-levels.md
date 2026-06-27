@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-26T22:18:11Z
+updated: 2026-06-27T02:31:38Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -54,7 +54,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 8
+version: 9
 ---
 
 ## What this is
@@ -129,3 +129,13 @@ So this is a routing/workflow feature on top of the account-level model, not an 
 **What's solid (critic-confirmed):** the lifecycle / SLA / ownership / capacity / dedup scaffolding. **MVP:** a quote-value "biggest new quotes" star + filter on the existing `leads.php`, run in **shadow mode** for a few weeks to measure real precision before any SLA/senior-capacity commitment. Phased into the full lane (P2) and the account-level front door (P3). Depends on T-0480 (home row), T-0479 (params), and — for the web-score booster — the customer being scored+segmented point-in-time (T-0456 / T-0473-4).
 
 Suggest this becomes its **own ticket** under this umbrella. Happy to spin it up.
+
+**2026-06-27 02:31 claude-code:** **Requirement (Austin, reading the demo help with fresh eyes): the workflow needs a TRANSITION step after "confirmed".** Confirming a level is just the *decision* — it doesn't actually move the customer. There must be a distinct, explicit step that **takes the account out of where it sits today and moves it into the new level's cohort.** A confirmed level isn't "real" until this handover happens.
+
+What the Transition step has to do:
+- **Reassign ownership** to the new level's owner (the AM/exec/senior lined up at the "proposed" stage).
+- **Handover briefing** — capture notes from whoever held the account before, so context isn't lost.
+- **Stop the old handling** and **start the new level's playbook** — Strategic → bespoke plan, Account → AM cadence, Incubation → nurture track, System → automated only.
+- Run it in the **transfer/review window** so moves are orderly (batched), not a mid-quarter scramble.
+
+So the state machine is: suggested → proposed (owner lined up) → requirements met → **confirmed (decision)** → **transitioned (the move)**. The "transitioned" step is new and should be reflected in the workflow + data model (it's where `salesID`/owner actually changes and the playbook is triggered) — candidate for an acceptance criterion. This has been added to the demo's "How this works" help so stakeholders see the full path. Demo: `~/Documents/P-0018-population-demo.html` (hosted copy refreshed).
