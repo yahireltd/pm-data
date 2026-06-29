@@ -4,7 +4,7 @@ title: Phase 2 · Customer scoring — AI web-lookup sales-potential scores
 type: feature
 state: triaged
 created: 2026-06-22T21:41:31Z
-updated: 2026-06-26T14:50:45Z
+updated: 2026-06-29T16:01:33Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -34,7 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
 ---
 
 ## What this is
@@ -54,3 +54,23 @@ About **530 customers are already scored** (12 Jun) and live on the "Customer Sa
 ## Open / still to decide
 
 - How often we re-score, and what triggers a re-score (e.g. a customer's behaviour changes).
+
+## Conversation
+
+**2026-06-29 16:01 claude-code:** **Scoring + segmentation pipeline built; first (highest-value) tier scored — sandbox only, not committed.**
+
+Working with Austin to score & segment the whole base in value-ranked tiers, pausing for a DB check after each tier. All on the **sandbox** DB; nothing committed (project is no-commit).
+
+**What's now in place (sandbox):**
+- `customer_sales_scores` extended so one row carries BOTH the segment (industry, company_type, sub_type, venue_hire_model, primary_event_type, events_relevant, labels, confidence) AND the score (fit/freq/scale) — plus the `classification` gate (mainstream/trade/disqualified). This is the T-0474 "one table, score+segment" + the T-0456 classification column.
+- `ya_customers.email_domain` added, back-filled and indexed (the T-0480 prereq), plus a view `v_customer_segment_scores` so a score/segment can be **looked up by customerID** (the join is via email domain; scoring is inherently per-domain).
+- A repeatable console command `customer-scoring` (extract a BLIND worklist → load results → stats). Scorers only ever see domain+company; lifetime spend is joined here at load time (anti-leakage preserved).
+
+**Data loaded so far:**
+- The prior **528** v5 run loaded from the local CSV (no re-scoring) — they now have score+segment in the DB for the first time. Reconciles exactly with TS-002/ADR-007 (Events & Entertainment 262, tiers A212/B204/C112, 34 trade, 83 disqualified).
+- **Tier 1 = the 87 unscored domains with ≥£10k lifetime hire**, scored fresh with the combined v5 method (8 subagents). Quality spot-checks good: e.g. Talking Tables correctly flagged a non-buyer retailer (disqualified), Bloomsbury Ballroom = dry-hire venue, etc.venues = in-house, LSE shared-domain handled, Gymshark runs-own-events.
+- Table now: **615 rows, all v5, all segmented**; 1,390 customers reachable by customerID via the view.
+
+**Remaining tiers (value-ranked, awaiting Austin's go-ahead per tier):** ≥£5k (~342) → ≥£2.5k (~747) → ≥£1k (~1,679) → any-hire (~5.9k) → quote-only leads (~11.7k). ~51k personal/webmail customers can't be web-scored — left for the history-based path. Larger tiers will run via a fan-out workflow.
+
+**Heads-up (unrelated repo bug):** `./yii migrate` is currently broken on master — `m260615_140000_create_warehouse_settings` references `common\components\IdempotentMigrationTrait`, which doesn't exist in the tree, so the whole migrate run aborts. I applied my two migrations directly around it on the sandbox. Worth a separate fix.
