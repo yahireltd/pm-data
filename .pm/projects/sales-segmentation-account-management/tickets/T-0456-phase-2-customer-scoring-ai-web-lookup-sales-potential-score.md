@@ -4,7 +4,7 @@ title: Phase 2 · Customer scoring — AI web-lookup sales-potential scores
 type: feature
 state: triaged
 created: 2026-06-22T21:41:31Z
-updated: 2026-06-29T16:01:33Z
+updated: 2026-06-29T21:46:59Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -34,7 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 ---
 
 ## What this is
@@ -74,3 +74,13 @@ Working with Austin to score & segment the whole base in value-ranked tiers, pau
 **Remaining tiers (value-ranked, awaiting Austin's go-ahead per tier):** ≥£5k (~342) → ≥£2.5k (~747) → ≥£1k (~1,679) → any-hire (~5.9k) → quote-only leads (~11.7k). ~51k personal/webmail customers can't be web-scored — left for the history-based path. Larger tiers will run via a fan-out workflow.
 
 **Heads-up (unrelated repo bug):** `./yii migrate` is currently broken on master — `m260615_140000_create_warehouse_settings` references `common\components\IdempotentMigrationTrait`, which doesn't exist in the tree, so the whole migrate run aborts. I applied my two migrations directly around it on the sandbox. Worth a separate fix.
+
+**2026-06-29 21:46 claude-code:** **Progress + a hard stop: Claude monthly spend limit reached.**
+
+Scored & segmented to date (sandbox, all `web-lookup-v5`): **3,990 domains** — the 528 base + Tier 1 (≥£10k, 87) + Tier 2 (≥£5k, 297) + Tier 3 (≥£2.5k, 697) + Tier 4 (≥£1k, 1,601) + ~780 of the <£1k hire tier. Mix so far: tiers A 687 / B 1,632 / C 1,671; classification mainstream 2,700 / trade 97 / disqualified 1,193.
+
+**Blocker:** part-way through Tier 5 the Claude account hit its **monthly spend limit** (claude.ai/settings/usage) — every subsequent scoring subagent failed, so I stopped the loop rather than burn the remaining tiers against a hard error. Needs the limit raised (or the monthly reset) to continue.
+
+**Durability (the test DB is wiped nightly):** everything is saved locally and is DB-independent — per-tier JSON, a full-table CSV, and a re-runnable SQL upsert under `runtime/p0018/export/`. Restore after a refresh = run the (idempotent) migrations, then load the SQL.
+
+**Remaining to score** (the `extract-tier` command auto-excludes already-scored domains, so resume is clean): <£1k hire ~4,969, quote-only leads ~14,022, plus a few stragglers (5to10k 1, 2k5to5k 1, 1kto2k5 13). Resume per band = extract → split → run the `p0018-score-tier` workflow → load → export.
