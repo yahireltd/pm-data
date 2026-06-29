@@ -4,7 +4,7 @@ title: Route the remaining refund-creating Stripe paths through the gateway (dep
 type: chore
 state: triaged
 created: 2026-06-09T22:34:27Z
-updated: 2026-06-25T19:03:51Z
+updated: 2026-06-29T13:26:14Z
 project: yasystem
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - testing
   - incident-c090586
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
@@ -104,3 +104,7 @@ Validated on **17 distinct real Stripe deposits**, both failure (injected error)
 `processLegacy` left as-is (Austin confirmed all legacy-accounting contracts are already processed).
 
 **Remaining (cross-ref T-0328 / T-0349):** a Stripe-failed deposit still *reads* as refunded via `getUnusedDeposit` (it sums the committed allocation regardless of Stripe status); and a reconciliation sweep for stuck `stripe_refunds` (type=1, `status='failed'` or `refundID='PENDING'`). Suggest this ticket move to review for the gateway-routing + deposit-hardening portion.
+
+**2026-06-29 13:26 claude-code:** **LIVE 2026-06-29 — complete.** All refund-creating Stripe paths now route through the gateway abstraction. Deposit-refund hardening is live: commit-first ordering preserved, idempotency key per refund (safe retry, no double-refund on a lost Stripe response), honest status (`failed` recorded when Stripe errors), and failures **surfaced to the operator** on both the single refund page (`actionProcessRefund`) AND the end-of-hire **batch** (`actionProcessBatchRefund` — a failed deposit refund no longer silently marks the contract complete; the row stays on the list with an alert). Validated on the test box (6 assertions, both code paths).
+
+Suggest moving to review/done. Remaining deposit refinements are tracked separately: **T-0328** (don't let `getUnusedDeposit` read a Stripe-failed deposit as refunded) and **T-0349** (reconciliation sweep for stuck PENDING/failed `stripe_refunds`).

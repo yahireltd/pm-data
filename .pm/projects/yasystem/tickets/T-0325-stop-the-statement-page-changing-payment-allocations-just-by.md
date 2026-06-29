@@ -4,7 +4,7 @@ title: Stop the statement page changing payment allocations just by being viewed
 type: bug
 state: wontfix
 created: 2026-06-09T19:25:16Z
-updated: 2026-06-29T13:22:14Z
+updated: 2026-06-29T13:26:17Z
 project: yasystem
 section: null
 parent: null
@@ -58,7 +58,7 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 10
+version: 11
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -108,3 +108,7 @@ Also confirmed: the stale-balance ordering bug is present in **three** copies, n
 **Remaining in this ticket (the workflow half):** remove the page-view auto-allocation entirely (the cap makes it harmless for over-application, but it still writes legitimate allocations on view), the explicit Allocate action with preview, the stale-balance ordering bug ×3 (ContractsController:595, PaymentsController:291, Deposits:265 — note the review found a related drift: after a cap skip in the 584-branch the stored balance still decrements; the 592-branch ironically doesn't due to the existing bug), gate `actionAllocatePayment` (see earlier comment), and the accounts walkthrough + sign-off before release. Known cosmetic: while the corrupted contracts (C090586 + the 2026-12-31 trio) remain unrepaired (T-0327), every view of their refund pages adds an allocation-cap log line — observable, harmless, and disappears with the repair.
 
 **2026-06-15 19:14 claude-code:** **Reconciliation 2026-06-15: the allocation-cap re-enactment is corroborated by the persistent log.** The test box's allocation-cap.log confirms the C091933 live re-enactment from 2026-06-10: at 19:46:15 a page view of the Process Refunds screen, after a £200 BACS payment was entered dated the next day against a £411.01 invoice, produced "ALLOCATION-CAP skipped: payment 48412 has £0 remaining (amount £200, allocated £200, refunded net £0); refused to apply £200 to invoice 76223" at ContractsController.php:594 — the exact line that wrote the original C090586 phantom. The forward-dated re-application was refused; the allocation row count stayed at 1; the invoice kept honestly showing £211.01 outstanding. 8 DB unit tests green. The cap (the safety-critical part of this ticket) is done and proven. Remaining T-0325 unchanged: remove page-view auto-allocation entirely, explicit Allocate action with preview, stale-balance ordering bug ×3, gate actionAllocatePayment, accounts walkthrough + sign-off. Same operational caveat as T-0320: test box currently off the refund branch, so the cap code isn't live on it right now.
+
+**2026-06-29 13:26 claude-code:** **Allocation cap LIVE 2026-06-29.** `Invoices::applyInvoicePayment` now caps every allocation at the payment's true remaining (date-agnostic), so a payment can no longer be over-allocated across invoices — the phantom over-allocation that began C090586 can't be written. This is the incident-critical part.
+
+⚠️ Leaving **in_progress**: the broader concern in this ticket — the statement page mutating allocations *just by being viewed* (recalculatePrice-and-save on load) — is only partly addressed. The cap prevents an over-allocated *result*, but the page still writes on view. Recommend a follow-up to make the statement view read-only (no save unless a value actually changed).

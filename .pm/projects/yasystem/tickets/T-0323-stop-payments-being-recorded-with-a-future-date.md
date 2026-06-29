@@ -4,7 +4,7 @@ title: Stop payments being recorded with a future date
 type: bug
 state: done
 created: 2026-06-09T19:21:45Z
-updated: 2026-06-25T19:03:43Z
+updated: 2026-06-29T13:26:09Z
 project: yasystem
 section: null
 parent: null
@@ -42,7 +42,7 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 11
+version: 12
 backlog_status: confirmed_for_release
 estimated_effort: S
 source: discovered
@@ -109,3 +109,5 @@ Implemented on the manual payment form:
 - The date input now has `max=today` on both role branches, so the picker can't select a future date either.
 
 Tested (today/past allowed, future rejected) and committed `71273e19`. Note: this closes the *trigger* (entering a future-dated payment). The downstream unused-payment date blind spot is tracked separately under T-0326 and is now also mitigated by the allocation cap (T-0325) and the refund guard (T-0320).
+
+**2026-06-29 13:26 claude-code:** **LIVE 2026-06-29.** Forward-dated manual payments are rejected at the form (`ManualPaymentForm::validateNotFuture`, format-agnostic, fires before any payment/deposit row is created) and the date pickers carry `max=today`. This closes the C090586 root trigger — a future-dated payment can no longer be created and sit "unused" until its date passes.
