@@ -4,7 +4,7 @@ title: "ORCHESTRATOR — Refund Process Hardening: master plan, build order, and
 type: chore
 state: triaged
 created: 2026-06-09T20:27:05Z
-updated: 2026-06-25T19:03:27Z
+updated: 2026-06-29T13:23:29Z
 project: yasystem
 section: null
 parent: null
@@ -56,7 +56,7 @@ labels:
   - incident-c090586
   - orchestrator
 attention: null
-version: 5
+version: 6
 backlog_status: confirmed_for_release
 estimated_effort: runs whole sprint
 source: discovered
@@ -212,3 +212,16 @@ All work below is committed to branch `refund-hardening-t0331-stripe-dryrun` (no
 - Deposit follow-ups (cross-ref **T-0328/T-0349**): a Stripe-failed deposit still *reads* as refunded via `getUnusedDeposit`; and a reconciliation sweep for stuck PENDING/failed Stripe refunds.
 
 **Bottom line:** the core incident is closed and validated (trigger blocked + over-allocation capped + over-refund guarded + deposit failures surfaced). Plan for next week: deploy in shadow, confirm clean, then enforce. Remaining items are hardening/UX, not incident-critical.
+
+**2026-06-29 13:23 claude-code:** 🚀 **SHIPPED TO LIVE — 2026-06-29** (Austin deployed master to production).
+
+The refund-hardening sprint's core is now live (merged via PR #104 + the batch-fix follow-up `07b10059`). Live config confirmed: `sandbox=false`, no `refundGuardMode` → live Stripe, live DB, **guard enforce-by-default**. Deploy was refund-only (no migration — the dry-run table is sandbox-only).
+
+**Live now:**
+- **Refund guard (T-0320)** — over-cap refunds are **blocked by default** with a clear operator message. Validated by replaying all 3,023 historical refunds (incident blocked, 5 false positives eliminated, only genuine over-caps flag).
+- **Allocation cap (T-0325)** — payments can no longer be over-allocated (the phantom write that started C090586 is refused at source).
+- **Forward-dated manual payments (T-0323)** — rejected at the form + date picker.
+- **Stripe gateway + dry-run (T-0331)** — live uses the live gateway; dry-run is sandbox-only.
+- **Deposit-refund hardening (T-0333)** — idempotency-safe retry, honest status, failures surfaced on **both** the single refund page **and** the end-of-hire batch.
+
+**Remaining (post-go-live, not incident-critical):** T-0321 (double-submit lock), T-0324 (refund confirmation display), T-0326 (unused-payment date blind spot — now mitigated by cap + guard + forward-date block), T-0426 (BACS-when-Stripe), and the deposit follow-ups: T-0328 (don't read a Stripe-failed deposit as refunded) + T-0349 (reconciliation sweep for stuck PENDING/failed refunds). Suggest watching the `refund.guard` / `allocation.cap` logs on live for a few days, and a quick smoke check that a genuine refund still completes.

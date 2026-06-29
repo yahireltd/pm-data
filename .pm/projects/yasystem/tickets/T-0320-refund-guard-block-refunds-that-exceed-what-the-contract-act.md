@@ -4,7 +4,7 @@ title: "Refund guard: block refunds that exceed what the contract actually holds
 type: feature
 state: done
 created: 2026-06-09T19:14:46Z
-updated: 2026-06-25T19:03:32Z
+updated: 2026-06-29T13:23:32Z
 project: yasystem
 section: null
 parent: null
@@ -65,7 +65,7 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 10
+version: 11
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
@@ -169,3 +169,5 @@ Two false-positive classes (which would wrongly block legitimate refunds in enfo
 **Validated by replaying all 3,023 historical refunds:** guard over-cap 13 → 8 (the 5 false positives cleared — 2 split-payment, 3 penny-rounding), the incident C090586 still blocked (£1,399.85 vs £138), and no new misses. The 8 that remain are genuine (the incident + small historical over-refunds from over-sized compensation credits + drift).
 
 Committed `88098dac`. Guard still defaults to SHADOW. Go-live: shadow window on live traffic, then flip `refundGuardMode=enforce`.
+
+**2026-06-29 13:23 claude-code:** **LIVE 2026-06-29 — ENFORCE by default.** Live params have `sandbox=false` and no `refundGuardMode`, so the guard enforces: an over-cap refund is now **blocked on production** with a clear "contact accounts, do not retry" message. Pre-go-live it was validated by replaying all 3,023 historical refunds — incident C090586 blocked (£1,399.85 vs £138), the 5 false positives (split-payment + penny-rounding) eliminated, only genuine over-caps flagged, no new misses.

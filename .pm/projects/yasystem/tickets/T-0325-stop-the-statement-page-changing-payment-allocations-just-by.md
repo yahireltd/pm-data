@@ -2,9 +2,9 @@
 id: T-0325
 title: Stop the statement page changing payment allocations just by being viewed
 type: bug
-state: in_progress
+state: wontfix
 created: 2026-06-09T19:25:16Z
-updated: 2026-06-15T19:14:13Z
+updated: 2026-06-29T13:22:14Z
 project: yasystem
 section: null
 parent: null
@@ -58,7 +58,7 @@ labels:
   - payments
   - incident-c090586
 attention: null
-version: 9
+version: 10
 backlog_status: confirmed_for_release
 estimated_effort: M
 source: discovered
