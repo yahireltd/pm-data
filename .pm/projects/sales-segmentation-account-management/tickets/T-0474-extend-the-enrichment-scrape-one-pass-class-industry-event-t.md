@@ -4,7 +4,7 @@ title: "Extend the enrichment scrape: one pass → class/industry/event-types/la
 type: feature
 state: triaged
 created: 2026-06-23T14:09:56Z
-updated: 2026-06-23T14:09:56Z
+updated: 2026-06-30T16:09:09Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -26,7 +26,8 @@ acceptance_criteria:
   - Re-runnable as a Yii console command (extends the TS-001 runbook), not a one-off agent run.
 out_of_scope: []
 code_anchors: []
-relates: []
+relates:
+  - T-0495
 blocks: []
 blocked_by: []
 duplicates: []
@@ -38,7 +39,7 @@ labels:
   - yasystem
   - for-austin
 attention: null
-version: 1
+version: 2
 ---
 
 ## What this is

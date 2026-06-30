@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-27T02:31:38Z
+updated: 2026-06-30T16:12:43Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -46,6 +46,14 @@ relates:
   - T-0456
   - T-0473
   - T-0479
+  - T-0496
+  - T-0497
+  - T-0495
+  - T-0492
+  - T-0488
+  - T-0493
+  - T-0486
+  - T-0494
 blocks: []
 blocked_by:
   - T-0480
@@ -54,7 +62,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 9
+version: 18
 ---
 
 ## What this is
@@ -139,3 +147,11 @@ What the Transition step has to do:
 - Run it in the **transfer/review window** so moves are orderly (batched), not a mid-quarter scramble.
 
 So the state machine is: suggested → proposed (owner lined up) → requirements met → **confirmed (decision)** → **transitioned (the move)**. The "transitioned" step is new and should be reflected in the workflow + data model (it's where `salesID`/owner actually changes and the playbook is triggered) — candidate for an acceptance criterion. This has been added to the demo's "How this works" help so stakeholders see the full path. Demo: `~/Documents/P-0018-population-demo.html` (hosted copy refreshed).
+
+**2026-06-30 16:12 claude-code:** **Phase-2 design groundwork added (docs + fleshed tickets).** To make "what we do once segmented" coherent:
+
+- **Coherent terminology** — `docs/p0018-sales-segmentation/P-0018-phase2-terminology.md`. One vocabulary: **Stewardship Level** = the bucket (System / Incubation / Account / Strategic); **Conversion Process** = how we handle one quote (System follow-up / Quick / In-depth / Lifetime); the **Conversion Path** states (Suggested → Proposed → Owner Assigned → Qualified → Confirmed) with **"in the bag %"**; **Conformance vs Effectiveness**; **Gold Nugget** = white-whale. Stops the "Account" layer-vs-value clash from Ben's board.
+- **A cleaner process-flow** than Ben's (drops the Personal/Corporate/Events branching since Score+Segment already do that): `P-0018-phase2-process-flow.mmd` + a viewable `P-0018-phase2-flow.html`.
+- **Fleshed the Phase-2 tickets** (acceptance criteria + design notes, all cross-linked): T-0496 per-cohort playbooks, T-0495 validation (AI suggests→human adjusts→human qualifies), T-0497 conversion-path visual + "in the bag %", T-0492 conformance, T-0488 KPIs, T-0493 dashboards, T-0485/T-0490/T-0491 the play/scripts/activities, T-0486 primary/secondary, T-0489/T-0494 Teresa review + nurture engine.
+
+Ben's board questions remain the workshop calls (which levels, precise criteria per level, handover process, and Incubation ownership = execs vs an AM pool). Ben's PDF couldn't be opened in-tool; transcribed via rendered crops.

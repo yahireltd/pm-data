@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:29:52Z
-updated: 2026-06-30T14:29:52Z
+updated: 2026-06-30T16:09:31Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -15,10 +15,27 @@ order: 17408
 reporter: null
 assignee: null
 acceptance_criteria:
-  - What needs to be done to convert the customer from where they are currently at to where they should be
+  - "A one-page playbook exists for EACH Stewardship Level (System, Incubation, Account, Strategic) AND each Conversion Process (System follow-up, Quick, In-depth, Lifetime), each defining: owner, qualifying questions, data-capture requirements, the play (what we do & say), cadence, and graduation/exit criteria."
+  - Qualifying questions are a BANT-per-level set that, when answered, advance a customer Suggested → Qualified for that level (wired to the T-0497 checklist / 'in the bag' %).
+  - Each playbook states what converts a customer from their CURRENT level to the PROPOSED one (the conversion path) and what 'done/confirmed' looks like.
+  - Incubation and System-only are fully specified (they are the biggest, least-defined buckets) — System names the steward + automated plays; Incubation names the data gate + template plan + quarterly cadence.
+  - Uses the agreed vocabulary (P-0018-phase2-terminology.md); reviewed and signed off by Ben / the workshop.
 out_of_scope: []
-code_anchors: []
-relates: []
+code_anchors:
+  - path: docs/p0018-sales-segmentation/P-0018-phase2-terminology.md
+    role: the agreed vocabulary the playbooks use
+  - path: docs/p0018-sales-segmentation/P-0018-phase2-process-flow.mmd
+    role: where playbooks sit in the flow (Steward step)
+  - path: docs/p0018-sales-segmentation/P-0018-account-level-design.md
+    role: per-level ownership gates (section 5.2) + conversion processes (2.8)
+relates:
+  - T-0457
+  - T-0495
+  - T-0497
+  - T-0485
+  - T-0490
+  - T-0491
+  - T-0492
 blocks: []
 blocked_by: []
 duplicates: []
@@ -26,13 +43,29 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 3
 ---
 
 ## Problem
-
-_What's wrong / what's needed?_
-
-## Context
+Once a customer has a Score, Segment and a **suggested Stewardship Level + Conversion Process**, we need to know *what
+to actually do with them* — per cohort. Ben's PDF "Process descriptions" sketch this; this ticket turns them into
+usable, consistent playbooks.
 
 ## Design notes
+One **playbook per Stewardship Level** and **per Conversion Process** (see terminology doc). Each covers:
+- **Owner** — System→steward (non-sales); Incubation→exec/junior; Account→AM; Strategic→senior AM.
+- **Qualifying questions** — a BANT-per-level set (budget / authority / need / timing, tuned per level) that confirms
+  the suggested level is right and, when answered, advances **Qualified** (feeds T-0497's "in the bag" %).
+- **Data-capture requirements** — what must be captured to "own" the account (segment, decision-maker, event calendar,
+  budget, next action) — this is also how we fill the 95% data gap (enrichment-on-demand, see T-0495).
+- **The play** — what we do & say (links T-0485 say/do, T-0490 scripts, T-0491 activities).
+- **Cadence** — follow-up rhythm (System=continuous bot; Incubation/Account/Strategic=quarterly + plan).
+- **Graduation / exit** — what moves them up a level (realised £ / share-of-wallet) or down (lapse).
+
+Ben's processes map directly: **System stewardship**, **Incubation Account Management**, **Account Management** (+
+commission/contract "show-account" extras), **Strategic Account Management** (+ Business Development); conversion
+processes **Quick / In-depth / Lifetime / System follow-up**. The spectrum is automation→human (System→Strategic).
+
+## Depends on / relates
+T-0457 (the engine that assigns the suggested level), T-0495 (validation/qualify), T-0497 (progress visual),
+T-0485/T-0490/T-0491 (the play content). Levels/criteria themselves are a workshop decision (Ben's board questions).

@@ -4,7 +4,7 @@ title: "Prereq: indexed ya_customers.email_domain column + centralised personal-
 type: chore
 state: triaged
 created: 2026-06-26T14:59:04Z
-updated: 2026-06-26T15:00:38Z
+updated: 2026-06-30T16:11:37Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -23,7 +23,8 @@ acceptance_criteria:
   - CustomerSalesScores.php docblock updated to include events_per_year (migration defines it) and the future classification column.
 out_of_scope: []
 code_anchors: []
-relates: []
+relates:
+  - T-0486
 blocks:
   - T-0457
   - T-0479
@@ -33,7 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
 ---
 
 ## Why
