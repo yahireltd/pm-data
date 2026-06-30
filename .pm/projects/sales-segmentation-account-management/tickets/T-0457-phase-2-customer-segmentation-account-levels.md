@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-30T17:10:17Z
+updated: 2026-06-30T17:23:08Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -62,7 +62,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 20
+version: 21
 ---
 
 ## What this is
@@ -165,3 +165,9 @@ Ben's board questions remain the workshop calls (which levels, precise criteria 
 - **Tracker view** `backend/controllers/AccountLevelsController.php` + `backend/views/account-levels/index.php` — read-only grid at **/account-levels**: suggested level, elevation stage, **"in the bag %"** bar, realised/potential/share-of-wallet, whale/big-fish flags, filters. (RBAC like the other pages: superadmin now; grant `/account-levels/*` for others.)
 
 **Known MVP limitation (flagged):** realised £ is rolled by **email-domain**, so customers whose contract emails differ from the scored domain (the `.comOLD`/typo fragmentation we hit on the lane) show **£0 realised** and get mis-bucketed to incubation (e.g. barbican, royalalberthall, AEG). Fix = roll realised by **canonical customerID** — the T-0486/T-0480 identity work; that's the right next increment before this is trustworthy. Also still MVP: satellite rows, the nightly cron, and the qualify checklist (in_bag stays 0 until T-0495/T-0496 land).
+
+**2026-06-30 17:23 claude-code:** **Fixed: account-level engine now keys/rolls by customerID, not email-domain** (Austin's call — the domain link was the gap). `account-level/recompute` now rolls realised hire by **canonical customerID** (merge-followed via `mergedIntoCustomerID`) and keys each account row by that customerID; email-domain is used only for the per-domain web-score lookup.
+
+Result: **19,979 canonical accounts** (Strategic 13 · Account 191 · Incubation 790 · System 18,985; 822 white-whales). Validation — **Alexandra Palace** (cust 5340) now reads **£21,179 realised / £32k LTV → Account**, was £0 → Incubation under domain matching. (A few referral/dry-hire venues e.g. Barbican still show low realised — genuine: their clients hire from us, so high-potential + low-share = correct white-whale, not a bug.)
+
+Still open: the score table itself is domain-keyed (inherent — a web-lookup is per-domain), and **truly-duplicate unmerged records** need the identity graph (T-0486/T-0480). MVP recompute is a full rebuild (truncate) — a live recompute must preserve `confirmed_level`. Saved as standing guidance: use customerID as the backbone.
