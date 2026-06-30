@@ -1,11 +1,11 @@
 ---
 id: T-0497
-title: Create a way for the user to record progress on the process so we can visualise where a particular customer is along their conversion path
+title: Account Elevation tracker — record + visualise a customer's climb to their proposed bucket ('in the bag %')
 type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:32:38Z
-updated: 2026-06-30T16:11:11Z
+updated: 2026-06-30T16:36:33Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,23 +41,25 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 5
+version: 6
 ---
 
 ## Problem
-We need to *see* where a customer is along their path from current bucket to proposed bucket, and exactly what is
-outstanding to complete the conversion — so the team can act and managers can spot stalls.
+We need to *see* where a customer is on their climb from current bucket to proposed bucket, and exactly what is
+outstanding to complete it — so the team can act and managers can spot stalls.
+
+## Terminology (the split — see P-0018-phase2-terminology.md)
+This visualises **Account Elevation** — a **customer-level** journey up the Stewardship Levels (Suggested → Proposed →
+Owner Assigned → Qualified → Confirmed). **"In the bag %" is the elevation progress, and belongs to the customer, not
+to a single quote.** It is NOT the per-quote **Conversion Process** (System f/u · Quick · In-depth · Lifetime), which is
+a separate quote-level concept (T-0496).
 
 ## Design notes
-The **conversion path** is the `level_status` machine (Suggested → Proposed → Owner Assigned → Qualified → Confirmed).
-Per customer render:
-- **target level** (proposed) vs current, and the current **stage**;
-- a **requirement checklist** for the target level (qualifying questions + data capture + plan/sign-off) with
-  **% complete = 'in the bag'** (the progress bar);
-- the **value climb** (realised vs potential / share of wallet) alongside, since graduation also needs realised £.
-A **manager worklist** aggregates "what's outstanding" across customers. Owner ticks items / answers questions →
-advances the stage; all changes logged (customer_account_level_log). Reuse the fast-track-lane read-only grid +
-popover/checklist patterns. This is the visible half of T-0496's playbooks.
+Per customer render: **target level** vs current + current **stage**; a **requirement checklist** for the target level
+(qualifying questions + data capture + plan/sign-off) with **% complete = 'in the bag'**; and the **value climb**
+(realised vs potential / share of wallet) alongside (graduation also needs realised £). A **manager worklist**
+aggregates "what's outstanding" across customers. Owner ticks items / answers questions → advances the stage; all
+changes logged (`customer_account_level_log`). Reuse the fast-track-lane read-only grid + popover/checklist patterns.
 
 ## Depends on / relates
-T-0457 (state machine + storage), T-0496 (the per-level checklists/questions), T-0495 (qualify writes progress).
+T-0457 (state machine + storage), T-0496 (per-level checklists/questions), T-0495 (qualify writes progress).

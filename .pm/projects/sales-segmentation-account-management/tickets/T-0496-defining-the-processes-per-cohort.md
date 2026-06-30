@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:29:52Z
-updated: 2026-06-30T16:09:31Z
+updated: 2026-06-30T16:36:49Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -43,29 +43,27 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
-Once a customer has a Score, Segment and a **suggested Stewardship Level + Conversion Process**, we need to know *what
-to actually do with them* — per cohort. Ben's PDF "Process descriptions" sketch this; this ticket turns them into
-usable, consistent playbooks.
+Once a customer has a Score, Segment and a **suggested Stewardship Level**, we need to know *what to actually do with
+them* — per cohort. Ben's PDF "Process descriptions" sketch this; this ticket turns them into usable, consistent playbooks.
+
+## Terminology (the split — see P-0018-phase2-terminology.md)
+Two things, two grains, don't merge:
+- **Conversion Process** = **quote-level** playbook (System follow-up · Quick · In-depth · Lifetime) — how hard we work
+  one enquiry; effort chosen by the customer's potential. Logically per-quote; the customer carries a *default* for
+  their level.
+- **Stewardship Level** = **customer-level** bucket (System / Incubation / Account / Strategic) — who owns them + the
+  cadence. Moving up levels is **Account Elevation** (T-0497), not a Conversion Process.
 
 ## Design notes
-One **playbook per Stewardship Level** and **per Conversion Process** (see terminology doc). Each covers:
-- **Owner** — System→steward (non-sales); Incubation→exec/junior; Account→AM; Strategic→senior AM.
-- **Qualifying questions** — a BANT-per-level set (budget / authority / need / timing, tuned per level) that confirms
-  the suggested level is right and, when answered, advances **Qualified** (feeds T-0497's "in the bag" %).
-- **Data-capture requirements** — what must be captured to "own" the account (segment, decision-maker, event calendar,
-  budget, next action) — this is also how we fill the 95% data gap (enrichment-on-demand, see T-0495).
-- **The play** — what we do & say (links T-0485 say/do, T-0490 scripts, T-0491 activities).
-- **Cadence** — follow-up rhythm (System=continuous bot; Incubation/Account/Strategic=quarterly + plan).
-- **Graduation / exit** — what moves them up a level (realised £ / share-of-wallet) or down (lapse).
-
-Ben's processes map directly: **System stewardship**, **Incubation Account Management**, **Account Management** (+
-commission/contract "show-account" extras), **Strategic Account Management** (+ Business Development); conversion
-processes **Quick / In-depth / Lifetime / System follow-up**. The spectrum is automation→human (System→Strategic).
+One playbook per Stewardship Level AND per Conversion Process, each covering: **owner · qualifying questions ·
+data-capture requirements · the play (do & say + scripts) · cadence · graduation/exit**. Ben's processes map directly
+(System stewardship; Incubation; Account + commission/contract extras; Strategic + Business Development). The spectrum
+is automation→human (System→Strategic). Incubation and System-only are fully specified (biggest, least-defined buckets).
 
 ## Depends on / relates
-T-0457 (the engine that assigns the suggested level), T-0495 (validation/qualify), T-0497 (progress visual),
-T-0485/T-0490/T-0491 (the play content). Levels/criteria themselves are a workshop decision (Ben's board questions).
+T-0457 (engine), T-0495 (validate/qualify), T-0497 (Account Elevation visual), T-0485/T-0490/T-0491 (the play). Levels
++ precise criteria + ownership are workshop decisions (Ben's board questions).
