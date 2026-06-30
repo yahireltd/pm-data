@@ -4,7 +4,7 @@ title: Quote-intrinsic potential model — white-whale detection at first quote 
 type: feature
 state: triaged
 created: 2026-06-26T16:33:34Z
-updated: 2026-06-26T21:40:02Z
+updated: 2026-06-30T12:46:27Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -32,7 +32,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 ---
 
 ## What this is
@@ -73,3 +73,16 @@ See the design doc §3 (leakage-safe label), §4 (model/calibration), §5 (blend
 - More fundamentally: even ignoring the count, the **first-quote features don't beat the quote's own value** — without `quote_total`, the model ranks future value *worse* than just sorting by quote size (ablation gate fails). So "spot a hidden whale from the item mix / location of a small quote" **isn't supported by the data**. The great result we saw earlier was on synthetic data — it was the leakage, not real signal.
 
 **Decision:** keep the **interpretable scorecard** live; **park the ML model**. Revisit only with materially more history, or a deliberately different/lower target — and any such model would still have to clear the ablation gate (beat ranking-by-quote-size) to be worth deploying. Full numbers + the label distribution are in `docs/p0018-sales-segmentation/P-0018-leakage-audit.md` (commit 397b09e8f). Added `--totalValue`/`--coolingDays` export knobs for target experimentation.
+
+**2026-06-30 12:46 claude-code:** **A working, interpretable potential signal — `AOV × events/year` — built and validated. This is the quote-intrinsic potential the ML couldn't deliver, done as a scorecard.**
+
+Two things established on real data (sandbox, branch `p0018-sales-segmentation-design`, uncommitted):
+
+1. **The first quote tracks the customer's average order value** — Spearman 0.66, median ratio quote/AOV 0.93, 75% within 0.5–2×. So the first quote is a sound AOV proxy at enquiry time.
+2. **Repeat is a SEGMENT signal, not a quote-value one.** Per-company_type cadence varies hugely (cultural venue ~6 events/yr, event production ~2.2, caterer ~1.2, corporate ~1.0). Score/tier adds only a weak gradient; company_type is the driver. The web-lookup's own "repeat" label is 92% accurate when present.
+
+**Combined estimate `potential = quote × segment events/year` beats quote-value-alone for LIFETIME value: AUC(≥£8k) 0.72 → 0.76, Spearman 0.26 → 0.28.** (Note: against the 12-month repeat label everything scored ~0 — the window is too short for repeat cadence; lifetime is the correct target.) Modest but real and fully interpretable — no ML, clears the spirit of the ablation gate by adding the repeat dimension quote size can't see.
+
+**Built:** `segment_profile` table + `customer-scoring/segment-profile` (computes repeat_rate / events_per_year / AOV per company_type — the `repeat_likelihood` the account model/T-0457/T-0479 want); `common/components/PotentialEstimator.php` (`AOV × events/yr`, small-n guard so a 1-customer segment gets no repeat boost).
+
+**Caveats:** company_type has vocab drift (62 types incl. near-dupes + tiny segments — wants the T-0474 closed-vocab/review-queue to consolidate); the scored set skews to established customers, so absolute rates firm up at full coverage. **Recommendation:** use this as the third potential source (alongside the web-score and quote value), and surface it on the fast-track lane / a repeat flag.
