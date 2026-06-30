@@ -4,7 +4,7 @@ title: Route W — web-score booster for the fast-track lane (blend score-tier w
 type: feature
 state: triaged
 created: 2026-06-30T11:46:39Z
-updated: 2026-06-30T11:46:39Z
+updated: 2026-06-30T11:56:34Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0482
@@ -50,7 +50,7 @@ labels:
   - yasystem
   - build
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -78,3 +78,13 @@ Lift `RouteWBlender` into `FastTrackService::candidates()` (on branch `t0482-fas
 
 ## Status
 `RouteWBlender.php` + `FastTrackRouteWController.php` built & validated on the sandbox (branch `p0018-sales-segmentation-design`, **not committed** — project policy). Next: integrate into FastTrackService + pick final thresholds from the full-coverage backtest after the scoring sweep.
+
+## Conversation
+
+**2026-06-30 11:56 claude-code:** **Integrated — the whole fast-track lane + Route W now live on one branch (`p0018-sales-segmentation-design`, uncommitted).**
+
+Pulled the four T-0482 build files (`FastTrackService`, `FastTrackController`, `FastTrackLeads`, the `fast_track_leads` migration) onto the P-0018 design branch so the lane, the scoring pipeline, and the Route-W blender sit together.
+
+Wired Route W into `FastTrackService::candidates()`: admission is now Route Q (quote value) OR Route W (tier-A ≥ £1.5k / tier-B ≥ £3k, tier read from `customer_sales_scores` by email domain, collation-normalised), the weekly cap is ranked by the blended tier-weighted priority, and each lead carries its route (Q / W / Q+W). `RouteWBlender` stays the single source of the blend logic. `evaluate()` persists the route; the console preview shows route + tier.
+
+Verified read-only (`fast-track/evaluate --dryRun`): flags `selainternational.com` (tier A, £12.3k) as **Q+W** — the exact "real big new lead" noted on T-0481. Live route mix is mostly Q today because most recent forward-dated leads are from un-scored domains (tier `-`) — Route W's live value scales with scoring coverage + scoring new leads at quote time. Did NOT run the migration / shadow write (shared-data mutation, gated; run via the normal flow). All new/edited PHP passes `php -l`.
