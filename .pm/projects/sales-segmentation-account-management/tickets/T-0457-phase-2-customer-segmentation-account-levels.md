@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-30T16:57:52Z
+updated: 2026-06-30T17:10:17Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -62,7 +62,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 19
+version: 20
 ---
 
 ## What this is
@@ -157,3 +157,11 @@ So the state machine is: suggested → proposed (owner lined up) → requirement
 Ben's board questions remain the workshop calls (which levels, precise criteria per level, handover process, and Incubation ownership = execs vs an AM pool). Ben's PDF couldn't be opened in-tool; transcribed via rendered crops.
 
 **2026-06-30 16:57 claude-code:** **HOW spec added — operating runbook.** `docs/p0018-sales-segmentation/P-0018-phase2-operating-runbook.md` covers, for every step of the flow (Intake → Score → Suggest → Validate → Propose → Assign → Qualify → Confirm → Steward → Convert → Review): **trigger · actor · system support · automated vs manual · output (next state) · conformance signal**, plus the **role relay** (AI · Outbound · Steward · Exec · AM · Senior AM · Manager) and the **handover** (step 6 — the one ownership change). It's parameterised: the workshop calls (levels/criteria, Incubation ownership = execs vs AM pool, the Steward, cadence intervals, the "mandatory steps" for conformance, thresholds/caps) are marked [WORKSHOP] and don't block the build. This is the spec the engine (this ticket) + T-0495/T-0497/T-0492/T-0488 follow. Next: step 2 (handover mechanics) then step 3 (MVP build).
+
+**2026-06-30 17:10 claude-code:** **MVP engine + Account Elevation tracker built (sandbox, branch p0018-sales-segmentation-design, uncommitted).**
+
+- **Table** `customer_account_levels` (migration `m260630_170000…`) — MVP slice of the design §6.1 (level, status, value axes, flags, in_bag_pct; effective_level computed in queries, not a generated column).
+- **Recompute** `console/controllers/AccountLevelController.php` (`account-level/recompute` + `/stats`) — one home row per scored domain: value axes (hire-only, contractTotal), potential (score→£ curve), **suggested level via the ladder**, white-whale/big-fish, track new/existing, status=suggested. Result: **3,951 rows** — strategic 5 · account 151 · incubation 554 · system 3,241; 580 white-whales, 101 big-fish, 72 new.
+- **Tracker view** `backend/controllers/AccountLevelsController.php` + `backend/views/account-levels/index.php` — read-only grid at **/account-levels**: suggested level, elevation stage, **"in the bag %"** bar, realised/potential/share-of-wallet, whale/big-fish flags, filters. (RBAC like the other pages: superadmin now; grant `/account-levels/*` for others.)
+
+**Known MVP limitation (flagged):** realised £ is rolled by **email-domain**, so customers whose contract emails differ from the scored domain (the `.comOLD`/typo fragmentation we hit on the lane) show **£0 realised** and get mis-bucketed to incubation (e.g. barbican, royalalberthall, AEG). Fix = roll realised by **canonical customerID** — the T-0486/T-0480 identity work; that's the right next increment before this is trustworthy. Also still MVP: satellite rows, the nightly cron, and the qualify checklist (in_bag stays 0 until T-0495/T-0496 land).
