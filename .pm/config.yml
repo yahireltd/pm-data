@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 488
+  ticket: 492
   project: 18
   section: 14
   perProject:
@@ -40,8 +40,8 @@ id_counters:
     sales-segmentation-account-management:
       tech_session: 3
       phase: 4
-      milestone: 12
-      sprint: 10
+      milestone: 13
+      sprint: 11
       meeting: 8
       decision: 9
       status_note: 1
