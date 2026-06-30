@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:26:11Z
-updated: 2026-06-30T17:31:23Z
+updated: 2026-06-30T18:00:03Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 6
+version: 7
 ---
 
 ## Problem
@@ -70,3 +70,24 @@ T-0496 (questions/data per level), T-0497 (progress), T-0474 (vocab + review que
 - **UI** — `/account-levels/view?id=` shows the account + the checklist; ticking items / filling fields and saving (`/account-levels/qualify` POST) computes **in_bag % = items done**, sets **status=Qualified** when all mandatory are done, and surfaces in the worklist's "In the bag" column + a `work →` link.
 
 Validated end-to-end (Alexandra Palace: 5/12 → 42%, owner_assigned until mandatory complete). RBAC: grant `/account-levels/*` for non-superadmins. Next: the **adjust/override** half of validation (correction log feeding re-score), and wiring the real questions with Ben.
+
+**2026-06-30 18:00 claude-code:** **2026-06-30 — Adjust/override half built (MVP)** — the other half of this ticket (the *qualify* half shipped 17:31). The AI's score/segment/level is now a suggestion a human can change, with a reason, and every change is logged. Sandbox, branch `p0018-sales-segmentation-design`, **uncommitted** (project policy).
+
+**What a user can now do** (on `/account-levels/view?id=`):
+- **Override the bucket** — move an account to a different Stewardship Level (System/Incubation/Account/Strategic) with a reason. Applies immediately and the nightly recompute will *not* wipe it.
+- **Correct the AI segment/score** — fix company type, industry, classification, score or tier, with a reason. These feed the next re-score so the computer learns.
+- See the engine's **plain-English "why this level"** next to the suggestion, so the decision to split an account into a different bucket is informed (not blind).
+- **Revert** any override back to the engine suggestion; full **correction history** is shown per account.
+- The worklist marks human-overridden accounts (✎) with a count + an "Overridden" filter, and the qualify checklist now runs against the *human-decided* level, not the raw suggestion.
+
+**How it meets the acceptance criteria:**
+- *Suggestion, not truth; logged for re-scoring* → new durable table `customer_account_corrections` (append-only; one active row per field per account; keyed by canonical customerID per T-0486). Console `account-level/corrections 1` exports the JSON re-score feed and stamps rows as fed.
+- *Never silently overwrite — AI original retained* → each correction stores `suggested_value` (the AI value) alongside `corrected_value` + reason + who/when.
+- *Closes the loop / computer learns* → console `account-level/apply-corrections` overlays human segment/score truth onto `customer_sales_scores`, so the next `recompute` respects it; the feed export is the artifact handed to the next scoring run.
+- *Survives recompute* → corrections live in a separate table (same pattern as the qualify table); level overrides apply at read-time via `COALESCE(override, confirmed, suggested)`.
+
+**Architecture note:** the engine table is rebuilt (truncate + insert) on every recompute, so human decisions deliberately live *outside* it — recompute can never clobber a person's work.
+
+**Tested end-to-end on sandbox** (then cleaned up): seeded a level override (Incubation→Account) + a score correction (96→95) on barbican.org.uk → `apply-corrections` overlaid the score, the worklist's effective level resolved to Account, the feed exported + marked fed, revert restored the suggestion. Files: `console/migrations/m260630_190000_*`, `console/controllers/AccountLevelController.php` (apply-corrections, corrections), `backend/controllers/AccountLevelsController.php` (override/revert), `backend/views/account-levels/{view,index}.php`.
+
+**Still open (the "finer details" of splitting accounts):** the qualifying-question content per level + the £ thresholds that drive the suggested split are still sensible defaults — they need Ben's workshop input (and a percentile study → T-0479). RBAC: grant `/account-levels/*` for non-superadmins.
