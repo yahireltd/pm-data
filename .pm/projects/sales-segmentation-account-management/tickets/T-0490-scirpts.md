@@ -1,11 +1,11 @@
 ---
 id: T-0490
-title: Scirpts
+title: Scripts (per Conversion Process)
 type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:18:37Z
-updated: 2026-06-30T16:10:54Z
+updated: 2026-06-30T16:52:24Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -35,15 +35,18 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
-We need the actual words/templates per conversion process — for reps and for the System nurture bot.
+We need the actual words/templates per Conversion Process — for reps and for the System nurture bot.
 
 ## Design notes
-Library keyed by Conversion Process × segment/level (+ won/lost for Lifetime). One source of truth shared by humans
-and the automated System follow-up (T-0494). Triggered by activities (T-0491).
+Library keyed by Conversion Process (quote-level) × segment/level (+ won/lost for Lifetime). One source of truth shared
+by humans and the automated System follow-up (T-0494). Triggered by activities (T-0491).
 
 ## Relates
 T-0485 (what to say), T-0491 (activities), T-0494 (nurture bot), T-0496 (playbooks).
+
+## Originally
+Filed as *"Scirpts"* (typo) — renamed to **Scripts (per Conversion Process)**; same scope.

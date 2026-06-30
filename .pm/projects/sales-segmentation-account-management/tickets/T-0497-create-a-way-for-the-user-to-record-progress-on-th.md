@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:32:38Z
-updated: 2026-06-30T16:36:33Z
+updated: 2026-06-30T16:52:21Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 6
+version: 7
 ---
 
 ## Problem
@@ -63,3 +63,7 @@ changes logged (`customer_account_level_log`). Reuse the fast-track-lane read-on
 
 ## Depends on / relates
 T-0457 (state machine + storage), T-0496 (per-level checklists/questions), T-0495 (qualify writes progress).
+
+## Originally
+Filed as *"Create a way for the user to record progress on the process so we can visualise where a particular customer
+is along their conversion path"* — renamed to **Account Elevation tracker** to match the agreed terminology; same scope.

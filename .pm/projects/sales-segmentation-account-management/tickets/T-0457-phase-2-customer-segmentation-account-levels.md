@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-30T16:12:43Z
+updated: 2026-06-30T16:57:52Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -62,7 +62,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 18
+version: 19
 ---
 
 ## What this is
@@ -155,3 +155,5 @@ So the state machine is: suggested → proposed (owner lined up) → requirement
 - **Fleshed the Phase-2 tickets** (acceptance criteria + design notes, all cross-linked): T-0496 per-cohort playbooks, T-0495 validation (AI suggests→human adjusts→human qualifies), T-0497 conversion-path visual + "in the bag %", T-0492 conformance, T-0488 KPIs, T-0493 dashboards, T-0485/T-0490/T-0491 the play/scripts/activities, T-0486 primary/secondary, T-0489/T-0494 Teresa review + nurture engine.
 
 Ben's board questions remain the workshop calls (which levels, precise criteria per level, handover process, and Incubation ownership = execs vs an AM pool). Ben's PDF couldn't be opened in-tool; transcribed via rendered crops.
+
+**2026-06-30 16:57 claude-code:** **HOW spec added — operating runbook.** `docs/p0018-sales-segmentation/P-0018-phase2-operating-runbook.md` covers, for every step of the flow (Intake → Score → Suggest → Validate → Propose → Assign → Qualify → Confirm → Steward → Convert → Review): **trigger · actor · system support · automated vs manual · output (next state) · conformance signal**, plus the **role relay** (AI · Outbound · Steward · Exec · AM · Senior AM · Manager) and the **handover** (step 6 — the one ownership change). It's parameterised: the workshop calls (levels/criteria, Incubation ownership = execs vs AM pool, the Steward, cadence intervals, the "mandatory steps" for conformance, thresholds/caps) are marked [WORKSHOP] and don't block the build. This is the spec the engine (this ticket) + T-0495/T-0497/T-0492/T-0488 follow. Next: step 2 (handover mechanics) then step 3 (MVP build).
