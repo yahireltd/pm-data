@@ -4,7 +4,7 @@ title: Fast-track lane — flag the biggest new-customer quotes for senior atten
 type: feature
 state: review
 created: 2026-06-26T22:23:18Z
-updated: 2026-06-26T22:51:02Z
+updated: 2026-06-30T12:06:18Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0457
@@ -86,7 +86,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-26T22:51:02Z
-version: 5
+version: 6
 ---
 
 ## Problem
@@ -107,3 +107,12 @@ T-0480 (normalised email_domain — stubbed inline for P1), T-0479 (param store 
 ## Conversation
 
 **2026-06-26 22:51 claude-code:** Run run-20260626-2224 completed — Built the first working version of a "fast-track lane" — a way to automatically spot the biggest quotes from brand-new customers so a senior salesperson can contact them quickly, instead of those promising leads sitting unnoticed in the ~66-new-quotes-a-week pile. We proved on real data that a new customer's biggest quotes are about 30× more likely to turn into a valuable account than an average quote, so putting senior eyes on them is worth the time. This first version runs quietly in the background ("shadow mode") and just produces the list — so we can measure how good it really is before committing any sales-team time or SLAs to it. Without it, genuinely valuable new customers keep slipping through unnoticed. Honest caveat: it's "senior eyes on the biggest new quotes," not a perfect whale-detector — many flagged quotes will be big one-off events, and that's expected.
+
+**2026-06-30 12:06 claude-code:** **Built the read-only lane PAGE (the P2 "fast-track-leads.php") — viewing the lane in the browser instead of the console.**
+
+`backend/controllers/FastTrackLaneController.php` + `backend/views/fast-track-lane/index.php` (branch `p0018-sales-segmentation-design`, uncommitted). Reuses the Sales Scores read-only grid pattern:
+- Live, read-only grid of the blended lane (FastTrackService::candidates) — columns: route (Q / W / Q+W badge), tier, quote £, blended priority, domain (link), company, hire date, quote link.
+- Header explainer (Route Q vs Route W), a route-mix tally, and filters (route, since, Route-Q floor, Route-W tier-A floor).
+- No writes — shadow-mode `fast-track/evaluate` still owns persistence.
+
+URL: **/fast-track-lane** (same URL-only convention as Sales Scores — not in the nav). It's route-RBAC'd by mdm AccessControl: a superadmin can open it now; other roles need `/fast-track-lane/*` granted in the RBAC admin, exactly like Sales Scores. Lint clean; data path smoke-tested. Still P2 and not built here: SLA/ownership/claim, the gold-star badge on leads.php.
