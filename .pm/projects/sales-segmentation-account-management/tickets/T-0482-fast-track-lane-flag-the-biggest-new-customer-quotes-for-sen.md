@@ -4,7 +4,7 @@ title: Fast-track lane — flag the biggest new-customer quotes for senior atten
 type: feature
 state: review
 created: 2026-06-26T22:23:18Z
-updated: 2026-06-30T12:06:18Z
+updated: 2026-06-30T13:58:24Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0457
@@ -86,7 +86,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-26T22:51:02Z
-version: 6
+version: 7
 ---
 
 ## Problem
@@ -116,3 +116,15 @@ T-0480 (normalised email_domain — stubbed inline for P1), T-0479 (param store 
 - No writes — shadow-mode `fast-track/evaluate` still owns persistence.
 
 URL: **/fast-track-lane** (same URL-only convention as Sales Scores — not in the nav). It's route-RBAC'd by mdm AccessControl: a superadmin can open it now; other roles need `/fast-track-lane/*` granted in the RBAC admin, exactly like Sales Scores. Lint clean; data path smoke-tested. Still P2 and not built here: SLA/ownership/claim, the gold-star badge on leads.php.
+
+**2026-06-30 13:58 claude-code:** **Fixed a real defect in the lane's new/unowned detection + surfaced segment/repeat (branch p0018-sales-segmentation-design, uncommitted).**
+
+**Defect:** the lane decided "new customer" by matching the QUOTE's email *domain* against past contracts. Existing customers often quote from a different/мistyped email than their contracts, so they leaked in as "new". Real example Austin caught: a £20k quote `brian.watson@alexandrapalace.co` (a typo, missing the "m") — it's linked to `customerID 5340`, the live **Alexandra Palace** key account (VIP, owner salesID 363, 15 delivered contracts, £32k). It was showing as a brand-new lead.
+
+**Scale of it:** of 131 admitted quotes, **83 were actually existing/owned** once resolved by customerID; only **48 are genuinely new**. The lane was ~63% existing accounts.
+
+**Fix:** `FastTrackService::classifyOwnership()` now resolves identity by the **customerID on the quote** (following `mergedIntoCustomerID` to the canonical customer), and flags new/unowned from the canonical's **delivered-hire history + salesID** — robust to a mistyped/changed quote email. Added a `scope` (new [default] / existing / all). This is the T-0480 identity-graph idea applied to the lane.
+
+**Also surfaced (Austin's asks):** a **Segment** column (industry · company_type from the score) and a **Repeats?** column (the web-lookup's own `repeat` label + the segment's re-hire rate % + events/yr), plus an "existing/owned" badge in non-new scopes, and labelled filter inputs.
+
+Knock-on: the same customerID resolution should feed the scoring identity (one org = one record) — currently typo'd domains get scored as separate phantom customers (e.g. Alexandra Palace exists as `.co`, `.com`, `.comold`). Worth folding into T-0480.
