@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-30T17:23:08Z
+updated: 2026-06-30T18:52:13Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -62,7 +62,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 21
+version: 22
 ---
 
 ## What this is
@@ -171,3 +171,9 @@ Ben's board questions remain the workshop calls (which levels, precise criteria 
 Result: **19,979 canonical accounts** (Strategic 13 · Account 191 · Incubation 790 · System 18,985; 822 white-whales). Validation — **Alexandra Palace** (cust 5340) now reads **£21,179 realised / £32k LTV → Account**, was £0 → Incubation under domain matching. (A few referral/dry-hire venues e.g. Barbican still show low realised — genuine: their clients hire from us, so high-potential + low-share = correct white-whale, not a bug.)
 
 Still open: the score table itself is domain-keyed (inherent — a web-lookup is per-domain), and **truly-duplicate unmerged records** need the identity graph (T-0486/T-0480). MVP recompute is a full rebuild (truncate) — a live recompute must preserve `confirmed_level`. Saved as standing guidance: use customerID as the backbone.
+
+**2026-06-30 18:52 claude-code:** **2026-06-30 — clarified "why a high-score account can sit in Incubation" + made the ladder legible** (sandbox, uncommitted; see TS-004).
+
+Austin asked why some high-score / high-potential accounts are Incubation while some lower-score ones are Account/Strategic. Answer: **the level is earned by REALISED money, not the score** — exactly as this ticket's ladder intends. Strategic = realised ≥ £40k/12m + repeat + signal; Account = realised ≥ £8k/12m **or lifetime (LTV) ≥ £20k**; Incubation = high potential but low realised (grow it); System = low both; new caps at Incubation. So a 98A with £89k potential but £0 realised (Montgomery, Barbican) is *correctly* Incubation — a Gold Nugget to grow — and we don't promote on potential alone.
+
+The confusion was a **display** gap: the worklist only showed Realised/12m, hiding the LTV rule (frieze, opusagency: £0 in the last 12m but ≥£20k lifetime → Account). Fix: added a **Realised LTV** column + a plain-English **"why this level"** explainer to `/account-levels` (index + detail). No model change — just surfacing the basis the engine already computes.

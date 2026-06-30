@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:26:11Z
-updated: 2026-06-30T18:00:03Z
+updated: 2026-06-30T18:52:26Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 7
+version: 8
 ---
 
 ## Problem
@@ -91,3 +91,7 @@ Validated end-to-end (Alexandra Palace: 5/12 → 42%, owner_assigned until manda
 **Tested end-to-end on sandbox** (then cleaned up): seeded a level override (Incubation→Account) + a score correction (96→95) on barbican.org.uk → `apply-corrections` overlaid the score, the worklist's effective level resolved to Account, the feed exported + marked fed, revert restored the suggestion. Files: `console/migrations/m260630_190000_*`, `console/controllers/AccountLevelController.php` (apply-corrections, corrections), `backend/controllers/AccountLevelsController.php` (override/revert), `backend/views/account-levels/{view,index}.php`.
 
 **Still open (the "finer details" of splitting accounts):** the qualifying-question content per level + the £ thresholds that drive the suggested split are still sensible defaults — they need Ben's workshop input (and a percentile study → T-0479). RBAC: grant `/account-levels/*` for non-superadmins.
+
+**2026-06-30 18:52 claude-code:** **2026-06-30 — follow-up: correction dropdowns now use the scoring taxonomy** (sandbox, uncommitted; see TS-004).
+
+On the override panel, Industry and Company type were free-text. Changed them to **dropdown + type-to-autocomplete** sourced live from the scoring table (`customer_sales_scores`) — the same canonical values scoring assigned (25 industries, 62 company types), frequency-ordered so the common ones surface first. Corrections now converge on canonical values instead of inventing variants. A genuinely new value is still allowed (a correction is sometimes "we don't have this type yet") and will surface for the T-0474 review queue to fold in. When T-0474 builds proper vocab tables, the helper just points at those — one-line change (comment left in code).

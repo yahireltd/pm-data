@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:32:38Z
-updated: 2026-06-30T16:52:21Z
+updated: 2026-06-30T18:52:29Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 7
+version: 8
 ---
 
 ## Problem
@@ -67,3 +67,9 @@ T-0457 (state machine + storage), T-0496 (per-level checklists/questions), T-049
 ## Originally
 Filed as *"Create a way for the user to record progress on the process so we can visualise where a particular customer
 is along their conversion path"* — renamed to **Account Elevation tracker** to match the agreed terminology; same scope.
+
+## Conversation
+
+**2026-06-30 18:52 claude-code:** **2026-06-30 — "in the bag %" now updates live as you tick** (sandbox, uncommitted; see TS-004).
+
+The progress %/bar previously only recalculated on save. It now updates in real time as boxes are ticked / text/date fields are filled — mirroring the server rule exactly (done = checkbox ticked OR a text/date item filled; Qualified ✓ appears once all mandatory items are met). A subtle "preview — Save progress to keep" hint shows when the live value differs from the last saved value, so it's clear it isn't persisted yet; the server recompute on save stays the authority. Pure client-side enhancement to the tracker — no new data source.
