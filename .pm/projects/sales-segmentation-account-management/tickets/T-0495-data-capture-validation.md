@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:26:11Z
-updated: 2026-06-30T16:11:37Z
+updated: 2026-06-30T17:31:23Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 5
+version: 6
 ---
 
 ## Problem
@@ -60,3 +60,13 @@ Ben's chain, made concrete: **AI suggests → Human adjusts → Human qualifies.
 
 ## Relates
 T-0496 (questions/data per level), T-0497 (progress), T-0474 (vocab + review queue), T-0457 (engine).
+
+## Conversation
+
+**2026-06-30 17:31 claude-code:** **Qualify gate built (MVP) — the "in the bag %" is now real & clickable** (sandbox, branch p0018-sales-segmentation-design, uncommitted). Pairs with T-0496 (per-cohort) + T-0497 (tracker).
+
+- **Per-level checklists** — `common/components/LevelRequirements.php`: stacked qualifying questions + data-capture per level (Incubation 7 → Account 12 → Strategic 16), BANT-per-level + the design's data gates. Sensible defaults, **[WORKSHOP]-tunable** (→ T-0479 later). Mandatory items flagged.
+- **Human progress stored separately** — table `account_level_qualify` (customerID PK, target_level, qualify_json, in_bag_pct, status). Kept apart from `customer_account_levels` so the nightly recompute rebuilds the *suggestion* without wiping a person's work.
+- **UI** — `/account-levels/view?id=` shows the account + the checklist; ticking items / filling fields and saving (`/account-levels/qualify` POST) computes **in_bag % = items done**, sets **status=Qualified** when all mandatory are done, and surfaces in the worklist's "In the bag" column + a `work →` link.
+
+Validated end-to-end (Alexandra Palace: 5/12 → 42%, owner_assigned until mandatory complete). RBAC: grant `/account-levels/*` for non-superadmins. Next: the **adjust/override** half of validation (correction log feeding re-score), and wiring the real questions with Ben.
