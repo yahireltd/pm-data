@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-06-03T23:59:09Z
-updated: 2026-06-05T21:24:09Z
+updated: 2026-07-01T14:17:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -26,7 +26,8 @@ code_anchors:
   - path: web/app/_components/RemindersEditor.tsx
   - path: web/app/_actions/meetings.ts
     symbol: pushToCalendar
-relates: []
+relates:
+  - T-0502
 blocks: []
 blocked_by: []
 duplicates: []
@@ -45,6 +46,7 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention: null
+version: 1
 ---
 
 add upcomming meetings to dashboard, Also some reminders functionality - add to calendar as a checkbox

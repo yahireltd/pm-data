@@ -1,10 +1,10 @@
 ---
 id: T-0476
-title: pm_get_decision / pm_update_decision are not project-scoped → cross-project ADR-id collision (silent wrong reads + record clobbering)
+title: Cross-project id ambiguity in per-project entity lookups/writes (decisions, sprints, milestones, tech-sessions, phases) → silent wrong reads + record clobbering
 type: bug
-state: triaged
+state: in_progress
 created: 2026-06-23T18:58:35Z
-updated: 2026-06-23T18:58:35Z
+updated: 2026-07-01T14:18:58Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,41 +14,58 @@ priority: p1
 reporter:
   kind: agent
   name: Claude (Opus 4.8)
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
-  - pm_get_decision accepts an optional `project` param; when set, it returns the ADR from that project and never another project's.
-  - pm_update_decision accepts an optional `project` param; when set, it mutates only within that project (no cross-project write path remains).
-  - findDecisionPath(id, project?) scopes resolution to the given project; when `project` is omitted AND the id exists in >=2 projects, the caller raises an explicit ambiguity error instead of silently returning the first match.
-  - "Back-compat: an id that is unique across all projects still resolves when `project` is omitted."
-  - "Regression test: create ADR-00X in two projects, then assert get/update resolve to the correct one when `project` is supplied and error on ambiguity when it is omitted."
-  - update-decision.ts is confirmed to use the scoped resolver.
+  - "Every per-project entity get/update/set MCP tool resolves an id within a single project, never another project's: decisions (pm_get_decision/pm_update_decision), sprints (pm_get_sprint/pm_update_sprint/pm_set_sprint_owner/pm_update_sprint_state/pm_delete_sprint), milestones (pm_get_milestone/pm_update_milestone_state/pm_set_milestone_* etc.), tech-sessions (pm_get_tech_session/pm_record_tech_session), phases (pm_get_phase/pm_update_phase/pm_set_phase_owner/pm_update_phase_state)"
+  - pm_get_decision and pm_update_decision gain an optional `project` param (they have NONE today — the worst case); the sprint/milestone/tech-session/phase tools already expose optional `project` but must be hardened per the next criterion
+  - "For ALL these tools: when `project` is omitted AND the id exists in >=2 projects, raise an explicit ambiguity error instead of silently returning/mutating the first match (today's first-match fallback is the bug)"
+  - The underlying path resolvers (findDecisionPath and the sprint/milestone/tech-session/phase equivalents in mcp-server/src/lib/paths.ts) take an optional project arg, scope to it when provided, and signal ambiguity when omitted + id matches >1 project
+  - "Back-compat: an id that is unique across all projects still resolves when `project` is omitted"
+  - "Regression test: create the same short id (e.g. SPR-001, MS-001, ADR-001) in two projects, then assert get/update/set resolve to the correct one when `project` is supplied and error on ambiguity when omitted — for each entity family"
 out_of_scope: []
 code_anchors:
-  - file: mcp-server/src/lib/paths.ts
+  - path: mcp-server/src/lib/paths.ts
     symbol: findDecisionPath
     lines: 311+
-    note: "ROOT CAUSE: loops listProjectSlugs() and returns the FIRST `${id}-*.md` match across ALL projects. Add an optional project arg; scope to it when provided; signal ambiguity when omitted and the id matches in >1 project."
-  - file: mcp-server/src/tools/get-decision.ts
+    note: "ROOT CAUSE (decisions): loops listProjectSlugs() and returns the FIRST match across ALL projects. Add optional project arg; scope when provided; error on ambiguity when omitted."
+  - path: mcp-server/src/lib/paths.ts
+    note: Same first-match pattern for the sprint/milestone/tech-session/phase path resolvers — audit and apply the identical scoped-resolve + ambiguity-error fix to each.
+  - path: mcp-server/src/tools/get-decision.ts
     lines: 10-15
-    note: Input schema is only {id}; runGetDecision calls findDecisionPath(args.id) with no project. Add optional `project` and pass it through.
-  - file: mcp-server/src/tools/update-decision.ts
-    note: Same handler family — apply the identical `project` param + scoped resolver; this is the path that previously clobbered another project's ADR.
-  - file: mcp-server/src/tools/create-decision.ts
+    note: Input schema is only {id}; add optional `project` and thread it through (decisions have NO project param today).
+  - path: mcp-server/src/tools/update-decision.ts
+    note: Same — the write path that previously clobbered another project's ADR.
+  - path: mcp-server/src/tools/sprint-tools.ts
+    note: get/update/set/state/delete sprint — `project` is already optional in the schema but resolution still first-matches when omitted; enforce ambiguity error.
+  - path: mcp-server/src/tools/milestone-tools.ts
+    note: get/state/set-owner/set-phase milestone — same optional-project hardening.
+  - path: mcp-server/src/tools/tech-session-tools.ts
+    note: get/record tech-session — same optional-project hardening.
+  - path: mcp-server/src/tools/create-decision.ts
     lines: ~38
-    note: "REFERENCE: already takes `project: z.string().min(1)` and is correctly scoped. get/update should mirror this."
+    note: "REFERENCE: already requires `project` and is correctly scoped; get/update should mirror it."
 relates: []
 blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260701-1418
+    model: claude-opus-4-8
+    started: 2026-07-01T14:18:58Z
+    status: in_progress
 labels:
   - bug
   - mcp-server
   - data-integrity
   - decisions
+  - sprints
+  - milestones
+  - concurrency
 attention: null
-version: 1
+version: 5
 ---
 
 ## Problem
@@ -66,3 +83,14 @@ Add an optional `project` to `pm_get_decision` and `pm_update_decision` (mirrori
 
 ## Why it matters
 This is a cross-project **data-integrity** bug. It silently returns the wrong project's decisions (bad reads → decisions made on the wrong data) and has already destroyed a record (bad writes). It worsens as ADR numbering overlaps — which is the norm, since every project starts at ADR-001. It also blocks safe housekeeping on P-0018: ADR-002/004/005 there can't be flipped to `superseded` until this lands (see ADR-009 in that project).
+
+## Conversation
+
+**2026-07-01 14:17 claude-code:** **2026-07-01 — Broadened scope (Austin).** This ticket was decisions-only, but the same root cause hits every per-project id space. Per-project ids (SPR-, MS-, TS-, PH-, ADR-) all restart at 001 in each project, so the same short id exists in many projects. Looking one up by id alone can silently resolve to the wrong project's record.
+
+- **Decisions** (`pm_get_decision` / `pm_update_decision`) are the worst case — they take **no** `project` param at all, and already clobbered a real ADR (original evidence above).
+- **Sprints / milestones / tech-sessions / phases** *do* expose an **optional** `project` param, but because it's optional the id-only path still first-matches → same silent wrong-read/wrong-write when omitted.
+
+So the fix is one consistent rule across all of them: scope resolution to `project` when given, and **error on ambiguity** (id in ≥2 projects) instead of first-match. Title, acceptance criteria and code anchors updated to cover the full entity set.
+
+Note this is distinct from T-0316 (done), which fixed *concurrent-create duplicate ids* — a different bug. This one is *cross-project lookup ambiguity*.

@@ -5,7 +5,7 @@ type: feature
 state: done
 priority: p2
 created: 2026-05-29T18:13:32Z
-updated: 2026-06-03T17:30:13Z
+updated: 2026-07-01T14:17:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,8 @@ assignee: null
 acceptance_criteria: []
 out_of_scope: []
 code_anchors: []
-relates: []
+relates:
+  - T-0502
 blocks: []
 blocked_by: []
 duplicates: []
@@ -26,6 +27,7 @@ labels: []
 attention: null
 backlog_status: in_review
 source: discovered
+version: 1
 ---
 
 # T-0160: Meeting invites + reminders poller (calendar events + dedupe)
