@@ -2,9 +2,9 @@
 id: T-0471
 title: Edit a sprint's title, description, dates & owner from the Sprints view
 type: feature
-state: review
+state: done
 created: 2026-06-23T12:06:44Z
-updated: 2026-06-23T12:08:08Z
+updated: 2026-07-01T11:58:21Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,11 +20,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - A sprint card on the Sprints view has an Edit affordance that opens a form for title, goal/description, start date, end date, capacity and owner.
-  - Editing is offered only for planned/in_progress sprints (completed/cancelled stay frozen, matching the server guard).
-  - Saving persists all changed fields; only changed fields are sent; concurrent-edit (stale) is surfaced, not silently overwritten.
-  - An owner (dev lead) can be set from the Sprints view, with a roster type-ahead — parity with the Phases planner.
-  - The sprint card shows the owner when one is set.
+  - "[x] A sprint card on the Sprints view has an Edit affordance that opens a form for title, goal/description, start date, end date, capacity and owner."
+  - "[x] Editing is offered only for planned/in_progress sprints (completed/cancelled stay frozen, matching the server guard)."
+  - "[x] Saving persists all changed fields; only changed fields are sent; concurrent-edit (stale) is surfaced, not silently overwritten."
+  - "[x] An owner (dev lead) can be set from the Sprints view, with a roster type-ahead — parity with the Phases planner."
+  - "[x] The sprint card shows the owner when one is set."
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/SprintsList.tsx
@@ -65,11 +65,8 @@ labels:
   - ui
   - dogfood
   - for-austin
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-23T12:08:08Z
-version: 5
+attention: null
+version: 12
 branch: master
 ---
 
@@ -89,3 +86,9 @@ Dogfood asks on the Sprints view:
 ## Conversation
 
 **2026-06-23 12:08 claude-code:** Run run-20260623-1207 completed — You can now edit a sprint's details directly from the Sprints view. Each active or planned sprint card has a small pencil "Edit" button that opens a short form where you can change the sprint's title, its goal/description, its start and end dates, its capacity, and who owns it (the dev lead) — all in one place and saved together. The owner field offers your team's names as you type, the same way the Phases planner does, so setting an owner no longer requires going to the Phases page. Finished and cancelled sprints stay locked (they're a historical record), so the Edit button only appears on sprints you can still change. If two people edit the same sprint at once, the second save is caught and flagged rather than silently overwriting. Before this, the title and dates couldn't be edited at all on this screen (only the goal, via a hidden click-to-edit), and an owner could only be set on the Phases planner. Benefit: sprint housekeeping — renaming, re-dating, adding a goal, assigning an owner — is now quick and obvious from the place you actually manage sprints.
+
+---
+
+**2026-07-01 11:58 — you**
+
+working as described
