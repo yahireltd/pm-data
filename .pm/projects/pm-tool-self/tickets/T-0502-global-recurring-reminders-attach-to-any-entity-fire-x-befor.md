@@ -4,7 +4,7 @@ title: Global recurring reminders — attach to any entity, fire X-before a date
 type: feature
 state: in_progress
 created: 2026-07-01T14:16:23Z
-updated: 2026-07-01T14:51:21Z
+updated: 2026-07-01T15:20:29Z
 project: pm-tool-self
 section: null
 parent: null
@@ -49,11 +49,14 @@ agent_runs:
     model: claude-opus-4-8
     started: 2026-07-01T14:51:21Z
     status: in_progress
+    progress:
+      - at: 2026-07-01T15:20:29Z
+        note: "Full end-to-end feature built, typechecked, built, committed + pushed (33b2442). Awaiting deploy (needs web build + service restart — I can't SSH to prod). Slices: (1) schema schemas/reminder.schema.json + global RM-NNNN id in both allocators + .pm/reminders/ paths + cli loader/finder/types. (2) shared pure scheduling cli/src/lib/reminder-schedule.ts (offsets, due-window, recurrence roll-forward, occurrence-keyed fire-once ledger) + 15 unit tests green. (4) MCP tools pm_create/list/get/update_reminder registered; tools-list test updated. (5) comms: reminder_due event + reminder entity kind + template + runReminderEntities poller pass wired into `pm-comms remind` (fires due via dispatch, records ledger, advances recurrence/closes one-shots). (6) web: /reminders page (create/edit/dismiss/delete), 'Reminders due' dashboard card, top-nav Bell entry, types/loader re-export. (7) SCHEMA.md Reminder section + RM- id space (docs-drift OK); ADR-048 filed. Full-repo typecheck clean; web build clean (/reminders route compiled); cli reminder tests 15/15, mcp tools-list + cross-project 10/10, comms 38/38. Pre-existing cli smoke + mcp round-trip failures are the missing-.pm-fixture issue, unrelated."
 labels:
   - reminders
   - dashboard
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
