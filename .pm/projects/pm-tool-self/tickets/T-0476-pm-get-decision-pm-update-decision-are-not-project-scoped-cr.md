@@ -4,7 +4,7 @@ title: Cross-project id ambiguity in per-project entity lookups/writes (decision
 type: bug
 state: in_progress
 created: 2026-06-23T18:58:35Z
-updated: 2026-07-01T14:18:58Z
+updated: 2026-07-01T14:29:32Z
 project: pm-tool-self
 section: null
 parent: null
@@ -56,6 +56,27 @@ agent_runs:
     model: claude-opus-4-8
     started: 2026-07-01T14:18:58Z
     status: in_progress
+    progress:
+      - at: 2026-07-01T14:29:32Z
+        note: "Fix implemented + tested (not yet committed). Added a shared `resolveProjectScopedId(id, dirForSlug, projectSlug?)` in mcp-server/src/lib/paths.ts that collects matches across scanned projects and THROWS an explicit ambiguity error (naming the clashing projects) when the id is omitted-project and exists in >1 project — instead of silently returning the first match. Routed all five per-project finders through it: findDecisionPath (now gains an optional projectSlug — it had none, the root cause), findSprintPath, findMilestonePath, findPhasePath, findTechSessionPath. Added optional `project` to pm_get_decision + pm_update_decision schemas and threaded it in (mirrors pm_create_decision). The sprint/milestone/phase/tech-session tools already passed args.project through, so they inherit the guard with no tool-layer change. Made complete-run's TS-existence check tolerant of the new throw (a clash still counts as 'exists' for the close-the-loop gate). New regression test tests/cross-project-id.test.ts (7 tests, all green): supplied-project resolves correct record, ambiguous+no-project throws for ADR/SPR/MS, error names both projects, unique id still resolves when project omitted, missing id returns null, pm_get_decision returns the right project's ADR / refuses ambiguous. tsc --noEmit clean. NOTE: repo round-trip.test.ts fails in this checkout because it seeds from a repo-root .pm/ that isn't present here — pre-existing, unrelated to this change (baseline failed identically before my edits). NOTE: meetings (findMeetingPath, org-bucket variant) were left as-is — out of this ticket's stated scope; flag as a possible follow-up."
+    test_plan: |-
+      ## Reviewer checklist (T-0476)
+
+      ### Automated
+      - `cd mcp-server && bun test tests/cross-project-id.test.ts` → 7 pass. (Self-contained two-project fixture with colliding ADR-001/SPR-001/MS-001.)
+      - `cd mcp-server && bunx tsc --noEmit` → clean.
+      - Known non-issue: `tests/round-trip.test.ts` fails here with ENOENT on `pm-tool/.pm` — that fixture seeds from a repo-root `.pm/` absent in this code checkout; failure predates this change. Run it in an environment that has the seed `.pm/` to see it green.
+
+      ### Manual via MCP (live)
+      - `pm_get_decision {id: "ADR-001"}` with ADR-001 existing in ≥2 projects → now ERRORS with an ambiguity message naming the projects (previously returned the wrong project's ADR).
+      - `pm_get_decision {id: "ADR-001", project: "<slug>"}` → returns THAT project's ADR (check the `path`/`project` in the result).
+      - `pm_update_decision {id: "ADR-00X", project: "<slug>", state/title/...}` → edits only that project's ADR; omitting `project` on a clashing id errors instead of clobbering another project's record (this is the bug that destroyed target-tracker's ADR-002).
+      - `pm_get_sprint` / `pm_get_milestone` / `pm_get_phase` / `pm_get_tech_session` with a clashing short id and NO `project` → now error on ambiguity; with `project` → resolve correctly. A globally-unique id still resolves with `project` omitted (back-compat).
+
+      ### Cross-impact to re-check
+      - `pm_complete_run`: the records attestation gate validates the `tech_session` TS-id via `findTechSessionPath`. It now tolerates an ambiguous TS-id (treats as "exists") so closing a run is never blocked by a cross-project TS clash — verify a completed run with a valid `tech_session` still closes, and a bogus `TS-999` still rejects with "does not resolve".
+      - Sprint/milestone/phase/tech-session GET/UPDATE/SET/STATE/DELETE tools all share the same finders — smoke-test one write op per family with `project` supplied.
+      - Meetings deliberately unchanged (org-bucket resolver) — not part of this fix.
 labels:
   - bug
   - mcp-server
@@ -65,7 +86,7 @@ labels:
   - milestones
   - concurrency
 attention: null
-version: 5
+version: 6
 ---
 
 ## Problem
