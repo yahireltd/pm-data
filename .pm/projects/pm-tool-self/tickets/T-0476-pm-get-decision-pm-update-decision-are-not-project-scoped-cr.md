@@ -2,9 +2,9 @@
 id: T-0476
 title: Cross-project id ambiguity in per-project entity lookups/writes (decisions, sprints, milestones, tech-sessions, phases) → silent wrong reads + record clobbering
 type: bug
-state: in_progress
+state: review
 created: 2026-06-23T18:58:35Z
-updated: 2026-07-01T14:29:32Z
+updated: 2026-07-01T14:50:03Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,28 +55,49 @@ agent_runs:
   - id: run-20260701-1418
     model: claude-opus-4-8
     started: 2026-07-01T14:18:58Z
-    status: in_progress
+    status: completed
     progress:
       - at: 2026-07-01T14:29:32Z
         note: "Fix implemented + tested (not yet committed). Added a shared `resolveProjectScopedId(id, dirForSlug, projectSlug?)` in mcp-server/src/lib/paths.ts that collects matches across scanned projects and THROWS an explicit ambiguity error (naming the clashing projects) when the id is omitted-project and exists in >1 project — instead of silently returning the first match. Routed all five per-project finders through it: findDecisionPath (now gains an optional projectSlug — it had none, the root cause), findSprintPath, findMilestonePath, findPhasePath, findTechSessionPath. Added optional `project` to pm_get_decision + pm_update_decision schemas and threaded it in (mirrors pm_create_decision). The sprint/milestone/phase/tech-session tools already passed args.project through, so they inherit the guard with no tool-layer change. Made complete-run's TS-existence check tolerant of the new throw (a clash still counts as 'exists' for the close-the-loop gate). New regression test tests/cross-project-id.test.ts (7 tests, all green): supplied-project resolves correct record, ambiguous+no-project throws for ADR/SPR/MS, error names both projects, unique id still resolves when project omitted, missing id returns null, pm_get_decision returns the right project's ADR / refuses ambiguous. tsc --noEmit clean. NOTE: repo round-trip.test.ts fails in this checkout because it seeds from a repo-root .pm/ that isn't present here — pre-existing, unrelated to this change (baseline failed identically before my edits). NOTE: meetings (findMeetingPath, org-bucket variant) were left as-is — out of this ticket's stated scope; flag as a possible follow-up."
+      - at: 2026-07-01T14:42:42Z
+        note: "Folded meetings into the fix and shipped the code. Generalized the resolver into scanScopesForId (handles the org bucket via a project:null scope) + a resolveProjectScopedId wrapper; findMeetingPath now routes through it and throws on a cross-scope M- clash (project↔project or project↔org). Regression test extended to 8 cases incl. meetings (project clash throws; supplied project disambiguates; an org-only M-050 still resolves with project:null). cli+mcp typecheck clean. Committed + pushed to master as 51aab7b (T-0476 fix: project-scope per-project id lookups). Deploy pending: prod SSH to support.yahire.com is blocked in this sandbox pending Austin's approval — handing over the git-pull + restart pm-mcp step. Post-deploy test = pull a specific project's SPR/MS/ADR with the project param and confirm id-only lookups now error on ambiguity."
     test_plan: |-
-      ## Reviewer checklist (T-0476)
+      ## Verified live in production (post-deploy)
+      - `pm_get_sprint {id: SPR-002, project: demo-neon-smash}` → returned demo-neon-smash's Sprint 2. ✓
+      - `pm_get_milestone {id: MS-003, project: demo-neon-smash}` → returned demo-neon-smash's M3. ✓
+      - `pm_get_decision {id: ADR-003, project: demo-neon-smash}` → returned demo-neon-smash's ADR-003 (new `project` param works through the live MCP without a client reconnect). ✓
+      - Id-only lookups on clashing ids now ERROR with the clashing projects named:
+        - `pm_get_sprint {id: SPR-001}` → "ambiguous … (pm-tool-self, demo-neon-smash, logistics-route-planning-rollout)". ✓
+        - `pm_get_milestone {id: MS-001}` → ambiguous across 4 projects. ✓
+        - `pm_get_decision {id: ADR-001}` → ambiguous across 5 projects (incl. target-tracker + sales-segmentation — the exact pair from the original clobber). ✓
 
-      ### Automated
-      - `cd mcp-server && bun test tests/cross-project-id.test.ts` → 7 pass. (Self-contained two-project fixture with colliding ADR-001/SPR-001/MS-001.)
+      ## Automated
+      - `cd mcp-server && bun test tests/cross-project-id.test.ts` → 8 pass (self-contained two-project fixture with colliding ADR-001/SPR-001/MS-001/M-001, incl. org-bucket meeting).
       - `cd mcp-server && bunx tsc --noEmit` → clean.
-      - Known non-issue: `tests/round-trip.test.ts` fails here with ENOENT on `pm-tool/.pm` — that fixture seeds from a repo-root `.pm/` absent in this code checkout; failure predates this change. Run it in an environment that has the seed `.pm/` to see it green.
+      - Note: `tests/round-trip.test.ts` fails in a code-only checkout (it seeds from a repo-root `.pm/` that isn't present); pre-existing, unrelated — run it where the seed `.pm/` exists.
 
-      ### Manual via MCP (live)
-      - `pm_get_decision {id: "ADR-001"}` with ADR-001 existing in ≥2 projects → now ERRORS with an ambiguity message naming the projects (previously returned the wrong project's ADR).
-      - `pm_get_decision {id: "ADR-001", project: "<slug>"}` → returns THAT project's ADR (check the `path`/`project` in the result).
-      - `pm_update_decision {id: "ADR-00X", project: "<slug>", state/title/...}` → edits only that project's ADR; omitting `project` on a clashing id errors instead of clobbering another project's record (this is the bug that destroyed target-tracker's ADR-002).
-      - `pm_get_sprint` / `pm_get_milestone` / `pm_get_phase` / `pm_get_tech_session` with a clashing short id and NO `project` → now error on ambiguity; with `project` → resolve correctly. A globally-unique id still resolves with `project` omitted (back-compat).
+      ## Reviewer checklist / cross-impact to confirm
+      - Try `pm_update_decision {id, project, ...}` on a clashing ADR id → edits only that project's ADR; omitting `project` on a clashing id errors instead of clobbering (this is the bug that destroyed target-tracker's ADR-002).
+      - Spot-check one write op per family (sprint/milestone/phase/tech-session) with `project` supplied.
+      - `pm_complete_run`: its records-attestation gate validates the `tech_session` id via the same finder — confirm a completed run with a valid `tech_session` still closes and a bogus `TS-999` still rejects (the finder now tolerates an ambiguous TS-id as "exists" so a clash can't block a close).
+      - Meetings: `pm_get_meeting` with a clashing `M-` id and no project now errors; org-bucket meetings (project: null) still resolve.
 
-      ### Cross-impact to re-check
-      - `pm_complete_run`: the records attestation gate validates the `tech_session` TS-id via `findTechSessionPath`. It now tolerates an ambiguous TS-id (treats as "exists") so closing a run is never blocked by a cross-project TS clash — verify a completed run with a valid `tech_session` still closes, and a bogus `TS-999` still rejects with "does not resolve".
-      - Sprint/milestone/phase/tech-session GET/UPDATE/SET/STATE/DELETE tools all share the same finders — smoke-test one write op per family with `project` supplied.
-      - Meetings deliberately unchanged (org-bucket resolver) — not part of this fix.
+      ## Scope note
+      - Only T-/P- ids are globally unique; every per-project id space is covered. Documented in SCHEMA.md (ID allocation → "Resolving per-project ids").
+    ended: 2026-07-01T14:50:03Z
+    summary: |-
+      **What we did** — Fixed a data-integrity flaw in how the tool looks things up by their short id. Sprints, milestones, decisions (ADRs), phases, tech-sessions and meetings all number themselves starting at 1 inside each project, so the same short number exists in many projects at once. Previously, asking for one of these by number alone would quietly return whichever project's copy it found first — and editing by number alone could overwrite the wrong project's record. Now you tell it which project you mean; and if you don't, and the number exists in more than one project, it stops and says exactly which projects clash instead of guessing.
+
+      **Why** — This had already silently returned the wrong project's decision, and once destroyed a real decision record by overwriting it. As we run more projects side by side, the clashes only get more common.
+
+      **What would have happened if we did nothing** — People and agents would keep occasionally reading the wrong project's data (and making calls on it) and, worse, overwriting the wrong project's records — quietly corrupting the history each time.
+
+      **The benefit** — Lookups and edits now hit exactly the record you meant, and an ambiguous request fails loudly with a clear message rather than doing the wrong thing silently. Verified live in production against real projects.
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
+      docs_note: SCHEMA.md — new 'Resolving per-project ids' subsection under ID allocation; documents that only T-/P- are global and that per-project ids need `project` to disambiguate.
 labels:
   - bug
   - mcp-server
@@ -85,8 +106,11 @@ labels:
   - sprints
   - milestones
   - concurrency
-attention: null
-version: 6
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-01T14:50:03Z
+version: 8
 ---
 
 ## Problem
@@ -115,3 +139,11 @@ This is a cross-project **data-integrity** bug. It silently returns the wrong pr
 So the fix is one consistent rule across all of them: scope resolution to `project` when given, and **error on ambiguity** (id in ≥2 projects) instead of first-match. Title, acceptance criteria and code anchors updated to cover the full entity set.
 
 Note this is distinct from T-0316 (done), which fixed *concurrent-create duplicate ids* — a different bug. This one is *cross-project lookup ambiguity*.
+
+**2026-07-01 14:50 claude-code:** Run run-20260701-1418 completed — **What we did** — Fixed a data-integrity flaw in how the tool looks things up by their short id. Sprints, milestones, decisions (ADRs), phases, tech-sessions and meetings all number themselves starting at 1 inside each project, so the same short number exists in many projects at once. Previously, asking for one of these by number alone would quietly return whichever project's copy it found first — and editing by number alone could overwrite the wrong project's record. Now you tell it which project you mean; and if you don't, and the number exists in more than one project, it stops and says exactly which projects clash instead of guessing.
+
+**Why** — This had already silently returned the wrong project's decision, and once destroyed a real decision record by overwriting it. As we run more projects side by side, the clashes only get more common.
+
+**What would have happened if we did nothing** — People and agents would keep occasionally reading the wrong project's data (and making calls on it) and, worse, overwriting the wrong project's records — quietly corrupting the history each time.
+
+**The benefit** — Lookups and edits now hit exactly the record you meant, and an ambiguous request fails loudly with a clear message rather than doing the wrong thing silently. Verified live in production against real projects.

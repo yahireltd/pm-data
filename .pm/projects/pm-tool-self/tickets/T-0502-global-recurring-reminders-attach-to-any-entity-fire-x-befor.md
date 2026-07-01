@@ -2,9 +2,9 @@
 id: T-0502
 title: Global recurring reminders — attach to any entity, fire X-before a date, multiple reminders + repeat, surface on dashboards
 type: feature
-state: ready
+state: in_progress
 created: 2026-07-01T14:16:23Z
-updated: 2026-07-01T14:18:09Z
+updated: 2026-07-01T14:51:21Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,9 @@ priority: p2
 reporter:
   kind: human
   name: austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - A reminder can be attached to any entity (ticket, project, milestone, sprint, meeting, decision, and a free-standing/global reminder not tied to an entity) — not meetings-only as today
   - A reminder targets a date (an explicit due date, or a field on the entity e.g. a renewal/expiry date) and fires a configurable lead time BEFORE that date (e.g. 30d / 7d / 1d before)
@@ -42,12 +44,16 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260701-1451
+    model: claude-opus-4-8
+    started: 2026-07-01T14:51:21Z
+    status: in_progress
 labels:
   - reminders
   - dashboard
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
