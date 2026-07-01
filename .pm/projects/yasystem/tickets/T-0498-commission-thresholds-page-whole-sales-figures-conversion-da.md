@@ -2,9 +2,9 @@
 id: T-0498
 title: "Commission Thresholds page: whole-£ sales figures, conversion-date ordering + note system"
 type: feature
-state: review
+state: done
 created: 2026-07-01T05:57:29Z
-updated: 2026-07-01T06:11:15Z
+updated: 2026-07-01T06:12:44Z
 project: yasystem
 section: null
 parent: null
@@ -77,15 +77,16 @@ agent_runs:
       13. Confirm the existing Commission Split modal, Assignment History modal, and SYSTEM "Assign to AM" panel on the same page still work (shared page/JS was edited around them).
       14. New note type is contractnotes type 13 — confirm it does not appear in other note surfaces (delivery/collection/sales/logistics notes etc. are types 1-12 and should be unaffected).
     records:
-      docs: none-needed
+      docs: updated
       tech_session: none-needed
       status_note: none-needed
+      docs_note: actionCommissionThresholds.md
 labels:
   - commission-thresholds
   - management
   - sales
 attention: null
-version: 14
+version: 16
 ---
 
 ## Problem
@@ -120,3 +121,9 @@ Implemented and syntax-checked (`php -l` clean on all three files). Not yet exer
 **2026-07-01 06:09 claude-code:** **Decision — note visibility (2026-07-01):** Notes stay **admin/manager-only**, as built. We considered letting salespeople *view* (but not edit) notes, since the "why it wasn't split" reasoning could be useful to the booker. Zsolt's call: keep it locked down for now — if Nathan wants salespeople to see notes, we'll revisit then.
 
 Implementation matches this: salespeople get no editable pencil (read-only green icon where a note exists, otherwise a dash), and clicking does nothing — the note text isn't shown to them in the UI. (Minor caveat noted for the future: the note text is still present in the breakdown's JSON response, so it's technically visible via browser dev-tools; we'd strip it from non-editors' payload if/when we tighten this.)
+
+---
+
+**2026-07-01 06:12 — you**
+
+Finished the changes Ben and Nathan requested, sent them emails, so they can check the page
