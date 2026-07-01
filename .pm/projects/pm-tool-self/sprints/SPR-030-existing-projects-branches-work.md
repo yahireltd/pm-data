@@ -3,10 +3,10 @@ id: SPR-030
 slug: existing-projects-branches-work
 title: Existing Projects / Branches Work
 project: pm-tool-self
-state: in_progress
+state: completed
 order: 30720
 created: 2026-06-10T18:56:01Z
-updated: 2026-06-12T02:08:15Z
+updated: 2026-07-01T15:26:24Z
 committed_items:
   - T-0352
   - T-0351
@@ -28,10 +28,11 @@ capacity:
   total: 8
   unit: tickets
 velocity_committed: 8
-version: 13
+version: 14
 goal: Organise how we manage maintainece of existing projects with different branches that are exploring features and recording the work in a single place
 start_date: 2026-06-10
 end_date: 2026-06-25
+velocity_actual: 9
 ---
 
 # SPR-030: Existing Projects / Branches Work

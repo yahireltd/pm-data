@@ -2,9 +2,9 @@
 id: T-0502
 title: Global recurring reminders — attach to any entity, fire X-before a date, multiple reminders + repeat, surface on dashboards
 type: feature
-state: in_progress
+state: review
 created: 2026-07-01T14:16:23Z
-updated: 2026-07-01T15:20:29Z
+updated: 2026-07-01T15:33:52Z
 project: pm-tool-self
 section: null
 parent: null
@@ -48,15 +48,65 @@ agent_runs:
   - id: run-20260701-1451
     model: claude-opus-4-8
     started: 2026-07-01T14:51:21Z
-    status: in_progress
+    status: completed
     progress:
       - at: 2026-07-01T15:20:29Z
         note: "Full end-to-end feature built, typechecked, built, committed + pushed (33b2442). Awaiting deploy (needs web build + service restart — I can't SSH to prod). Slices: (1) schema schemas/reminder.schema.json + global RM-NNNN id in both allocators + .pm/reminders/ paths + cli loader/finder/types. (2) shared pure scheduling cli/src/lib/reminder-schedule.ts (offsets, due-window, recurrence roll-forward, occurrence-keyed fire-once ledger) + 15 unit tests green. (4) MCP tools pm_create/list/get/update_reminder registered; tools-list test updated. (5) comms: reminder_due event + reminder entity kind + template + runReminderEntities poller pass wired into `pm-comms remind` (fires due via dispatch, records ledger, advances recurrence/closes one-shots). (6) web: /reminders page (create/edit/dismiss/delete), 'Reminders due' dashboard card, top-nav Bell entry, types/loader re-export. (7) SCHEMA.md Reminder section + RM- id space (docs-drift OK); ADR-048 filed. Full-repo typecheck clean; web build clean (/reminders route compiled); cli reminder tests 15/15, mcp tools-list + cross-project 10/10, comms 38/38. Pre-existing cli smoke + mcp round-trip failures are the missing-.pm-fixture issue, unrelated."
+    ended: 2026-07-01T15:33:52Z
+    summary: |-
+      **What we did** — Added reminders to the tool. You can now set a reminder against anything — a ticket, a project, a renewal date, or a standalone "remind me" — tell it to nudge you at several points before the date (say 30, 7, and 1 day before), and have it repeat (e.g. every year for a renewal). Due reminders show up on the dashboard in a new "Reminders due" card and on a dedicated Reminders page, and can optionally also email the people you list. It's built, deployed, and reachable from the top-nav "Reminders" entry.
+
+      **Why** — Reminders previously only existed for meetings. There was no way to be reminded about a contract/certificate renewal, a ticket that needs chasing, or any dated thing — and no way to be nudged more than once or on a repeating cycle. Renewals and deadlines were relying on someone remembering.
+
+      **What would have happened if we did nothing** — Renewals, expiries and follow-ups would keep depending on memory and ad-hoc notes, so things would occasionally slip — exactly the kind of quiet miss that's expensive when it's a lapsed contract or certificate.
+
+      **The benefit** — Anything with a date can now nudge you ahead of time, as many times as you want, on repeat, visible the moment you open the tool. Agents can create and manage them too. Delivered as a first-class, reusable capability (recorded as ADR-048) rather than a one-off.
+    test_plan: |-
+      ## Status
+      Built, typechecked, unit-tested, web-built, committed (33b2442), pushed, and DEPLOYED to support.yahire.com. The one thing NOT done from the agent session: the live click-through / MCP smoke test — my chat's MCP connection predated the pm-mcp restart, so the 4 new reminder tools weren't callable from it (new MCP tools need a client reconnect; a session restart fixes it). So the live verification below is the reviewer's to run.
+
+      ## Automated (already green)
+      - `cd cli && bun test tests/reminder-schedule.test.ts` → 15/15 (offsets, due-window, recurrence roll-forward, fire-once ledger, calendar math).
+      - `cd mcp-server && bun test tests/tools-list.test.ts tests/cross-project-id.test.ts` → 10/10 (the 4 reminder tools are advertised).
+      - `cd comms && bun test` → 38/38. Full-repo `bun run typecheck` clean; `web` production build clean (/reminders route compiled).
+      - Known non-issue: cli `smoke.test.ts` + mcp `round-trip.test.ts` fail in this code checkout for lack of a seed `.pm/` fixture — pre-existing, unrelated.
+
+      ## Live verification (please run)
+      ### Web
+      1. Top nav → **Reminders** (Bell) → **New reminder**: title, a date ~2–3 weeks out, offsets `30d, 7d, 1d`, Repeat = every year, optionally tick email → **Create**.
+      2. It appears in the list with a "next" fire time; the **dashboard** shows it under **"Reminders due"** (soonest-first; overdue ones flag amber).
+      3. **Dismiss** hides it from the card; **Reactivate** brings it back; **Delete** removes it.
+      4. Attach one to a ticket (target type=ticket, id=T-XXXX) → the card row links to that ticket.
+
+      ### MCP (after reconnecting so the tools load)
+      - `pm_create_reminder {title, anchor_date, offsets:["30d","7d","1d"], recurrence:{unit:"year",interval:1}, target:{type:"ticket", id:"T-0261"}}` → returns RM-000N.
+      - `pm_get_reminder {id}` → shows next_fire = the soonest upcoming offset; `pm_list_reminders` → soonest-first.
+      - `pm_update_reminder {id, state:"dismissed"}` then `{state:"active"}` → toggles; `{offsets:[...]}` edits.
+
+      ### Email + recurrence (background, verify over time)
+      - With `email` in channels + stakeholders set, the `pm-comms-remind` timer (5-min) fires a `reminder_due` email at each offset's time and records it in `reminders_sent` (never double-sends).
+      - After an anchor date passes: a recurring reminder auto-advances to next year (re-arms); a one-shot flips to `done` and drops off the card.
+
+      ## Cross-impact
+      - New global id space `RM-` in both id allocators — existing ids untouched (counter seeded from a dir scan).
+      - comms `dispatch()`/`readEntity` gained a `reminder` entity kind + `reminder_due` event; meeting reminders are unchanged (separate path). The `pm-comms remind` tick now runs both passes.
+      - Web dashboard added a section between Upcoming meetings and Product backlog; nothing else on the dashboard changed.
+
+      ## Known limitation (documented in ADR-048)
+      - Month/year recurrence uses JS UTC calendar math, so month-overflow dates behave like JS (e.g. Jan-31 + 1 month → Mar-03). Fine for annual/monthly/weekly/daily renewals.
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
+      docs_note: SCHEMA.md — new 'Reminder (RM-NNNN)' section + RM- in the ID allocation list. Design recorded as ADR-048 (pm-tool-self).
 labels:
   - reminders
   - dashboard
-attention: null
-version: 5
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-01T15:33:52Z
+version: 6
 ---
 
 ## Problem
@@ -83,3 +133,11 @@ Build on the meeting-reminder foundation rather than starting fresh:
 Relates to T-0197 / T-0160 (meeting reminders) and ADR-018 (reminder architecture).
 
 ## Conversation
+
+**2026-07-01 15:33 claude-code:** Run run-20260701-1451 completed — **What we did** — Added reminders to the tool. You can now set a reminder against anything — a ticket, a project, a renewal date, or a standalone "remind me" — tell it to nudge you at several points before the date (say 30, 7, and 1 day before), and have it repeat (e.g. every year for a renewal). Due reminders show up on the dashboard in a new "Reminders due" card and on a dedicated Reminders page, and can optionally also email the people you list. It's built, deployed, and reachable from the top-nav "Reminders" entry.
+
+**Why** — Reminders previously only existed for meetings. There was no way to be reminded about a contract/certificate renewal, a ticket that needs chasing, or any dated thing — and no way to be nudged more than once or on a repeating cycle. Renewals and deadlines were relying on someone remembering.
+
+**What would have happened if we did nothing** — Renewals, expiries and follow-ups would keep depending on memory and ad-hoc notes, so things would occasionally slip — exactly the kind of quiet miss that's expensive when it's a lapsed contract or certificate.
+
+**The benefit** — Anything with a date can now nudge you ahead of time, as many times as you want, on repeat, visible the moment you open the tool. Agents can create and manage them too. Delivered as a first-class, reusable capability (recorded as ADR-048) rather than a one-off.
