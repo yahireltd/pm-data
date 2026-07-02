@@ -2,9 +2,9 @@
 id: T-0511
 title: Reminder times should be entered in local (UK) time, not UTC
 type: bug
-state: review
+state: done
 created: 2026-07-02T17:45:45Z
-updated: 2026-07-02T17:47:58Z
+updated: 2026-07-02T18:44:56Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,10 +18,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - The reminder time field takes local (UK) wall-clock time — entering 18:45 fires at 18:45 UK and shows 18:45 in the list
-  - Editing a reminder shows the time in local time (stored UTC converted back), and re-saving without changes doesn't shift it
-  - A time near midnight that crosses the UTC date boundary stores the correct UTC date (fires at the right instant)
-  - The list row's anchor date/time displays in local time when a time is set; date-only reminders are unchanged
+  - "[x] The reminder time field takes local (UK) wall-clock time — entering 18:45 fires at 18:45 UK and shows 18:45 in the list"
+  - "[x] Editing a reminder shows the time in local time (stored UTC converted back), and re-saving without changes doesn't shift it"
+  - "[x] A time near midnight that crosses the UTC date boundary stores the correct UTC date (fires at the right instant)"
+  - "[x] The list row's anchor date/time displays in local time when a time is set; date-only reminders are unchanged"
 out_of_scope: []
 code_anchors:
   - path: web/app/reminders/RemindersManager.tsx
@@ -45,11 +45,8 @@ agent_runs:
 labels:
   - reminders
   - dogfood-finding
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-02T17:47:58Z
-version: 4
+attention: null
+version: 10
 ---
 
 ## Problem
@@ -63,3 +60,9 @@ Keep storage in UTC (schema + scheduler unchanged); convert at the form boundary
 ## Conversation
 
 **2026-07-02 17:47 claude-code:** Run run-20260702-1745 completed — Reminder times now work in UK time, the way you'd expect. Before, the time box quietly wanted UTC: you typed 18:45 meaning UK time, but the list then showed 19:45 because Britain is an hour ahead of UTC in summer — so what you typed and what you saw never matched, and you had to do the mental maths yourself (entering 17:45 to get 18:45). Now you type the time as it reads on your clock, and that same time is what shows everywhere — the list, the edit form, and when it actually fires. Under the hood it's still stored in the universal format the scheduler needs (including handling the clocks-change days and times near midnight correctly), so nothing about the sending machinery changed. If we'd left it, every timed reminder would risk firing an hour off or forcing UTC arithmetic on whoever sets it. Benefit: what you type is what you get.
+
+---
+
+**2026-07-02 18:44 — you**
+
+done

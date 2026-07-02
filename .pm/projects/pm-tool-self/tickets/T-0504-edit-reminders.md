@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-07-02T11:58:30Z
-updated: 2026-07-02T12:22:25Z
+updated: 2026-07-02T18:45:27Z
 project: pm-tool-self
 section: null
 parent: null
@@ -17,10 +17,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Global reminders on /reminders have an Edit button that opens a pre-filled form and saves via updateReminder
-  - Lead times are picked as day checkboxes (0,1,2,3,4,5,7,14,30) in both create and edit, not a free-text field
-  - Editing a reminder preserves any non-preset (hours/weeks) offset rather than dropping it
-  - Meeting reminders already have an inline add/remove editor (RemindersEditor) — no change needed there
+  - "[x] Global reminders on /reminders have an Edit button that opens a pre-filled form and saves via updateReminder"
+  - "[x] Lead times are picked as day checkboxes (0,1,2,3,4,5,7,14,30) in both create and edit, not a free-text field"
+  - "[x] Editing a reminder preserves any non-preset (hours/weeks) offset rather than dropping it"
+  - "[x] Meeting reminders already have an inline add/remove editor (RemindersEditor) — no change needed there"
 out_of_scope: []
 code_anchors:
   - path: web/app/reminders/RemindersManager.tsx
@@ -48,7 +48,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-02T12:22:25Z
-version: 8
+version: 12
 ---
 
 No curent way to edit reminders Global or meeting
