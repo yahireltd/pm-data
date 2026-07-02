@@ -4,7 +4,7 @@ title: "INCIDENT: Xero overpayments double-posted — two concurrent xero/run-po
 type: incident
 state: triaged
 created: 2026-07-02T14:48:35Z
-updated: 2026-07-02T14:48:35Z
+updated: 2026-07-02T15:02:04Z
 project: yasystem
 section: null
 parent: null
@@ -40,7 +40,7 @@ labels:
   - accounts
   - incident
 attention: null
-version: 1
+version: 2
 ---
 
 ## What happened
@@ -71,3 +71,30 @@ Why only overpayments doubled:
 ## Test plan (for the guard fix, once implemented)
 - Submit Run postAll, immediately press it again → second attempt shows "a posting run is already in progress", logs show ONE stream only.
 - Confirm a normal single run still completes and the button re-enables/next-day run works.
+
+## Conversation
+
+**2026-07-02 15:02 claude-code:** **Damage confirmed and repair tooling built (working tree on master, NOT yet committed — awaiting Austin's approval).**
+
+**Scale:** 232 duplicate pairs confirmed from xero_posting_logs — 199 payment overpayments (48587–48824) + 33 deposit-only overpayments.
+
+**Austin's key concern, addressed as the core design rule:** allocations were made against a MIX of first-run and second-run copies (e.g. payment 48587's allocation went to the second copy bb9c2fbb…), and local `xeroOverpaymentID` holds whichever batch saved last. So neither "delete the second UUID" nor "trust the DB" is safe. The tool trusts only Xero:
+
+1. For every pair it GETs BOTH copies from Xero and reads status/total/remaining/allocations.
+2. The copy WITH allocations is the keeper. The local record (payments/deposits + any linked mirror deposit rows) is repointed at the keeper BEFORE any deletion.
+3. A twin is deleted only if Xero confirms zero allocations and full credit remaining — re-verified in the same request that deletes it (RECEIVE-OVERPAYMENT bank transaction → status DELETED, located via the `PaymentID:`/`DepositID:` reference we stamp at creation).
+4. If BOTH copies carry allocations → MANUAL_REVIEW, nothing touched, accounts must unallocate one in Xero first.
+5. Every repoint/delete is written to xero_posting_logs (`*_dedupe` model types) for audit.
+
+**New files/changes:**
+- `common/services/XeroOverpaymentDedupeService.php` — the logic above.
+- `XeroController::actionDedupeOverpayments` — browser-run (Xero token is session-bound), plain-text report. **Dry-run by default**; `&execute=1` applies; `&limit=N` for a trial batch.
+- `XeroController::actionRunPost` — MySQL GET_LOCK concurrency guard: a second trigger returns "already in progress" and logs the blocked attempt (connection-scoped lock, self-releasing on crash).
+- `backend/views/xero/post.php` — submit button disables on click; JS now surfaces the "already running" state instead of falsely reporting "Posting complete".
+
+**Run procedure (after deploy):**
+1. Log into backend with a Xero-connected session → `/xero/dedupe-overpayments` (dry-run) → review the full report with accounts, especially any MANUAL_REVIEW rows.
+2. Trial: `/xero/dedupe-overpayments?limit=5&execute=1` → verify in Xero UI the 5 customers now show one overpayment each and invoices remain paid.
+3. Full run: `/xero/dedupe-overpayments?execute=1` (~10-15 min, rate-limit aware).
+4. Re-run with no params — expect every row ALREADY_CLEAN.
+5. Guard test: start a posting run, click Run postAll again in a second tab → "already in progress".
