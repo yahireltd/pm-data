@@ -2,10 +2,10 @@
 id: T-0334
 title: adding document uploads to meetings
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-10T00:01:59Z
-updated: 2026-07-02T12:51:05Z
+updated: 2026-07-02T18:10:22Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,9 +16,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - A meeting can have documents/files attached, the same way tickets already support attachments
-  - Attached documents are listed on the meeting and can be downloaded
-  - Uploads reuse the existing ticket-attachment storage/mechanism rather than a new one
+  - "[x] A meeting can have documents/files attached, the same way tickets already support attachments"
+  - "[x] Attached documents are listed on the meeting and can be downloaded"
+  - "[x] Uploads reuse the existing ticket-attachment storage/mechanism rather than a new one"
 out_of_scope: []
 code_anchors:
   - path: web/app/_actions/meetings.ts
@@ -46,11 +46,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-02T12:51:05Z
-version: 8
+attention: null
+version: 13
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -61,3 +58,9 @@ same as with tickets
 ## Conversation
 
 **2026-07-02 12:51 claude-code:** Run run-20260702-1250 completed — You can now attach documents and images to a meeting, just like you already can on a ticket. Before, a meeting had nowhere to keep its agenda doc, slide deck, or a photo of the whiteboard — those had to live elsewhere and get lost. The meeting page now has an Attachments card where you upload files; each is listed with its size and who added it, downloads on click, and images open in the same zoom/pan viewer tickets use (handy for big diagrams). It reuses the exact storage tickets already use (files in S3, only the file details recorded on the meeting) rather than inventing a new one — so nothing new to configure. Works on project meetings, org-wide meetings, and pre-project meetings. If we'd left it, meeting materials would keep scattering across inboxes and drives. Benefit: a meeting's documents live with the meeting.
+
+---
+
+**2026-07-02 18:10 — you**
+
+All done and tested

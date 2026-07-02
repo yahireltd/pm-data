@@ -4,7 +4,7 @@ slug: segmentation-research
 title: Segmentation Research
 state: scheduled
 created: 2026-06-23T12:35:32Z
-updated: 2026-06-23T19:07:24Z
+updated: 2026-07-02T18:09:31Z
 scheduled_at: 2026-06-23T14:35:00Z
 duration_minutes: 30
 location: TBD
@@ -43,12 +43,18 @@ agenda:
   - topic: Research into customer segments -
   - topic: look into auto industry typing and subtyping
 outcomes: []
-attachments: []
+attachments:
+  - key: meetings/M-008/1783015770072-Screenshot_2026-06-17_at_16-00-28_Ticket_run_planner_idea_Yahire_Zendesk.png
+    filename: Screenshot 2026-06-17 at 16-00-28 Ticket run planner idea – Yahire – Zendesk.png
+    content_type: image/png
+    size: 65804
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-07-02T18:09:31Z
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 6
+version: 7
 ---
 
 # **Segmentation Research — findings brief (M-008)**
