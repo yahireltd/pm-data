@@ -4,12 +4,12 @@ title: "Re-solve strands oversized pieces: preset-split honoured merged run-cont
 type: bug
 state: triaged
 created: 2026-07-02T12:57:40Z
-updated: 2026-07-02T14:00:59Z
-project: logistics-route-planning-rollout
+updated: 2026-07-02T14:16:48Z
+project: yasystem
 section: null
 parent: null
 children: []
-order: 1024
+order: 40960
 priority: p1
 reporter:
   kind: agent
@@ -33,9 +33,12 @@ blocked_by: []
 duplicates: []
 duplicate_of: null
 agent_runs: []
-labels: []
+labels:
+  - sketch-planner
+  - route-planning
 attention: null
-version: 3
+version: 5
+branch: PickingSketchSalesDashFriday
 ---
 
 ## Problem
