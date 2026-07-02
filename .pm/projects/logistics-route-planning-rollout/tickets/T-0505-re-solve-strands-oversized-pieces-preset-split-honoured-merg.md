@@ -4,7 +4,7 @@ title: "Re-solve strands oversized pieces: preset-split honoured merged run-cont
 type: bug
 state: triaged
 created: 2026-07-02T12:57:40Z
-updated: 2026-07-02T13:39:02Z
+updated: 2026-07-02T14:00:59Z
 project: logistics-route-planning-rollout
 section: null
 parent: null
@@ -35,7 +35,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -71,3 +71,11 @@ Multiple rows alone no longer trigger honouring: every finalized solver split le
 The fleet-capacity gate from the original fix stays as a safety net for already-corrupted rows.
 
 **Test plan additions:** `PresetSplitSanityTest` now 18 cases (intent detection covered). In-app: (1) split a contract manually on the run planner, re-solve the date on the sketch — pieces keep the manual shape and show "Keep this split on finalise" ticked; finalize + re-solve again — shape still kept. (2) A solver-split contract with nothing ticked re-splits freely by capacity each re-solve. (3) Tick "keep this split" on a solver split, finalize, re-solve — shape now kept.
+
+**2026-07-02 14:00 claude-code:** **Third commit (b-branch `PickingSketchSalesDashFriday`): item-level preservation.** Austin confirmed logistics splits are sometimes item-deliberate ("chairs in van 1, staging in van 2"), so preserving weights/volumes alone wasn't enough — finalize was re-dealing the items with the weight-greedy `distributeItemsToPieces` even when the split shape was honoured.
+
+**How it works now:** before finalize's cleanup deletes the old rows, it snapshots the per-piece `ya_run_contract_items` for every split whose stops carry preserve markers (manual run-planner splits self-mark via the preset). The old rows (ordered `typeCount, id`) map 1:1 onto the new stops' `piece_sequence` because the re-solve honoured them in that same order, so the human's item assignment is replayed piece-for-piece. Guards: replay only happens when the snapshot's piece count matches the stop's `piece_count` (a capacity re-split means the snapshot no longer describes the plan → weight distribution as before), and empty/zero-qty piece maps fall back too.
+
+**Test plan additions:** `DeliberateSplitItemsTest` (5 cases) — green; full planner suites green (104 tests). In-app: split a contract on the run planner putting a distinctive item entirely in piece 2; re-solve the date on the sketch; finalize; open the run planner and check piece 2 still holds exactly that item (not a weight-balanced mix). Edge: change the split type so the solver re-splits by capacity — items should redistribute by weight (old behaviour) with no errors.
+
+**Known remaining limitation:** if the contract's items are amended AFTER the manual split (qty increased), the replayed assignment reflects the split-time quantities — same staleness the run planner itself has for manual splits. Not addressed.
