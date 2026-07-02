@@ -2,10 +2,10 @@
 id: T-0373
 title: A way to see meetings that were already held
 type: feature
-state: review
+state: in_progress
 priority: p2
 created: 2026-06-15T14:51:32Z
-updated: 2026-07-02T12:43:20Z
+updated: 2026-07-02T18:58:06Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,9 +16,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Held (past) meetings remain visible in the meetings view rather than disappearing once held
-  - Past meetings are separated from upcoming ones (e.g. a 'previous meetings' section or filter)
-  - A past meeting can be opened from that view to see its details/minutes
+  - "[x] Held (past) meetings remain visible in the meetings view rather than disappearing once held"
+  - "[x] Past meetings are separated from upcoming ones (e.g. a 'previous meetings' section or filter)"
+  - "[x] A past meeting can be opened from that view to see its details/minutes"
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/MeetingsList.tsx
@@ -41,10 +41,10 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-02T12:43:20Z
-version: 8
+  needed_by: agent
+  reason: It is possible for meetings within projects but the main meetings tab on the left nav doesnt show past meetings
+  since: 2026-07-02T18:58:05Z
+version: 13
 collaborators:
   - kind: human
     name: Austin Pickering

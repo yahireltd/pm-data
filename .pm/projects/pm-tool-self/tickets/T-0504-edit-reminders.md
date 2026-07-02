@@ -2,10 +2,10 @@
 id: T-0504
 title: Edit Reminders
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-07-02T11:58:30Z
-updated: 2026-07-02T18:45:27Z
+updated: 2026-07-02T18:50:31Z
 project: pm-tool-self
 section: null
 parent: null
@@ -44,11 +44,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-02T12:22:25Z
-version: 12
+attention: null
+version: 14
 ---
 
 No curent way to edit reminders Global or meeting
@@ -56,3 +53,9 @@ No curent way to edit reminders Global or meeting
 ## Conversation
 
 **2026-07-02 12:22 claude-code:** Run run-20260702-1222 completed — You can now edit a reminder after creating it, and you pick when it fires from tick-boxes instead of typing codes. Before, the Reminders page could only create, dismiss or delete a reminder — if you got the date or the lead times wrong, you had to delete it and start over. Now every reminder has an Edit button that opens the same form pre-filled, so you can fix the title, date, repeat, email option or lead times in place. The "remind me before" field used to be a text box where you typed things like "30d, 7d, 1d"; it's now a row of day tick-boxes (on the day, 1, 2, 3, 4, 5, 7, 14, 30 days before) that you just check. If we'd left it, reminders would stay awkward to correct and the code-style text box would keep tripping people up. Benefit: reminders are quick to get right and adjust, with no jargon.
+
+---
+
+**2026-07-02 18:50 — you**
+
+done

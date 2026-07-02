@@ -2,9 +2,9 @@
 id: T-0502
 title: Global recurring reminders — attach to any entity, fire X-before a date, multiple reminders + repeat, surface on dashboards
 type: feature
-state: review
+state: done
 created: 2026-07-01T14:16:23Z
-updated: 2026-07-01T15:33:52Z
+updated: 2026-07-02T18:56:26Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,14 +18,14 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - A reminder can be attached to any entity (ticket, project, milestone, sprint, meeting, decision, and a free-standing/global reminder not tied to an entity) — not meetings-only as today
-  - A reminder targets a date (an explicit due date, or a field on the entity e.g. a renewal/expiry date) and fires a configurable lead time BEFORE that date (e.g. 30d / 7d / 1d before)
-  - More than one reminder can be set on the same target (e.g. 30d AND 7d AND 1d before) — a list of offsets, each fired once
-  - "Reminders can repeat: a recurrence (e.g. annually for a renewal) so the next cycle's reminders are re-armed automatically after the date passes"
-  - Due/upcoming reminders surface on the dashboard (a 'Reminders due' card, soonest-first, across projects), analogous to the Upcoming Meetings card
-  - "Firing reuses the ADR-018 pattern: a poller + a sent-ledger keyed to (reminder id, occurrence) so each reminder/occurrence fires exactly once and survives restarts; no duplicate sends"
-  - Optional delivery via the existing comms path (email) in addition to the dashboard surface
-  - Reminders can be created/edited/dismissed from the web UI and via an MCP tool
+  - "[x] A reminder can be attached to any entity (ticket, project, milestone, sprint, meeting, decision, and a free-standing/global reminder not tied to an entity) — not meetings-only as today"
+  - "[x] A reminder targets a date (an explicit due date, or a field on the entity e.g. a renewal/expiry date) and fires a configurable lead time BEFORE that date (e.g. 30d / 7d / 1d before)"
+  - "[x] More than one reminder can be set on the same target (e.g. 30d AND 7d AND 1d before) — a list of offsets, each fired once"
+  - "[x] Reminders can repeat: a recurrence (e.g. annually for a renewal) so the next cycle's reminders are re-armed automatically after the date passes"
+  - "[x] Due/upcoming reminders surface on the dashboard (a 'Reminders due' card, soonest-first, across projects), analogous to the Upcoming Meetings card"
+  - "[x] Firing reuses the ADR-018 pattern: a poller + a sent-ledger keyed to (reminder id, occurrence) so each reminder/occurrence fires exactly once and survives restarts; no duplicate sends"
+  - "[x] Optional delivery via the existing comms path (email) in addition to the dashboard surface"
+  - "[x] Reminders can be created/edited/dismissed from the web UI and via an MCP tool"
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/RemindersEditor.tsx
@@ -102,11 +102,8 @@ agent_runs:
 labels:
   - reminders
   - dashboard
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-01T15:33:52Z
-version: 6
+attention: null
+version: 16
 ---
 
 ## Problem
@@ -141,3 +138,9 @@ Relates to T-0197 / T-0160 (meeting reminders) and ADR-018 (reminder architectur
 **What would have happened if we did nothing** — Renewals, expiries and follow-ups would keep depending on memory and ad-hoc notes, so things would occasionally slip — exactly the kind of quiet miss that's expensive when it's a lapsed contract or certificate.
 
 **The benefit** — Anything with a date can now nudge you ahead of time, as many times as you want, on repeat, visible the moment you open the tool. Agents can create and manage them too. Delivered as a first-class, reusable capability (recorded as ADR-048) rather than a one-off.
+
+---
+
+**2026-07-02 18:56 — you**
+
+done
