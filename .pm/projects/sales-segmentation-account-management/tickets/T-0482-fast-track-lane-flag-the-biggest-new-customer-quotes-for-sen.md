@@ -4,7 +4,7 @@ title: Fast-track lane — flag the biggest new-customer quotes for senior atten
 type: feature
 state: review
 created: 2026-06-26T22:23:18Z
-updated: 2026-07-02T12:14:32Z
+updated: 2026-07-02T19:00:07Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0457
@@ -86,7 +86,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-26T22:51:02Z
-version: 12
+version: 18
 ---
 
 ## Problem

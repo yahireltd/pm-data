@@ -2,10 +2,10 @@
 id: T-0357
 title: pre-project meeting minutes are being sent to all stakeholders
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-11T21:29:39Z
-updated: 2026-07-02T12:29:50Z
+updated: 2026-07-02T19:08:17Z
 project: pm-tool-self
 section: null
 parent: null
@@ -16,7 +16,7 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - They should not be sent to anone who has not susbscribed to updates
+  - "[x] They should not be sent to anone who has not susbscribed to updates"
 out_of_scope: []
 code_anchors:
   - path: comms/src/resolve.ts
@@ -40,11 +40,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-02T12:29:50Z
-version: 8
+attention: null
+version: 11
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -55,3 +52,9 @@ The behaviour should be that it only goes to those stakeholder that have subscri
 ## Conversation
 
 **2026-07-02 12:29 claude-code:** Run run-20260702-1229 completed — Meeting minutes now go only to people who chose to receive them, not to everyone on the meeting. Before, if someone was listed on a meeting but hadn't picked which updates they wanted, the system treated silence as "send them everything" — so when a pre-project meeting was marked held, its minutes emailed the entire stakeholder register, including people who never asked for them. Now the minutes (the "held" and "outcome recorded" emails) are opt-in: only stakeholders who tick "meeting held" or "outcome recorded" on their entry get them. Meeting reminders and calendar invites are unaffected — those still reach attendees, because there's no way to opt into a reminder by hand. If we'd left it, every future pre-project meeting would keep spamming its whole register with minutes, which is exactly the complaint. Benefit: minutes reach the right, consenting people and no one else.
+
+---
+
+**2026-07-02 19:08 — you**
+
+done

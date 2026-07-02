@@ -4,7 +4,7 @@ slug: test-notes-reciever
 title: TEst notes reciever
 state: scheduled
 created: 2026-07-02T18:34:23Z
-updated: 2026-07-02T18:51:14Z
+updated: 2026-07-02T19:08:53Z
 scheduled_at: 2026-07-02T19:35:00Z
 duration_minutes: 30
 location: TBD
@@ -24,7 +24,9 @@ stakeholders:
       name: you
     added_at: 2026-06-02T18:52:39Z
     role: PM
-    notify_on: []
+    notify_on:
+      - outcome_recorded
+      - comment_added
   - name: Zsolt
     channel: email
     contact: zsolt@yahire.com
@@ -39,12 +41,14 @@ agenda: []
 outcomes:
   - description: test
     recorded_at: 2026-07-02T18:51:14Z
+  - description: test
+    recorded_at: 2026-07-02T19:07:26Z
 attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
 kind: progress
-version: 10
+version: 14
 ---
 
 # TEst notes reciever
@@ -56,3 +60,5 @@ _Agenda is in frontmatter._
 ## Minutes
 
 _Filled during/after._
+
+> ↩︎ Reverted **held → scheduled** by austin@yahire.com on 2026-07-02T19:08:53Z — reverting to test we can (mis-click undo, T-0335)
