@@ -3,10 +3,10 @@ id: SPR-033
 slug: meetings-polish
 title: Meetings polish
 project: pm-tool-self
-state: planned
+state: in_progress
 order: 33792
 created: 2026-06-22T15:39:38Z
-updated: 2026-07-02T11:59:04Z
+updated: 2026-07-02T12:51:31Z
 committed_items:
   - T-0334
   - T-0335
@@ -25,7 +25,7 @@ capacity:
   total: 4
   unit: tickets
 velocity_committed: 4
-version: 6
+version: 7
 ---
 
 # SPR-033: Meetings polish
