@@ -2,9 +2,9 @@
 id: M-005
 slug: progress-kick-off-catch-up
 title: Progress / Kick off / Catch up
-state: scheduled
+state: held
 created: 2026-06-17T11:09:44Z
-updated: 2026-06-22T18:01:16Z
+updated: 2026-07-02T19:09:48Z
 scheduled_at: 2026-06-18T11:00:00Z
 duration_minutes: 60
 location: TBD
@@ -24,7 +24,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: design-review
-version: 6
+version: 7
 ---
 
 **Transformational/aspirational goal setting** **\

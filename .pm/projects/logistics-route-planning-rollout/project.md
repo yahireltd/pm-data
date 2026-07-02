@@ -5,7 +5,7 @@ name: Logistics Route Planning rollout
 state: done
 phase: test
 created: 2026-06-04T13:46:09Z
-updated: 2026-07-02T14:16:41Z
+updated: 2026-07-02T19:11:02Z
 owner:
   kind: human
   name: you
@@ -55,7 +55,7 @@ agent_policy:
   allow_commit: true
   allow_push: false
   note: working branch of a production system proceed with caution
-version: 13
+version: 14
 ---
 
 # Logistics Route Planning rollout

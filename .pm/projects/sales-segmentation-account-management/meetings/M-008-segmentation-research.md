@@ -2,9 +2,9 @@
 id: M-008
 slug: segmentation-research
 title: Segmentation Research
-state: scheduled
+state: held
 created: 2026-06-23T12:35:32Z
-updated: 2026-07-02T18:09:31Z
+updated: 2026-07-02T19:12:28Z
 scheduled_at: 2026-06-23T14:35:00Z
 duration_minutes: 30
 location: TBD
@@ -54,7 +54,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 7
+version: 8
 ---
 
 # **Segmentation Research — findings brief (M-008)**

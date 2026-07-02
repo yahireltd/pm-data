@@ -2,9 +2,9 @@
 id: T-0335
 title: Marking a meeting "held" is one click and irreversible — add confirm + a way back
 type: bug
-state: review
+state: done
 created: 2026-06-10T00:12:38Z
-updated: 2026-07-02T12:39:31Z
+updated: 2026-07-02T19:15:14Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,9 +18,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Flipping a meeting to held asks for confirmation (it is a one-way transition)
-  - An admin can revert held back to scheduled when it was a mis-click (audited, like other admin overrides)
-  - "Stretch: a pm_update_meeting_state MCP tool so agents can fix/operate meeting states too (known gap)"
+  - "[x] Flipping a meeting to held asks for confirmation (it is a one-way transition)"
+  - "[x] An admin can revert held back to scheduled when it was a mis-click (audited, like other admin overrides)"
+  - "[x] Stretch: a pm_update_meeting_state MCP tool so agents can fix/operate meeting states too (known gap)"
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/MeetingDetailHeader.tsx
@@ -48,11 +48,8 @@ agent_runs:
 labels:
   - ux
   - dogfood-finding
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-02T12:39:31Z
-version: 6
+attention: null
+version: 11
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -73,3 +70,9 @@ Confirm dialog on held (cheap); an admin-only "revert to scheduled" escape hatch
 ## Conversation
 
 **2026-07-02 12:39 claude-code:** Run run-20260702-1239 completed — Marking a meeting "held" now asks you to confirm first, and a mis-click can be undone. Before, changing a meeting to held was a single, silent dropdown change that couldn't be reversed — the one time the wrong meeting got marked held, someone had to edit the file over SSH to fix it, and it also fired the minutes email to attendees. Now: choosing "held" (or "cancelled") pops a confirmation that spells out it's a one-way step; and if a held meeting was a mistake, an admin can pick "scheduled (revert)" to move it back, which is recorded on the meeting and does not re-send any emails. Non-admins don't see a revert option they can't use. Agents got the same ability via a new tool so they can help fix meeting states too. If we'd left it, more wrong-meeting mis-clicks were inevitable as the sales team and Axel start using meetings heavily — each one needing a developer to unpick. Benefit: meeting state is safe to change and easy to correct.
+
+---
+
+**2026-07-02 19:15 — you**
+
+done and tested

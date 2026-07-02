@@ -2,9 +2,9 @@
 id: M-009
 slug: pm-tool
 title: PM Tool
-state: scheduled
+state: held
 created: 2026-06-16T15:58:37Z
-updated: 2026-06-16T16:06:46Z
+updated: 2026-07-02T19:10:02Z
 scheduled_at: 2026-06-17T10:00:00Z
 duration_minutes: 120
 location: IT Office
@@ -58,7 +58,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: design-review
-version: 8
+version: 9
 ---
 
 # PM Tool

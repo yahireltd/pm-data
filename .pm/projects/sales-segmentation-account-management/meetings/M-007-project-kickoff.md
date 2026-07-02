@@ -2,9 +2,9 @@
 id: M-007
 slug: project-kickoff
 title: Project Kickoff
-state: scheduled
+state: held
 created: 2026-06-15T12:49:29Z
-updated: 2026-06-16T13:57:16Z
+updated: 2026-07-02T19:12:05Z
 scheduled_at: 2026-06-17T10:00:00Z
 duration_minutes: 60
 location: IT Office
@@ -60,7 +60,7 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: kickoff
-version: 9
+version: 10
 ---
 
 # **Strategic Goals**

@@ -2,9 +2,9 @@
 id: M-008
 slug: route-planning-testing-feedback
 title: Route Planning Testing Feedback
-state: scheduled
+state: cancelled
 created: 2026-06-16T12:51:58Z
-updated: 2026-06-16T12:54:10Z
+updated: 2026-07-02T19:10:19Z
 scheduled_at: 2026-06-19T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -66,7 +66,7 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 11
+version: 12
 reminders:
   - minutes_before: 1440
     channels:

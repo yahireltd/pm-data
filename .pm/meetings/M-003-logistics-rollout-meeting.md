@@ -2,9 +2,9 @@
 id: M-003
 slug: logistics-rollout-meeting
 title: Logistics Rollout meeting followup
-state: scheduled
+state: held
 created: 2026-06-04T13:29:31Z
-updated: 2026-06-08T13:43:39Z
+updated: 2026-07-02T19:10:38Z
 scheduled_at: 2026-06-15T14:30:00Z
 duration_minutes: 30
 location: TBD
@@ -106,6 +106,7 @@ suggested_features:
   - feature: When finalisng can we sort the sketch planner the same way we sort the run planner on load- also introduce a sort runs on the sketch planner
     ticket: T-0223
 reminders: []
+version: 1
 ---
 
 # Logistics Rollout meeting

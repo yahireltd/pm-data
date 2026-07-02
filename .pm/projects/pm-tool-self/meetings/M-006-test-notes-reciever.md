@@ -2,9 +2,9 @@
 id: M-006
 slug: test-notes-reciever
 title: TEst notes reciever
-state: scheduled
+state: held
 created: 2026-07-02T18:34:23Z
-updated: 2026-07-02T19:08:53Z
+updated: 2026-07-02T19:09:35Z
 scheduled_at: 2026-07-02T19:35:00Z
 duration_minutes: 30
 location: TBD
@@ -48,7 +48,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: progress
-version: 14
+version: 17
 ---
 
 # TEst notes reciever
@@ -62,3 +62,5 @@ _Agenda is in frontmatter._
 _Filled during/after._
 
 > ↩︎ Reverted **held → scheduled** by austin@yahire.com on 2026-07-02T19:08:53Z — reverting to test we can (mis-click undo, T-0335)
+
+> ↩︎ Reverted **held → scheduled** by austin@yahire.com on 2026-07-02T19:09:13Z — Test (mis-click undo, T-0335)
