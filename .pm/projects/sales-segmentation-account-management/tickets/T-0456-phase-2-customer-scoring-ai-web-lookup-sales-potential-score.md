@@ -4,7 +4,7 @@ title: Phase 2 · Customer scoring — AI web-lookup sales-potential scores
 type: feature
 state: triaged
 created: 2026-06-22T21:41:31Z
-updated: 2026-06-29T21:46:59Z
+updated: 2026-07-02T12:14:10Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -34,7 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 5
+version: 6
 ---
 
 ## What this is
@@ -84,3 +84,7 @@ Scored & segmented to date (sandbox, all `web-lookup-v5`): **3,990 domains** —
 **Durability (the test DB is wiped nightly):** everything is saved locally and is DB-independent — per-tier JSON, a full-table CSV, and a re-runnable SQL upsert under `runtime/p0018/export/`. Restore after a refresh = run the (idempotent) migrations, then load the SQL.
 
 **Remaining to score** (the `extract-tier` command auto-excludes already-scored domains, so resume is clean): <£1k hire ~4,969, quote-only leads ~14,022, plus a few stragglers (5to10k 1, 2k5to5k 1, 1kto2k5 13). Resume per band = extract → split → run the `p0018-score-tier` workflow → load → export.
+
+**2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; direct commit, allow_commit was off).
+
+This ticket's share: the scoring/segmentation pipeline — `CustomerScoringController` (extract-tier / load-results / export / stats / segment-profile) + the `customer_sales_scores` segment-fields migration. DB-facing steps only; the AI web-lookup itself runs via subagents. Coverage now: **4,096 domains scored** (all realised-£ customers ≥£1k, plus histlt1k batch 1). ~4,917 histlt1k + ~14k quote-only leads remain, being worked through in paced batches.

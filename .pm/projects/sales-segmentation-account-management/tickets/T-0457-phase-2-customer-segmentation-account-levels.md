@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-06-30T18:52:13Z
+updated: 2026-07-02T12:14:01Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -62,7 +62,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 22
+version: 23
 ---
 
 ## What this is
@@ -177,3 +177,7 @@ Still open: the score table itself is domain-keyed (inherent — a web-lookup is
 Austin asked why some high-score / high-potential accounts are Incubation while some lower-score ones are Account/Strategic. Answer: **the level is earned by REALISED money, not the score** — exactly as this ticket's ladder intends. Strategic = realised ≥ £40k/12m + repeat + signal; Account = realised ≥ £8k/12m **or lifetime (LTV) ≥ £20k**; Incubation = high potential but low realised (grow it); System = low both; new caps at Incubation. So a 98A with £89k potential but £0 realised (Montgomery, Barbican) is *correctly* Incubation — a Gold Nugget to grow — and we don't promote on potential alone.
 
 The confusion was a **display** gap: the worklist only showed Realised/12m, hiding the LTV rule (frieze, opusagency: £0 in the last 12m but ≥£20k lifetime → Account). Fix: added a **Realised LTV** column + a plain-English **"why this level"** explainer to `/account-levels` (index + detail). No model change — just surfacing the basis the engine already computes.
+
+**2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed.** The Phase-2 MVP build landed in commit **`cede0ffb`** on branch `p0018-sales-segmentation-design` (pushed to origin). This was a **direct commit outside the usual claim/run workflow** (Austin requested it; allow_commit was off), so noting it here for the record.
+
+This ticket's share of the commit: the account-level engine — `customer_account_levels` migration + `AccountLevelController` (recompute/stats, realised £ rolled by canonical customerID, the realised-money ladder), `AccountLevelsController` + `backend/views/account-levels/*` (worklist + detail with the Realised-LTV column and the plain-English "why this level" basis), plus `segment_profile` migration + `PotentialEstimator`. Still sandbox-run; the nightly recompute/cron, confirmed_level preservation, and the param store (T-0479) remain open.

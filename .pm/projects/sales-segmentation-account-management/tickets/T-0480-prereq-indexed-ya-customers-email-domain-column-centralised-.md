@@ -4,7 +4,7 @@ title: "Prereq: indexed ya_customers.email_domain column + centralised personal-
 type: chore
 state: triaged
 created: 2026-06-26T14:59:04Z
-updated: 2026-06-30T16:11:37Z
+updated: 2026-07-02T12:14:12Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -34,7 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 ---
 
 ## Why
@@ -48,3 +48,9 @@ Hard predecessor for the account-level model ([[T-0457]]) and its what-if simula
 - Fix the `CustomerSalesScores` docblock.
 
 See `~/Documents/P-0018-account-level-blend-addendum.md` §F.
+
+## Conversation
+
+**2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; direct commit, allow_commit was off).
+
+This ticket's share: `m260629_120100_add_email_domain_to_ya_customers` — indexed `email_domain` column + backfill + the `v_customer_segment_scores` view (score+segment keyed by customerID). **Operational note:** on the sandbox this column is wiped by the nightly restore (ya_customers is a live table, restored from the live backup), so it must be re-applied each day; on live it becomes permanent once this ships.

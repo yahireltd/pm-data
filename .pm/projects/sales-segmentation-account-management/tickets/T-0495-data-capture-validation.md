@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:26:11Z
-updated: 2026-06-30T18:52:26Z
+updated: 2026-07-02T12:14:04Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 8
+version: 9
 ---
 
 ## Problem
@@ -95,3 +95,7 @@ Validated end-to-end (Alexandra Palace: 5/12 → 42%, owner_assigned until manda
 **2026-06-30 18:52 claude-code:** **2026-06-30 — follow-up: correction dropdowns now use the scoring taxonomy** (sandbox, uncommitted; see TS-004).
 
 On the override panel, Industry and Company type were free-text. Changed them to **dropdown + type-to-autocomplete** sourced live from the scoring table (`customer_sales_scores`) — the same canonical values scoring assigned (25 industries, 62 company types), frequency-ordered so the common ones surface first. Corrections now converge on canonical values instead of inventing variants. A genuinely new value is still allowed (a correction is sometimes "we don't have this type yet") and will surface for the T-0474 review queue to fold in. When T-0474 builds proper vocab tables, the helper just points at those — one-line change (comment left in code).
+
+**2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; a direct commit outside the usual run workflow, allow_commit was off).
+
+This ticket's share: both halves of validation — the **override loop** (`customer_account_corrections` migration; durable append-only log keeping the AI value beside the human value; override/revert/history UI + taxonomy-backed dropdowns in `AccountLevelsController` + `view.php`; console `account-level/apply-corrections` + corrections feed) and the **qualify gate** (`common/components/LevelRequirements.php` + `account_level_qualify` migration).

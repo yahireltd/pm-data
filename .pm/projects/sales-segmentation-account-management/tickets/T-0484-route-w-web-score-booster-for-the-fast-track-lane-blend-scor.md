@@ -4,7 +4,7 @@ title: Route W — web-score booster for the fast-track lane (blend score-tier w
 type: feature
 state: triaged
 created: 2026-06-30T11:46:39Z
-updated: 2026-06-30T11:56:34Z
+updated: 2026-07-02T12:14:29Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0482
@@ -50,7 +50,7 @@ labels:
   - yasystem
   - build
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -88,3 +88,7 @@ Pulled the four T-0482 build files (`FastTrackService`, `FastTrackController`, `
 Wired Route W into `FastTrackService::candidates()`: admission is now Route Q (quote value) OR Route W (tier-A ≥ £1.5k / tier-B ≥ £3k, tier read from `customer_sales_scores` by email domain, collation-normalised), the weekly cap is ranked by the blended tier-weighted priority, and each lead carries its route (Q / W / Q+W). `RouteWBlender` stays the single source of the blend logic. `evaluate()` persists the route; the console preview shows route + tier.
 
 Verified read-only (`fast-track/evaluate --dryRun`): flags `selainternational.com` (tier A, £12.3k) as **Q+W** — the exact "real big new lead" noted on T-0481. Live route mix is mostly Q today because most recent forward-dated leads are from un-scored domains (tier `-`) — Route W's live value scales with scoring coverage + scoring new leads at quote time. Did NOT run the migration / shadow write (shared-data mutation, gated; run via the normal flow). All new/edited PHP passes `php -l`.
+
+**2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; a direct commit outside the usual run workflow, allow_commit was off).
+
+This ticket's share: `common/components/RouteWBlender.php` (the pure blend — dual-route admission + tier-weighted priority), `console/controllers/FastTrackRouteWController.php` (backtest), and the Route-W integration into `FastTrackService::candidates()` + `FastTrackController`. Still shadow/steering-only; final thresholds move to the T-0479 param store and get re-picked from the full-coverage backtest once the scoring sweep completes.

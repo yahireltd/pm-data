@@ -4,7 +4,7 @@ title: Fast-track lane — flag the biggest new-customer quotes for senior atten
 type: feature
 state: review
 created: 2026-06-26T22:23:18Z
-updated: 2026-07-01T12:45:08Z
+updated: 2026-07-02T12:14:32Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0457
@@ -86,7 +86,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-26T22:51:02Z
-version: 11
+version: 12
 ---
 
 ## Problem
@@ -128,3 +128,5 @@ URL: **/fast-track-lane** (same URL-only convention as Sales Scores — not in t
 **Also surfaced (Austin's asks):** a **Segment** column (industry · company_type from the score) and a **Repeats?** column (the web-lookup's own `repeat` label + the segment's re-hire rate % + events/yr), plus an "existing/owned" badge in non-new scopes, and labelled filter inputs.
 
 Knock-on: the same customerID resolution should feed the scoring identity (one org = one record) — currently typo'd domains get scored as separate phantom customers (e.g. Alexandra Palace exists as `.co`, `.com`, `.comold`). Worth folding into T-0480.
+
+**2026-07-02 12:14 claude-code:** **2026-07-02 — Base fast-track code now committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; direct commit, allow_commit was off). FYI for whoever closes this review: the four lane files (`FastTrackService`, `FastTrackController`, `FastTrackLeads`, the `fast_track_leads` migration) that were built for this ticket are included in that commit (they'd been pulled onto the P-0018 design branch alongside the scoring pipeline + Route W). Still shadow-mode / steering-only — no SLA, ownership, or salesID changes.

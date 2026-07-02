@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:32:38Z
-updated: 2026-06-30T18:52:29Z
+updated: 2026-07-02T12:14:06Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 8
+version: 9
 ---
 
 ## Problem
@@ -73,3 +73,7 @@ is along their conversion path"* — renamed to **Account Elevation tracker** to
 **2026-06-30 18:52 claude-code:** **2026-06-30 — "in the bag %" now updates live as you tick** (sandbox, uncommitted; see TS-004).
 
 The progress %/bar previously only recalculated on save. It now updates in real time as boxes are ticked / text/date fields are filled — mirroring the server rule exactly (done = checkbox ticked OR a text/date item filled; Qualified ✓ appears once all mandatory items are met). A subtle "preview — Save progress to keep" hint shows when the live value differs from the last saved value, so it's clear it isn't persisted yet; the server recompute on save stays the authority. Pure client-side enhancement to the tracker — no new data source.
+
+**2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; direct commit, allow_commit was off).
+
+This ticket's share: the Account Elevation tracker — `account_level_qualify` + the worklist/detail views that record and visualise a customer's climb to their proposed bucket with the **"in the bag %"**, now including a **live client-side preview** that updates as items are ticked (before save), mirroring the server rule exactly.
