@@ -2,10 +2,10 @@
 id: T-0373
 title: A way to see meetings that were already held
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-15T14:51:32Z
-updated: 2026-07-02T19:02:34Z
+updated: 2026-07-02T19:21:31Z
 project: pm-tool-self
 section: null
 parent: null
@@ -40,11 +40,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-02T19:02:25Z
-version: 15
+attention: null
+version: 17
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -57,3 +54,9 @@ Its difficult to find a meeting after it has been held we need a way to show the
 **2026-07-02 12:43 claude-code:** Run run-20260702-1243 completed — You can now easily find meetings that already happened. Before, every meeting sat in one long list sorted by date, so once a meeting was marked held it got mixed in and buried — people said it felt like held meetings "disappeared." The meetings view now has two clear sections: "Upcoming" (meetings still scheduled, next one first) and "Previous" (meetings that were held or cancelled, most recent first). The Previous section only appears when there are past meetings, and clicking any past meeting still opens it to read its details and minutes. This applies everywhere meetings are listed — inside a project, the org-wide meetings page, and pre-projects. If we'd left it, finding what was decided in a past meeting would stay a scrolling hunt. Benefit: past meetings are one glance away, separated from what's still to come.
 
 **2026-07-02 19:02 claude-code:** Send-back addressed (commit 3ed8c90). The problem wasn't the Upcoming/Previous split — it was that the main Meetings page (left nav) only ever listed org-wide meetings, so a project's past meetings could never appear there. That page is now a global index: every meeting you can see, org-wide and from all your projects, still split Upcoming/Previous, each row labelled with its home project and opening in the right place. "New meeting" there still creates an org-wide meeting; project meetings are created on their project page. Re-test after deploy: open Meetings from the left nav and look for the meeting you marked held — it should be under Previous with a project chip, one click from its minutes.
+
+---
+
+**2026-07-02 19:21 — you**
+
+done

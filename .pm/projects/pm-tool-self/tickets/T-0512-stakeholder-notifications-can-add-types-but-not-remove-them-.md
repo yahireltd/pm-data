@@ -4,7 +4,7 @@ title: "Stakeholder notifications: can add types but not remove them — and no 
 type: bug
 state: review
 created: 2026-07-02T18:39:11Z
-updated: 2026-07-02T18:54:48Z
+updated: 2026-07-02T19:23:16Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,11 +18,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Editing a meeting stakeholder shows their EFFECTIVE subscriptions pre-ticked (defaults when none explicitly set)
-  - Unticking chips and saving sticks — including unticking everything, which fully silences that person (no default fallback)
-  - Adding chips still works; add-dialog behaviour unchanged (no selection = defaults apply)
-  - "meeting_reminder is a selectable chip and remains in the empty-default set (T-0357 unchanged: minutes stay opt-in)"
-  - "Comms test locks the semantics: absent notify_on → defaults; explicit [] → nothing"
+  - "[x] Editing a meeting stakeholder shows their EFFECTIVE subscriptions pre-ticked (defaults when none explicitly set)"
+  - "[x] Unticking chips and saving sticks — including unticking everything, which fully silences that person (no default fallback)"
+  - "[x] Adding chips still works; add-dialog behaviour unchanged (no selection = defaults apply)"
+  - "[x] meeting_reminder is a selectable chip and remains in the empty-default set (T-0357 unchanged: minutes stay opt-in)"
+  - "[x] Comms test locks the semantics: absent notify_on → defaults; explicit [] → nothing"
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/AddStakeholderDialog.tsx
@@ -56,7 +56,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-02T18:43:48Z
-version: 5
+version: 10
 ---
 
 ## Problem
