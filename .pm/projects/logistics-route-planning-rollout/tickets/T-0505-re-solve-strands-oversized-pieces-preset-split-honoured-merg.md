@@ -4,7 +4,7 @@ title: "Re-solve strands oversized pieces: preset-split honoured merged run-cont
 type: bug
 state: triaged
 created: 2026-07-02T12:57:40Z
-updated: 2026-07-02T12:57:40Z
+updated: 2026-07-02T13:39:02Z
 project: logistics-route-planning-rollout
 section: null
 parent: null
@@ -35,7 +35,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -55,3 +55,19 @@ Surfaced only now because the June live-first mirroring made re-solving already-
 - Unit: `PresetSplitSanityTest` (11 cases) — green.
 - In-app: open the sketch planner for 03/07/2026 and Re-solve with Full Luton selected. C091282 should now appear as ~8 pieces of ≤1140kg/≤98m³ and get planned instead of stranding 2 oversized pieces in the pool. Check `sketch-planner.log`/app log for the `[Jobs][PRESET-SPLIT] ... discarding` line.
 - Cross-impact: a date with a genuine manual split whose pieces all fit a real vehicle must still keep that split on re-solve (preset honouring unchanged for valid presets).
+
+## Conversation
+
+**2026-07-02 13:39 claude-code:** **Follow-up (commit 07edc907): Austin confirmed the preset feature "landed wrong" — it was built to keep MANUAL splits made by logistics on the run planner, but fired on bare row-count.** Reworked so honouring requires human intent, and the intent markers now survive re-solves.
+
+**What counts as intent now (either one):**
+- A manual run-planner split — `actionSaveSplit` stamps `ya_contracts.splitFlag` + `deliverySplits`/`collectionSplits` for the piece type. This is the original use case.
+- A preserved piece — "Keep this split on finalise" tick or a stand label typed on the sketch (`ya_run_contracts.piecePreserved` / `pieceNote`).
+
+Multiple rows alone no longer trigger honouring: every finalized solver split leaves multiple rows, so the old rule froze the solver's own past output into all future re-solves (and, merged, produced the C091282 stranding).
+
+**Round-trip fix (the deeper "landed wrong"):** the preserve markers previously survived exactly one finalize. Solver-built sketch stops and run-mirrored stops both dropped `preserve_split`/`piece_note`, so the next finalize rewrote rows without `piecePreserved` and the split silently stopped being honoured. Now honoured preset jobs carry the markers, all three stop-builder paths keep them (solver routes, unassigned pool, mirror-from-runs), and finalize rewrites them. Manual splits self-mark as preserved, which also stops `mergeSequentialSplits` recombining their pieces.
+
+The fleet-capacity gate from the original fix stays as a safety net for already-corrupted rows.
+
+**Test plan additions:** `PresetSplitSanityTest` now 18 cases (intent detection covered). In-app: (1) split a contract manually on the run planner, re-solve the date on the sketch — pieces keep the manual shape and show "Keep this split on finalise" ticked; finalize + re-solve again — shape still kept. (2) A solver-split contract with nothing ticked re-splits freely by capacity each re-solve. (3) Tick "keep this split" on a solver split, finalize, re-solve — shape now kept.
