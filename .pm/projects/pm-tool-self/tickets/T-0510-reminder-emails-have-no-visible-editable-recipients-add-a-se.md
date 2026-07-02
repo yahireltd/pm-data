@@ -2,9 +2,9 @@
 id: T-0510
 title: Reminder emails have no visible/editable recipients — add a Send-to editor
 type: bug
-state: review
+state: done
 created: 2026-07-02T17:32:38Z
-updated: 2026-07-02T17:35:53Z
+updated: 2026-07-02T18:02:14Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,10 +18,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "The reminder create/edit form shows a Send-to section when 'Also send email' is ticked: add a recipient by name+email, remove with one click"
-  - Recipients persist as the reminder's stakeholders (channel email) and survive edit round-trips
-  - Email ticked with zero recipients shows an inline warning that nobody will be emailed
-  - The reminders list row shows the recipients so who-gets-it is visible without opening Edit
+  - "[x] The reminder create/edit form shows a Send-to section when 'Also send email' is ticked: add a recipient by name+email, remove with one click"
+  - "[x] Recipients persist as the reminder's stakeholders (channel email) and survive edit round-trips"
+  - "[x] Email ticked with zero recipients shows an inline warning that nobody will be emailed"
+  - "[x] The reminders list row shows the recipients so who-gets-it is visible without opening Edit"
 out_of_scope: []
 code_anchors:
   - path: web/app/reminders/RemindersManager.tsx
@@ -49,11 +49,8 @@ agent_runs:
 labels:
   - reminders
   - dogfood-finding
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-02T17:35:53Z
-version: 4
+attention: null
+version: 10
 ---
 
 ## Problem
@@ -70,3 +67,9 @@ A global reminder's email goes to the stakeholders stored ON the reminder — bu
 ## Conversation
 
 **2026-07-02 17:35 claude-code:** Run run-20260702-1732 completed — Reminder emails now have visible, editable recipients. Before, ticking "Also send email" on a reminder looked like it worked but actually emailed no one — the recipients live on the reminder itself, and the form gave no way to see or add them, so the email quietly went nowhere. Now, ticking the email option opens a "Send to" box where you add people by name and email address; each person shows as a removable chip, and the reminder's row in the list shows who will be emailed without opening it. If email is on but nobody is added, both the form and the list show a clear warning that no one will receive it. If we'd left it, certificate-renewal-style reminders would appear to be safeguarding things while never actually emailing anyone. Benefit: you can see and control exactly who gets each reminder email, and a mis-configured one announces itself.
+
+---
+
+**2026-07-02 18:02 — you**
+
+Working and tested

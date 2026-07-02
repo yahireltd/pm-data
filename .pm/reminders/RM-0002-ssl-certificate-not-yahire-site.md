@@ -4,10 +4,10 @@ slug: ssl-certificate-not-yahire-site
 title: SSL Certificate Not Yahire Site
 state: active
 created: 2026-07-01T15:31:18Z
-updated: 2026-07-02T17:47:13Z
+updated: 2026-07-02T18:01:26Z
 target: null
 anchor_date: 2026-09-02
-anchor_time: 12:00
+anchor_time: 11:00
 offsets:
   - 7d
   - 5d
@@ -30,7 +30,7 @@ stakeholders:
     channel: email
     contact: zsolt@yahire.com
 reminders_sent: []
-version: 3
+version: 4
 ---
 
 

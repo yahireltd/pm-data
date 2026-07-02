@@ -2,9 +2,9 @@
 id: T-0476
 title: Cross-project id ambiguity in per-project entity lookups/writes (decisions, sprints, milestones, tech-sessions, phases) → silent wrong reads + record clobbering
 type: bug
-state: review
+state: done
 created: 2026-06-23T18:58:35Z
-updated: 2026-07-01T14:50:03Z
+updated: 2026-07-02T18:03:47Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,12 +18,12 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Every per-project entity get/update/set MCP tool resolves an id within a single project, never another project's: decisions (pm_get_decision/pm_update_decision), sprints (pm_get_sprint/pm_update_sprint/pm_set_sprint_owner/pm_update_sprint_state/pm_delete_sprint), milestones (pm_get_milestone/pm_update_milestone_state/pm_set_milestone_* etc.), tech-sessions (pm_get_tech_session/pm_record_tech_session), phases (pm_get_phase/pm_update_phase/pm_set_phase_owner/pm_update_phase_state)"
-  - pm_get_decision and pm_update_decision gain an optional `project` param (they have NONE today — the worst case); the sprint/milestone/tech-session/phase tools already expose optional `project` but must be hardened per the next criterion
-  - "For ALL these tools: when `project` is omitted AND the id exists in >=2 projects, raise an explicit ambiguity error instead of silently returning/mutating the first match (today's first-match fallback is the bug)"
-  - The underlying path resolvers (findDecisionPath and the sprint/milestone/tech-session/phase equivalents in mcp-server/src/lib/paths.ts) take an optional project arg, scope to it when provided, and signal ambiguity when omitted + id matches >1 project
-  - "Back-compat: an id that is unique across all projects still resolves when `project` is omitted"
-  - "Regression test: create the same short id (e.g. SPR-001, MS-001, ADR-001) in two projects, then assert get/update/set resolve to the correct one when `project` is supplied and error on ambiguity when omitted — for each entity family"
+  - "[x] Every per-project entity get/update/set MCP tool resolves an id within a single project, never another project's: decisions (pm_get_decision/pm_update_decision), sprints (pm_get_sprint/pm_update_sprint/pm_set_sprint_owner/pm_update_sprint_state/pm_delete_sprint), milestones (pm_get_milestone/pm_update_milestone_state/pm_set_milestone_* etc.), tech-sessions (pm_get_tech_session/pm_record_tech_session), phases (pm_get_phase/pm_update_phase/pm_set_phase_owner/pm_update_phase_state)"
+  - "[x] pm_get_decision and pm_update_decision gain an optional `project` param (they have NONE today — the worst case); the sprint/milestone/tech-session/phase tools already expose optional `project` but must be hardened per the next criterion"
+  - "[x] For ALL these tools: when `project` is omitted AND the id exists in >=2 projects, raise an explicit ambiguity error instead of silently returning/mutating the first match (today's first-match fallback is the bug)"
+  - "[x] The underlying path resolvers (findDecisionPath and the sprint/milestone/tech-session/phase equivalents in mcp-server/src/lib/paths.ts) take an optional project arg, scope to it when provided, and signal ambiguity when omitted + id matches >1 project"
+  - "[x] Back-compat: an id that is unique across all projects still resolves when `project` is omitted"
+  - "[x] Regression test: create the same short id (e.g. SPR-001, MS-001, ADR-001) in two projects, then assert get/update/set resolve to the correct one when `project` is supplied and error on ambiguity when omitted — for each entity family"
 out_of_scope: []
 code_anchors:
   - path: mcp-server/src/lib/paths.ts
@@ -106,11 +106,9 @@ labels:
   - sprints
   - milestones
   - concurrency
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-01T14:50:03Z
-version: 8
+attention: null
+version: 17
+defect_status: confirmed
 ---
 
 ## Problem
@@ -147,3 +145,9 @@ Note this is distinct from T-0316 (done), which fixed *concurrent-create duplica
 **What would have happened if we did nothing** — People and agents would keep occasionally reading the wrong project's data (and making calls on it) and, worse, overwriting the wrong project's records — quietly corrupting the history each time.
 
 **The benefit** — Lookups and edits now hit exactly the record you meant, and an ambiguous request fails loudly with a clear message rather than doing the wrong thing silently. Verified live in production against real projects.
+
+---
+
+**2026-07-02 18:03 — you**
+
+Done
