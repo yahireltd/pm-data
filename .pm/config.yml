@@ -42,10 +42,10 @@ id_counters:
       phase: 4
       milestone: 14
       sprint: 12
-      meeting: 8
+      meeting: 9
       decision: 11
       status_note: 2
-  reminder: 4
+  reminder: 5
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
