@@ -2,9 +2,9 @@
 id: T-0480
 title: "Prereq: indexed ya_customers.email_domain column + centralised personal-domain list (home-row rollup plumbing)"
 type: chore
-state: triaged
+state: in_progress
 created: 2026-06-26T14:59:04Z
-updated: 2026-07-03T00:25:18Z
+updated: 2026-07-03T00:36:22Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -15,14 +15,30 @@ priority: p1
 reporter:
   kind: human
   name: Austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - ya_customers has an indexed email_domain VARCHAR(190) column, backfilled from existing email via LOWER(SUBSTRING_INDEX(email,'@',-1)), and kept in sync on insert/update (model beforeSave or DB trigger).
   - The account-level domain rollup (ya_contracts + quotes -> economic account) keys back to ya_customers.email_domain via an INDEXED path, not a per-row SUBSTRING_INDEX full-table scan.
   - PERSONAL_EMAIL_DOMAINS is centralised to params['personalEmailDomains'] (today a hardcoded ~35-entry array inside YaCustomers.php incl. yahire.com) so live code, the engine and the simulator share one list and cannot diverge.
   - CustomerSalesScores.php docblock updated to include events_per_year (migration defines it) and the future classification column.
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: console/migrations/m260629_120100_add_email_domain_to_ya_customers.php
+    role: the column+index+backfill+view migration — amend to VARCHAR(190) and index-serving charset before live
+  - path: common/models/YaCustomers.php
+    symbol: beforeSave
+    role: "keep-in-sync hook: derive email_domain on insert/update when email changes; also holds the two duplicated personal-domain lists (~:732, ~:844) to centralise"
+  - path: console/controllers/CustomerScoringController.php
+    symbol: EXCLUDED_DOMAINS
+    role: third divergent personal-domain list (:34-47) — must read from the shared param
+  - path: common/config/params.php
+    role: new personalEmailDomains param — single source shared by web + console apps
+  - path: common/models/CustomerSalesScores.php
+    role: "docblock: add events_per_year + classification"
+  - path: console/controllers/AccountLevelController.php
+    role: rollup consumer (:89-111) — the CONVERT(... USING utf8mb4) wrappers that defeat idx_yac_email_domain
 relates:
   - T-0486
 blocks:
@@ -31,10 +47,20 @@ blocks:
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260703-0036
+    model: claude-fable-5
+    started: 2026-07-03T00:36:22Z
+    status: in_progress
+    policy_ack:
+      branch: null
+      branch_source: null
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-03T00:36:22Z
 labels: []
 attention: null
-version: 6
+version: 9
 ---
 
 ## Why

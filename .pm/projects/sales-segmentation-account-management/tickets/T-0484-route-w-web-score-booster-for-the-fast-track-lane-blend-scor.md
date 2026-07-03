@@ -2,9 +2,9 @@
 id: T-0484
 title: Route W — web-score booster for the fast-track lane (blend score-tier with quote value)
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-30T11:46:39Z
-updated: 2026-07-03T00:26:03Z
+updated: 2026-07-03T00:36:23Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0482
@@ -15,7 +15,9 @@ priority: p1
 reporter:
   kind: agent
   name: claude-code
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - RouteWBlender::evaluate(quoteTotal, tier, params) is a pure function returning {admit, route ('Q'|'W'|'Q+W'|null), priority}; thresholds tunable (move to the T-0479 param store); passes php -l + a unit test.
   - FastTrackService::candidates() admits a new-customer quote via Route Q (quoteTotal >= bigQuote) OR Route W (tier A & quoteTotal >= wFloorA; tier B & quoteTotal >= wFloorB), and orders the weekly cap by the blended tier-weighted priority; each admitted lead is tagged with its route.
@@ -43,14 +45,24 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260703-0036
+    model: claude-fable-5
+    started: 2026-07-03T00:36:23Z
+    status: in_progress
+    policy_ack:
+      branch: null
+      branch_source: null
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-03T00:36:23Z
 labels:
   - segmentation
   - fast-track
   - yasystem
   - build
 attention: null
-version: 4
+version: 6
 ---
 
 ## Problem
