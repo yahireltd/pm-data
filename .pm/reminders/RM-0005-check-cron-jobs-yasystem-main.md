@@ -2,7 +2,7 @@
 id: RM-0005
 slug: check-cron-jobs-yasystem-main
 title: check cron jobs yasystem main
-state: active
+state: done
 created: 2026-07-03T03:05:25Z
 updated: 2026-07-03T03:05:25Z
 target: null
@@ -21,8 +21,9 @@ stakeholders:
   - name: austin
     channel: email
     contact: austin@yahire.com
-reminders_sent: []
-version: 1
+reminders_sent:
+  - 0d@2026-07-03
+version: 2
 ---
 
 
