@@ -2,9 +2,9 @@
 id: T-0479
 title: "Account-level model: tunable parameter store + what-if simulation tool"
 type: feature
-state: triaged
+state: in_progress
 created: 2026-06-26T14:49:58Z
-updated: 2026-07-03T00:25:06Z
+updated: 2026-07-03T01:27:30Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -15,7 +15,9 @@ priority: p1
 reporter:
   kind: human
   name: Austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - "Every model parameter lives in a named, versioned parameter set, editable WITHOUT a code deploy: the score->£ potential-curve anchors, the segment fit multipliers, the alpha/evidence-weight function (orders-to-full-trust, recency half-life), the initial-quote weight (beta), the £ band cuts for the 4 levels, the white-whale share-of-wallet threshold, and the Strategic per-senior-AM capacity cap."
   - "The parameter set includes PER-SEGMENT PROFILES (one per industry/company-type from ADR-006/007): repeat_likelihood prior, potential_multiplier / segment-aware curve, default_conversion_process, optional band-threshold overrides, and qualification_set — so a user can tune one segment (e.g. 'venues' vs 'caterers') and watch that cohort re-band."
@@ -23,7 +25,20 @@ acceptance_criteria:
   - "The screen shows: distribution by level (counts + £), a Value x Potential scatter, and a DIFF vs the live parameter set ('N customers move X->Y'), with drill-down to individual customers; segment is a filter/colour dimension."
   - A parameter set can be saved, compared and promoted to live; each customer_account_levels row stamps the compute_version (param set) that produced it, so assignments are reproducible.
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: common/components/AccountLevelEngine.php
+    role: "NEW: pure banding engine (facts + params → level/whale/bigfish/share) shared byte-identical by recompute and simulator"
+  - path: console/controllers/AccountLevelController.php
+    symbol: ladder
+    role: extract the banding constants/logic into the engine; recompute reads the LIVE param set
+  - path: console/migrations/
+    role: "NEW: account_level_param_sets table (named/versioned params_json, live flag)"
+  - path: backend/controllers/AccountLevelsController.php
+    role: simulate (no writes) / save-param-set / apply-live actions
+  - path: backend/views/account-levels/index.php
+    role: what-if panel (threshold inputs → live re-band preview + diff-vs-live), UI overhaul
+  - path: backend/views/account-levels/view.php
+    role: "work page: stage stepper, value picture, polish"
 relates:
   - T-0457
   - T-0456
@@ -32,10 +47,20 @@ blocked_by:
   - T-0480
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260703-0127
+    model: claude-fable-5
+    started: 2026-07-03T01:27:30Z
+    status: in_progress
+    policy_ack:
+      branch: null
+      branch_source: null
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-03T01:27:30Z
 labels: []
 attention: null
-version: 8
+version: 11
 ---
 
 ## What this is

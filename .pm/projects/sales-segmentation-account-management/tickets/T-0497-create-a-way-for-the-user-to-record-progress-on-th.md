@@ -2,10 +2,10 @@
 id: T-0497
 title: Account Elevation tracker — record + visualise a customer's climb to their proposed bucket ('in the bag %')
 type: feature
-state: triaged
+state: in_progress
 priority: p2
 created: 2026-06-30T14:32:38Z
-updated: 2026-07-03T01:23:33Z
+updated: 2026-07-03T01:27:31Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -13,7 +13,9 @@ milestone: MS-014
 children: []
 order: 18432
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Per-customer 'conversion path' view shows the target Stewardship Level, the current stage (Suggested → Proposed → Owner Assigned → Qualified → Confirmed) and a requirement CHECKLIST for that target level.
   - A clear 'in the bag %' = checklist completion (qualifying questions + data capture + plan/sign-off) so anyone can see how close a customer is to their recommended bucket.
@@ -38,10 +40,20 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260703-0127
+    model: claude-fable-5
+    started: 2026-07-03T01:27:31Z
+    status: in_progress
+    policy_ack:
+      branch: null
+      branch_source: null
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-03T01:27:31Z
 labels: []
 attention: null
-version: 11
+version: 13
 ---
 
 ## Problem
