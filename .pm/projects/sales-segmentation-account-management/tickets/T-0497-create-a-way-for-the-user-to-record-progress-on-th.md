@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:32:38Z
-updated: 2026-07-03T00:26:23Z
+updated: 2026-07-03T01:23:33Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 10
+version: 11
 ---
 
 ## Problem
@@ -91,3 +91,11 @@ OUTSTANDING:
 3. No change audit for progress (AC4): actionQualify upserts latest state only; AccountLevelsController.php:117 rewrites every item's 'at' timestamp on every save, and only the last updated_by/updated_at survive — unticking an item is untraceable. The customer_account_level_log table named in this ticket's design notes was never created. (The append-only log exists only for overrides, not checklist progress.)
 
 Also note: account-levels/* is not in backend allowActions, so non-admin sales users need an RBAC grant before they can use it.
+
+**2026-07-03 01:23 claude-code:** Worklist enhancement (Austin's request, 2026-07-03): added a **Customer type filter** to /account-levels — All / Corporate (hide personal) / Personal only. Personal = ya_customers.customerType=1 (the head row); unknown/NULL types stay visible under the corporate filter rather than silently vanishing. Implementation: backend/controllers/AccountLevelsController.php (ctype param + ya_customers join) and backend/views/account-levels/index.php (dropdown in the filter bar). php -l clean; SQL verified read-only on the sandbox.
+
+Live counts at time of adding: 20,044 home accounts = 11,181 corporate + 8,863 personal. Personal by level: System 8,835 / Incubation 26 / **Account 2** / Strategic 0.
+
+Note for the threshold workshop: those 2 personal customers at Account level (≥£8k/12m realised) are concrete instances of open decision 11 ("can a high-value private client reach Account/Strategic, or be capped at Incubation?") — use the Personal-only filter to pull them up in the room.
+
+Uncommitted in the working tree along with the T-0480/T-0484 batch (allow_commit off).
