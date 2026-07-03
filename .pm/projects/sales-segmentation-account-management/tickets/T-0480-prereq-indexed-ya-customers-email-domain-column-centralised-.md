@@ -2,9 +2,9 @@
 id: T-0480
 title: "Prereq: indexed ya_customers.email_domain column + centralised personal-domain list (home-row rollup plumbing)"
 type: chore
-state: in_progress
+state: review
 created: 2026-06-26T14:59:04Z
-updated: 2026-07-03T00:36:22Z
+updated: 2026-07-03T00:46:32Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -51,16 +51,50 @@ agent_runs:
   - id: run-20260703-0036
     model: claude-fable-5
     started: 2026-07-03T00:36:22Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: null
       branch_source: null
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-07-03T00:36:22Z
+    ended: 2026-07-03T00:46:32Z
+    summary: "Finished the plumbing ticket that the account-level engine and its what-if simulator both depend on. Before this run the join key (a customer's email domain) was backfilled once but went stale the moment anyone's email changed, the column was smaller than specified and in the wrong character set for fast joins, and the \"which email domains are personal, not a business\" list existed as three separate, already-diverging copies in different parts of the system. Now: the domain keeps itself up to date whenever a customer is created or their email changes; the column matches the scores table exactly so lookups use the index instead of scanning every customer; and there is ONE shared personal-domains list that the customer screens, the scoring pipeline and the account-level engine all read — they can no longer silently disagree about which customers are businesses. If we had done nothing, customers whose emails changed would quietly vanish from the account-level rollup, and the three lists would keep drifting apart, giving different answers on different screens. NO database was touched in this run — all changes are uncommitted code in the working tree; the one migration that alters an existing table (ya_customers) is explained in the test plan and waits for Austin to run it on the sandbox."
+    test_plan: |-
+      **Nothing has been run against any DB. All DB steps below are SANDBOX ONLY, run by you.**
+
+      **What the migration will change when you run it (ya_customers = existing table, so this is the informed-OK explanation):**
+      - Adds column `ya_customers.email_domain` VARCHAR(190), charset/collation copied at runtime from `customer_sales_scores.domain` (so the join is index-served with no CONVERT). If the column already exists as last week's VARCHAR(100) spec, it is ALTERed in place (one table rebuild, sandbox-safe).
+      - Backfills it from `email` where empty: `LOWER(TRIM(SUBSTRING_INDEX(email,'@',-1)))`.
+      - Adds index `idx_yac_email_domain`; creates/replaces view `v_customer_segment_scores`. Nothing else. `safeDown` reverses all of it.
+      - Separately, app code (`YaCustomers::beforeSave`) now writes `email_domain` whenever a customer is inserted or their email changes — guarded with `hasAttribute` so it's a no-op until the migration has run.
+
+      **Checklist:**
+      1. Lint: already verified — all 6 changed files pass `php -l` (MAMP PHP 8.2).
+      2. Sandbox: re-apply `m260629_120100` (note: if `./yii migrate` still aborts at m260615 on the missing IdempotentMigrationTrait, that pre-existing blocker needs its own fix ticket — flag it).
+      3. `SHOW FULL COLUMNS FROM ya_customers LIKE 'email_domain'` → expect varchar(190), collation IDENTICAL to `SHOW FULL COLUMNS FROM customer_sales_scores LIKE 'domain'`.
+      4. The point of the ticket — the indexed join: `EXPLAIN SELECT COUNT(*) FROM ya_customers c JOIN customer_sales_scores s ON s.domain = c.email_domain;` → ya_customers side should use `idx_yac_email_domain` (ref), no full scan, no CONVERT in the plan.
+      5. beforeSave sync (happy path): edit a TEST customer's email to `x@sync-test-t0480.co.uk`, save → `email_domain` = `sync-test-t0480.co.uk`. New customer with an email → set on insert. Edge cases: clear the email → NULL; email without `@` → NULL; email `A@MiXeD.Co.Uk` → `mixed.co.uk`.
+      6. **Deliberate behaviour change to approve:** the shared list is the UNION of the two old lists, so same-domain grouping on customer screens now ALSO excludes ~20 more domains (outlook.co.uk, virginmedia.com, talktalk.net, nhs.net, gmx.com, …). Check "same domain accounts" for (a) a corporate customer — unchanged; (b) an @nhs.net customer — now shows NO grouping (previously all NHS contacts grouped as one economic account, which was wrong). If you'd rather keep the old grouping behaviour, say so and I'll split the param into two lists.
+      7. Scoring pipeline unchanged: `./yii customer-scoring/stats` runs; a fresh `extract-tier` worklist still excludes webmail (now read from params — it hard-fails with a clear error if the param is missing rather than silently scoring webmail).
+      8. AFTER the migration re-apply: `./yii account-level/recompute` completes with no collation errors (the CONVERT wrappers were removed) and account counts match the last run (~19,979).
+
+      **Cross-impact to re-check:** customer screens calling getSameDomainAccounts/checkSameDomainAccounts (grouping list grew); customer-scoring extract worklists (same exclusions as before via params); account-level recompute (join now bare — REQUIRES the re-applied migration first on a freshly-restored sandbox); v_customer_segment_scores consumers.
+
+      **Scope note:** the "quotes" half of the rollup AC is the T-0457 engine's aggregation job; quotes carry raw emails (no domain column) so the fast-track lane still derives domain at query time — the ya_customers side is what this ticket indexed.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: written
+    artifacts:
+      - kind: diff
+        note: "Uncommitted working-tree changes on p0018-sales-segmentation-design (allow_commit off): common/config/params.php (+personalEmailDomains), common/models/YaCustomers.php (beforeSave sync + shared list x2), console/controllers/CustomerScoringController.php (params-backed exclusions), common/models/CustomerSalesScores.php (docblock), console/migrations/m260629_120100 (190 + runtime collation match + idempotent alter branch), console/controllers/AccountLevelController.php (CONVERT wrappers removed)."
 labels: []
-attention: null
-version: 9
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-03T00:46:32Z
+version: 10
 ---
 
 ## Why
@@ -95,3 +129,5 @@ OUTSTANDING (ACs not met):
 5. CustomerSalesScores.php docblock (:7-22): NOT updated — no events_per_year, no classification, despite the new view selecting both.
 
 Also: on sandbox the nightly ya_customers restore wipes email_domain daily; the migration must be re-applied each day until live rollout. The three unmet gaps (beforeSave hook, params extraction, docblock) are likely under an hour combined — worth finishing so this ticket can go through a proper claim→run→review cycle, since T-0457/T-0479 are blocked on it.
+
+**2026-07-03 00:46 claude-code:** Run run-20260703-0036 completed — Finished the plumbing ticket that the account-level engine and its what-if simulator both depend on. Before this run the join key (a customer's email domain) was backfilled once but went stale the moment anyone's email changed, the column was smaller than specified and in the wrong character set for fast joins, and the "which email domains are personal, not a business" list existed as three separate, already-diverging copies in different parts of the system. Now: the domain keeps itself up to date whenever a customer is created or their email changes; the column matches the scores table exactly so lookups use the index instead of scanning every customer; and there is ONE shared personal-domains list that the customer screens, the scoring pipeline and the account-level engine all read — they can no longer silently disagree about which customers are businesses. If we had done nothing, customers whose emails changed would quietly vanish from the account-level rollup, and the three lists would keep drifting apart, giving different answers on different screens. NO database was touched in this run — all changes are uncommitted code in the working tree; the one migration that alters an existing table (ya_customers) is explained in the test plan and waits for Austin to run it on the sandbox.

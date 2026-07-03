@@ -44,7 +44,7 @@ id_counters:
       sprint: 12
       meeting: 8
       decision: 10
-      status_note: 1
+      status_note: 2
   reminder: 4
 outbound_email:
   from: support@yahire.com
