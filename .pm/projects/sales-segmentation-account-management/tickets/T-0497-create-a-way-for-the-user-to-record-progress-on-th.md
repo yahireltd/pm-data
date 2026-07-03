@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-30T14:32:38Z
-updated: 2026-07-03T01:46:05Z
+updated: 2026-07-03T03:17:59Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -84,7 +84,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-03T01:46:05Z
-version: 14
+version: 15
 ---
 
 ## Problem
@@ -144,3 +144,11 @@ Note for the threshold workshop: those 2 personal customers at Account level (�
 Uncommitted in the working tree along with the T-0480/T-0484 batch (allow_commit off).
 
 **2026-07-03 01:46 claude-code:** Run run-20260703-0127 completed — Turned the Account Elevation pages from a read-only prototype into a working tracker. The worklist got a full overhaul: clickable summary tiles per level (count + realised + potential £), filters for customer type (hide personal), scored/unscored, level, flag and domain search, a sortable "in the bag %" column, each company now shows its segment (company type · industry) with a click-to-expand showing the full taxonomy (industry → company type → sub-type, venue model, labels), and each score expands to show WHY — the fit/frequency/scale rubric components, estimated events per year and the web-lookup evidence sentence. The work page (per-customer) got the missing pieces of the elevation machine: a visual stage path (Suggested → Proposed → Owner assigned → Qualified → Confirmed) with real buttons — Mark Proposed, Confirm Level (blocked until the qualify checklist's mandatory items are done), and Reopen — plus a value-picture card row, a "what's still outstanding" chip list, and a Recent Elevation Activity table. Every stage change, qualify save and level re-band is now recorded in a new append-only audit log, closing the previously-flagged gap where progress changes were untraceable. Also fixed live during the build: a database collation mismatch that broke the new segment join (Austin hit it in the browser; aligned at schema level and self-healing in the migration for other environments).
+
+**2026-07-03 03:17 claude-code:** Post-run additions (2026-07-03 evening — after this ticket's run completed; reviewer should verify against branch head 5cda65112, not the run-time snapshot):
+
+1. **Owner assignment** (commit 2e425f045, Austin-approved): Owner card on the work page writes the real ya_customers.salesID via changeAccountManager(), logged as owner_assign; the Owner-assigned stage now requires a real owner and Confirm requires owner + Qualified. Detail on T-0495.
+2. **"How we slice it today"** (commit 5cda65112, Austin's request): per-row current-world chips (credit relationship + customer tier in its own colour) and a collapsible cross-tab above the What-if panel — accountType & tier vs engine levels with counts + £/12m.
+3. **Score popover financials** + work-page visual restyle were already inside the reviewed commit ea2060ff2.
+
+Net effect on the test plan: steps unchanged, but the work page now additionally shows the Owner card (step 7's happy path starts with Assign owner) and the worklist has two more chips per row + the cross-tab collapsible to eyeball.

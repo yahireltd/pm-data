@@ -4,7 +4,7 @@ title: Finalise customer segment vocabulary (industry+sub-industry, event-type+s
 type: feature
 state: triaged
 created: 2026-06-23T14:09:30Z
-updated: 2026-06-26T14:50:41Z
+updated: 2026-07-03T03:18:04Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -37,7 +37,7 @@ labels:
   - research
   - for-austin
 attention: null
-version: 2
+version: 3
 ---
 
 ## What this is
@@ -53,3 +53,7 @@ Reinvent the thin existing vocabularies into a proper, complete segmentation voc
 ## The work
 
 Finalise D1–D4 (see [[ADR-004]]): expand industry into industry→sub-industry, build event-type→sub-type, keep the events-relevant flag + labels. Validate coverage + value against the base. Pressure-test vs Ben's Scenarios. Ratify as an ADR. Feeds the build ticket + the team brainstorm.
+
+## Conversation
+
+**2026-07-03 03:18 claude-code:** Status note (2026-07-03): this ticket's ratification condition is now met — **ADR-007 (taxonomy v5) was accepted by Ben + Austin** during the decision-ledger reconciliation, and ADR-006/ADR-009 with it. The vocabulary itself lives in P-0018-taxonomy-v5.md, is populated across 8,645 scored rows, and validation against the full base was done in TS-002 (528) + extended to the 8.6k sweep. What remains before closing: the scenario pressure-test AC references "Ben's Scenarios 1–5" which need renumbering at source (the PDF has two Scenario 5s and no 3 — flagged for the M-009 workshop), and the vocab ENUM handover to T-0474 (vocab tables + review queue) is still open on T-0474's side. Suggest: after M-009, close this ticket as delivered-by-ADR-007 and carry the residue on T-0474.

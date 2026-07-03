@@ -4,7 +4,7 @@ title: "Account-level model: tunable parameter store + what-if simulation tool"
 type: feature
 state: review
 created: 2026-06-26T14:49:58Z
-updated: 2026-07-03T01:42:11Z
+updated: 2026-07-03T03:17:54Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -83,7 +83,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-03T01:42:11Z
-version: 12
+version: 13
 ---
 
 ## What this is
@@ -147,3 +147,5 @@ OUTSTANDING (every substantive AC):
 Note: the ticket is blocked_by T-0480, but the email_domain migration (m260629_120100) is already on this branch, so the blocker may be closeable — verify T-0480 separately. This ticket is also the named decision-instrument for the threshold workshop (M-008 outcome 4 + ADR-010), which raises its priority: the what-if screen is how the open £-threshold and steering-basis decisions get made against real distributions.
 
 **2026-07-03 01:42 claude-code:** Run run-20260703-0127 completed — Delivered the heart of this ticket: the banding rules are now runtime-tunable and previewable on the fly, instead of numbers hardcoded by a developer. What changed: (1) the level-banding logic was extracted into ONE pure shared engine used identically by the nightly recompute and the new simulator — proven by a parity check where the engine reproduced all 20,044 stored suggestions with zero differences; (2) a What-if panel on the account-levels page lets a manager type candidate thresholds and instantly see — with no writes — how many accounts would change level, which ones (biggest movers named), and how much realised and potential money moves between levels; (3) threshold sets can be saved by name, made LIVE (the nightly recompute then uses them), and optionally applied immediately — with every level change logged per account, and human overrides/confirmations never touched. This is the decision instrument for the threshold workshop: Ben can now see the consequence of any £ threshold before committing to it, and decisions become saved parameter sets instead of code edits. Still outstanding from the original scope: per-segment profiles inside a param set, the cached facts frame, and the scatter/drill-down views — the simulator currently re-bands from stored facts, which is fast enough at 20k accounts.
+
+**2026-07-03 03:17 claude-code:** Post-run addition (2026-07-03 evening, commit 5cda65112 — after this ticket's run completed): saved parameter sets now stamp the engine version (`_engine: e1`) into params_json for replay provenance, and `AccountLevelEngine::VERSION` documents the bump rule (bump on LOGIC changes only — parameter additions/removals are replay-safe by construction because params() defaults missing keys and drops unknown ones). Austin's backward-compat requirement for workshop-draft replays is therefore met without a schema change. Reviewer: verify against the CURRENT branch head (5cda65112), not the run-time snapshot — the run's test plan otherwise stands unchanged. Candidate FUTURE parameters (need new fact columns, not just knobs) are catalogued in P-0018-workshop-pack.md §B/§C: realised lookback window, quoted-lost-demand weight, per-segment multipliers, whale-review age, capacity cap, committed-fwd weight, hysteresis bands.

@@ -44,8 +44,8 @@ id_counters:
       sprint: 12
       meeting: 9
       decision: 11
-      status_note: 2
-  reminder: 5
+      status_note: 3
+  reminder: 6
 outbound_email:
   from: support@yahire.com
   secret_name: outlookGraph
