@@ -2,9 +2,9 @@
 id: T-0479
 title: "Account-level model: tunable parameter store + what-if simulation tool"
 type: feature
-state: in_progress
+state: review
 created: 2026-06-26T14:49:58Z
-updated: 2026-07-03T01:27:30Z
+updated: 2026-07-03T01:42:11Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -51,16 +51,39 @@ agent_runs:
   - id: run-20260703-0127
     model: claude-fable-5
     started: 2026-07-03T01:27:30Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: null
       branch_source: null
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-07-03T01:27:30Z
+    ended: 2026-07-03T01:42:11Z
+    summary: "Delivered the heart of this ticket: the banding rules are now runtime-tunable and previewable on the fly, instead of numbers hardcoded by a developer. What changed: (1) the level-banding logic was extracted into ONE pure shared engine used identically by the nightly recompute and the new simulator — proven by a parity check where the engine reproduced all 20,044 stored suggestions with zero differences; (2) a What-if panel on the account-levels page lets a manager type candidate thresholds and instantly see — with no writes — how many accounts would change level, which ones (biggest movers named), and how much realised and potential money moves between levels; (3) threshold sets can be saved by name, made LIVE (the nightly recompute then uses them), and optionally applied immediately — with every level change logged per account, and human overrides/confirmations never touched. This is the decision instrument for the threshold workshop: Ben can now see the consequence of any £ threshold before committing to it, and decisions become saved parameter sets instead of code edits. Still outstanding from the original scope: per-segment profiles inside a param set, the cached facts frame, and the scatter/drill-down views — the simulator currently re-bands from stored facts, which is fast enough at 20k accounts."
+    test_plan: |-
+      All on the sandbox (backend at austin.yahire.com:8888). NEW tables this run created (add to the nightly-copy exclusion list): account_level_param_sets, customer_account_level_log.
+
+      1. /account-levels → open "What-if — tune the level criteria". Change Strategic floor to 80000 and Account LTV floor to 10000 → Preview impact. Expect: ~1,140 movers carrying ~£1.33m/12m realised + ~£11.5m potential; per-level table shows accounts AND £ flows (Strategic 13→7, Account 191→375, £2.14m→£2.81m/12m); biggest movers named with from→to badges. Confirm NOTHING changed in the grid below (preview is read-only).
+      2. Type a name ("test set A") → Save candidate. Expect flash + set appears in "Recent sets" with no LIVE tag; grid unchanged; header still says live criteria = defaults.
+      3. Save & make live with the DEFAULT values (reset the inputs first: 40000/2/8000/20000/15000/0.3/40000/85). Expect: header now names your set as live; run `./yii account-level/recompute` in terminal → compute_version becomes cal-mvp-3:ps<id> and the distribution stays 18,561/1,279/191/13 (defaults = same result).
+      4. The write path, deliberately: set Incubation potential to 10000 → "Save, make live & apply now" (confirm dialog states overrides/stages untouched). Expect: flash reports ~N accounts re-banded; Incubation tile grows by ~360; open a moved account → "Recent elevation activity" shows a level_reband entry. Then restore: apply the defaults set the same way and confirm counts return to 18,561/1,279/191/13.
+      5. Edge cases: Preview with whale share 0 → whale count drops to 0; empty/garbage input falls back to the default for that knob (server-side sanitising); non-POST GET to /account-levels/simulate → 404.
+      6. Cross-impact: the nightly recompute now READS the live param set — if a nonsense set is accidentally made live, the next recompute uses it (that's the feature, but worth knowing); verify /account-levels/view unaffected; fast-track lane unaffected (its thresholds are separate).
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: written
+    artifacts:
+      - kind: code
+        note: "Uncommitted on p0018-sales-segmentation-design: common/components/AccountLevelEngine.php (NEW pure engine), console/migrations/m260703_020000 (NEW: account_level_param_sets + customer_account_level_log), console/controllers/AccountLevelController.php (recompute uses engine + live set), backend/controllers/AccountLevelsController.php (simulate/save-params/reband + £-flow aggregation), backend/views/account-levels/index.php (what-if panel)."
+      - kind: verification
+        note: "Parity: engine vs stored suggestions = 0 mismatches over 20,044 accounts. Refactored recompute reproduces 18,561/1,279/191/13 exactly (cal-mvp-3:defaults). £-flow sim at Strat£80k/Acct£15k/LTV£10k/Incub£8k: 1,140 movers, £1,334,198/12m + £11,538,808 potential."
 labels: []
-attention: null
-version: 11
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-03T01:42:11Z
+version: 12
 ---
 
 ## What this is
@@ -122,3 +145,5 @@ OUTSTANDING (every substantive AC):
 - Save/compare/promote-to-live flow; compute_version pointing at a real param set.
 
 Note: the ticket is blocked_by T-0480, but the email_domain migration (m260629_120100) is already on this branch, so the blocker may be closeable — verify T-0480 separately. This ticket is also the named decision-instrument for the threshold workshop (M-008 outcome 4 + ADR-010), which raises its priority: the what-if screen is how the open £-threshold and steering-basis decisions get made against real distributions.
+
+**2026-07-03 01:42 claude-code:** Run run-20260703-0127 completed — Delivered the heart of this ticket: the banding rules are now runtime-tunable and previewable on the fly, instead of numbers hardcoded by a developer. What changed: (1) the level-banding logic was extracted into ONE pure shared engine used identically by the nightly recompute and the new simulator — proven by a parity check where the engine reproduced all 20,044 stored suggestions with zero differences; (2) a What-if panel on the account-levels page lets a manager type candidate thresholds and instantly see — with no writes — how many accounts would change level, which ones (biggest movers named), and how much realised and potential money moves between levels; (3) threshold sets can be saved by name, made LIVE (the nightly recompute then uses them), and optionally applied immediately — with every level change logged per account, and human overrides/confirmations never touched. This is the decision instrument for the threshold workshop: Ben can now see the consequence of any £ threshold before committing to it, and decisions become saved parameter sets instead of code edits. Still outstanding from the original scope: per-segment profiles inside a param set, the cached facts frame, and the scatter/drill-down views — the simulator currently re-bands from stored facts, which is fast enough at 20k accounts.
