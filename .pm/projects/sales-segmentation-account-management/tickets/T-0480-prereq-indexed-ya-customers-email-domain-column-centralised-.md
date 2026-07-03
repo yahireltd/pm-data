@@ -4,7 +4,7 @@ title: "Prereq: indexed ya_customers.email_domain column + centralised personal-
 type: chore
 state: review
 created: 2026-06-26T14:59:04Z
-updated: 2026-07-03T00:46:32Z
+updated: 2026-07-03T01:07:42Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -94,7 +94,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-03T00:46:32Z
-version: 10
+version: 11
 ---
 
 ## Why
@@ -131,3 +131,22 @@ OUTSTANDING (ACs not met):
 Also: on sandbox the nightly ya_customers restore wipes email_domain daily; the migration must be re-applied each day until live rollout. The three unmet gaps (beforeSave hook, params extraction, docblock) are likely under an hour combined — worth finishing so this ticket can go through a proper claim→run→review cycle, since T-0457/T-0479 are blocked on it.
 
 **2026-07-03 00:46 claude-code:** Run run-20260703-0036 completed — Finished the plumbing ticket that the account-level engine and its what-if simulator both depend on. Before this run the join key (a customer's email domain) was backfilled once but went stale the moment anyone's email changed, the column was smaller than specified and in the wrong character set for fast joins, and the "which email domains are personal, not a business" list existed as three separate, already-diverging copies in different parts of the system. Now: the domain keeps itself up to date whenever a customer is created or their email changes; the column matches the scores table exactly so lookups use the index instead of scanning every customer; and there is ONE shared personal-domains list that the customer screens, the scoring pipeline and the account-level engine all read — they can no longer silently disagree about which customers are businesses. If we had done nothing, customers whose emails changed would quietly vanish from the account-level rollup, and the three lists would keep drifting apart, giving different answers on different screens. NO database was touched in this run — all changes are uncommitted code in the working tree; the one migration that alters an existing table (ya_customers) is explained in the test plan and waits for Austin to run it on the sandbox.
+
+**2026-07-03 01:07 claude-code:** **Local sandbox verification PASSED (2026-07-03, run with Austin's approval — sandbox host restored1805 positively confirmed at runtime).** Most of the test plan is now pre-verified; evidence below. DB steps executed: the 8 pending migrations (Austin ran the migrate himself), then read-only checks + `account-level/recompute` (writes only the new customer_account_levels table).
+
+RESULTS:
+1. **Migration applied**: the MODIFY branch upgraded the pre-existing VARCHAR(100) column to `varchar(190) utf8mb4_0900_ai_ci` — collation copied at runtime from customer_sales_scores.domain, exactly as designed. All idempotent guards fired correctly on already-existing objects.
+2. **Collation match**: ya_customers.email_domain and customer_sales_scores.domain both `utf8mb4_0900_ai_ci` ✓
+3. **Indexed join (the point of the ticket)**: `EXPLAIN` on the domain join → ya_customers side `type=ref key=idx_yac_email_domain rows=4` — index-served, no CONVERT, no 87k-row scan ✓
+4. **Backfill**: 87,217 of 87,228 ya_customers rows have an email; ALL 87,217 have email_domain. 8,639 distinct scored domains joinable via the new key.
+5. **beforeSave sync**: 5/5 non-persisting checks — mixed case → lowercased, multi-@ takes the last segment (matches SUBSTRING_INDEX), blank/no-@ → NULL, update-path re-derives on email change. Nothing was saved.
+6. **Shared list**: params['personalEmailDomains'] = 64 domains; YaCustomers::personalEmailDomains() returns the identical list; nhs.net/outlook.co.uk/yahire.com present ✓
+7. **Pipeline**: `customer-scoring/stats` runs on the params-backed exclusions — 8,645 scored rows, 100% segmented (A 1,176 / B 2,934 / C 4,535; mainstream 5,204 / trade 161 / disqualified 3,280).
+8. **Recompute with CONVERT wrappers removed**: `account-level/recompute` → **20,044 canonical accounts, no collation errors** ✓
+
+BONUS FIX in this run: recreated the missing `common/components/IdempotentMigrationTrait.php` (referenced by m260615 but never committed — this was the blocker that killed `./yii migrate` everywhere). The whole migration chain now runs clean.
+
+REMAINING FOR THE HUMAN REVIEWER (small):
+- UI check of the deliberate behaviour change: "same domain accounts" on a customer screen — corporate unchanged; @nhs.net/@outlook.co.uk customers no longer grouped (the union list). Approve or ask for a split param.
+- Nightly live→test copy: exclude the new tables (warehouse_settings, fast_track_leads, segment_profile, customer_account_levels, account_level_qualify, customer_account_corrections, view v_customer_segment_scores) — and consider excluding customer_sales_scores itself so the 8,645 scored rows survive without re-import.
+- Commit the working tree (allow_commit off): 7 changed/new files for T-0480/T-0484 + the trait.
