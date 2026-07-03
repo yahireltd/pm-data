@@ -4,7 +4,7 @@ title: "INCIDENT: Xero overpayments double-posted — two concurrent xero/run-po
 type: incident
 state: triaged
 created: 2026-07-02T14:48:35Z
-updated: 2026-07-03T15:35:44Z
+updated: 2026-07-03T16:14:42Z
 project: yasystem
 section: null
 parent: null
@@ -40,7 +40,7 @@ labels:
   - accounts
   - incident
 attention: null
-version: 5
+version: 6
 ---
 
 ## What happened
@@ -147,3 +147,13 @@ Good news from the trial: keeper/twin selection worked perfectly on all 5 pairs,
 3. `/xero/dedupe-overpayments?execute=1` afterwards = verification pass: confirms one survivor per pair and repoints payments/deposits.xeroOverpaymentID to it (this DB half still works fine via API).
 
 Progress for the checklist build is watchable at /xero/dedupe-report as usual.
+
+**2026-07-03 16:14 claude-code:** **2026-07-03 ~16:50 — checklist build hit the daily cap again; hardening added.**
+
+The build found **264 pairs** (the definitive count — the earlier 232 used a narrower log window that missed straggler re-posts up to 09:40). It completed allocation checks for most pairs, then exhausted the day's quota at 16:45 (yesterday evening's runs still in the rolling window + today's trials + the build itself). The second phase (bank-transaction link lookups) all failed on the empty quota, so that checklist HTML has no links — discard it.
+
+**Hardening now in place:**
+- Quota preflight on both tools: refuses to start when X-DayLimit-Remaining < what the run needs (~900 for checklist build, ~700 for execute); `&force=1` overrides.
+- Link lookups moved inline per pair (3 calls/pair), with clean daily-cap abort → a cap hit now still yields a USABLE PARTIAL checklist; re-running later completes it (voided pairs drop out as ALREADY_CLEAN).
+
+**Next window:** quota resumes ~13:24 Fri 4 Jul (rolling). Friday also needs the normal daily posting. Recommended: check /xero/quota Friday late afternoon; when remaining > ~1,500 run `/xero/dedupe-checklist` (≈15 min), review at `/xero/dedupe-checklist-view`, accounts voids the ~264 twins via the deep links (Fri evening / Monday), then `/xero/dedupe-overpayments?execute=1` as the final verify+repoint pass.
