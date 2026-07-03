@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:26:11Z
-updated: 2026-07-03T00:26:14Z
+updated: 2026-07-03T02:08:52Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 10
+version: 11
 ---
 
 ## Problem
@@ -115,3 +115,7 @@ OUTSTANDING (the ACs as written are not yet satisfied):
 Cross-impact note for the eventual reviewer: apply-corrections mutates customer_sales_scores rows in place (original AI value survives only in the corrections log), so any other consumer of that table (scoring exports, segment-profile, fast-track) will see human-corrected values after the console command runs.
 
 Also: migrations committed but run state per environment unverified; /account-levels/* needs an RBAC grant for non-superadmins; checklist content + £ thresholds remain sensible defaults pending the workshop (→ T-0479).
+
+**2026-07-03 02:08 claude-code:** Gap #2 from the reconciliation ("no ownership hand-off exists") is now closed (2026-07-03, Austin-approved): the work page has an **Owner card** — shows the home row's real account manager (ya_customers.salesID), assign/change via a dropdown of the 19 active salespeople (+ Unmanaged to clear), writing through the existing YaCustomers::changeAccountManager() and logging `owner_assign` in customer_account_level_log. Home row ONLY — no cascade to same-domain rows; a ⚠ split-ownership warning lists other AMs on sibling rows instead (decision 15 stays with the workshop). The stage machine is now honest end-to-end: **Owner assigned lights only when a real salesID exists**, and **Confirm requires an owner AND Qualified** — so the qualify step is finally tied to "point of taking ownership" as this ticket's AC demanded.
+
+Baseline data for the workshop: 355 of 20,044 home accounts already carry a real owner; only **1 domain in the entire base has split ownership** — decision 15's conflict case is nearly empty in practice, so the cascade rule can be settled cheaply. Files: backend/controllers/AccountLevelsController.php (assign-owner action + ownershipFor + confirm guard), backend/views/account-levels/view.php (owner card + stage derivation). Uncommitted on the branch pending Austin's next commit.
