@@ -2,9 +2,9 @@
 id: T-0512
 title: "Stakeholder notifications: can add types but not remove them — and no way to see or silence the defaults"
 type: bug
-state: review
+state: done
 created: 2026-07-02T18:39:11Z
-updated: 2026-07-02T19:23:16Z
+updated: 2026-07-02T23:59:47Z
 project: pm-tool-self
 section: null
 parent: null
@@ -52,11 +52,8 @@ agent_runs:
 labels:
   - comms
   - dogfood-finding
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-02T18:43:48Z
-version: 10
+attention: null
+version: 12
 ---
 
 ## Problem
@@ -79,3 +76,9 @@ Three compounding causes:
 **2026-07-02 18:43 claude-code:** Run run-20260702-1839 completed — You can now remove notification types as easily as you add them — and see what someone is actually signed up for. Before, three things conspired against you: the edit window treated "nothing ticked" as "don't change anything", so unticking your last selection quietly undid itself; the system treated an empty choice the same as no choice, silently re-applying its built-in defaults; and the window showed everything unticked for people running on those defaults, hiding what they really receive. Now the edit window opens showing the person's real, effective subscriptions pre-ticked; whatever you leave ticked when you save is exactly what they get; and unticking everything genuinely switches that person's notifications off. Meeting reminders also became a visible, tickable option rather than an invisible default. Adding someone is unchanged — a new person with no choices just gets the sensible defaults. The decision is recorded as ADR-050. If we'd left it, testing and trusting the minutes-opt-in change would have been impossible, since subscriptions couldn't actually be edited down. Benefit: what the window shows is what people receive, in both directions.
 
 **2026-07-02 18:54 claude-code:** Follow-up fix (commit b56b1a8) after Austin's re-test: switching all notifications off DID save correctly, but reopening the edit window showed the default types ticked again. The window couldn't tell "never chose anything" (where showing the defaults is right) apart from "deliberately switched everything off" — and saving from that misleading state would have re-subscribed the person. Now a switched-off person reopens with nothing ticked, and the stakeholder list shows a small "notifications off" tag so you can see who is silenced without opening the window. What to re-test after the next deploy: edit your entry on the test meeting — nothing should be ticked; the panel should say "notifications off"; Save without changes should keep you silenced.
+
+---
+
+**2026-07-02 23:59 — you**
+
+done
