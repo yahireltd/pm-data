@@ -4,7 +4,7 @@ slug: account-elevation-v2-tunable-criteria-param-sets-what-if-sta
 title: Account Elevation v2 — tunable criteria (param sets + what-if), stage machine, audit log, segment/score drill-downs
 project: sales-segmentation-account-management
 created: 2026-07-03T01:58:26Z
-updated: 2026-07-03T03:18:21Z
+updated: 2026-07-03T03:42:12Z
 decisions:
   - "Banding logic extracted into pure common/components/AccountLevelEngine.php — the ONLY implementation, shared by recompute + simulator. Parity proven: 0 mismatches across 20,044 accounts; refactored recompute reproduces 18,561/1,279/191/13 exactly (compute_version cal-mvp-3). Ratified as ADR-011."
   - 'Two NEW tables: account_level_param_sets (named/versioned threshold sets, is_live=1 drives recompute + page) and customer_account_level_log (append-only elevation audit: status changes, qualify progress, re-bands). What-if preview is read-only; "apply now" re-bands only changed rows, logs each level move, never touches confirmed_level/overrides/stages. Simulate reports counts AND £ flows (realised/12m + potential) per level plus named biggest movers.'
@@ -22,10 +22,11 @@ actions:
   - text: "Before Monday 14:00: Ben reads the workshop pack; Austin closes what he can of the review queue (T-0482, T-0480, T-0484, T-0479, T-0497 — checklists on each run) and has the sandbox What-if panel ready to project."
 side_quests:
   - "INCIDENT (2026-07-03): the ubuntu crontab on the master server (ip-172-31-18-103) was deleted by a typo (crontab -r instead of -e) — it carried PRODUCTION jobs: zapier/trigger (hourly, all day), teresa/fire-emails + teresa/test-followup (hourly, business hours), clocking/download-clockings (hourly ~6-22), reminders/all-jobs (02:00). Recovery: reconstruct from syslog (grep CRON /var/log/syslog* — every execution is logged with the full command); provisional 5-line crontab restored from the visible window; full extraction pending. Notably the sandbox refresh job was NOT in this crontab (check sudo crontab -l / other boxes / manual). PREVENTION: commit the crontab to the repo (docs/ops/crontab-master.txt or a deployed /etc/cron.d/yasystem file) so it is version-controlled; habit: crontab -l > ~/crontab.backup before every edit. Also: SandboxController PRESERVE_TABLES now includes customer_sales_scores (commit 01cc78c4f) — master must pull/cherry-pick before the refresh job is re-enabled."
+  - "salesperson table hygiene — PARKED by Austin (no data changes now, \"we don't test on prod\"): three legacy rows carry userID=0 (Taran O'Doherty s_ID 0 — has a CURRENT row s_ID 96/userID 122; Terry Badger s_ID 11; Becky s_ID 30; all active=0). They tripled the account-levels worklist via the owner join (fixed join-side in 8bbe1c2ec — deduped subquery, userID<>0). IF ever cleaned: set userID to NULL (needs the NOT NULL column relaxed first), do NOT delete — s_ID keys may anchor historical sales/management reports. Any such change is Austin's to run, sandbox first, live deliberately."
 problem: "The account-levels pages were a read-only MVP: banding thresholds were hardcoded (blocking the workshop from experimenting), the 5-stage elevation machine had two unreachable stages (nothing could ever be proposed or confirmed), progress changes were untraceable (no audit log), personal/unscored accounts cluttered the worklist, and neither the score nor the segment explained themselves. This session (claimed runs on T-0479 + T-0497) built the tunable-criteria layer and finished the tracker."
 success_criterion: A manager can tune the banding criteria on the page and instantly see how many accounts AND how much realised/potential £ would move (no writes), save/make-live/apply named threshold sets with per-account logging; the stage machine works end-to-end (propose → qualify → confirm, guarded + logged); the worklist filters personal/unscored and drills into score components and the segment tree; recompute and simulator provably share one engine (parity = 0 mismatches over 20,044 accounts).
 phase: build
-version: 9
+version: 10
 ---
 
 # TS-005: Account Elevation v2 — tunable criteria (param sets + what-if), stage machine, audit log, segment/score drill-downs

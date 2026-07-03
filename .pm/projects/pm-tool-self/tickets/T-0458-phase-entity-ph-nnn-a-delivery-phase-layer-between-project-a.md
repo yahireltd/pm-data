@@ -2,9 +2,9 @@
 id: T-0458
 title: "Phase entity (PH-NNN): a delivery-phase layer between project and milestone (consolidates the M-009 modeling cluster)"
 type: feature
-state: in_progress
+state: done
 created: 2026-06-22T22:07:14Z
-updated: 2026-06-23T01:27:21Z
+updated: 2026-07-03T03:48:50Z
 project: pm-tool-self
 section: null
 parent: null
@@ -76,9 +76,13 @@ agent_runs:
       EXAMPLE DATA TO REMOVE WHEN READY: sprint "[example] Segmentation build" (SPR-005, Zsolt) — delete via the trash button; placeholder dates on PH-001..004 + SPR-001 (blank or set real ones).
 
       REMAINING (open): MS-002 redundant umbrella; 8 low review findings (sprint-delete warning text, rollup double-count of a cross-milestone ticket, stale-version guards on the new phase/sprint write actions, etc.); the lifecycle "Phase"→"Lifecycle" text relabel inside PhaseCommandCenter; docs (sprint.owner/phase in SCHEMA.md, dev wiki, help).
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels: []
 attention: null
-version: 8
+version: 9
 ---
 
 ## Problem
@@ -109,3 +113,9 @@ Hierarchy becomes: `Initiative → Phase (PH) → Milestone (MS) → Sprint (SPR
 ## Worked example (the dogfood target)
 
 P-0018 Sales Phase 2 (MS-002) re-modelled as **PH-02** owning ~5 milestones (Segmentation · Lead scoring & routing · Conversion workflows · Process & role design [non-code] · Cadence frameworks), each delivered through sprints → tickets. Drill "Lead scoring & routing" to ticket level as the depth exemplar.
+
+## Conversation
+
+**2026-07-03 03:48 — you**
+
+dn
