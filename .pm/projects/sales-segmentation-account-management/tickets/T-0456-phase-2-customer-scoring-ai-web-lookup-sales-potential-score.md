@@ -4,7 +4,7 @@ title: Phase 2 · Customer scoring — AI web-lookup sales-potential scores
 type: feature
 state: triaged
 created: 2026-06-22T21:41:31Z
-updated: 2026-07-02T12:14:10Z
+updated: 2026-07-03T00:21:36Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -34,7 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 6
+version: 7
 ---
 
 ## What this is
@@ -88,3 +88,5 @@ Scored & segmented to date (sandbox, all `web-lookup-v5`): **3,990 domains** —
 **2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; direct commit, allow_commit was off).
 
 This ticket's share: the scoring/segmentation pipeline — `CustomerScoringController` (extract-tier / load-results / export / stats / segment-profile) + the `customer_sales_scores` segment-fields migration. DB-facing steps only; the AI web-lookup itself runs via subagents. Coverage now: **4,096 domains scored** (all realised-£ customers ≥£1k, plus histlt1k batch 1). ~4,917 histlt1k + ~14k quote-only leads remain, being worked through in paced batches.
+
+**2026-07-03 00:21 claude-code:** Progress update (per Austin, 3 Jul 2026): **8,405 customers now scored** — up from the 4,096 recorded on 2 Jul — with a further batch finishing on the work Mac. The M-008 "extend beyond the 528 base" decision is therefore decided AND executed (target was ~1,000). Remaining cohorts: the tail of the <£1k realised customers and the ~14k quote-only leads, continuing in paced batches within the monthly AI spend budget.

@@ -4,7 +4,7 @@ slug: segmentation-research
 title: Segmentation Research
 state: held
 created: 2026-06-23T12:35:32Z
-updated: 2026-07-02T19:12:28Z
+updated: 2026-07-03T00:21:53Z
 scheduled_at: 2026-06-23T14:35:00Z
 duration_minutes: 30
 location: TBD
@@ -42,7 +42,17 @@ stakeholders:
 agenda:
   - topic: Research into customer segments -
   - topic: look into auto industry typing and subtyping
-outcomes: []
+outcomes:
+  - description: Decision 1 — Taxonomy v5 (ADR-007) CONFIRMED as the segmentation model. Ben agreed verbally; recorded retroactively 2026-07-03 during the decision-ledger reconciliation. ADR-007 moved to accepted.
+    recorded_at: 2026-07-03T00:21:31Z
+    owner:
+      kind: human
+      name: Ben
+  - description: "Decision 2 — Scoring v5 ADOPTED as baseline and the live re-score authorised (ADR-008 → accepted). CAVEAT recorded: how stewardship LEVEL is assigned and how POTENTIAL is calculated may still change — Ben is unsure whether to steer by unrealised potential or realised value, and wants a sales-expert opinion. Captured as a new open decision record (steering-basis) rather than blocking the scoring baseline. Recorded retroactively 2026-07-03."
+    recorded_at: 2026-07-03T00:21:53Z
+    owner:
+      kind: human
+      name: Ben
 attachments:
   - key: meetings/M-008/1783015770072-Screenshot_2026-06-17_at_16-00-28_Ticket_run_planner_idea_Yahire_Zendesk.png
     filename: Screenshot 2026-06-17 at 16-00-28 Ticket run planner idea – Yahire – Zendesk.png
@@ -54,7 +64,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 8
+version: 10
 ---
 
 # **Segmentation Research — findings brief (M-008)**

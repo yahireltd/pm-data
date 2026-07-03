@@ -2,15 +2,17 @@
 id: ADR-008
 slug: scoring-v5-is-the-new-baseline-causes-of-score-variance-rubr
 title: Scoring v5 is the new baseline; causes of score variance + rubric fixes
-state: proposed
-decided: 2026-06-23
-decided_by: []
+state: accepted
+decided: 2026-07-03
+decided_by:
+  - Ben
+  - Austin
 project: sales-segmentation-account-management
 supersedes: null
 superseded_by: null
 tickets:
   - T-0456
-version: 1
+version: 2
 ---
 
 ## Context

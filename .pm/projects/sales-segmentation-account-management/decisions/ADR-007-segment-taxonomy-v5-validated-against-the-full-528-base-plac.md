@@ -2,16 +2,18 @@
 id: ADR-007
 slug: segment-taxonomy-v5-validated-against-the-full-528-base-plac
 title: Segment taxonomy v5 — validated against the full 528 base (+ place-of-worship type, peer/competitor label, venue-hire model, derived high-potential, closed sub-type vocab)
-state: proposed
-decided: 2026-06-23
-decided_by: []
+state: accepted
+decided: 2026-07-03
+decided_by:
+  - Ben
+  - Austin
 project: sales-segmentation-account-management
 supersedes: ADR-006
 superseded_by: null
 tickets:
   - T-0473
   - T-0474
-version: 1
+version: 2
 ---
 
 ## Context
