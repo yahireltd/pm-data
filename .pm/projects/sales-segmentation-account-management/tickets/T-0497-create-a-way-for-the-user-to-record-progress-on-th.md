@@ -2,10 +2,10 @@
 id: T-0497
 title: Account Elevation tracker — record + visualise a customer's climb to their proposed bucket ('in the bag %')
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-30T14:32:38Z
-updated: 2026-07-03T01:27:31Z
+updated: 2026-07-03T01:46:05Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -44,16 +44,47 @@ agent_runs:
   - id: run-20260703-0127
     model: claude-fable-5
     started: 2026-07-03T01:27:31Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: null
       branch_source: null
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-07-03T01:27:31Z
+    ended: 2026-07-03T01:46:05Z
+    summary: "Turned the Account Elevation pages from a read-only prototype into a working tracker. The worklist got a full overhaul: clickable summary tiles per level (count + realised + potential £), filters for customer type (hide personal), scored/unscored, level, flag and domain search, a sortable \"in the bag %\" column, each company now shows its segment (company type · industry) with a click-to-expand showing the full taxonomy (industry → company type → sub-type, venue model, labels), and each score expands to show WHY — the fit/frequency/scale rubric components, estimated events per year and the web-lookup evidence sentence. The work page (per-customer) got the missing pieces of the elevation machine: a visual stage path (Suggested → Proposed → Owner assigned → Qualified → Confirmed) with real buttons — Mark Proposed, Confirm Level (blocked until the qualify checklist's mandatory items are done), and Reopen — plus a value-picture card row, a \"what's still outstanding\" chip list, and a Recent Elevation Activity table. Every stage change, qualify save and level re-band is now recorded in a new append-only audit log, closing the previously-flagged gap where progress changes were untraceable. Also fixed live during the build: a database collation mismatch that broke the new segment join (Austin hit it in the browser; aligned at schema level and self-healing in the migration for other environments)."
+    test_plan: |-
+      All on the sandbox backend (austin.yahire.com:8888), tables already migrated. NEW tables from this run's batch (nightly-copy exclusion list): account_level_param_sets, customer_account_level_log.
+
+      WORKLIST (/account-levels):
+      1. Tiles: click Strategic → filters to 13; click again → unfilters. Whales/Big-fish/Overridden/Unscored tiles behave the same. Each level tile shows count + £/12m + potential.
+      2. Filters: Customer type = Corporate → ~11,181 rows; Personal only → ~8,863. Score = Unscored only → ~9,550. Combining filters works; Reset clears.
+      3. Sort by "In the bag" (click header) — rows with saved qualify progress float up.
+      4. Segment: company cell shows "type · industry" — click the ▾ → popover with Industry / Company type / Sub-type (+ venue model, labels, business description). Click elsewhere closes it.
+      5. Score drill-down: click ▾ next to a score → Fit /40 · Freq /30 · Scale /30, est. events/yr and the evidence sentence. Check an unscored row shows just — with no ▾.
+
+      WORK PAGE (click "work →" on an Incubation account):
+      6. Stage path shows with the current stage highlighted; value cards (level/score/segment/realised/LTV/fwd/potential/share) render; "Outstanding before Qualified" chips list the unmet mandatory items.
+      7. Happy path: Mark proposed → stage advances (flash + log). Tick all mandatory checklist items + Save progress → Qualified badge; "Confirm level ✓" becomes enabled → confirm → stage Confirmed, effective level shows "confirmed ✓". Check "Recent elevation activity" lists each of these (status changes + qualify %).
+      8. Guards (edge cases): on a fresh account, Confirm is disabled with a tooltip until Qualified; Mark proposed on an already-proposed account is impossible (button gone); Reopen on a confirmed account returns it to Suggested, clears confirmed_level, and logs it. GET requests to propose/confirm-level/reopen → 404 (POST-only).
+      9. Overridden account: override the level with a reason → the qualify checklist re-targets the overridden level; activity + correction history both show.
+
+      CROSS-IMPACT: the worklist query gained joins (ya_customers, customer_sales_scores) — check page load time is still fine (~20k rows aggregated, 50/page); the fast-track lane and sales-scores pages are untouched; confirmed_level now gets SET by the confirm action — the console recompute still truncate-rebuilds the table, which WIPES confirmations (pre-existing T-0457 known gap, now more visible — flagged for the T-0457 preserve-confirmed work before any production recompute cron).
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: written
+    artifacts:
+      - kind: code
+        note: "Uncommitted on p0018-sales-segmentation-design: backend/controllers/AccountLevelsController.php (filters, segment/score drill-down data, stage actions, audit logging, £-flow simulate), backend/views/account-levels/index.php (tiles, filters, popovers, what-if panel), backend/views/account-levels/view.php (stepper, cards, outstanding chips, activity), console/migrations/m260703_020000 (level log + param sets + collation self-align)."
+      - kind: verification
+        note: php -l clean across all files; worklist join smoke-tested after the collation fix (customer_account_levels.email_domain general_ci→0900_ai_ci); filter counts verified on sandbox (20,044 = 11,181 corporate + 8,863 personal; 9,550 unscored).
 labels: []
-attention: null
-version: 13
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-03T01:46:05Z
+version: 14
 ---
 
 ## Problem
@@ -111,3 +142,5 @@ Live counts at time of adding: 20,044 home accounts = 11,181 corporate + 8,863 p
 Note for the threshold workshop: those 2 personal customers at Account level (≥£8k/12m realised) are concrete instances of open decision 11 ("can a high-value private client reach Account/Strategic, or be capped at Incubation?") — use the Personal-only filter to pull them up in the room.
 
 Uncommitted in the working tree along with the T-0480/T-0484 batch (allow_commit off).
+
+**2026-07-03 01:46 claude-code:** Run run-20260703-0127 completed — Turned the Account Elevation pages from a read-only prototype into a working tracker. The worklist got a full overhaul: clickable summary tiles per level (count + realised + potential £), filters for customer type (hide personal), scored/unscored, level, flag and domain search, a sortable "in the bag %" column, each company now shows its segment (company type · industry) with a click-to-expand showing the full taxonomy (industry → company type → sub-type, venue model, labels), and each score expands to show WHY — the fit/frequency/scale rubric components, estimated events per year and the web-lookup evidence sentence. The work page (per-customer) got the missing pieces of the elevation machine: a visual stage path (Suggested → Proposed → Owner assigned → Qualified → Confirmed) with real buttons — Mark Proposed, Confirm Level (blocked until the qualify checklist's mandatory items are done), and Reopen — plus a value-picture card row, a "what's still outstanding" chip list, and a Recent Elevation Activity table. Every stage change, qualify save and level re-band is now recorded in a new append-only audit log, closing the previously-flagged gap where progress changes were untraceable. Also fixed live during the build: a database collation mismatch that broke the new segment join (Austin hit it in the browser; aligned at schema level and self-healing in the migration for other environments).
