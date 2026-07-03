@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-07-03T00:24:47Z
+updated: 2026-07-03T01:58:33Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -62,7 +62,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 24
+version: 25
 ---
 
 ## What this is
@@ -187,3 +187,5 @@ This ticket's share of the commit: the account-level engine — `customer_accoun
 Outstanding vs the ACs: the confidence-weighted blend does not exist (no alpha/gamma/expected_value/realised_blend/realised_gate anywhere — banding is raw realised_12m/ltv with hardcoded constants); no shared pure AccountLevelEngine; no nightly cron and recompute truncates (would wipe confirmed_level); Account has no graduation test for existing customers; revenue uses hireStartDate not delivered hireEndDate, and archived/dead-status contracts are not excluded (:100); no lapsed-high-tier guard / committed_fwd demote-exemption / Strategic capacity cap; no quote-demand dedup or win-rate in the engine (big-fish reads contract fwd, not raw quotes); no propose/confirm/transition write paths, override reason is optional (:159), no salesID ownership gate; no my-accounts badge; no transfer-window worklist; segment_profile/PotentialEstimator not wired into the engine (potential is web-score-only, :128); trade routes to system, not a trade lane. All sandbox-run only.
 
 Suggest trimming the AC list to the MVP actually intended or splitting the blend/guards/workflow into follow-up tickets (T-0479 param store is the natural home for the constants). NOTE: the blend-vs-realised question is now formally open as ADR-010 (steering basis — needs sales-expert input), so the blend ACs should not be built ahead of that decision.
+
+**2026-07-03 01:58 claude-code:** Priority escalation on one known gap (2026-07-03 evening): the **confirm action now exists and writes confirmed_level** (T-0497 shipped the stage machine — propose/confirm/reopen, logged in the new customer_account_level_log), but `account-level/recompute` still TRUNCATES customer_account_levels and rebuilds — **wiping level_status and confirmed_level**. While confirm was unreachable this was theoretical; now a human can confirm an account and lose it on the next recompute. Before any recompute cron goes live (or anyone runs recompute after confirmations exist on sandbox): make the recompute preserve confirmed_level + level_status (read-modify-write or re-apply from the log/qualify tables). This is the "MVP recompute truncates — must preserve confirmed_level before production" item from this ticket's own body, now with a working write-path behind it. Suggest folding it into the T-0457a engine slice.

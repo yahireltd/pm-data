@@ -38,12 +38,12 @@ id_counters:
       decision: 9
       tech_session: 1
     sales-segmentation-account-management:
-      tech_session: 4
+      tech_session: 5
       phase: 4
       milestone: 14
       sprint: 12
       meeting: 8
-      decision: 10
+      decision: 11
       status_note: 2
   reminder: 4
 outbound_email:
