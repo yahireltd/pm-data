@@ -4,7 +4,7 @@ title: "INCIDENT: Xero overpayments double-posted — two concurrent xero/run-po
 type: incident
 state: triaged
 created: 2026-07-02T14:48:35Z
-updated: 2026-07-02T16:38:16Z
+updated: 2026-07-03T15:35:44Z
 project: yasystem
 section: null
 parent: null
@@ -40,7 +40,7 @@ labels:
   - accounts
   - incident
 attention: null
-version: 4
+version: 5
 ---
 
 ## What happened
@@ -134,3 +134,16 @@ Where the budget went: double-run allocation phases are one call per allocation 
 2. php-fpm restart done today to clear the zombie run (otherwise it would wake at reset and burn ~470 calls on old code).
 3. Dry run → review with accounts → `?limit=5&execute=1` trial → verify in Xero UI → full `?execute=1` → re-run dry expecting ALREADY_CLEAN.
 4. Normal daily posting AFTER cleanup. Accounts must not trigger anything Xero-side before then.
+
+**2026-07-03 15:35 claude-code:** **API deletion is impossible — pivoting to a deep-linked manual-void checklist.**
+
+Trial execute (5 pairs, 2026-07-03 16:31) confirmed: Xero rejects status=DELETED on RECEIVE-OVERPAYMENT bank transactions with a generic "An error occurred in Xero" ValidationException — even with the full transaction payload. This matches Xero's documented limitation: overpayment-type bank transactions cannot be updated/deleted via API, the Overpayments endpoint has no delete, and refunding via the Payments endpoint would create fake ledger movements in the bank accounts (unacceptable — these ARE the payment records: the system books every customer payment as a RECEIVE-OVERPAYMENT then allocates it to invoices, so each duplicate is a phantom payment receipt inflating the Xero bank balance and customer credit).
+
+Good news from the trial: keeper/twin selection worked perfectly on all 5 pairs, and nothing was changed (delete failed cleanly, DB untouched because repoint only happens when the DB points at a twin).
+
+**New flow:**
+1. `/xero/dedupe-checklist` (read-only, ~700 API calls) → builds an HTML checklist at `/xero/dedupe-checklist-view`: one row per twin with customer, amount, date, reference and a deep link (`go.xero.com/Bank/ViewTransaction.aspx?bankTransactionID=…`) STRAIGHT TO THE TWIN — the kept copy is never linked, so accounts cannot void the wrong one. Both-allocated pairs are listed separately as DO-NOT-VOID manual review.
+2. Accounts works the checklist in Xero UI (Options → Void/Delete per row, ~230 rows).
+3. `/xero/dedupe-overpayments?execute=1` afterwards = verification pass: confirms one survivor per pair and repoints payments/deposits.xeroOverpaymentID to it (this DB half still works fine via API).
+
+Progress for the checklist build is watchable at /xero/dedupe-report as usual.
