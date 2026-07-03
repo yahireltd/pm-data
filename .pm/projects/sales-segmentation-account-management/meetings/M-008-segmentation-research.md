@@ -4,7 +4,7 @@ slug: segmentation-research
 title: Segmentation Research
 state: held
 created: 2026-06-23T12:35:32Z
-updated: 2026-07-03T00:21:53Z
+updated: 2026-07-03T00:22:31Z
 scheduled_at: 2026-06-23T14:35:00Z
 duration_minutes: 30
 location: TBD
@@ -53,6 +53,16 @@ outcomes:
     owner:
       kind: human
       name: Ben
+  - description: "Decision 3 — Extension beyond the 528 base AGREED and EXECUTED: 8,405 customers scored by 3 Jul 2026 (target was ~1,000), further batch in flight on Austin's work Mac. Remaining: <£1k tail + ~14k quote-only leads in paced batches. Recorded retroactively 2026-07-03; progress note posted on T-0456."
+    recorded_at: 2026-07-03T00:22:16Z
+    owner:
+      kind: human
+      name: Austin
+  - description: "Decision 4 — Focus cut (how tight the named-account book: high-value × high-potential × not-captured) STILL OPEN. Goes to the threshold workshop with the what-if simulator as the decision instrument; intertwined with open decisions 1 (£ thresholds) and 10 (Strategic capacity cap) and the new ADR-010 steering-basis question. Recorded 2026-07-03."
+    recorded_at: 2026-07-03T00:22:31Z
+    owner:
+      kind: human
+      name: Ben
 attachments:
   - key: meetings/M-008/1783015770072-Screenshot_2026-06-17_at_16-00-28_Ticket_run_planner_idea_Yahire_Zendesk.png
     filename: Screenshot 2026-06-17 at 16-00-28 Ticket run planner idea – Yahire – Zendesk.png
@@ -64,7 +74,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 10
+version: 12
 ---
 
 # **Segmentation Research — findings brief (M-008)**

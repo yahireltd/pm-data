@@ -4,7 +4,7 @@ title: Phase 2 · Customer scoring — AI web-lookup sales-potential scores
 type: feature
 state: triaged
 created: 2026-06-22T21:41:31Z
-updated: 2026-07-03T00:21:36Z
+updated: 2026-07-03T00:24:37Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -34,7 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 7
+version: 8
 ---
 
 ## What this is
@@ -90,3 +90,19 @@ Scored & segmented to date (sandbox, all `web-lookup-v5`): **3,990 domains** —
 This ticket's share: the scoring/segmentation pipeline — `CustomerScoringController` (extract-tier / load-results / export / stats / segment-profile) + the `customer_sales_scores` segment-fields migration. DB-facing steps only; the AI web-lookup itself runs via subagents. Coverage now: **4,096 domains scored** (all realised-£ customers ≥£1k, plus histlt1k batch 1). ~4,917 histlt1k + ~14k quote-only leads remain, being worked through in paced batches.
 
 **2026-07-03 00:21 claude-code:** Progress update (per Austin, 3 Jul 2026): **8,405 customers now scored** — up from the 4,096 recorded on 2 Jul — with a further batch finishing on the work Mac. The M-008 "extend beyond the 528 base" decision is therefore decided AND executed (target was ~1,000). Remaining cohorts: the tail of the <£1k realised customers and the ~14k quote-only leads, continuing in paced batches within the monthly AI spend budget.
+
+**2026-07-03 00:24 claude-code:** Status reconciliation (2026-07-03 verification pass) — what is actually built vs outstanding, so the body stops implying "score the rest" is done.
+
+BUILT (committed, cede0ffb7 on p0018-sales-segmentation-design):
+- Repeatable pipeline: console/controllers/CustomerScoringController.php — extract-tier (blind domain+company worklist, auto-excludes scored domains, lines 141-218), load-results (upsert + classify + spend-at-load, 223-268), load528, stats, export (durable CSV + re-runnable SQL, 315-367), segment-profile. AC1 met; note the AI web-lookup step itself is the p0018-score-tier subagent workflow, captured in TS-001 but not in the repo.
+- Schema: m260629_120000 (segment fields + classification ENUM at :36) and m260629_120100 (ya_customers.email_domain + v_customer_segment_scores view) — both idempotent, applied on SANDBOX only.
+- Classification per scored row: classify() at CustomerScoringController.php:443-449; consumed by AccountLevelController.php:49-50 (MVP routes both trade and disqualified to the system lane — no distinct trade lane yet).
+- Blend feed (AC3 half): AccountLevelController::actionRecompute reads score/tier/classification (78-128); score column on account-levels worklist (backend/views/account-levels/index.php:102).
+- New-quote validation cohort (AC5): 323 deduped leads scored 26 Jun (~/Documents/P-0018-new-quote-scores.{csv,json}, local-only per the README PII policy), feeding the what-if population via committed gen_population_demo.py.
+
+OUTSTANDING:
+- Coverage (AC2): 8,405 customers scored as of 3 Jul (see progress note above; batch in flight) — remainder of the <£1k tail + ~14k quote-only corporate domains continue in paced batches; ~51k personal/webmail customers need the history-based path, which is not designed or built.
+- Surfacing (AC3): score is NOT on quote/customer screens (only the pre-existing Sales Scores page on master + the branch-only account-levels views).
+- Deployment: all segment/classification data + columns exist only on the sandbox (wiped nightly; restore = idempotent migrations + runtime/p0018/export SQL). Production customer_sales_scores (~530 rows, 12 Jun) lacks the new columns.
+- Blocker for applying the migrations anywhere via the normal path: ./yii migrate still aborts at m260615_140000_create_warehouse_settings — common\components\IdempotentMigrationTrait does not exist in the tree. Needs a separate fix ticket.
+- Re-score cadence/triggers: still the open decision from the ticket body.

@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:32:38Z
-updated: 2026-07-02T12:14:06Z
+updated: 2026-07-03T00:26:23Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 9
+version: 10
 ---
 
 ## Problem
@@ -77,3 +77,17 @@ The progress %/bar previously only recalculated on save. It now updates in real 
 **2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; direct commit, allow_commit was off).
 
 This ticket's share: the Account Elevation tracker — `account_level_qualify` + the worklist/detail views that record and visualise a customer's climb to their proposed bucket with the **"in the bag %"**, now including a **live client-side preview** that updates as items are ticked (before save), mirroring the server rule exactly.
+
+**2026-07-03 00:26 claude-code:** Status reconciliation (code audit vs ACs) — most of this ticket shipped in direct commit cede0ffb7 (branch p0018-sales-segmentation-design), but three ACs have concrete gaps, so the body should stop implying the tracker is complete.
+
+BUILT:
+- Worklist: backend/controllers/AccountLevelsController.php:26-57 + backend/views/account-levels/index.php — effective level (override-aware), Stage column, in-the-bag % bar, realised-12m / realised-LTV / potential / share-of-wallet, whale/big-fish flags; filter by level/flag/domain; sortable by value fields, level, score.
+- Detail + qualify: AccountLevelsController.php:59-126 + views/account-levels/view.php — per-level stacked checklist (common/components/LevelRequirements.php), server in-the-bag % (progress() :61-76), Qualified when all mandatory done, live client-side preview mirroring the server rule (view.php:196-228), plus the override/correction panel with append-only history.
+- Engine: console/controllers/AccountLevelController.php recompute seeds level_status='suggested', ladder bands on realised £, new-track caps at Incubation (graduation-on-realised is real). Migrations m260630_170000/180000/190000 exist (guarded; run-status per environment unverified; branch not merged to master).
+
+OUTSTANDING:
+1. Stage machine incomplete (AC1): 'proposed' and 'confirmed' are enum values nothing ever sets — there is no confirm action anywhere; and the per-customer detail view doesn't render the current stage at all (only the worklist row does, index.php:91-95).
+2. Worklist gaps (AC3): not sortable by in-the-bag % (q_in_bag missing from sort attributes, AccountLevelsController.php:52) and it never lists WHAT is outstanding per customer — just the %.
+3. No change audit for progress (AC4): actionQualify upserts latest state only; AccountLevelsController.php:117 rewrites every item's 'at' timestamp on every save, and only the last updated_by/updated_at survive — unticking an item is untraceable. The customer_account_level_log table named in this ticket's design notes was never created. (The append-only log exists only for overrides, not checklist progress.)
+
+Also note: account-levels/* is not in backend allowActions, so non-admin sales users need an RBAC grant before they can use it.

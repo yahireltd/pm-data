@@ -4,7 +4,7 @@ title: Route W — web-score booster for the fast-track lane (blend score-tier w
 type: feature
 state: triaged
 created: 2026-06-30T11:46:39Z
-updated: 2026-07-02T12:14:29Z
+updated: 2026-07-03T00:26:03Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0482
@@ -50,7 +50,7 @@ labels:
   - yasystem
   - build
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
@@ -92,3 +92,20 @@ Verified read-only (`fast-track/evaluate --dryRun`): flags `selainternational.co
 **2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; a direct commit outside the usual run workflow, allow_commit was off).
 
 This ticket's share: `common/components/RouteWBlender.php` (the pure blend — dual-route admission + tier-weighted priority), `console/controllers/FastTrackRouteWController.php` (backtest), and the Route-W integration into `FastTrackService::candidates()` + `FastTrackController`. Still shadow/steering-only; final thresholds move to the T-0479 param store and get re-picked from the full-coverage backtest once the scoring sweep completes.
+
+**2026-07-03 00:26 claude-code:** Reconciliation (work landed via direct commit cede0ffb7 outside the claim flow — no agent_run on this ticket):
+
+BUILT and committed on p0018-sales-segmentation-design:
+- RouteWBlender::evaluate() — pure dual-route blend: common/components/RouteWBlender.php:43-64 (Q >= £4,000 OR tier-A >= £1,500 / tier-B >= £3,000; priority = quoteTotal x {A:2.5, B:1.5, C/unscored:1.0}; route tag Q/W/Q+W). php -l clean.
+- Route W integrated into FastTrackService::candidates(): common/components/FastTrackService.php:70-74 (OR-branch admission SQL, tier joined from customer_sales_scores by email domain, collation-normalised), :110-116 (route tag + blended-priority ranking of the weekly cap). evaluate() persists route to fast_track_leads + quotes.fasttrack_* — still shadow/steering-only, no salesID writes.
+- Backtest: console/controllers/FastTrackRouteWController.php actionBacktest — Q-only vs blended, W-only incremental catch, equal-volume ranking check, wFloorA sweep; uplift (2 → 4-5 whales, ~2-2.5x recall at ~same weekly volume) recorded in the ticket body; shipped defaults recorded in RouteWBlender::DEFAULTS.
+- Dry-run verified read-only on sandbox (fast-track/evaluate --dryRun). Webmail structurally safe: CustomerScoringController never scores webmail domains, so webmail can only enter via Route Q at neutral priority.
+
+OUTSTANDING (why the ACs aren't fully met):
+1. AC1 requires a unit test for RouteWBlender — none exists. Small: the function is pure; a table-driven test over route/floor/multiplier cases is ~30 min.
+2. Thresholds are tunable but NOT in the T-0479 param store — the param store doesn't exist yet. Either build T-0479 first or amend this AC to defer explicitly.
+3. AC3 wording mismatch: tier is joined by the QUOTE email's domain (FastTrackService.php:61-65), not ya_customers.email_domain as written. Behaviour is fail-safe (unmatched domain → Route Q, neutral priority) but the AC text should be corrected or the join switched.
+4. Final thresholds are explicitly provisional pending the full-coverage backtest after the scoring sweep (coverage now 8,405 customers and climbing — re-pick thresholds once the corporate sweep completes).
+5. m260626_230000_create_fast_track_leads_table is committed but not run in any environment, so the shadow write path is unexercised at runtime — that migration is under T-0482's review.
+
+Suggest: add the unit test, then amend AC1/AC4 to defer the param-store move + final threshold re-pick to T-0479/post-sweep follow-ups, and move to review via a proper claim→run cycle.

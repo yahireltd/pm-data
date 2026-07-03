@@ -2,8 +2,8 @@
 id: ADR-006
 slug: de-conflate-industry-from-company-type-three-levels-industry
 title: "De-conflate Industry from Company-type — three levels: Industry (sector) → Company type → Sub-type"
-state: proposed
-decided: 2026-06-23
+state: accepted
+decided: 2026-07-03
 decided_by:
   - Austin
   - Ben
@@ -14,7 +14,7 @@ tickets:
   - T-0473
   - T-0474
   - T-0457
-version: 1
+version: 2
 ---
 
 ## Context

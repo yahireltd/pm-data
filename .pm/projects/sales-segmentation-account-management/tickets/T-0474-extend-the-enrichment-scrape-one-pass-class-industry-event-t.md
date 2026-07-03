@@ -4,7 +4,7 @@ title: "Extend the enrichment scrape: one pass → class/industry/event-types/la
 type: feature
 state: triaged
 created: 2026-06-23T14:09:56Z
-updated: 2026-06-30T16:09:09Z
+updated: 2026-07-03T00:24:56Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -39,7 +39,7 @@ labels:
   - yasystem
   - for-austin
 attention: null
-version: 2
+version: 3
 ---
 
 ## What this is
@@ -55,3 +55,20 @@ The build that turns the agreed vocabulary (T-0473) into populated data. Per [[A
 ## Scope note
 
 Build lands in **Yasystem** (Ya-Hire-Management) under its own ticket/branch; this card tracks it from the project side. Event-types (D3) are populated by the scrape (web-lookup), since the internal `event_type` is ~99.8% empty.
+
+## Conversation
+
+**2026-07-03 00:24 claude-code:** Reconciliation (T-0474) — work exists on branch p0018-sales-segmentation-design (commit cede0ffb7, done via tech sessions/direct commits outside the claim flow), but this ticket is roughly half-built and its body overstates what landed.
+
+BUILT (file:line):
+- Single-table segment+score store: m260629_120000_extend_customer_sales_scores_segment.php adds fit/freq/scale + industry/company_type/sub_type/venue_hire_model/primary_event_type/labels/classification/confidence to customer_sales_scores — one pass writes both (loaded together by CustomerScoringController::actionLoadResults, console/controllers/CustomerScoringController.php:223-268).
+- Re-runnable console pipeline: customer-scoring/load528 (:81), extract-tier blind worklists incl. quoteonly band (:141), load-results, stats (:284), export for sandbox-wipe survival (:315), segment-profile (:372). Anti-leakage: lifetime spend computed at load time, never given to the scorer.
+- Human validation loop: customer_account_corrections (m260630_190000, append-only), AccountLevelsController::actionOverride (backend/controllers/AccountLevelsController.php:133-186) with revert, and account-level/apply-corrections (console/controllers/AccountLevelController.php:155) overlaying segment/score corrections back onto customer_sales_scores.
+
+OUTSTANDING (the ticket's headline items):
+- NO vocab tables (industry+sub, event-type+sub) — vocab lives only in P-0018-taxonomy-v5.md; AccountLevelsController.php:207 literally says "Later: switch to the T-0474 vocab tables once they exist."
+- NO review queue and NO 'proposed: <phrase>' handling anywhere (ADR-003 requirement) — load-results accepts free text and truncates it; new categories can slip in silently.
+- NO surfacing on the existing customer/quote screens — confirm/override lives only on the new /account-levels screens.
+- Back-fill not durable: runs were against the nightly-wiped sandbox only; migrations not applied to live; the scrape step itself is an uncommitted subagent workflow ("p0018-score-tier"), so the extended TS-001 runbook isn't versioned.
+
+Suggest rescoping: mark the pipeline/loop halves done, and split the remaining scope (vocab tables + review queue + customer/quote-screen surfacing + production back-fill) into explicit follow-ups so this card stops implying the vocab discipline exists. Note: taxonomy v5 is now formally ACCEPTED (ADR-007, ratified 2026-07-03), so the vocab-table enum can be built without waiting on further ratification.

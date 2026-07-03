@@ -4,7 +4,7 @@ title: "Account-level model: tunable parameter store + what-if simulation tool"
 type: feature
 state: triaged
 created: 2026-06-26T14:49:58Z
-updated: 2026-06-30T18:52:22Z
+updated: 2026-07-03T00:25:06Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -35,7 +35,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 7
+version: 8
 ---
 
 ## What this is
@@ -79,3 +79,21 @@ Ran a distribution + boundary-sensitivity pass on the 19,979 canonical accounts 
 - **Account/Strategic are robust:** only ~158 accounts have ≥£8k realised/12m at all; just 9 near the Strategic floor. Real money is genuinely concentrated, so those bands are stable; the override tool handles the edge cases.
 
 Recommendation for this ticket's what-if screen: let the user slide the four cuts and watch the bucket counts move live, with the **Incubation floor expressible as a target headcount** (set the cut at the Nth-percentile of potential). The MVP engine already stamps a basis and is customerID-keyed, so the sim can reuse it.
+
+**2026-07-03 00:25 claude-code:** Status reconciliation (code audit of branch p0018-sales-segmentation-design @ cede0ffb7): T-0479 is groundwork-only; the ticket's core deliverables are not built.
+
+BUILT (relevant to this ticket):
+- customer_account_levels.compute_version column (console/migrations/m260630_170000_create_customer_account_levels.php:53) and the recompute stamps it — but with a hardcoded 'cal-mvp-2-cid' (console/controllers/AccountLevelController.php:122), not a param-set id.
+- All model knobs extracted as named constants in one place, explicitly marked for this ticket: console/controllers/AccountLevelController.php:23-29 ('[TUNABLE -> T-0479]') + score->potential anchors at :35.
+- segment_profile table (m260630_130000) + common/components/PotentialEstimator.php + customer-scoring/segment-profile builder + read-only backend/controllers/SegmentProfileController.php — derived AOV/cadence/repeat stats per company_type, currently consumed only by the fast-track lane (FastTrackLaneController.php:53). NOT a versioned tunable profile; the account-level ladder does not use it.
+- Static what-if prototype docs/p0018-sales-segmentation/P-0018-account-level-demo.html over synthetic data (gen_population_demo.py) — the design argument, per the 26-Jun comment, not the tool.
+- Bucket-split sensitivity study (30-Jun comment / TS-004) giving the what-if screen its priorities (Incubation £15k floor is the dominant knob; express it as target headcount).
+
+OUTSTANDING (every substantive AC):
+- account_level_param_sets store (named/versioned/draft-candidate-live-archived, schema-validated, clone-to-edit) — exists only in the blend-addendum doc; no migration, no model.
+- Per-segment profiles inside the param set (repeat prior, potential multiplier, conversion process default, band overrides, qualification_set) and segment-aware banding.
+- Pure AccountLevelEngine.php shared by nightly recompute and simulator; cached account_level_facts frame.
+- The what-if screen itself: backend/controllers/AccountLevelsController.php has only index/view/qualify/override — no simulate action, no distribution/scatter/diff-vs-live/drill-down over the real base or the new-quotes cohort.
+- Save/compare/promote-to-live flow; compute_version pointing at a real param set.
+
+Note: the ticket is blocked_by T-0480, but the email_domain migration (m260629_120100) is already on this branch, so the blocker may be closeable — verify T-0480 separately. This ticket is also the named decision-instrument for the threshold workshop (M-008 outcome 4 + ADR-010), which raises its priority: the what-if screen is how the open £-threshold and steering-basis decisions get made against real distributions.

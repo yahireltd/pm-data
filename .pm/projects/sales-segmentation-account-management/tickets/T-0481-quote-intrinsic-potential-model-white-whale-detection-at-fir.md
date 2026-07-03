@@ -4,7 +4,7 @@ title: Quote-intrinsic potential model — white-whale detection at first quote 
 type: feature
 state: triaged
 created: 2026-06-26T16:33:34Z
-updated: 2026-06-30T12:46:27Z
+updated: 2026-07-03T00:25:42Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -32,7 +32,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 5
+version: 6
 ---
 
 ## What this is
@@ -86,3 +86,21 @@ Two things established on real data (sandbox, branch `p0018-sales-segmentation-d
 **Built:** `segment_profile` table + `customer-scoring/segment-profile` (computes repeat_rate / events_per_year / AOV per company_type — the `repeat_likelihood` the account model/T-0457/T-0479 want); `common/components/PotentialEstimator.php` (`AOV × events/yr`, small-n guard so a 1-customer segment gets no repeat boost).
 
 **Caveats:** company_type has vocab drift (62 types incl. near-dupes + tiny segments — wants the T-0474 closed-vocab/review-queue to consolidate); the scored set skews to established customers, so absolute rates firm up at full coverage. **Recommendation:** use this as the third potential source (alongside the web-score and quote value), and surface it on the fast-track lane / a repeat flag.
+
+**2026-07-03 00:25 claude-code:** Status reconciliation (code audit vs ACs, branch p0018-sales-segmentation-design) — the ticket body still promises white-whale ML detection; here is what is actually built vs outstanding.
+
+BUILT (committed):
+- Leakage-safe extract: console/controllers/QuotePotentialController.php — own-conversion excluded from the label (:187), 30-day cooling-off (:50), frozen --asof label (:81), webmail domains excluded, company_type emitted NULL until an as-of-t0 firmographic snapshot exists (:141). Commits 238edcb97 + 635db3fc5 + 397b09e8f.
+- Scorecard + gated ML pipeline: src/quote_potential/{scorecard,features,train,infer}.py — identical (£, confidence, basis) contract for scorecard and model; train.py:76-164 runs 4 leakage gates (label-shuffle, mutable-basket ablation, strict time-split, single-feature probe) and 3 ship gates (>=150 positives, quoteTotal-ablation beats quote-only baseline, precision@k on small quotes) on every training.
+- Real-data verdict (docs/p0018-sales-segmentation/P-0018-leakage-audit.md): the ML model is NOT viable — 19-33 positives at the £8k bar (needs ~150) and ablation FAILS (first-quote features don't out-rank plain quote value). The item-mix/location whale-detection premise in AC1 is empirically invalidated; model parked, gates vindicated.
+- Working replacement signal (commit cede0ffb7): common/components/PotentialEstimator.php (potential = quote x segment events/year, small-n guard MIN_SEGMENT_N=15), segment_profile table (m260630_130000) + builder CustomerScoringController::actionSegmentProfile (:372), surfaced as the Potential column on the fast-track lane (FastTrackLaneController.php:53-63) and the segment-profile view. Validated: lifetime AUC 0.72 -> 0.76 vs quote-alone.
+- Guardrail holds in code: quote-intrinsic potential is consumed nowhere in level assignment — AccountLevelController::ladder bands on realised r12/ltv floors.
+
+OUTSTANDING (the ACs these belong to should be rescoped or re-homed):
+1. AC1 blend: no third-potential-source blend with a tunable weight exists. customer_account_levels.potential_value is the web-score curve only (AccountLevelController.php:32-45); no down-weighting as realised history accrues. Needs the T-0479 param store + a blend step in account-level/recompute — and is now also gated on ADR-010 (steering basis, open).
+2. No migration for ml_quote_intrinsic_predictions / ml_quote_intrinsic_training_log — src/quote_potential/schema.sql is reference DDL only, so ./yii quote-potential/score -> infer.py INSERT fails until it's created. The 'ships as a scorecard' clause of AC2 is therefore not deployable as committed (and the lane deliberately uses quote value + PotentialEstimator, not scorecard.py, after the 0/33 backtest — FastTrackService.php:9-11).
+3. Identity is an email-domain rollup, not the normalised-email graph (AC3) — blocked on T-0480.
+4. As-of-t0 segment snapshot for training (AC4 coverage) — blocked on T-0456/T-0473/T-0474 landing with scored_at; training company_type is currently 100% NULL by design.
+5. segment_profile migration is committed but not verified as run beyond the sandbox; company_type vocab drift (62 types incl. near-dupes) wants the T-0474 closed vocab before the cadence numbers are trusted at full coverage.
+
+Process note: all of this happened outside the claim flow (state=triaged, no agent_runs, empty code_anchors). Suggest updating the ACs to reflect the pivot (scorecard/ML premise invalidated → PotentialEstimator + segment_profile delivered; blend re-homed to T-0457/T-0479) before any claim/review cycle.

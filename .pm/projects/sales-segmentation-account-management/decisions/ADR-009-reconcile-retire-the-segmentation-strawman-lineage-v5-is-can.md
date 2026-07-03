@@ -2,16 +2,18 @@
 id: ADR-009
 slug: reconcile-retire-the-segmentation-strawman-lineage-v5-is-can
 title: Reconcile & retire the segmentation strawman lineage — v5 is canon (ADR-001 + ADR-007 + ADR-008); surviving governance restated
-state: proposed
-decided: 2026-06-23
-decided_by: []
+state: accepted
+decided: 2026-07-03
+decided_by:
+  - Ben
+  - Austin
 project: sales-segmentation-account-management
 supersedes: ADR-003
 superseded_by: null
 tickets:
   - T-0473
   - T-0474
-version: 1
+version: 2
 ---
 
 ## Context

@@ -4,7 +4,7 @@ title: Fast-track lane — flag the biggest new-customer quotes for senior atten
 type: feature
 state: review
 created: 2026-06-26T22:23:18Z
-updated: 2026-07-02T19:00:07Z
+updated: 2026-07-03T00:25:53Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0457
@@ -86,7 +86,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-06-26T22:51:02Z
-version: 18
+version: 19
 ---
 
 ## Problem
@@ -130,3 +130,16 @@ URL: **/fast-track-lane** (same URL-only convention as Sales Scores — not in t
 Knock-on: the same customerID resolution should feed the scoring identity (one org = one record) — currently typo'd domains get scored as separate phantom customers (e.g. Alexandra Palace exists as `.co`, `.com`, `.comold`). Worth folding into T-0480.
 
 **2026-07-02 12:14 claude-code:** **2026-07-02 — Base fast-track code now committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; direct commit, allow_commit was off). FYI for whoever closes this review: the four lane files (`FastTrackService`, `FastTrackController`, `FastTrackLeads`, the `fast_track_leads` migration) that were built for this ticket are included in that commit (they'd been pulled onto the P-0018 design branch alongside the scoring pipeline + Route W). Still shadow-mode / steering-only — no SLA, ownership, or salesID changes.
+
+**2026-07-03 00:25 claude-code:** Review-verification pass (2026-07-03), to help close the review that has been waiting since 26 Jun: everything claimed for T-0482 P1 IS committed (cede0ffb7, branch p0018-sales-segmentation-design) and the post-run additions are sound, but three ACs remain unexercised.
+
+BUILT + verified: migration m260626_230000 (reversible), FastTrackLeads model, FastTrackService (candidates SQL :58-89, customerID-based classifyOwnership :126-175, shadow evaluate :181-216), FastTrackController (evaluate --dryRun + backtest), read-only /fast-track-lane page (FastTrackLaneController + view; RBAC default-deny; output Html::encode'd; parameterized/int-cast SQL), RouteWBlender (pure, unit-testable). All pass php -l.
+
+POST-RUN ADDITIONS (landed after the completed run, direct-committed): the /fast-track-lane page and the customerID/merge-based ownership classifier (fixing the 63%-existing-customer defect). Verified sound on read: the controller is genuinely read-only; classifyOwnership correctly follows mergedIntoCustomerID to the canonical head, checks delivered-hire history across the merged family, and treats no-history+no-owner as new. Minor inconsistency for P2: FastTrackService.php:158 treats unconverted IS NULL as delivered while FastTrackController's backtest requires unconverted=0 — cosmetic for a shadow lane.
+
+OUTSTANDING BEFORE CLOSE:
+1. Run ./yii migrate on the sandbox, then ./yii fast-track/evaluate twice — confirm fast_track_leads rows + quotes.fasttrack_flag=1 and NO duplicates on re-run (upsert on uq_ftl_dedup) — the shadow write path has never executed.
+2. migrate/down 1 revert check.
+3. The in-DB fast-track/backtest has never reproduced the design-doc precision numbers (the Python harness is the authority) — either run it once or drop that AC.
+
+Cross-impact caution for the reviewer: the migration ALTERs the production quotes table (4 new nullable/defaulted columns) — additive, but large-table ALTER caution applies. Also note threshold defaults are duplicated in 3 files (FastTrackService.php:29-36, RouteWBlender.php:26-34, FastTrackLaneController.php:26-29) and the Route W floors are re-implemented in the candidates SQL WHERE (:70-74) — must stay in sync; classifyOwnership follows only ONE merge hop (A→B→C resolves to B); quotes with customerID=0/null default to is_new=true; stale fasttrack_flag is never cleared when a quote drops out of the lane (fine for shadow, fix in P2).

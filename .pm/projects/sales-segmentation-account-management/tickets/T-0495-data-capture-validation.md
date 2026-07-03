@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-30T14:26:11Z
-updated: 2026-07-02T12:14:04Z
+updated: 2026-07-03T00:26:14Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -41,7 +41,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 9
+version: 10
 ---
 
 ## Problem
@@ -99,3 +99,19 @@ On the override panel, Industry and Company type were free-text. Changed them to
 **2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed** in commit **`cede0ffb`** (branch `p0018-sales-segmentation-design`, pushed to origin; a direct commit outside the usual run workflow, allow_commit was off).
 
 This ticket's share: both halves of validation — the **override loop** (`customer_account_corrections` migration; durable append-only log keeping the AI value beside the human value; override/revert/history UI + taxonomy-backed dropdowns in `AccountLevelsController` + `view.php`; console `account-level/apply-corrections` + corrections feed) and the **qualify gate** (`common/components/LevelRequirements.php` + `account_level_qualify` migration).
+
+**2026-07-03 00:26 claude-code:** Verification pass (2026-07-03) against the committed code in cede0ffb7 — this ticket is PARTIAL, not done. What is actually built vs outstanding:
+
+BUILT (committed, both halves of the validation loop):
+- Adjust/override: customer_account_corrections table (console/migrations/m260630_190000, append-only; suggested_value kept beside corrected_value); override + segment/score correction UI with taxonomy dropdowns, revert, and full history (backend/controllers/AccountLevelsController.php:133-186, backend/views/account-levels/view.php:64-150); level overrides survive recompute via read-layer COALESCE (AccountLevelsController.php:37, :217-221); re-score feed export + fed_to_model stamping (console/controllers/AccountLevelController.php:181-202) and apply-corrections overlay onto customer_sales_scores (:155-172). AC5 (never silently overwrite) is fully met.
+- Qualify gate: per-level stacked checklists incl. the firmographic gap items — decision-maker, need, event calendar, budget (common/components/LevelRequirements.php:16-39); account_level_qualify table (m260630_180000); qualify POST computing in-bag % and advancing status='qualified' when all mandatory done (AccountLevelsController.php:100-126); worklist 'In the bag' column + Overridden filter.
+
+OUTSTANDING (the ACs as written are not yet satisfied):
+1. Reason is optional, AC says mandatory — AccountLevelsController.php:159 accepts blank reason (?: null); neither reason input in view.php has required. Small fix: reject override/correction POSTs with empty reason (server-side) + required attr.
+2. No ownership hand-off exists — the qualify step is not tied to "point of taking ownership" because owner assignment (runbook step 6: logged changeAccountManager wrapper, owner accepts, split_ownership_flag) is not built. Qualify is reachable by anyone, anytime.
+3. WHO/WHEN is docs-only — roles per level live in P-0018-phase2-operating-runbook.md:13-17/:25-31 with [WORKSHOP] markers; nothing in code encodes or enforces steward/exec/AM/senior-AM validation rights.
+4. T-0474 loop cannot close — corrections feed export exists and dropdowns tolerate new values for a future review queue, but T-0474 (vocab tables, review queue, 'proposed:<phrase>') is unbuilt; zero 'proposed:' handling in code. Blocked on T-0474, not on this ticket.
+
+Cross-impact note for the eventual reviewer: apply-corrections mutates customer_sales_scores rows in place (original AI value survives only in the corrections log), so any other consumer of that table (scoring exports, segment-profile, fast-track) will see human-corrected values after the console command runs.
+
+Also: migrations committed but run state per environment unverified; /account-levels/* needs an RBAC grant for non-superadmins; checklist content + £ thresholds remain sensible defaults pending the workshop (→ T-0479).

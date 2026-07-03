@@ -4,7 +4,7 @@ title: Phase 2 · Account levels & assignment — confidence-weighted blend + su
 type: feature
 state: triaged
 created: 2026-06-22T21:41:39Z
-updated: 2026-07-02T12:14:01Z
+updated: 2026-07-03T00:24:47Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -62,7 +62,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 23
+version: 24
 ---
 
 ## What this is
@@ -181,3 +181,9 @@ The confusion was a **display** gap: the worklist only showed Realised/12m, hidi
 **2026-07-02 12:14 claude-code:** **2026-07-02 — Code committed + pushed.** The Phase-2 MVP build landed in commit **`cede0ffb`** on branch `p0018-sales-segmentation-design` (pushed to origin). This was a **direct commit outside the usual claim/run workflow** (Austin requested it; allow_commit was off), so noting it here for the record.
 
 This ticket's share of the commit: the account-level engine — `customer_account_levels` migration + `AccountLevelController` (recompute/stats, realised £ rolled by canonical customerID, the realised-money ladder), `AccountLevelsController` + `backend/views/account-levels/*` (worklist + detail with the Realised-LTV column and the plain-English "why this level" basis), plus `segment_profile` migration + `PotentialEstimator`. Still sandbox-run; the nightly recompute/cron, confirmed_level preservation, and the param store (T-0479) remain open.
+
+**2026-07-03 00:24 claude-code:** Status reconciliation (verification pass, 2026-07-03) — T-0457 is PARTIAL. Built, in commit cede0ffb7: (1) engine: console/controllers/AccountLevelController.php — recompute (:70-146) rolls realised hire by canonical customerID and bands via the realised-money ladder (:47-68: Strategic >=£40k/12m + txn>=2 + signal; Account >=£8k/12m OR LTV >=£20k; Incubation on potential >=£15k or whale; new track caps at Incubation); apply-corrections (:155-172) + re-score feed (:181-202). (2) Tables: customer_account_levels, account_level_qualify, customer_account_corrections, segment_profile, ya_customers.email_domain (m260629-m260630 migrations). (3) UI: /account-levels worklist + detail (backend/views/account-levels/) with realised 12m/LTV, potential, share, 'why this level', qualify checklist -> 'in the bag %' (LevelRequirements.php), and the override panel with reason/revert/history; effective level = override ?: COALESCE(confirmed, suggested) (AccountLevelsController.php:69).
+
+Outstanding vs the ACs: the confidence-weighted blend does not exist (no alpha/gamma/expected_value/realised_blend/realised_gate anywhere — banding is raw realised_12m/ltv with hardcoded constants); no shared pure AccountLevelEngine; no nightly cron and recompute truncates (would wipe confirmed_level); Account has no graduation test for existing customers; revenue uses hireStartDate not delivered hireEndDate, and archived/dead-status contracts are not excluded (:100); no lapsed-high-tier guard / committed_fwd demote-exemption / Strategic capacity cap; no quote-demand dedup or win-rate in the engine (big-fish reads contract fwd, not raw quotes); no propose/confirm/transition write paths, override reason is optional (:159), no salesID ownership gate; no my-accounts badge; no transfer-window worklist; segment_profile/PotentialEstimator not wired into the engine (potential is web-score-only, :128); trade routes to system, not a trade lane. All sandbox-run only.
+
+Suggest trimming the AC list to the MVP actually intended or splitting the blend/guards/workflow into follow-up tickets (T-0479 param store is the natural home for the constants). NOTE: the blend-vs-realised question is now formally open as ADR-010 (steering basis — needs sales-expert input), so the blend ACs should not be built ahead of that decision.
