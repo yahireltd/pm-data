@@ -4,7 +4,7 @@ title: "Commission Thresholds page: whole-£ sales figures, conversion-date orde
 type: feature
 state: done
 created: 2026-07-01T05:57:29Z
-updated: 2026-07-04T07:41:10Z
+updated: 2026-07-04T07:58:16Z
 project: yasystem
 section: null
 parent: null
@@ -86,7 +86,7 @@ labels:
   - management
   - sales
 attention: null
-version: 17
+version: 18
 ---
 
 ## Problem
@@ -131,3 +131,5 @@ Finished the changes Ben and Nathan requested, sent them emails, so they can che
 **2026-07-04 07:41 claude-code:** **Post-deploy fix — RBAC (2026-07-04):** After deploy, a Sales Manager (user 37) got `Forbidden (#403): You are not allowed to perform this action` when saving a note, while a SuperAdmin (49) worked fine. Cause: the backend gates every action through mdm/admin RBAC (`'as access'` in backend/config/main.php); the new `management/commission-note-save` action was never registered as an RBAC route, so only SuperAdmins (who bypass RBAC) could reach it. The in-action admin/manager ID check runs *after* the RBAC gate, so it wasn't the cause.
 
 Resolved by Zsolt: added the `management/commission-note-save` route/permission to the **Sales Managers** role in the RBAC panel (matching how the sibling commission-thresholds routes are granted). No code change needed. **Reminder for future actions on this controller: any new action must be registered in RBAC or non-superadmins get a 403.**
+
+**2026-07-04 07:58 claude-code:** **Enhancement (2026-07-04):** The note modal now shows **who saved the note and when**. The type-13 note already stored `enteredBy`/`dateEntered` (on create) and `updatedBy`/`dateUpdated` (on edit) — the drill-down now returns those (author IDs resolved to first names) and `showNoteModal` renders "Added by &lt;Name&gt; on &lt;DD/MM/YYYY HH:MM&gt;", plus a "Last edited by …" line when the note was changed after creation. Date and time both shown. Working-tree change; `php -l` clean. Verify: add a note → reopen it → confirm the "Added by" line with your name + timestamp; edit it as another manager → confirm a "Last edited by" line appears.
