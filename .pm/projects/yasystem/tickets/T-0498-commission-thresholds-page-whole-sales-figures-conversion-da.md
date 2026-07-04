@@ -4,7 +4,7 @@ title: "Commission Thresholds page: whole-£ sales figures, conversion-date orde
 type: feature
 state: done
 created: 2026-07-01T05:57:29Z
-updated: 2026-07-01T06:12:44Z
+updated: 2026-07-04T07:41:10Z
 project: yasystem
 section: null
 parent: null
@@ -86,7 +86,7 @@ labels:
   - management
   - sales
 attention: null
-version: 16
+version: 17
 ---
 
 ## Problem
@@ -127,3 +127,7 @@ Implementation matches this: salespeople get no editable pencil (read-only green
 **2026-07-01 06:12 — you**
 
 Finished the changes Ben and Nathan requested, sent them emails, so they can check the page
+
+**2026-07-04 07:41 claude-code:** **Post-deploy fix — RBAC (2026-07-04):** After deploy, a Sales Manager (user 37) got `Forbidden (#403): You are not allowed to perform this action` when saving a note, while a SuperAdmin (49) worked fine. Cause: the backend gates every action through mdm/admin RBAC (`'as access'` in backend/config/main.php); the new `management/commission-note-save` action was never registered as an RBAC route, so only SuperAdmins (who bypass RBAC) could reach it. The in-action admin/manager ID check runs *after* the RBAC gate, so it wasn't the cause.
+
+Resolved by Zsolt: added the `management/commission-note-save` route/permission to the **Sales Managers** role in the RBAC panel (matching how the sibling commission-thresholds routes are granted). No code change needed. **Reminder for future actions on this controller: any new action must be registered in RBAC or non-superadmins get a 403.**
