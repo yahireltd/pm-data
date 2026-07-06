@@ -4,7 +4,7 @@ title: "Bundle editor: package part qty double-scaled when editing bundle qty on
 type: bug
 state: review
 created: 2026-07-06T04:59:18Z
-updated: 2026-07-06T04:59:50Z
+updated: 2026-07-06T05:25:07Z
 project: yasystem
 section: null
 parent: null
@@ -85,7 +85,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-06T04:59:50Z
-version: 4
+version: 5
 ---
 
 ## Symptom
@@ -131,3 +131,9 @@ Optional: join `ya_contracts` on `id = p.contractID` and filter `hireStartDate >
 ## Conversation
 
 **2026-07-06 04:59 claude-code:** Run run-20260706-0459 completed — Fixed a bug in the bundle editor on the quote-builder where changing the quantity of a multi-part product (a "bundle", e.g. a poseur table made of a top plus 2 frames) on an existing contract silently produced the wrong number of parts. The system calculated the parts correctly once, then a second piece of code re-scaled them again, so 12 tables gave 18 frames instead of 24. The warehouse then picked and loaded the wrong count — which is exactly what happened on the flagged contract and prompted the email. Cause: the two calculation steps were meant to be mutually exclusive, but the safeguard that kept them apart only worked while a bundle was being added fresh in the same session; once a contract was saved and reopened, the safeguard was missing, so both steps ran and the parts were scaled twice. The fix makes the second step reliably skip anything the first step already handled, so bundle parts are always exactly parts-per-unit × quantity. Without this, any edit to a bundle's quantity on a saved contract quietly corrupted its part counts (the error scaled with how much the quantity changed), risking wrong loads on the day. Note: the code only recalculates when a bundle qty is next edited, so already-affected contracts (including the flagged one) still hold wrong numbers until re-saved or corrected in the database — an audit query to find them is included on the ticket. Change is written and syntax-checked but not yet committed/deployed.
+
+**2026-07-06 05:25 claude-code:** **Tested + deployed (2026-07-06):** Zsolt verified the fix on contract 47730 (C091789) — editing the poseur-table qty now cascades to the correct frame count (12 → 24). Committed as *"Prevent package child double scaling"* (`b71ce239`) and pushed to live.
+
+**Doc added:** `docs/controllers/backend/SalesController/actionUpdateItemQty.md` — documents the two-loop cascade (package-definition children vs user-added accessories), the double-scaling bug + fix, the `ya_contract_items` parent/child linkage, and the audit approach. (New file, needs committing.)
+
+Remaining: correct contract 47730's stored frame qty to 24 if not already done via a re-save on the now-fixed editor.
