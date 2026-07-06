@@ -2,9 +2,9 @@
 id: T-0516
 title: Quote-builder stock check counts the edited contract's own reservation against itself
 type: bug
-state: review
+state: done
 created: 2026-07-06T05:54:36Z
-updated: 2026-07-06T05:58:07Z
+updated: 2026-07-06T06:05:54Z
 project: yasystem
 section: null
 parent: null
@@ -18,12 +18,12 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Increasing an item's qty on a saved contract no longer reports a false shortage caused by the contract's own existing reservation.
-  - On contract 47890 (C091789), changing the poseur qty shows the frames and top as available (green) when enough genuinely exist.
-  - A normal single-item qty edit on another contract still checks stock correctly (green when room, red when genuinely short).
-  - All other callers of stockLevelsBetweenDatesAP are unchanged (param defaults to 0 → no exclusion).
-  - Quotes (Q…) are unaffected (pass contractID 0).
-  - StockLevels.php and SalesController.php pass php -l.
+  - "[x] Increasing an item's qty on a saved contract no longer reports a false shortage caused by the contract's own existing reservation."
+  - "[x] On contract 47890 (C091789), changing the poseur qty shows the frames and top as available (green) when enough genuinely exist."
+  - "[x] A normal single-item qty edit on another contract still checks stock correctly (green when room, red when genuinely short)."
+  - "[x] All other callers of stockLevelsBetweenDatesAP are unchanged (param defaults to 0 → no exclusion)."
+  - "[x] Quotes (Q…) are unaffected (pass contractID 0)."
+  - "[x] StockLevels.php and SalesController.php pass php -l."
 out_of_scope: []
 code_anchors:
   - path: common/models/StockLevels.php
@@ -66,11 +66,9 @@ labels:
   - quote-builder
   - stock
   - sales
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-06T05:58:07Z
-version: 5
+attention: null
+version: 14
+defect_status: confirmed
 ---
 
 ## Symptom
@@ -104,3 +102,9 @@ Added an optional `$excludeContractID = 0` param to `stockLevelsBetweenDatesAP()
 - `docs/controllers/backend/SalesController/actionUpdateItemQty.md` — added a "Stock check excludes the contract being edited" section. (New doc files, need committing.)
 
 **2026-07-06 05:58 claude-code:** Run run-20260706-0557 completed — Fixed a false "not enough stock" warning on the quote-builder. When someone increased the quantity of an item on an existing contract, the availability check was counting that contract's OWN existing booking as if it were unavailable stock held by someone else — so the contract was effectively competing with itself and looked short by exactly the amount being added. This surfaced on the poseur-table bundle (contract 47730 / C091789): raising the frames to the correct 24 showed a shortage of 6 that didn't really exist. Cause: the shared availability function counts every contract's committed stock in the date range with no way to say "ignore the one I'm editing"; it only had that exclusion on the initial page load, not when changing a quantity. The fix adds an opt-in way to exclude the contract being edited, and the quote-builder now uses it. It's an advisory check only (the green/red indicator) — no bookings, prices, or picking data change. Left alone, staff would keep seeing phantom shortages when increasing quantities on live contracts and either override blindly or chase non-issues. The change is backward-compatible: every other place that uses this availability function behaves exactly as before; only the quantity-edit screen opts in. Tested and committed.
+
+---
+
+**2026-07-06 06:05 — you**
+
+tested the stock check on the contract

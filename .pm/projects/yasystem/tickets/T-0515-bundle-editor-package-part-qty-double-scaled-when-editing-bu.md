@@ -2,9 +2,9 @@
 id: T-0515
 title: "Bundle editor: package part qty double-scaled when editing bundle qty on a loaded contract"
 type: bug
-state: review
+state: done
 created: 2026-07-06T04:59:18Z
-updated: 2026-07-06T05:25:07Z
+updated: 2026-07-06T06:04:22Z
 project: yasystem
 section: null
 parent: null
@@ -18,12 +18,12 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Editing a package/bundle item's qty on a saved/reloaded contract sets each package-definition part to partQty × packageQty (12 poseur tables → 24 frames, not 18).
-  - The corrected value persists on save and is what picking reads from ya_contract_items.
-  - User-added (non-package) accessories on a multipart item still scale proportionally when the parent qty changes.
-  - The fresh-add path (adding a bundle in-session) is unchanged and still correct.
-  - The fix does not rely on the isPackageChild flag (works whether the contract is fresh or DB-loaded).
-  - SalesController.php passes php -l.
+  - "[x] Editing a package/bundle item's qty on a saved/reloaded contract sets each package-definition part to partQty × packageQty (12 poseur tables → 24 frames, not 18)."
+  - "[x] The corrected value persists on save and is what picking reads from ya_contract_items."
+  - "[x] User-added (non-package) accessories on a multipart item still scale proportionally when the parent qty changes."
+  - "[x] The fresh-add path (adding a bundle in-session) is unchanged and still correct."
+  - "[x] The fix does not rely on the isPackageChild flag (works whether the contract is fresh or DB-loaded)."
+  - "[x] SalesController.php passes php -l."
 out_of_scope: []
 code_anchors:
   - path: backend/controllers/SalesController.php
@@ -81,11 +81,8 @@ labels:
   - bundle-editor
   - packages
   - sales
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-06T04:59:50Z
-version: 5
+attention: null
+version: 13
 ---
 
 ## Symptom
@@ -137,3 +134,9 @@ Optional: join `ya_contracts` on `id = p.contractID` and filter `hireStartDate >
 **Doc added:** `docs/controllers/backend/SalesController/actionUpdateItemQty.md` — documents the two-loop cascade (package-definition children vs user-added accessories), the double-scaling bug + fix, the `ya_contract_items` parent/child linkage, and the audit approach. (New file, needs committing.)
 
 Remaining: correct contract 47730's stored frame qty to 24 if not already done via a re-save on the now-fixed editor.
+
+---
+
+**2026-07-06 06:04 — you**
+
+tested the qb with the bundles
