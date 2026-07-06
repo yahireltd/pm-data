@@ -2,9 +2,9 @@
 id: T-0515
 title: "Bundle editor: package part qty double-scaled when editing bundle qty on a loaded contract"
 type: bug
-state: in_progress
+state: review
 created: 2026-07-06T04:59:18Z
-updated: 2026-07-06T04:59:27Z
+updated: 2026-07-06T04:59:50Z
 project: yasystem
 section: null
 parent: null
@@ -41,20 +41,51 @@ agent_runs:
   - id: run-20260706-0459
     model: claude-opus-4-8
     started: 2026-07-06T04:59:27Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: master
       branch_source: project
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-07-06T04:59:27Z
+    ended: 2026-07-06T04:59:50Z
+    summary: "Fixed a bug in the bundle editor on the quote-builder where changing the quantity of a multi-part product (a \"bundle\", e.g. a poseur table made of a top plus 2 frames) on an existing contract silently produced the wrong number of parts. The system calculated the parts correctly once, then a second piece of code re-scaled them again, so 12 tables gave 18 frames instead of 24. The warehouse then picked and loaded the wrong count — which is exactly what happened on the flagged contract and prompted the email. Cause: the two calculation steps were meant to be mutually exclusive, but the safeguard that kept them apart only worked while a bundle was being added fresh in the same session; once a contract was saved and reopened, the safeguard was missing, so both steps ran and the parts were scaled twice. The fix makes the second step reliably skip anything the first step already handled, so bundle parts are always exactly parts-per-unit × quantity. Without this, any edit to a bundle's quantity on a saved contract quietly corrupted its part counts (the error scaled with how much the quantity changed), risking wrong loads on the day. Note: the code only recalculates when a bundle qty is next edited, so already-affected contracts (including the flagged one) still hold wrong numbers until re-saved or corrected in the database — an audit query to find them is included on the ticket. Change is written and syntax-checked but not yet committed/deployed."
+    test_plan: |-
+      Prereq: deploy the working-tree change (uncommitted on master). Test on the flagged contract C091789 and a fresh one.
+
+      Core fix (edit on a loaded contract):
+      1. Open C091789 in quote-builder. Change the Black Element Poseur Table qty to 10 → confirm frames update to 20 (2×10).
+      2. Change it to 12 → confirm frames show 24 (NOT 18), line totals look right.
+      3. Save, reopen, confirm 24 persists and the item breakdown/picking shows 24.
+      4. Try another decrease/increase (e.g. 12→8→15) and confirm frames track exactly 2× each time.
+
+      Regression — user-added accessories (must still scale proportionally):
+      5. On a multipart item, add a user-selected accessory via the dropdown (one NOT part of the package definition). Change the parent qty and confirm that accessory still scales by the old:new ratio (this path is intentionally unchanged).
+
+      Regression — fresh add:
+      6. Add a bundle fresh in a new quote, set qty 12, confirm parts = partQty×12 immediately (unchanged behaviour).
+      7. Add bundle, then edit its qty in the same session before saving → confirm parts still correct (the in-session flag path still works).
+
+      Other bundle types:
+      8. Repeat step 1-3 with a different package product (not poseur tables) to confirm the fix is generic.
+
+      Data cleanup / audit:
+      9. Run the audit query on the ticket to list contracts where a stored part qty ≠ partQty×parentQty. Spot-check a couple against the contract to confirm they're genuine (not intentional manual overrides).
+      10. Correct C091789's stored frames to 24 (re-save via the fixed editor is cleanest; direct UPDATE as fallback).
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - quote-builder
   - bundle-editor
   - packages
   - sales
-attention: null
-version: 3
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-06T04:59:50Z
+version: 4
 ---
 
 ## Symptom
@@ -96,3 +127,7 @@ Optional: join `ya_contracts` on `id = p.contractID` and filter `hireStartDate >
 ## Notes
 - Code fix only recomputes on the next edit — C091789's stored 18 needs correcting (re-save via the fixed editor, or direct `UPDATE ya_contract_items`).
 - Yasystem protected `master`; uncommitted working-tree change pending test + deploy.
+
+## Conversation
+
+**2026-07-06 04:59 claude-code:** Run run-20260706-0459 completed — Fixed a bug in the bundle editor on the quote-builder where changing the quantity of a multi-part product (a "bundle", e.g. a poseur table made of a top plus 2 frames) on an existing contract silently produced the wrong number of parts. The system calculated the parts correctly once, then a second piece of code re-scaled them again, so 12 tables gave 18 frames instead of 24. The warehouse then picked and loaded the wrong count — which is exactly what happened on the flagged contract and prompted the email. Cause: the two calculation steps were meant to be mutually exclusive, but the safeguard that kept them apart only worked while a bundle was being added fresh in the same session; once a contract was saved and reopened, the safeguard was missing, so both steps ran and the parts were scaled twice. The fix makes the second step reliably skip anything the first step already handled, so bundle parts are always exactly parts-per-unit × quantity. Without this, any edit to a bundle's quantity on a saved contract quietly corrupted its part counts (the error scaled with how much the quantity changed), risking wrong loads on the day. Note: the code only recalculates when a bundle qty is next edited, so already-affected contracts (including the flagged one) still hold wrong numbers until re-saved or corrected in the database — an audit query to find them is included on the ticket. Change is written and syntax-checked but not yet committed/deployed.
