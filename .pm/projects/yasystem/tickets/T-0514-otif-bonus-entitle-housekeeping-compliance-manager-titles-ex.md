@@ -2,9 +2,9 @@
 id: T-0514
 title: "OTIF bonus: entitle Housekeeping + Compliance Manager titles; exclude Aaron Jarvis"
 type: chore
-state: review
+state: done
 created: 2026-07-06T04:05:52Z
-updated: 2026-07-06T04:27:14Z
+updated: 2026-07-06T04:30:15Z
 project: yasystem
 section: null
 parent: null
@@ -64,15 +64,16 @@ agent_runs:
       9. Confirm the previously-excluded user (787, Orfield) is still excluded — the list is now [787, 87].
       10. Confirm existing entitled titles (drivers on On-Time, warehouse on In-Full) are unaffected — the new ids were appended, none removed.
     records:
-      docs: none-needed
+      docs: updated
       tech_session: none-needed
       status_note: none-needed
+      docs_note: operationalStaffIDsOtif.md, actionCalculateOtifBonuses.md
 labels:
   - otif
   - payroll
   - bonus
 attention: null
-version: 12
+version: 14
 ---
 
 ## Request
@@ -113,3 +114,9 @@ They also asked: "how am I excluding people from OTIF — is it a field in a tab
 - `docs/controllers/backend/AccountsController/actionCalculateOtifBonuses.md` — the `OTIF_EXCLUDED_USER_IDS` exclusion list (how to exclude a person; note it drives BOTH OTIF and one-off bonuses + the N/A display), plus the calc flow.
 
 The two docs cross-link. Working-tree only, uncommitted alongside the code change.
+
+---
+
+**2026-07-06 04:30 — you**
+
+payroll page checked and otif calculation re-run to include and exclude the mentioned departments/employee
