@@ -4,7 +4,7 @@ title: Deposit refund payments silently skipped on first posting run (stale $new
 type: bug
 state: triaged
 created: 2026-07-07T12:57:51Z
-updated: 2026-07-07T14:07:36Z
+updated: 2026-07-07T14:56:08Z
 project: yasystem
 section: null
 parent: null
@@ -36,7 +36,7 @@ labels:
   - xero
   - accounts
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
@@ -86,3 +86,16 @@ Stranded rows: `SELECT ... FROM deposit_refund_allocations WHERE xeroPaymentID I
 3. Kill the lag: daily posting cadence (the race only exists because posting trails refunds by days).
 4. Backlog: rows the bookkeeper already paid manually must be reconciled in the DB (record her payment), NOT re-posted into guaranteed rejects.
 5. Workflow agreement with bookkeeper: after daily posting is live, wait 24h before manually reconciling refund lines.
+
+**2026-07-07 14:56 claude-code:** **Hardening package built (items 1-4, working tree on master, awaiting Austin's commit).** Per Austin's decision: date-range selection is RESPECTED everywhere — no automatic lookback; recovery stays a deliberate, human-chosen range re-run. What changed:
+
+1. **Per-row tolerance** (`postDepositRefunds`): the credit-note pre-check and helper-row build now guard every relation (creditNote/depositRefund/customer/deposit) and wrap each row in try/catch — a broken row logs a per-row `deposit_refund` error and is skipped. Under PHP 8, one null relation used to be a fatal Error that killed the ENTIRE step for the window with zero posting-log trace. Legacy path already had null-safe filters.
+2. **Bank-account fetches wrapped + cached**: new `fetchBankAccount()` (retry via the rate-limit trait, per-request cache) replaces 9 sites × 2 raw `getAccount()` calls — a transient 429 at step start can no longer abort a step, and each full run saves ~16 duplicate API calls. Service now composes `XeroRateLimitHelper` (avoids the deprecated static-on-trait call).
+3. **Run/step logging**: `postAllForPeriod` rewritten table-driven (16 identical try/catch blocks → one loop; also fixes a latent bug where step 11's error was written to a misspelled summary key). Every run logs `posting_run start/finish` with its window; every step logs a `posting_step` row — compact summary on success, exception class+message on error. Silent step death is now impossible.
+4. **`/xero/unposted-report`** (`?olderThanDays=3`): zero-API, zero-session HTML report counting unposted items per document type (invoices, credit notes, payment/deposit overpayments, invoice allocations, deposit refunds new+legacy) with oldest/newest dates and value totals, red-flagging non-zero rows. This is the noticing mechanism; the fixing mechanism remains a deliberate range re-run.
+
+## Test plan
+1. Run a posting for a small recent range → xero_posting_logs shows posting_run start, 16 posting_step rows, posting_run finish; summaries humanly readable.
+2. `/xero/unposted-report` loads instantly with plausible counts (deposit refunds new-ledger should show the known ~300 backlog until reconciled).
+3. Temporarily break one allocation's creditNoteID on TEST → run posting → that row logs a per-row error, all other refunds in the window still post.
+4. Cross-impact: single-step actions (post-deposit-refunds?date=) unchanged; summary array keys unchanged for anything consuming run-post's JSON.
