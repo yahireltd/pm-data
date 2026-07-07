@@ -4,7 +4,7 @@ title: Deposit refund payments silently skipped on first posting run (stale $new
 type: bug
 state: triaged
 created: 2026-07-07T12:57:51Z
-updated: 2026-07-07T12:57:51Z
+updated: 2026-07-07T13:11:03Z
 project: yasystem
 section: null
 parent: null
@@ -36,7 +36,7 @@ labels:
   - xero
   - accounts
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -61,3 +61,14 @@ Stranded rows: `SELECT ... FROM deposit_refund_allocations WHERE xeroPaymentID I
 3. Re-run the same window → allocation not re-selected (xeroPaymentID set), no duplicate payment.
 4. Edge: a refund whose credit note was ALREADY on Xero before the run still posts as before.
 5. Cross-impact: legacy deposit refunds (`postLegacyDepositRefunds`) unchanged — spot-check one.
+
+## Conversation
+
+**2026-07-07 13:11 claude-code:** **Root-cause timeline (from git archaeology, confirmed with Austin):**
+
+1. **1–3 Jul 2025** — latent bug introduced: `b3b02d2d` created the `$newRows` filtered list; `0113f46d` added auto-post-credit-notes-first + a re-query into `$rows` but the payment loop kept iterating stale `$newRows`. The refresh was added to solve exactly this scenario — wrong variable. Mostly harmless while full runs posted credit notes at step 4 before step 13.
+2. **23 Apr 2026** — PHP 7.4→8 upgrade (`5ab7fa71`) brought a newer Xero SDK where `idempotency_key` became argument 3; calls passing the old arg order were rejected by Xero. Fixes landed piecemeal: `8adcb891` (6 May, createPayments/createCreditNoteAllocation) and `3895a7a3` (20 May, createBankTransactions). During the partially-broken window, credit notes and payments stopped landing in the same run → credit notes got posted via the auto-post-first block → the latent bug fired on nearly every deposit refund.
+3. Stranded eras in `deposit_refund_allocations` (xeroPaymentID NULL): bulk **11 May–12 Jun** (bug era; ~300 rows, credit note on Xero, payment missing); **13–28 Jun clean** (fixes fully deployed, runs completing); **29 Jun+** nothing posted (posting freeze from T-0509 incident + quota lockout — pure backlog, no bug).
+4. Bookkeepers have been manually entering missing refund payments in Xero through the bug era — the backlog sweep must reconcile against their manual entries (re-posts of those will be rejected with "no credit remaining", harmless but noisy).
+
+**Also found:** composer.json/lock still pin xeroapi/xero-php-oauth2 2.23.3 while the deployed vendor has the new-signature SDK — vendor was updated outside the lockfile during the PHP 8 work. A future `composer install` from the lock could reintroduce the old SDK. Recommend aligning the lock with the installed version (separate chore).
