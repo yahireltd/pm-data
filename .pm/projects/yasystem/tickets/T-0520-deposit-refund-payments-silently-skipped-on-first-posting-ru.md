@@ -4,7 +4,7 @@ title: Deposit refund payments silently skipped on first posting run (stale $new
 type: bug
 state: triaged
 created: 2026-07-07T12:57:51Z
-updated: 2026-07-07T13:11:03Z
+updated: 2026-07-07T14:07:36Z
 project: yasystem
 section: null
 parent: null
@@ -36,7 +36,7 @@ labels:
   - xero
   - accounts
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -72,3 +72,17 @@ Stranded rows: `SELECT ... FROM deposit_refund_allocations WHERE xeroPaymentID I
 4. Bookkeepers have been manually entering missing refund payments in Xero through the bug era — the backlog sweep must reconcile against their manual entries (re-posts of those will be rejected with "no credit remaining", harmless but noisy).
 
 **Also found:** composer.json/lock still pin xeroapi/xero-php-oauth2 2.23.3 while the deployed vendor has the new-signature SDK — vendor was updated outside the lockfile during the PHP 8 work. A future `composer install` from the lock could reintroduce the old SDK. Recommend aligning the lock with the installed version (separate chore).
+
+**2026-07-07 14:07 claude-code:** **ROOT CAUSE CORRECTION — the stale-$newRows bug is real but DORMANT; it did not cause the strandings.** Log evidence (Austin's pulls):
+- `auto_post_deposit_itemised_creditnotes_before_refunds`: 0 rows ever → the auto-post-first doorway never opened → the stale-list skip never executed. (Fix stays — it's correct defensive code — but it isn't the culprit.)
+- `all_deposit_refunds` batch errors: 0 rows → the whole-batch failure path never fired either.
+- The real trace: **474 per-row `deposit_refund` errors, all identical — "Payments can only be made against Authorised documents; Payment amount exceeds the amount outstanding on this document" — from 2026-04-16 to 2026-07-06** (vs 5,372 successes). 0 write-back warnings.
+
+**Working theory (being confirmed by spot-checks):** a RACE between posting lag and the bookkeeper's bank reconciliation. Refund money leaves the bank on day 0; our posting run for that window arrives days/weeks later (e.g. CR 74738: refund 25 May, CN posted 5 Jun). In between the bookkeeper must reconcile the bank-feed refund line and creates the payment manually in Xero — so when our delayed run finally attempts the payment, the credit note has nothing outstanding → per-row reject. Her manual reconciliation is the CAUSE of the rejects, and the posting lag is the cause of her manual reconciliation. Likely became systematic from mid-April when the PHP8/SDK breakage disrupted posting and pushed her into the manual habit. Historical "gap" rows back to Jul 2025 show occasional early strandings rescued by window re-runs. Secondary quiet path: step-13 dying at API setup is caught by postAllForPeriod and logged only to the Yii app log — zero posting-log trace.
+
+**Remedy package (extends the ticket scope):**
+1. Self-healing selector: drop the lower `created` bound in postDepositRefunds (+ legacy) — `xeroPaymentID IS NULL` already guarantees idempotency; every run then retries all stranded rows.
+2. Per-row error logging in the batch-failure catch (no more model_id=0-only traces).
+3. Kill the lag: daily posting cadence (the race only exists because posting trails refunds by days).
+4. Backlog: rows the bookkeeper already paid manually must be reconciled in the DB (record her payment), NOT re-posted into guaranteed rejects.
+5. Workflow agreement with bookkeeper: after daily posting is live, wait 24h before manually reconciling refund lines.
