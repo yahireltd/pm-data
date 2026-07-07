@@ -4,12 +4,12 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: triaged
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-07T11:20:28Z
+updated: 2026-07-07T11:21:05Z
 project: yahire-website
 section: null
 parent: null
 children: []
-order: 9216
+order: 10240
 priority: p2
 reporter:
   kind: human
@@ -50,7 +50,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 5
+version: 7
 surface: yahire-website
 department: Sales
 ---
