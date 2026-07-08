@@ -2,9 +2,9 @@
 id: T-0527
 title: "Far jobs always dropped: London-calibrated traffic multipliers inflate long legs ~4x; dispatch estimator self-inflicts max_wait/late failures"
 type: bug
-state: in_progress
+state: review
 created: 2026-07-08T14:59:08Z
-updated: 2026-07-08T15:09:14Z
+updated: 2026-07-08T15:24:06Z
 project: route-planner-release
 section: null
 parent: null
@@ -40,12 +40,35 @@ agent_runs:
   - id: run-20260708-1509
     model: claude-fable-5
     started: 2026-07-08T15:09:14Z
-    status: in_progress
+    status: completed
+    progress:
+      - at: 2026-07-08T15:20:20Z
+        note: "Implemented on solver box (backup solver_td.py.bak-20260708-T0527). (1) Urban-blend multipliers: per-node urban flag via haversine ≤28km from London centre; per-leg urban share = whole leg (both ends urban, bit-identical to old behaviour), 600s raw exit share (one end urban), or zero (both ends outside); motorway multiplier keeps 18% of the hour's congestion, floored at the class overnight baseline (1.35 truck / 1.08 van). Depot→Coventry@08:00 fell 341→168min, Chichester 375→183, New Forest 390→190. (2) _smart_dispatch: binary-search latest departure arriving ~5min before first window using the same td_travel_time as the walk — kills the estimator/walk disagreement that dispatched at 01:25 and failed max_wait. (3) Break fixes exposed once drive times sane: return-drive-home now counts as active time after a break (single-far-stop routes were 'break_no_fit' with a 2.5h drive home counting as zero); and when the only break slot lands before 10:00 on a wide-window early job, the scheduler retries with a delayed dispatch so the break lands after 10:00 (rebuild re-validates all windows). Probe now shows all five dropped jobs FEASIBLE on 7.5T/12T/18T (3.5T vans still blocked on far singles by the 3h-minimum-before-break policy — acceptable, trucks cover). Both-urban legs and night legs bit-identical by construction. Full replay of run #2495 in progress to count drops end-to-end."
+    ended: 2026-07-08T15:24:06Z
+    summary: "Fixed the route planner permanently dropping every out-of-town job. The solver's traffic multipliers (calibrated from real drive reports, which are nearly all short London trips) were applied to whole journeys, so it believed Coventry was a 5.7-hour drive instead of 2.8 and declared every far job impossible on every vehicle. The fix classifies each stop by distance from London and applies the full congestion multiplier only to the London portion of a journey — a nearby trip like Southend keeps most of the multiplier (getting out of London dominates), a Coventry run keeps only the fixed exit share, and legs between two out-of-town stops carry no London penalty at all. This mirrors Austin's delivery-category mileage-band idea but computed from exact coordinates. Fixing the times exposed three further blockers, all fixed: the dispatch-time estimator priced drives at rush hour then departed at night and failed its own waiting rule; the legally-required driver break treated the long drive home as zero remaining work so no break slot ever qualified on single-far-stop routes; and early-morning far jobs had their only break slot before the 10:00 break policy floor, now handled by departing later. Verified end-to-end by replaying the exact saved 10 July request: 0 dropped jobs (was 7 originally, 5-6 after the T-0524 seed fix), all 73 jobs on 15 routes, £4,363 direct cost. London-only journeys are computed bit-identically to before, so normal plans are unaffected. If we had done nothing, every job outside the M25 would keep being silently abandoned despite idle vehicles."
+    test_plan: |-
+      **All changes are live on the solver box** (/opt/vrp-solver/solver_td.py, service restarted). Backups on the box: solver_td.py.bak-20260708-T0524 (before seed fix) and solver_td.py.bak-20260708-T0527 (before this change); revert = copy back + systemctl restart vrp-solver.
+
+      1. Sketch planner, Fri 10 Jul 2026, Full Luton split, defaults: Re-solve. Expect **0-1 dropped** (was 7). The five previously-dropped far jobs (C092202 Chichester 20:00 collection, C091968 D1+D2 Coventry, C091437 New Forest, C091439 Salisbury) should appear on truck routes (7.5T or bigger — 3.5T vans legitimately can't take the far singles due to the 3h-before-break policy).
+      2. Check the far routes look operationally sane: Coventry ~2h50 drive each way with a 45min break after the drop; New Forest/Salisbury may share one truck departing ~06:45 with the break after 10:00; Chichester dispatches ~16:50 to hit the 20:00-20:00 window.
+      3. Regression — London-only day: re-solve a busy all-London date and compare route count/timings to its history cards. Should look the same (London legs compute identically by construction).
+      4. Watch total direct cost: expect it HIGHER than before on days with far jobs (~£4,363 vs £3,939 for 10 Jul) because the solver is now actually serving them instead of abandoning them — that's correct, not a regression.
+      5. Edge: any day with a job just inside/outside ~28km of central London (Watford, Slough) — confirm it still plans normally.
+      6. Over the next week, compare solver-predicted drive times for far runs against what drivers actually experience; if predictions run consistently long/short we recalibrate URBAN_EXIT_RAW_SEC (600s) and MOTORWAY_MULT_FRACTION (0.18) — noted as follow-up.
+
+      **Cross-impact:** td_travel_time is used by every solver path (greedy, SA, break rebuild) — all covered by the 0-drop replay. Dispatch search replaces the estimator in both evaluate_route and the break-rebuild twin. No PHP changes in this run; the run planner and finalize flow consume solver output unchanged.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - solver
   - route-planner
-attention: null
-version: 3
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-08T15:24:06Z
+version: 5
 ---
 
 ## Problem
@@ -78,3 +101,7 @@ So all 5 drops are constraint-model artefacts, not real infeasibility and not th
 
 ## Context
 Solver box 18.169.52.174 `/opt/vrp-solver/solver_td.py` — NO git repo; back up before editing (pattern: solver_td.py.bak-YYYYMMDD-TNNNN). Probe scripts left in /tmp on the box and locally. Related: T-0524 (seed selection by direct £ — fixed 2026-07-08).
+
+## Conversation
+
+**2026-07-08 15:24 claude-code:** Run run-20260708-1509 completed — Fixed the route planner permanently dropping every out-of-town job. The solver's traffic multipliers (calibrated from real drive reports, which are nearly all short London trips) were applied to whole journeys, so it believed Coventry was a 5.7-hour drive instead of 2.8 and declared every far job impossible on every vehicle. The fix classifies each stop by distance from London and applies the full congestion multiplier only to the London portion of a journey — a nearby trip like Southend keeps most of the multiplier (getting out of London dominates), a Coventry run keeps only the fixed exit share, and legs between two out-of-town stops carry no London penalty at all. This mirrors Austin's delivery-category mileage-band idea but computed from exact coordinates. Fixing the times exposed three further blockers, all fixed: the dispatch-time estimator priced drives at rush hour then departed at night and failed its own waiting rule; the legally-required driver break treated the long drive home as zero remaining work so no break slot ever qualified on single-far-stop routes; and early-morning far jobs had their only break slot before the 10:00 break policy floor, now handled by departing later. Verified end-to-end by replaying the exact saved 10 July request: 0 dropped jobs (was 7 originally, 5-6 after the T-0524 seed fix), all 73 jobs on 15 routes, £4,363 direct cost. London-only journeys are computed bit-identically to before, so normal plans are unaffected. If we had done nothing, every job outside the M25 would keep being silently abandoned despite idle vehicles.
