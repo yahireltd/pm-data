@@ -2,9 +2,9 @@
 id: T-0524
 title: "Solver drops jobs despite spare fleet: multi-seed winner chosen by direct £ (rewards dropping), ignoring the drop penalty objective"
 type: bug
-state: triaged
+state: in_progress
 created: 2026-07-08T12:45:52Z
-updated: 2026-07-08T12:45:52Z
+updated: 2026-07-08T13:43:03Z
 project: route-planner-release
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Austin
   channel: recurring unexplained drops, worked example 2026-07-10 plan
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Cross-seed winner is selected by (drops, direct cost) — a solution with fewer drops always beats one with more
   - Re-solve of 2026-07-10 yields at most 5 unassigned under identical settings
@@ -31,12 +33,16 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260708-1343
+    model: claude-fable-5
+    started: 2026-07-08T13:43:03Z
+    status: in_progress
 labels:
   - solver
   - sketch-planner
 attention: null
-version: 1
+version: 3
 ---
 
 ## Problem
