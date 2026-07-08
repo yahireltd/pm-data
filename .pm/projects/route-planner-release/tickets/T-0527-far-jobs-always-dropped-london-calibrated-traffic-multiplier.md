@@ -2,9 +2,9 @@
 id: T-0527
 title: "Far jobs always dropped: London-calibrated traffic multipliers inflate long legs ~4x; dispatch estimator self-inflicts max_wait/late failures"
 type: bug
-state: triaged
+state: in_progress
 created: 2026-07-08T14:59:08Z
-updated: 2026-07-08T14:59:08Z
+updated: 2026-07-08T15:09:14Z
 project: route-planner-release
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: agent
   name: claude-code
   channel: session
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - "Re-solve 2026-07-10 from the sketch planner: the five far jobs (C092202, C091968 D1+D2, C091437, C091439) are planned onto routes, drops ≤ 1 for the day"
   - Probe script verdicts flip to FEASIBLE for dedicated routes on at least the 7.5T class for all five jobs
@@ -34,12 +36,16 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260708-1509
+    model: claude-fable-5
+    started: 2026-07-08T15:09:14Z
+    status: in_progress
 labels:
   - solver
   - route-planner
 attention: null
-version: 1
+version: 3
 ---
 
 ## Problem
