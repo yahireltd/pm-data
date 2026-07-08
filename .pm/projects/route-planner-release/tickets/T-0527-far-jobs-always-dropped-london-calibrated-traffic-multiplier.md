@@ -2,9 +2,9 @@
 id: T-0527
 title: "Far jobs always dropped: London-calibrated traffic multipliers inflate long legs ~4x; dispatch estimator self-inflicts max_wait/late failures"
 type: bug
-state: review
+state: done
 created: 2026-07-08T14:59:08Z
-updated: 2026-07-08T15:41:05Z
+updated: 2026-07-08T16:34:57Z
 project: route-planner-release
 section: null
 parent: null
@@ -19,12 +19,12 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Re-solve 2026-07-10 from the sketch planner: the five far jobs (C092202, C091968 D1+D2, C091437, C091439) are planned onto routes, drops ≤ 1 for the day"
-  - Probe script verdicts flip to FEASIBLE for dedicated routes on at least the 7.5T class for all five jobs
-  - London-only legs (raw ≤30min) produce identical predicted durations before/after the change (multiplier taper does not touch short legs)
-  - A busy all-London day re-solved before/after shows no route-duration regressions (spot-check 3 routes’ predicted vs previous timings)
-  - "Dispatch fixed-point: no route in the re-solved plan has first-stop wait > max_wait or a self-inflicted late arrival caused by dispatch-estimate mismatch"
-  - vrp-solver.service restarted cleanly; backup file exists on the box
+  - "[x] Re-solve 2026-07-10 from the sketch planner: the five far jobs (C092202, C091968 D1+D2, C091437, C091439) are planned onto routes, drops ≤ 1 for the day"
+  - "[x] Probe script verdicts flip to FEASIBLE for dedicated routes on at least the 7.5T class for all five jobs"
+  - "[x] London-only legs (raw ≤30min) produce identical predicted durations before/after the change (multiplier taper does not touch short legs)"
+  - "[x] A busy all-London day re-solved before/after shows no route-duration regressions (spot-check 3 routes’ predicted vs previous timings)"
+  - "[x] Dispatch fixed-point: no route in the re-solved plan has first-stop wait > max_wait or a self-inflicted late arrival caused by dispatch-estimate mismatch"
+  - "[x] vrp-solver.service restarted cleanly; backup file exists on the box"
 out_of_scope: []
 code_anchors:
   - path: /opt/vrp-solver/solver_td.py (solver box 18.169.52.174, no git)
@@ -64,11 +64,8 @@ agent_runs:
 labels:
   - solver
   - route-planner
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-08T15:24:06Z
-version: 6
+attention: null
+version: 14
 ---
 
 ## Problem
@@ -114,3 +111,9 @@ Adjusted three dials on the solver box (extra backup: solver_td.py.bak-20260708-
 3. Legs between two out-of-town stops now carry the same 10-minute town share as London exits (leaving Brockenhurst / entering Salisbury has its own crawl) — this was the whole 25-minute miss on the New Forest→Salisbury leg.
 
 New predictions vs Google actuals: Coventry 172 vs 164, Chichester ~189 vs 178, New Forest 209 vs 184 — all now a touch over, never under. London legs still bit-identical. Verification replay running to confirm the day still plans with the extra pessimism.
+
+---
+
+**2026-07-08 16:34 — you**
+
+Tested - all jobs planned with spare capacity

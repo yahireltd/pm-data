@@ -5,7 +5,7 @@ name: Route Planner Release (Rollout Phase 2)
 state: active
 phase: build
 created: 2026-07-08T12:10:58Z
-updated: 2026-07-08T15:20:45Z
+updated: 2026-07-08T16:34:57Z
 owner:
   kind: human
   name: Austin
@@ -25,7 +25,7 @@ phase_overrides:
     reason: "Continuation of P-0007 (Logistics Route Planning rollout), not a new idea: intake, kickoff (M-003) and planning already happened there. P-0007 was closed administratively during the initiatives-vs-systems reorganisation and the tool blocks reopening (T-0523 filed). Converting directly so the remaining rollout work, meetings and a proper gate-based closure have a home."
     at: 2026-07-08T12:10:58Z
     by: Austin (via claude-code)
-version: 37
+version: 45
 ---
 
 # Route Planner Release (Rollout Phase 2)
