@@ -2,9 +2,9 @@
 id: T-0531
 title: Breaks after the last stop are invisible on the sketch board; prefer mid-route break placement
 type: bug
-state: review
+state: done
 created: 2026-07-08T18:13:37Z
-updated: 2026-07-08T18:28:52Z
+updated: 2026-07-08T19:01:15Z
 project: route-planner-release
 section: null
 parent: null
@@ -19,10 +19,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Re-solve 13 Jul: DVL/DDU-style routes show a visible break banner after their last stop matching the header's break total"
-  - END bar shows the return drive time and depot arrival so route totals add up by eye
-  - Breaks on normal multi-stop routes place mid-route (between stops) whenever such a slot is legal
-  - "Replay of run #2495 (10 Jul) still 0 drops"
+  - "[x] Re-solve 13 Jul: DVL/DDU-style routes show a visible break banner after their last stop matching the header's break total"
+  - "[x] END bar shows the return drive time and depot arrival so route totals add up by eye"
+  - "[x] Breaks on normal multi-stop routes place mid-route (between stops) whenever such a slot is legal"
+  - "[x] Replay of run #2495 (10 Jul) still 0 drops"
 out_of_scope: []
 code_anchors:
   - path: backend/assets/RoutePlannerPython/solver_td.py
@@ -58,11 +58,8 @@ labels:
   - route-planner
   - solver
   - ui
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-08T18:28:52Z
-version: 4
+attention: null
+version: 10
 ---
 
 ## Problem
@@ -82,3 +79,9 @@ No undo: reverting would re-drop the far jobs (the break-at-far-customer placeme
 ## Conversation
 
 **2026-07-08 18:28 claude-code:** Run run-20260708-1813 completed — Fixed the "invisible breaks" that looked like a regression on run #2503. The two van routes' breaks were real and legally required — placed after their LAST stop (break at the far customer, then the drive home; provably the only legal slot on those routes) — but the sketch board only drew break banners between stops, so the header said "30m break" while the board showed nothing. The 2h30+ return drives were equally invisible, which is why the 9-hour totals didn't add up by eye. Two fixes instead of an undo (an undo would re-drop the far jobs): (1) the board now shows a trailing break banner after the last stop, including whether it's at the last stop or mid-drive, plus a return-leg row with the drive time home and depot arrival — totals now add up on screen; (2) solver break placement is now tiered rather than one cost-competitive pool — a mid-route break (the old, expected behaviour) always wins when legal, and delayed-dispatch / end-of-route / mid-drive placements only fire in that order when everything better is impossible. Verified by replay of the 10 July request: still 0 dropped jobs, 16 routes, all 12 breaks legally placed and all now visible.
+
+---
+
+**2026-07-08 19:01 — you**
+
+Done

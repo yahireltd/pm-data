@@ -2,9 +2,9 @@
 id: T-0530
 title: Allow driver break mid-drive on long single-leg routes (last resort), surfaced as a memo
 type: feature
-state: review
+state: done
 created: 2026-07-08T17:13:24Z
-updated: 2026-07-08T17:47:40Z
+updated: 2026-07-08T19:04:29Z
 project: route-planner-release
 section: null
 parent: null
@@ -19,10 +19,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Probe: dedicated 3.5T route for the Coventry job (C091968 piece) flips from break_no_fit INFEASIBLE to FEASIBLE with a mid-drive break on the return leg"
-  - "Replay of run #2495 still plans 0-drops and no existing route changes its break placement (mid-leg only fires when after-stop placement fails)"
-  - A sketch route containing a mid-drive break shows the break banner at the right clock time and an automatic memo mentioning the mid-drive break
-  - "Break policy gates still hold for mid-leg breaks: start ≥ 10:00, ≥ 3h active before, work remaining after"
+  - "[x] Probe: dedicated 3.5T route for the Coventry job (C091968 piece) flips from break_no_fit INFEASIBLE to FEASIBLE with a mid-drive break on the return leg"
+  - "[x] Replay of run #2495 still plans 0-drops and no existing route changes its break placement (mid-leg only fires when after-stop placement fails)"
+  - "[x] A sketch route containing a mid-drive break shows the break banner at the right clock time and an automatic memo mentioning the mid-drive break"
+  - "[x] Break policy gates still hold for mid-leg breaks: start ≥ 10:00, ≥ 3h active before, work remaining after"
 out_of_scope: []
 code_anchors:
   - path: backend/assets/RoutePlannerPython/solver_td.py
@@ -55,11 +55,8 @@ agent_runs:
 labels:
   - solver
   - route-planner
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-08T17:47:40Z
-version: 4
+attention: null
+version: 10
 ---
 
 ## Problem
@@ -83,3 +80,9 @@ Mid-leg placement is a LAST RESORT only — normal multi-stop London routes keep
 ## Conversation
 
 **2026-07-08 17:47 claude-code:** Run run-20260708-1713 completed — Drivers can now take their legally-required break mid-drive (a services stop) when a long-distance route has nowhere else to put it. Previously breaks could only happen at customer stops, so some vehicle/job combinations were refused outright — a 3.5T van reaching Coventry with under 3 hours of work done couldn't break at the customer (policy requires 3h before a break) and had no other slot, making the run "impossible". The solver now, as a last resort only, places the break inside any leg with 45+ minutes of driving, at the earliest point satisfying both the 3-hours-active and after-10:00 rules, and re-validates every time window and shift limit. The break is flagged and the route gets an automatic memo ("Driver break 30m taken MID-DRIVE (~17:31, e.g. at services)") so logistics and the driver see it explicitly on the sketch and run planners — no new UI controls, per Austin's suggestion. Normal routes are untouched: the full 10 July replay still plans all 73 jobs with 0 drops and every break at a customer stop, because the fallback only fires when at-stop placement is impossible. Developed in the repo copy and deployed to the solver box (backup solver_td.py.bak-20260708-T0530).
+
+---
+
+**2026-07-08 19:04 — you**
+
+Done
