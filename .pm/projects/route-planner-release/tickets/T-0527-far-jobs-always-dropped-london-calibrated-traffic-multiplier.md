@@ -4,7 +4,7 @@ title: "Far jobs always dropped: London-calibrated traffic multipliers inflate l
 type: bug
 state: review
 created: 2026-07-08T14:59:08Z
-updated: 2026-07-08T15:24:06Z
+updated: 2026-07-08T15:41:05Z
 project: route-planner-release
 section: null
 parent: null
@@ -68,7 +68,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-08T15:24:06Z
-version: 5
+version: 6
 ---
 
 ## Problem
@@ -105,3 +105,12 @@ Solver box 18.169.52.174 `/opt/vrp-solver/solver_td.py` — NO git repo; back up
 ## Conversation
 
 **2026-07-08 15:24 claude-code:** Run run-20260708-1509 completed — Fixed the route planner permanently dropping every out-of-town job. The solver's traffic multipliers (calibrated from real drive reports, which are nearly all short London trips) were applied to whole journeys, so it believed Coventry was a 5.7-hour drive instead of 2.8 and declared every far job impossible on every vehicle. The fix classifies each stop by distance from London and applies the full congestion multiplier only to the London portion of a journey — a nearby trip like Southend keeps most of the multiplier (getting out of London dominates), a Coventry run keeps only the fixed exit share, and legs between two out-of-town stops carry no London penalty at all. This mirrors Austin's delivery-category mileage-band idea but computed from exact coordinates. Fixing the times exposed three further blockers, all fixed: the dispatch-time estimator priced drives at rush hour then departed at night and failed its own waiting rule; the legally-required driver break treated the long drive home as zero remaining work so no break slot ever qualified on single-far-stop routes; and early-morning far jobs had their only break slot before the 10:00 break policy floor, now handled by departing later. Verified end-to-end by replaying the exact saved 10 July request: 0 dropped jobs (was 7 originally, 5-6 after the T-0524 seed fix), all 73 jobs on 15 routes, £4,363 direct cost. London-only journeys are computed bit-identically to before, so normal plans are unaffected. If we had done nothing, every job outside the M25 would keep being silently abandoned despite idle vehicles.
+
+**2026-07-08 15:41 claude-code:** **Calibration pass after Austin's live re-solve (2026-07-08).** The re-solve planned all 73 jobs (0 dropped, 16 routes, £4,405) — but the on-screen Google comparison rows showed the solver running slightly QUICK on the far legs: Chichester predicted 2h42 vs Google 2h58, New Forest 2h28 vs 3h04, Coventry 2h36 vs 2h44, and the New Forest→Salisbury rural hop 1h18 vs 1h43. Austin asked for slightly-more-pessimistic.
+
+Adjusted three dials on the solver box (extra backup: solver_td.py.bak-20260708-T0527-precal):
+1. Motorway congestion fraction 0.18 → **0.25** (long legs keep a quarter of the hour's London congestion signal).
+2. New motorway multiplier floors: **truck 1.55, van 1.40** (was the overnight baseline 1.35/1.08) — real motorway+rural running never hits free-flow.
+3. Legs between two out-of-town stops now carry the same 10-minute town share as London exits (leaving Brockenhurst / entering Salisbury has its own crawl) — this was the whole 25-minute miss on the New Forest→Salisbury leg.
+
+New predictions vs Google actuals: Coventry 172 vs 164, Chichester ~189 vs 178, New Forest 209 vs 184 — all now a touch over, never under. London legs still bit-identical. Verification replay running to confirm the day still plans with the extra pessimism.
