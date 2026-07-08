@@ -2,9 +2,9 @@
 id: T-0484
 title: Route W — web-score booster for the fast-track lane (blend score-tier with quote value)
 type: feature
-state: review
+state: done
 created: 2026-06-30T11:46:39Z
-updated: 2026-07-03T00:47:04Z
+updated: 2026-07-08T11:51:23Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0482
@@ -19,11 +19,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - RouteWBlender::evaluate(quoteTotal, tier, params) is a pure function returning {admit, route ('Q'|'W'|'Q+W'|null), priority}; thresholds tunable via the $params argument (migration into the T-0479 param store deferred to T-0479 — explicit follow-up); passes php -l + the unit test common/tests/unit/components/RouteWBlenderTest.php.
-  - FastTrackService::candidates() admits a new-customer quote via Route Q (quoteTotal >= bigQuote) OR Route W (tier A & quoteTotal >= wFloorA; tier B & quoteTotal >= wFloorB), and orders the weekly cap by the blended tier-weighted priority; each admitted lead is tagged with its route.
-  - "Web-score/tier is read from customer_sales_scores joined by the QUOTE email's domain, normalised at query time (deliberate: the quote's email is the signal available at quote time, including for brand-new leads with no ya_customers row); unscored/webmail leads fall back to Route Q only with neutral priority — Route W NEVER lowers the bar for unscored or low-tier (C) leads, so it adds precision, not flooding."
-  - fast-track-route-w/backtest reproduces the uplift vs Route-Q-only on the leakage-safe first-quote extract (quote-potential/export-training); the shipped DEFAULTS were chosen from its precision/volume curve and recorded; FINAL thresholds are re-picked from a full-coverage backtest once the scoring sweep completes (explicit post-sweep follow-up — not closed by this ticket).
-  - Shadow-mode only (no SLA/ownership/assignment change); the trigger runs off the live web quote-save path; all new PHP passes php -l and a dry-run lists the blended lane vs the Q-only lane.
+  - "[x] RouteWBlender::evaluate(quoteTotal, tier, params) is a pure function returning {admit, route ('Q'|'W'|'Q+W'|null), priority}; thresholds tunable via the $params argument (migration into the T-0479 param store deferred to T-0479 — explicit follow-up); passes php -l + the unit test common/tests/unit/components/RouteWBlenderTest.php."
+  - "[x] FastTrackService::candidates() admits a new-customer quote via Route Q (quoteTotal >= bigQuote) OR Route W (tier A & quoteTotal >= wFloorA; tier B & quoteTotal >= wFloorB), and orders the weekly cap by the blended tier-weighted priority; each admitted lead is tagged with its route."
+  - "[x] Web-score/tier is read from customer_sales_scores joined by the QUOTE email's domain, normalised at query time (deliberate: the quote's email is the signal available at quote time, including for brand-new leads with no ya_customers row); unscored/webmail leads fall back to Route Q only with neutral priority — Route W NEVER lowers the bar for unscored or low-tier (C) leads, so it adds precision, not flooding."
+  - "[x] fast-track-route-w/backtest reproduces the uplift vs Route-Q-only on the leakage-safe first-quote extract (quote-potential/export-training); the shipped DEFAULTS were chosen from its precision/volume curve and recorded; FINAL thresholds are re-picked from a full-coverage backtest once the scoring sweep completes (explicit post-sweep follow-up — not closed by this ticket)."
+  - "[x] Shadow-mode only (no SLA/ownership/assignment change); the trigger runs off the live web quote-save path; all new PHP passes php -l and a dry-run lists the blended lane vs the Q-only lane."
 out_of_scope:
   - SLA timers, ownership/claim/auto-assign, escalation (T-0482 P2)
   - the leads.php gold-star badge + scorecard why-popover (T-0482 P2)
@@ -82,11 +82,8 @@ labels:
   - fast-track
   - yasystem
   - build
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-03T00:47:04Z
-version: 8
+attention: null
+version: 15
 ---
 
 ## Problem
@@ -147,3 +144,9 @@ OUTSTANDING (why the ACs aren't fully met):
 Suggest: add the unit test, then amend AC1/AC4 to defer the param-store move + final threshold re-pick to T-0479/post-sweep follow-ups, and move to review via a proper claim→run cycle.
 
 **2026-07-03 00:47 claude-code:** Run run-20260703-0036 completed — Closed out the Route W web-score booster ticket. The feature itself (admitting high-potential customers' quotes into the fast-track lane at a lower value floor, and ranking the lane so a top-tier customer's quote outranks an unknown's quote of the same size) was already built and backtested — what was missing to meet the ticket's own bar was the safety net proving the blending rules behave exactly as designed, and the ticket's wording had drifted from what was actually (deliberately) built. This run added a full test suite covering every admission rule, the "never lower the bar for unscored or low-rated leads" guarantee, the ranking order, and the tunable-threshold overrides — all verified passing — and corrected the ticket's acceptance wording to record two deliberate deferrals (moving thresholds into the parameter store happens with T-0479; final threshold values get re-picked once the scoring sweep reaches full coverage) plus one deliberate design choice (the tier is looked up by the quote's own email domain, because a brand-new lead has no customer record yet). If we had done nothing, future tuning of these thresholds would have had no regression net, and the ticket would have kept describing a system slightly different from the one that exists. No database was touched; the lane remains shadow-mode only.
+
+---
+
+**2026-07-08 11:51 — you**
+
+done

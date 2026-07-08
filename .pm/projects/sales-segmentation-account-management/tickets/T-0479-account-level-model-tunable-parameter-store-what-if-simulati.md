@@ -2,9 +2,9 @@
 id: T-0479
 title: "Account-level model: tunable parameter store + what-if simulation tool"
 type: feature
-state: review
+state: done
 created: 2026-06-26T14:49:58Z
-updated: 2026-07-03T03:17:54Z
+updated: 2026-07-08T11:50:20Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -19,11 +19,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Every model parameter lives in a named, versioned parameter set, editable WITHOUT a code deploy: the score->£ potential-curve anchors, the segment fit multipliers, the alpha/evidence-weight function (orders-to-full-trust, recency half-life), the initial-quote weight (beta), the £ band cuts for the 4 levels, the white-whale share-of-wallet threshold, and the Strategic per-senior-AM capacity cap."
-  - "The parameter set includes PER-SEGMENT PROFILES (one per industry/company-type from ADR-006/007): repeat_likelihood prior, potential_multiplier / segment-aware curve, default_conversion_process, optional band-threshold overrides, and qualification_set — so a user can tune one segment (e.g. 'venues' vs 'caterers') and watch that cohort re-band."
-  - A what-if screen recomputes proposed account levels for any chosen parameter set IN MEMORY (no writes) over BOTH (a) the existing scored customer base + ya_contracts and (b) the recent-new-quotes cohort.
-  - "The screen shows: distribution by level (counts + £), a Value x Potential scatter, and a DIFF vs the live parameter set ('N customers move X->Y'), with drill-down to individual customers; segment is a filter/colour dimension."
-  - A parameter set can be saved, compared and promoted to live; each customer_account_levels row stamps the compute_version (param set) that produced it, so assignments are reproducible.
+  - "[x] Every model parameter lives in a named, versioned parameter set, editable WITHOUT a code deploy: the score->£ potential-curve anchors, the segment fit multipliers, the alpha/evidence-weight function (orders-to-full-trust, recency half-life), the initial-quote weight (beta), the £ band cuts for the 4 levels, the white-whale share-of-wallet threshold, and the Strategic per-senior-AM capacity cap."
+  - "[x] The parameter set includes PER-SEGMENT PROFILES (one per industry/company-type from ADR-006/007): repeat_likelihood prior, potential_multiplier / segment-aware curve, default_conversion_process, optional band-threshold overrides, and qualification_set — so a user can tune one segment (e.g. 'venues' vs 'caterers') and watch that cohort re-band."
+  - "[x] A what-if screen recomputes proposed account levels for any chosen parameter set IN MEMORY (no writes) over BOTH (a) the existing scored customer base + ya_contracts and (b) the recent-new-quotes cohort."
+  - "[x] The screen shows: distribution by level (counts + £), a Value x Potential scatter, and a DIFF vs the live parameter set ('N customers move X->Y'), with drill-down to individual customers; segment is a filter/colour dimension."
+  - "[x] A parameter set can be saved, compared and promoted to live; each customer_account_levels row stamps the compute_version (param set) that produced it, so assignments are reproducible."
 out_of_scope: []
 code_anchors:
   - path: common/components/AccountLevelEngine.php
@@ -79,11 +79,8 @@ agent_runs:
       - kind: verification
         note: "Parity: engine vs stored suggestions = 0 mismatches over 20,044 accounts. Refactored recompute reproduces 18,561/1,279/191/13 exactly (cal-mvp-3:defaults). £-flow sim at Strat£80k/Acct£15k/LTV£10k/Incub£8k: 1,140 movers, £1,334,198/12m + £11,538,808 potential."
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-03T01:42:11Z
-version: 13
+attention: null
+version: 20
 ---
 
 ## What this is
@@ -149,3 +146,9 @@ Note: the ticket is blocked_by T-0480, but the email_domain migration (m260629_1
 **2026-07-03 01:42 claude-code:** Run run-20260703-0127 completed — Delivered the heart of this ticket: the banding rules are now runtime-tunable and previewable on the fly, instead of numbers hardcoded by a developer. What changed: (1) the level-banding logic was extracted into ONE pure shared engine used identically by the nightly recompute and the new simulator — proven by a parity check where the engine reproduced all 20,044 stored suggestions with zero differences; (2) a What-if panel on the account-levels page lets a manager type candidate thresholds and instantly see — with no writes — how many accounts would change level, which ones (biggest movers named), and how much realised and potential money moves between levels; (3) threshold sets can be saved by name, made LIVE (the nightly recompute then uses them), and optionally applied immediately — with every level change logged per account, and human overrides/confirmations never touched. This is the decision instrument for the threshold workshop: Ben can now see the consequence of any £ threshold before committing to it, and decisions become saved parameter sets instead of code edits. Still outstanding from the original scope: per-segment profiles inside a param set, the cached facts frame, and the scatter/drill-down views — the simulator currently re-bands from stored facts, which is fast enough at 20k accounts.
 
 **2026-07-03 03:17 claude-code:** Post-run addition (2026-07-03 evening, commit 5cda65112 — after this ticket's run completed): saved parameter sets now stamp the engine version (`_engine: e1`) into params_json for replay provenance, and `AccountLevelEngine::VERSION` documents the bump rule (bump on LOGIC changes only — parameter additions/removals are replay-safe by construction because params() defaults missing keys and drops unknown ones). Austin's backward-compat requirement for workshop-draft replays is therefore met without a schema change. Reviewer: verify against the CURRENT branch head (5cda65112), not the run-time snapshot — the run's test plan otherwise stands unchanged. Candidate FUTURE parameters (need new fact columns, not just knobs) are catalogued in P-0018-workshop-pack.md §B/§C: realised lookback window, quoted-lost-demand weight, per-segment multipliers, whale-review age, capacity cap, committed-fwd weight, hysteresis bands.
+
+---
+
+**2026-07-08 11:50 — you**
+
+done
