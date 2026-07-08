@@ -4,12 +4,12 @@ title: Copy-path operational lock keyed per piece ({contractID}|{type}) — defe
 type: bug
 state: triaged
 created: 2026-07-02T12:57:55Z
-updated: 2026-07-02T14:16:48Z
-project: yasystem
+updated: 2026-07-08T12:11:12Z
+project: route-planner-release
 section: null
 parent: null
 children: []
-order: 41984
+order: 6144
 priority: p2
 reporter:
   kind: agent
@@ -35,7 +35,7 @@ labels:
   - sketch-planner
   - route-planning
 attention: null
-version: 3
+version: 4
 branch: PickingSketchSalesDashFriday
 ---
 

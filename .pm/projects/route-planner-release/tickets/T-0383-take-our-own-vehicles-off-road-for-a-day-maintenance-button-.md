@@ -2,14 +2,14 @@
 id: T-0383
 title: Take our own vehicles off-road for a day (maintenance) — button on run planner
 type: feature
-state: triaged
+state: done
 created: 2026-06-15T19:07:56Z
-updated: 2026-06-15T19:16:19Z
-project: yasystem
+updated: 2026-07-08T12:15:32Z
+project: route-planner-release
 section: null
 parent: null
 children: []
-order: 1024
+order: 3072
 priority: p2
 reporter:
   kind: human
@@ -35,7 +35,8 @@ agent_runs: []
 labels:
   - run-planner
 attention: null
-version: 2
+version: 5
+branch: PickingSketchSalesDashFriday
 ---
 
 ## Problem
@@ -59,3 +60,15 @@ Mirror on the sketch planner / ensure the sketch solver excludes off-road vehicl
 **2026-06-15 19:16 claude-code:** Off-road button added to the sketch planner too (parity with run planner), commit 28ac03ae. Off-road vehicles already drop out of the assign-vehicle dropdown for the day.
 
 Open item: couldn't verify whether the SKETCH SOLVER excludes off-road vehicles — its fleet builder `RoutePlanner::getActiveFleetOR()` (common\components\RoutePlanner) is imported/called but the file `common/components/RoutePlanner.php` is not present on this branch (same untracked-on-server pattern as the SalesScores files). Need that file to confirm/patch the solver to skip vehicles_off_road for the date. Flagging rather than guessing.
+
+---
+
+**2026-07-08 12:15 — you**
+
+Done
+
+---
+
+**2026-07-08 12:15 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

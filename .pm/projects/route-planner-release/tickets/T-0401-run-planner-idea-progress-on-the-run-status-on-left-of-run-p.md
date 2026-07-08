@@ -5,13 +5,13 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-17T15:00:00Z
-updated: 2026-06-17T15:01:46Z
-project: yasystem
+updated: 2026-07-08T12:11:29Z
+project: route-planner-release
 section: null
 parent: null
 milestone: null
 children: []
-order: 25600
+order: 4096
 reporter: null
 assignee: null
 acceptance_criteria:
@@ -26,7 +26,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 5
+version: 7
 attachments:
   - key: tickets/T-0401/1781708422432-Screenshot_2026-06-17_at_16-00-14_Ticket_run_planner_idea_Yahire_Zendesk.png
     filename: Screenshot 2026-06-17 at 16-00-14 Ticket run planner idea – Yahire – Zendesk.png
@@ -40,6 +40,7 @@ attachments:
     size: 65804
     uploaded_by: austin@yahire.com
     uploaded_at: 2026-06-17T15:00:36Z
+branch: PickingSketchSalesDashFriday
 ---
 
 think it would be good if the screen shotted section of the run planner. When a driver has started their run/dispatched if these bars could turn into a “loading bar”. The loaded / ready section turns into a count of the jobs i.e. if they had eight jobs it would start 0/8\

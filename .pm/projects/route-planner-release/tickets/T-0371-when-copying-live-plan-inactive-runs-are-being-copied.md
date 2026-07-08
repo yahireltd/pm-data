@@ -5,12 +5,12 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-15T13:40:00Z
-updated: 2026-06-15T13:41:05Z
-project: yasystem
+updated: 2026-07-08T12:11:29Z
+project: route-planner-release
 section: null
 parent: null
 children: []
-order: 21504
+order: 2048
 reporter: null
 assignee: null
 acceptance_criteria:
@@ -25,7 +25,8 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 5
+branch: PickingSketchSalesDashFriday
 ---
 
 ## Problem

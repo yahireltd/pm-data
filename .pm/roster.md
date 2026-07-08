@@ -51,6 +51,8 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:46:23Z
     role: Logistics Manager (Logistics SME)
+    notify_on:
+      - meeting_scheduled
   - name: Orfield Dash
     channel: email
     contact: orfield@yahire.com
@@ -60,6 +62,8 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:47:03Z
     role: Logistics Planner (Logistics SME)
+    notify_on:
+      - meeting_scheduled
   - name: Nana The Master Planna
     channel: email
     contact: nana@yahire.com

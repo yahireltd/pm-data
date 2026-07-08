@@ -5,12 +5,12 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T14:04:19Z
-updated: 2026-06-22T16:29:41Z
-project: yasystem
+updated: 2026-07-08T12:11:09Z
+project: route-planner-release
 section: null
 parent: null
 children: []
-order: 18432
+order: 1024
 reporter: null
 assignee: null
 acceptance_criteria:
@@ -27,7 +27,7 @@ agent_runs: []
 labels: []
 attention: null
 branch: PickingSketchSalesDashFriday
-version: 5
+version: 6
 ---
 
 ## Problem
