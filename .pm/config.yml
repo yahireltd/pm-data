@@ -57,6 +57,7 @@ access:
     - austin@yahire.com
     - ben@yahire.com
     - zsolt@yahire.com
+    - athanasios@yahire.com
 inbound_email:
   enabled: true
   mailboxes:
