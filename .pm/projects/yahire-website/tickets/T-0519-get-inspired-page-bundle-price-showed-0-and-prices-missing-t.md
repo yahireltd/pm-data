@@ -4,7 +4,7 @@ title: "Get-inspired page: bundle price showed £0 and prices missing the £ sig
 type: bug
 state: done
 created: 2026-07-07T10:40:52Z
-updated: 2026-07-07T10:45:33Z
+updated: 2026-07-08T08:35:21Z
 project: yahire-website
 section: null
 parent: null
@@ -39,7 +39,7 @@ labels:
   - pricing
   - yahirenew
 attention: null
-version: 9
+version: 10
 defect_status: confirmed
 ---
 
@@ -79,3 +79,13 @@ done and live
 **2026-07-07 10:45 — you**
 
 Records: docs updated (getBundleCalculatedPrice.md); tech-session none-needed; status-note none-needed.
+
+**2026-07-08 08:35 claude-code:** **Follow-up fix (same method, get-inspired bundle cards): the card URL link wasn't showing for bundle items.**
+
+Root cause — `YahireNewSections::getProductCardFromStockID()` builds the card URL by looping the product's category assignments and taking the one whose `canonicalURL` *contains* the product's `urlLink` (a `strpos` match). For bundles that match fails, so `$url` stayed empty and the card rendered with no link.
+
+Fix — added a fallback: when `$url` is still empty after the normal loop, pull the product's canonical URL directly from `ya_url_routes` (keyed by `stockID` + `canonicalURL = 1` + `websiteID`) — the same source the newer listing code uses. Non-bundle products are unaffected (original path runs first; fallback only fires when the URL would otherwise be blank).
+
+Caveat: only works if the bundle has a canonical route in `ya_url_routes`; a bundle with no canonical entry will still show no link (data fix, not code).
+
+File: `common/models/YahireNewSections.php` — `getProductCardFromStockID()` (~line 2452, right after the canonical-URL loop). On `master`.
