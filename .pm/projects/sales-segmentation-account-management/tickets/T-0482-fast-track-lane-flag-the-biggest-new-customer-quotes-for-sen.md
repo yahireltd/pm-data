@@ -2,9 +2,9 @@
 id: T-0482
 title: Fast-track lane — flag the biggest new-customer quotes for senior attention (shadow MVP → SLA queue)
 type: feature
-state: review
+state: done
 created: 2026-06-26T22:23:18Z
-updated: 2026-07-03T00:25:53Z
+updated: 2026-07-08T12:07:12Z
 project: sales-segmentation-account-management
 section: null
 parent: T-0457
@@ -18,13 +18,13 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Reversible migration creates `fast_track_leads` (per-customer lifecycle table) and adds `quotes.fasttrack_*` snapshot columns; `./yii migrate` applies and `migrate/down` reverts cleanly on the sandbox.
-  - "`FastTrackService::evaluate()` flags a quote iff: scope (active, forward-dated, not-cancelled, resolves to a NEW/unowned customer — owned = real salesID + realised history are excluded) AND Route Q (quoteTotal >= threshold); deduped to one entry per customer (corporate=email_domain key, webmail=individual-email key); admitted up to a weekly cap ranked by quote value."
-  - Console `fast-track/evaluate` runs in SHADOW mode (writes/upserts `fast_track_leads` + stamps `quotes.fasttrack_*`, NO SLA/ownership/assignment); `fast-track/evaluate --dryRun=1` is read-only and prints what would be flagged.
-  - Console `fast-track/backtest` reproduces the precision/recall-vs-known-whales numbers from the design doc on the real first-quote history.
-  - All thresholds (BIGQUOTE, WEEKLY_CAP, webmail blocklist) live in one place, ready to move to the T-0479 param store; no magic numbers scattered in queries.
-  - Trigger computes in a console job OFF the live web quote-save path (zero risk to the conversion path).
-  - New PHP passes `php -l`; dry-run verified against real sandbox data and the flagged set matches the backtest expectation.
+  - "[x] Reversible migration creates `fast_track_leads` (per-customer lifecycle table) and adds `quotes.fasttrack_*` snapshot columns; `./yii migrate` applies and `migrate/down` reverts cleanly on the sandbox."
+  - "[x] `FastTrackService::evaluate()` flags a quote iff: scope (active, forward-dated, not-cancelled, resolves to a NEW/unowned customer — owned = real salesID + realised history are excluded) AND Route Q (quoteTotal >= threshold); deduped to one entry per customer (corporate=email_domain key, webmail=individual-email key); admitted up to a weekly cap ranked by quote value."
+  - "[x] Console `fast-track/evaluate` runs in SHADOW mode (writes/upserts `fast_track_leads` + stamps `quotes.fasttrack_*`, NO SLA/ownership/assignment); `fast-track/evaluate --dryRun=1` is read-only and prints what would be flagged."
+  - "[x] Console `fast-track/backtest` reproduces the precision/recall-vs-known-whales numbers from the design doc on the real first-quote history."
+  - "[x] All thresholds (BIGQUOTE, WEEKLY_CAP, webmail blocklist) live in one place, ready to move to the T-0479 param store; no magic numbers scattered in queries."
+  - "[x] Trigger computes in a console job OFF the live web quote-save path (zero risk to the conversion path)."
+  - "[x] New PHP passes `php -l`; dry-run verified against real sandbox data and the flagged set matches the backtest expectation."
 out_of_scope:
   - SLA timers, ownership/claim/auto-assign, escalation ladder (P2)
   - capacity cap + volume governor (P2)
@@ -82,11 +82,8 @@ agent_runs:
       tech_session: none-needed
       status_note: written
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-06-26T22:51:02Z
-version: 19
+attention: null
+version: 28
 ---
 
 ## Problem
@@ -143,3 +140,9 @@ OUTSTANDING BEFORE CLOSE:
 3. The in-DB fast-track/backtest has never reproduced the design-doc precision numbers (the Python harness is the authority) — either run it once or drop that AC.
 
 Cross-impact caution for the reviewer: the migration ALTERs the production quotes table (4 new nullable/defaulted columns) — additive, but large-table ALTER caution applies. Also note threshold defaults are duplicated in 3 files (FastTrackService.php:29-36, RouteWBlender.php:26-34, FastTrackLaneController.php:26-29) and the Route W floors are re-implemented in the candidates SQL WHERE (:70-74) — must stay in sync; classifyOwnership follows only ONE merge hop (A→B→C resolves to B); quotes with customerID=0/null default to is_new=true; stale fasttrack_flag is never cleared when a quote drops out of the lane (fine for shadow, fix in P2).
+
+---
+
+**2026-07-08 12:07 — you**
+
+done

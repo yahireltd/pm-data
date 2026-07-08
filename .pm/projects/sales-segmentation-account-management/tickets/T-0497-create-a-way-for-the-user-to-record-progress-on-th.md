@@ -2,10 +2,10 @@
 id: T-0497
 title: Account Elevation tracker — record + visualise a customer's climb to their proposed bucket ('in the bag %')
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-30T14:32:38Z
-updated: 2026-07-03T03:17:59Z
+updated: 2026-07-08T12:06:22Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -17,11 +17,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Per-customer 'conversion path' view shows the target Stewardship Level, the current stage (Suggested → Proposed → Owner Assigned → Qualified → Confirmed) and a requirement CHECKLIST for that target level.
-  - A clear 'in the bag %' = checklist completion (qualifying questions + data capture + plan/sign-off) so anyone can see how close a customer is to their recommended bucket.
-  - A team/manager worklist lists what is OUTSTANDING to convert each customer to its recommended bucket (sortable by % / value / level).
-  - Progress is recorded by the owner (tick items / answer questions) and every change is logged (who/when) so it can't silently regress.
-  - Reads the realised-vs-potential climb too (share of wallet), reflecting that a new high-scorer can be PROPOSED Strategic but only GRADUATES as realised £ accrues.
+  - "[x] Per-customer 'conversion path' view shows the target Stewardship Level, the current stage (Suggested → Proposed → Owner Assigned → Qualified → Confirmed) and a requirement CHECKLIST for that target level."
+  - "[x] A clear 'in the bag %' = checklist completion (qualifying questions + data capture + plan/sign-off) so anyone can see how close a customer is to their recommended bucket."
+  - "[x] A team/manager worklist lists what is OUTSTANDING to convert each customer to its recommended bucket (sortable by % / value / level)."
+  - "[x] Progress is recorded by the owner (tick items / answer questions) and every change is logged (who/when) so it can't silently regress."
+  - "[x] Reads the realised-vs-potential climb too (share of wallet), reflecting that a new high-scorer can be PROPOSED Strategic but only GRADUATES as realised £ accrues."
 out_of_scope: []
 code_anchors:
   - path: docs/p0018-sales-segmentation/P-0018-phase2-process-flow.mmd
@@ -80,11 +80,8 @@ agent_runs:
       - kind: verification
         note: php -l clean across all files; worklist join smoke-tested after the collation fix (customer_account_levels.email_domain general_ci→0900_ai_ci); filter counts verified on sandbox (20,044 = 11,181 corporate + 8,863 personal; 9,550 unscored).
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-03T01:46:05Z
-version: 15
+attention: null
+version: 22
 ---
 
 ## Problem
@@ -152,3 +149,9 @@ Uncommitted in the working tree along with the T-0480/T-0484 batch (allow_commit
 3. **Score popover financials** + work-page visual restyle were already inside the reviewed commit ea2060ff2.
 
 Net effect on the test plan: steps unchanged, but the work page now additionally shows the Owner card (step 7's happy path starts with Assign owner) and the worklist has two more chips per row + the cross-tab collapsible to eyeball.
+
+---
+
+**2026-07-08 12:06 — you**
+
+done
