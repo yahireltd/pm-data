@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: triaged
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-09T12:56:16Z
+updated: 2026-07-09T13:27:56Z
 project: yahire-website
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 9
+version: 11
 surface: yahire-website
 department: Sales
 ---
@@ -138,3 +138,35 @@ All invitations go out as a branded Yahire email with a link to set a password a
 - **Impersonation** (a staff member viewing the portal as a customer, for support) is still not built — it's flagged as optional and would need an audit log added first.
 
 Note: some staff-side approval of customer address changes (part of slice 6) also lives in this same ya-hire branch, so slices 5 and 6 both touch the staff system, not just the customer site.
+
+**2026-07-09 13:24 claude-code:** **Progress + decisions — 09 Jul 2026 (review with Zsolt)**
+
+**Decisions locked in (closes several open items):**
+- **Staff access to portal management — leave as-is for now.** No change needed.
+- **Impersonation — not needed.** Dropping it from scope (and with it the audit-log table that would have been required first).
+- **Legacy yahirenew customer login — not applicable.** That old login isn't used on the yahirenew site, so there's nothing to redirect/retire.
+
+**Fixes made today (customer site + staff system, not yet committed — Zsolt to review & ship):**
+- **Re-order now uses the details of whoever is placing it.** Previously a re-order always pre-filled the account owner's name/email/phone even if a team member did it. Now it uses the logged-in person's own contact details (the company and account, and pricing, still come from the account). Phone falls back to the account's number only if that person has none saved.
+- **Billing address change — Apply/Dismiss now ask for confirmation.** On the customer's profile in the staff system, the "Apply to billing address" and "Dismiss" buttons now show a confirmation pop-up first, to prevent accidental clicks.
+- **Tidied the billing-request box** on that page — added padding so the text isn't flush against the edge, and put the customer's note on its own line.
+- **Billing-request email failures are now logged.** When a customer requests a billing address change, the site emails accounts@yahire.com + the account manager. That send is best-effort; if it silently fails (e.g. mail service auth), it's now written to the app log so a missed notification can be diagnosed rather than looking identical to success.
+
+**Still open:**
+- **Password / lockout policy** — one decision left: minimum password rules and whether to lock an account after repeated failed logins (brute-force protection). Everything else (reset link, optional email login codes) is already in.
+- **Menu link** to the central "Portal Customers" admin page — Zsolt to add later; for now it's reached via the shortcut on a customer's profile.
+- **Re-ordering old quotes** (as opposed to confirmed orders) — still a possible future follow-up, not built.
+
+Net: all six build slices are functionally in place across the customer site and the staff system. Remaining work is the password-policy decision, the menu link, and reviewing/shipping the uncommitted changes above.
+
+**2026-07-09 13:27 claude-code:** **Decision — password / lockout policy settled (09 Jul 2026)**
+
+This open item is now closed. No new work needed — the policy is already in place and judged reasonable:
+
+- **Password rules:** minimum 8 characters, must include an uppercase letter, a lowercase letter and a number. Enforced when a customer registers or resets their password. **Kept as-is.**
+- **Two-step verification is always on:** logging in from a new/untrusted device always requires a one-time code emailed to the customer, and that code step is limited to 5 tries before a new code must be requested.
+- **Failed-password lockout:** intentionally **not added**. Because the emailed code is mandatory on any untrusted device, guessing a password alone doesn't grant access, so a separate password lockout isn't needed for launch.
+
+**Optional future hardening (not doing now):** add a light throttle on the password step (e.g. temporarily block an email after ~5 failed attempts) as defence-in-depth. Logged as a possible follow-up only.
+
+With this, the only remaining open items on the portal are the menu link to the staff "Portal Customers" page (Zsolt to add) and reviewing/shipping the uncommitted changes.
