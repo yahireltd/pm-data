@@ -4,7 +4,7 @@ title: "Make Xero posting self-healing: recover lost GUID write-backs instead of
 type: bug
 state: review
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-09T15:50:40Z
+updated: 2026-07-09T16:11:55Z
 project: yasystem
 section: null
 parent: null
@@ -102,7 +102,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-09T15:07:19Z
-version: 8
+version: 9
 ---
 
 ## Problem
@@ -147,3 +147,16 @@ Live customer xeroIDs match the live Xero org only — a test org's IDs differ. 
 2. **Refresh reality + token safety:** the live→test refresh (`yii sandbox/refresh --yes=1`, runs ON LIVE) had its cron line removed — the sandbox has been frozen at a consistent 2026-07-02 pre-incident snapshot; it was never nightly. Recommended re-add on live: `0 3 * * *` (finishes before the test box's 06:00 migrate). SandboxController PRESERVE_TABLES now includes `yahire_db.xero_oauth_tokens` so the sandbox keeps its own demo token and NEVER receives live's (a copied live token would let the test box reach the live Xero org for up to ~30 min). Ordering: migrate on the test box BEFORE the first refresh after deploy so the preserve engages (or blank the row once manually).
 
 Sandbox test sequence: deploy both boxes → migrate test → refresh from live → prep-sandbox → connect Demo Company via sandbox /xero/login → clean post → identical re-run (zero new demo objects) → kill -9 mid-run + re-run (heal proof) → synthetic-log-row refusal tests.
+
+**2026-07-09 16:11 claude-code:** **Sandbox org-configuration gap closed (Austin's catch #2: bank accounts / nominals / VAT don't exist in a demo org).**
+
+Design principle: the sandbox tests prove posting MECHANICS (duplicate prevention, heal, idempotency, kill-recovery) — not chart-of-accounts fidelity. So:
+
+1. **Nominals**: `xero-post/prep-sandbox` now also normalises every `invoice_items.xeroNominal` to **200** (Sales — present in every stock UK demo chart). No chart replication needed.
+2. **Bank accounts**: XeroApiService (sandbox branch) no longer uses hardcoded GUIDs (they go stale on every Demo Company reset). It resolves the two bank accounts **by name** at runtime — create `Barclays Test` and `Stripe Test` once per demo reset (Accounting > Bank accounts, any bank/number, ~2 min). Missing accounts fail loudly with setup instructions instead of cryptic per-payment validation errors. Live branch untouched (hardcoded live GUIDs as before).
+3. **Account 610** (hardcoded on overpayment lines): create once per demo reset in the chart — the resolve error message reminds you.
+4. **VAT**: non-issue — our lines set explicit TaxAmount, and the UK Demo Company carries UK VAT rates. Amounts are asserted against OUR values.
+
+**Per-demo-reset setup (~5 min total)**: reset Demo Company → create 2 bank accounts (exact names above) + account code 610 → connect via sandbox /xero/login → `yii xero-post/prep-sandbox --yes=1` → run the test suite.
+
+**Known-expected sandbox failure**: itemised credit note 75664 has document total ≠ sum of lines in OUR data (live log shows the same rejection) — it will fail in the demo org too. That's a data bug reproducing correctly, not a regression; exclude it from the clean-run assertion.
