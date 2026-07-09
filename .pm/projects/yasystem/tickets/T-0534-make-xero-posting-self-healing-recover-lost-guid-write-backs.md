@@ -4,7 +4,7 @@ title: "Make Xero posting self-healing: recover lost GUID write-backs instead of
 type: bug
 state: review
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-09T15:13:18Z
+updated: 2026-07-09T15:50:40Z
 project: yasystem
 section: null
 parent: null
@@ -102,7 +102,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-09T15:07:19Z
-version: 7
+version: 8
 ---
 
 ## Problem
@@ -137,3 +137,13 @@ Also in the same working tree: /xero/heal-invoice-numbers (log-driven bulk backl
 
 ## Testing constraint (why the test plan is sandbox-first)
 Live customer xeroIDs match the live Xero org only — a test org's IDs differ. Sandbox testing works by NULLing xeroIDs (+ doc xero-ids) for a chosen window on the test box: the flow auto-creates contacts in the Demo Company via generateCustomers, so IDs never need to match. SAFETY: the nightly RDS restore copies live's xero_oauth_tokens row to test — it must be blanked post-restore or the test box briefly holds a live-org token.
+
+## Conversation
+
+**2026-07-09 15:50 claude-code:** **Sandbox testing design finalised with Austin (2 additions in the working tree since the run completed):**
+
+1. **Cross-window reference problem (Austin's catch):** allocations in any test window reference parents (invoices/credit notes/payments/deposits) from OTHER windows whose xero-ids are live-org GUIDs — meaningless to a Demo Company, so every such allocation would be rejected. Solution: `php yii xero-post/prep-sandbox --yes=1` (new, hard-guarded: refuses unless params.sandbox=true AND the DB host contains 'restored') blanks EVERY Xero linkage column across the sandbox DB (ya_customers.xeroID; invoices/deposit_charges.xeroInvoiceID; payments/deposits xeroOverpaymentID+xeroPaymentID; invoice_payments.xeroInvoiceID; deposit_refund_allocations/credit_note_allocations.xeroPaymentID; postedToXero flags on credit_note_allocations/payment_refund_overpayments/contract_deposits) and truncates xero_posting_logs (--keepLogs=1 to skip). Every window is then self-contained: the posting steps' existing prerequisite logic selects parents by NULL xero-id with NO date filter, so it creates them in the demo org first, then allocates against fresh GUIDs. The xero_oauth_tokens row is untouched (it's the sandbox's own demo-company token).
+
+2. **Refresh reality + token safety:** the live→test refresh (`yii sandbox/refresh --yes=1`, runs ON LIVE) had its cron line removed — the sandbox has been frozen at a consistent 2026-07-02 pre-incident snapshot; it was never nightly. Recommended re-add on live: `0 3 * * *` (finishes before the test box's 06:00 migrate). SandboxController PRESERVE_TABLES now includes `yahire_db.xero_oauth_tokens` so the sandbox keeps its own demo token and NEVER receives live's (a copied live token would let the test box reach the live Xero org for up to ~30 min). Ordering: migrate on the test box BEFORE the first refresh after deploy so the preserve engages (or blank the row once manually).
+
+Sandbox test sequence: deploy both boxes → migrate test → refresh from live → prep-sandbox → connect Demo Company via sandbox /xero/login → clean post → identical re-run (zero new demo objects) → kill -9 mid-run + re-run (heal proof) → synthetic-log-row refusal tests.
