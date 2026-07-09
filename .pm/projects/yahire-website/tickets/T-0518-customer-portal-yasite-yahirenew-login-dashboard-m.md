@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: triaged
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-09T09:55:50Z
+updated: 2026-07-09T12:56:16Z
 project: yahire-website
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 8
+version: 9
 surface: yahire-website
 department: Sales
 ---
@@ -116,3 +116,25 @@ Built and working in dev (not yet committed/deployed — Zsolt to review & ship)
 **Notes / not done yet**
 - Re-order is available on confirmed **orders** only — **quotes** can't currently be re-ordered (raised as a possible follow-up for reviving old/expired quotes).
 - The re-order contact details pre-fill the **account owner's** name/email/phone; if a team member places it, it still shows the owner's details for now (easy to switch to the logged-in user later).
+
+**2026-07-09 12:56 claude-code:** **Progress — Staff "Portal Customers" management in ya-hire (slice 5)**
+
+Built and committed on the ya-hire branch `portal-customer-management` (this is the internal staff system, a separate codebase from the customer-facing site). Not yet reviewed/merged — Zsolt to check & ship.
+
+Staff now have two ways to manage portal customers:
+
+**1. A dedicated "Portal Customers" admin page** (superusers only) with three tabs:
+- **Accounts & invites** — a searchable list of every portal login and every pending invitation across all accounts (search by email, name, company or account number; filter by active / disabled / pending / expired). For each person, staff can: enable or disable their login, send them a password-reset email, clear their "trusted devices" (so they'll be asked for a login code again), change exactly what they're allowed to do, invite a colleague onto their account, and resend or cancel a pending invitation.
+- **Invite a customer** — search for an existing customer and send them a portal invitation, choosing whether they come in as the account owner or a limited team member. It won't let you double-invite someone who already has a login or a live invite.
+- **Permissions** — manage the master list of what portal users can be allowed to do. Staff can add a new permission, turn one on/off, or remove one, and see how many users currently have each. Adding a new option never needs a developer.
+
+**2. A portal panel on each customer's profile page** — when viewing a customer in the normal sales screen, staff see whether that customer is on the portal (and who's registered), and can invite them or a colleague, or resend/cancel an invite, without leaving the page. Superusers get a shortcut through to the full admin page above.
+
+All invitations go out as a branded Yahire email with a link to set a password and get started; links expire after 14 days.
+
+**Still open / to decide before this slice is "done":**
+- **Who can access it.** The dedicated admin page is currently superusers-only, while the panel on the customer profile is open to a wider set of sales/accounts roles. The ticket originally said "SuperUsers + Sales Manager". We should pick one rule and make both match.
+- **No menu link yet** to the dedicated admin page — right now it's only reached via the shortcut from a customer's profile. Fine if that's intended, otherwise it needs a menu entry.
+- **Impersonation** (a staff member viewing the portal as a customer, for support) is still not built — it's flagged as optional and would need an audit log added first.
+
+Note: some staff-side approval of customer address changes (part of slice 6) also lives in this same ya-hire branch, so slices 5 and 6 both touch the staff system, not just the customer site.
