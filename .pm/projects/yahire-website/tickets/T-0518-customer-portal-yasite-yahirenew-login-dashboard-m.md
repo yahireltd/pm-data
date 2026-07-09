@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: triaged
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-07T11:21:05Z
+updated: 2026-07-09T09:55:50Z
 project: yahire-website
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 7
+version: 8
 surface: yahire-website
 department: Sales
 ---
@@ -90,3 +90,29 @@ Work happens on branch **`customer-portal`** (yasite repo).
 - Staff page confirmed in **ya-hire** gated by SuperUsers + Sales Manager (vs a simpler check).
 - Whether to include **impersonation** for support (+ an audit log table before go-live).
 - Password/lockout policy; GDPR/PII considerations for customer accounts.
+
+## Conversation
+
+**2026-07-09 09:55 claude-code:** **Progress — Orders, delivery status & re-order (slice 6), on branch `customer-portal`**
+
+Built and working in dev (not yet committed/deployed — Zsolt to review & ship):
+
+**Order detail + delivery/collection status page**
+- Each order now opens an in-portal detail page showing hire dates, total, status, and a step-by-step delivery **and** collection progress timeline (Scheduled → Out for delivery → En route → Arrived → Delivered). Live-track links appear when a run is out.
+- The order number is safe to share/change in the URL — a customer can only ever see their own account's orders (anything else shows a friendly "not found" message, not an error page).
+
+**Dashboard fix**
+- On the dashboard, the "Recent orders" number was opening the external contract view in a new tab. It now opens the in-portal order detail page, matching the Orders list.
+
+**Re-order a past order**
+- Every order has a **Re-order** button. It opens a preview showing the order's items and their accessories.
+- The customer picks a **saved delivery address** (and collection address — same or different) from their account, then continues to the normal quote page with the **items, all accessories, their contact details, and the chosen address already filled in**. They only need to choose new hire dates and submit, which creates a fresh quote for the sales team.
+- Deliberately **not carried over**: fees and other non-hire lines from the original order. Pricing uses **current rates**, not the old order's prices.
+- Fixed a display glitch where the pre-filled address showed an unlabelled postcode box.
+
+**Navigation**
+- Added a "Visit website" link to the portal top bar (opens the main site in a new tab), so customers can get back to the shop from anywhere in their account.
+
+**Notes / not done yet**
+- Re-order is available on confirmed **orders** only — **quotes** can't currently be re-ordered (raised as a possible follow-up for reviving old/expired quotes).
+- The re-order contact details pre-fill the **account owner's** name/email/phone; if a team member places it, it still shows the owner's details for now (easy to switch to the logged-in user later).
