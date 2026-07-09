@@ -4,7 +4,7 @@ title: "Make Xero posting self-healing: recover lost GUID write-backs instead of
 type: bug
 state: review
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-09T16:46:57Z
+updated: 2026-07-09T17:52:52Z
 project: yasystem
 section: null
 parent: null
@@ -102,7 +102,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-09T15:07:19Z
-version: 11
+version: 12
 branch: t0534-xero-posting-self-heal
 ---
 
@@ -163,3 +163,17 @@ Design principle: the sandbox tests prove posting MECHANICS (duplicate preventio
 **Known-expected sandbox failure**: itemised credit note 75664 has document total ≠ sum of lines in OUR data (live log shows the same rejection) — it will fail in the demo org too. That's a data bug reproducing correctly, not a regression; exclude it from the clean-run assertion.
 
 **2026-07-09 16:19 claude-code:** Correction from Austin: account 610 is a Xero DEFAULT chart account (Accounts Receivable) — it already exists in every demo org, no creation needed (and for RECEIVE-OVERPAYMENT bank transactions Xero fixes the double-entry itself, so the line's account code is effectively moot). The per-demo-reset setup shrinks to just: create the two named bank accounts ('Barclays Test', 'Stripe Test') + connect via sandbox /xero/login + `yii xero-post/prep-sandbox --yes=1`. The resolve-error message has been updated to drop the 610 instruction.
+
+**2026-07-09 17:52 claude-code:** **Sandbox test suite COMPLETE (Demo Company, new test box xerotest.yahire.com). 13 scenarios, one major negative finding, fixed and re-tested. Branch now at 67c316ca (3 commits).**
+
+**Passed:** (1) clean 2-window run — every path incl. all six money types, ~600 objects, zero duplicate GUIDs; (2) identical re-run — 3s/window, zero new objects; (3) kill -9 mid-run at 75s — resumed cleanly, mutex auto-released, no duplicates or orphans (per-record write-back shrank the vulnerable window so far the kill couldn't strand a single record); (4) heal-from-log restores the verified original GUID; (5) tampered-GUID heal is REFUSED on Xero verification ('left for review'); (6) two-GUID records skipped per the known-duplicate rule; (7) locked token refresh — one refresh, zero invalid_grant; (8) sandbox bank accounts resolve by name; (9) refund-payment types are additionally self-blocking on Xero (duplicate re-post bounced with 'amount exceeds outstanding' — no damage possible).
+
+**NEGATIVE FINDING (the important one):** deterministic idempotency keys do NOT replay across posting runs — empirically they replay only within the same access token (~30 min). Staged re-posts of overpayment bank transactions created REAL duplicates in the demo org. Overpayments have no unique number and no outstanding-amount cap, so they were left with no cross-run protection — exactly the T-0509 duplicate type.
+
+**Fix (commits 569f1512 + 67c316ca):** on-Xero backstop in both overpayment paths — before creating anything the log couldn't heal, fetch Xero's RECEIVE-OVERPAYMENTs for the window's dates (one paged call per day, NOT per record) and match candidates client-side on the local id embedded in our echoed line-item description JSON. Exactly one match → recover GUID, skip post (TESTED: original GUID restored). Multiple matches → refuse + flag for review, never post into ambiguity (TESTED: stayed NULL, no third copy). None → post normally.
+
+**Two side-discoveries:** (a) Xero where-filters using Reference string functions (Contains/EndsWith) silently match nothing on BankTransactions — meaning **T-0509's XeroOverpaymentDedupeService::findBankTransactionForOverpayment never matched anything** and should be fixed the same way if ever reused; (b) bank-transaction line items are only returned when the page parameter is passed.
+
+**Test debris in the demo org** (wiped by next demo reset / sandbox refresh): duplicate overpayments for payments 48332/48372 and deposit 33585 — created deliberately by the staged tests.
+
+**Remaining for live:** merge branch → master, deploy, migrate, /xero/login (live org), one manual canary window via console, then cron 0 6,18. Sandbox evidence is all in the fresh xero_posting_logs on the test DB.
