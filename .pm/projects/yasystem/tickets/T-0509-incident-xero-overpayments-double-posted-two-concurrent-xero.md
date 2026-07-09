@@ -4,7 +4,7 @@ title: "INCIDENT: Xero overpayments double-posted — two concurrent xero/run-po
 type: incident
 state: triaged
 created: 2026-07-02T14:48:35Z
-updated: 2026-07-03T16:14:42Z
+updated: 2026-07-09T13:57:49Z
 project: yasystem
 section: null
 parent: null
@@ -40,7 +40,7 @@ labels:
   - accounts
   - incident
 attention: null
-version: 6
+version: 7
 ---
 
 ## What happened
@@ -157,3 +157,17 @@ The build found **264 pairs** (the definitive count — the earlier 232 used a n
 - Link lookups moved inline per pair (3 calls/pair), with clean daily-cap abort → a cap hit now still yields a USABLE PARTIAL checklist; re-running later completes it (voided pairs drop out as ALREADY_CLEAN).
 
 **Next window:** quota resumes ~13:24 Fri 4 Jul (rolling). Friday also needs the normal daily posting. Recommended: check /xero/quota Friday late afternoon; when remaining > ~1,500 run `/xero/dedupe-checklist` (≈15 min), review at `/xero/dedupe-checklist-view`, accounts voids the ~264 twins via the deep links (Fri evening / Monday), then `/xero/dedupe-overpayments?execute=1` as the final verify+repoint pass.
+
+**2026-07-09 13:57 claude-code:** **Full verification of the 07-02 repair + discovery of a related invoice-orphaning incident (investigated 2026-07-09 with Austin).**
+
+**1. The 07-02 duplicate-overpayment repair is CONFIRMED COMPLETE.** Log analysis (live `xero_posting_logs`, zero Xero API used): 235 duplicated `overpayment` + 33 `deposit_only_overpayment` objects; 231+33 = all 264 pairs had both copies inside 09:32–09:40 — exactly matching the manual-void checklist. Austin confirms he personally voided all 264. The 107 `payment_linked_deposit_overpayment` "duplicates" are the same Xero objects logged from the deposit side (5,368/5,368 GUID overlap with `overpayment`) — no separate repair was ever needed.
+
+**2. Same root cause also orphaned itemised invoices (now healed).** The concurrent runs raced on invoices too: invoice numbers are unique in Xero, so instead of duplicating, the loser run got "Invoice # must be unique" and the winner's GUID write-back was lost → invoices existed in Xero but `xeroInvoiceID` stayed NULL locally, re-erroring every run and (since the July hardening) blocking payment/credit/deposit allocations. Two events: **2026-06-19** (Xero 500 mid-`createInvoices`, 289 invoices) and **2026-07-02** (this incident, 440 invoices). All **729 healed** on 2026-07-09 via new `/xero/heal-invoice-numbers` (log-driven, reads GUIDs back by invoice number, dry-run default, bulk chunked lookups; on master).
+
+**3. Remaining repair worklist (small):**
+- **`overpayment` 47708 — posted 4× on 2026-05-20 (deploy/test session), up to 3 surplus copies, OPEN period → needs voiding.** Keeper = GUID in `payments.xeroOverpaymentID`; echoes `invoice_payment` 48528 / `payment_linked` 32405 clear with it.
+- Closed-period historical leaks (accounts' call, likely absorbed by reconciliation): overpayments 39540 (2025-07/08), 40424 (2025-09), 44413 (2026-01/02); plus ~22 payment-family duplicates from 2025-07→2026-03 (`credit_note_refund` ×7, `deposit_refund` ×10, `legacy_deposit_refund` ×4, `payment_refund_overpayment` 283 = a triple, `deposit_charge_allocation` 4481).
+
+**4. Root cause is architectural, not incidental.** Every posting path = "select WHERE xero-id IS NULL → create in Xero → write id back after". Anything separating create from write-back (Xero 5xx, killed process/fpm timeout, concurrency, deploy lag) mints duplicates (non-unique objects) or orphans (invoices). Census shows this leaking since 2025-07. Mutex (added 07-02) covers concurrency only. Prevention ticket to follow.
+
+Side findings: test-box `xero_posting_logs` is stale (ends ~06-25) — live-log forensics must run on live; `/xero/quota` throws on a stale SDK enum (cosmetic, getOrganisations only).
