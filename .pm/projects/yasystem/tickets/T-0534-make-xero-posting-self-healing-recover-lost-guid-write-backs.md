@@ -4,7 +4,7 @@ title: "Make Xero posting self-healing: recover lost GUID write-backs instead of
 type: bug
 state: review
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-09T17:52:52Z
+updated: 2026-07-09T18:37:02Z
 project: yasystem
 section: null
 parent: null
@@ -102,7 +102,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-09T15:07:19Z
-version: 12
+version: 13
 branch: t0534-xero-posting-self-heal
 ---
 
@@ -177,3 +177,13 @@ Design principle: the sandbox tests prove posting MECHANICS (duplicate preventio
 **Test debris in the demo org** (wiped by next demo reset / sandbox refresh): duplicate overpayments for payments 48332/48372 and deposit 33585 — created deliberately by the staged tests.
 
 **Remaining for live:** merge branch → master, deploy, migrate, /xero/login (live org), one manual canary window via console, then cron 0 6,18. Sandbox evidence is all in the fresh xero_posting_logs on the test DB.
+
+**2026-07-09 18:37 claude-code:** **Session continued — 4 more commits on the branch (now 55c636c6):**
+
+1. **Write-ahead attempt rows** (Austin's go-ahead): one 'attempt' row before every Xero create, all 8 paths. Immediately proved itself: when the completeness run froze, the single stranded attempt row (deposit_refund 29452) pinpointed the exact record it was stuck inside.
+
+2. **Live-discovered freeze + two fixes:** the completeness run exhausted the demo org's DAILY API cap (5,000 — all of today's testing) and Xero's 429 carried Retry-After=81178s (~22.5h). xeroCall honoured it verbatim → the run froze in a 22.5-hour nanosleep, confirmed via /proc syscall (hrtimer_nanosleep). Fixes: (a) fail fast when X-DayLimit-Remaining=0 or Retry-After>300s — per-record catches log it and the next sweep completes the work; minute-limit waits still honoured, capped 120s; (b) Guzzle connect/read timeouts (15s/90s) on the AccountingApi client — default was hang-forever on a stalled connection; timing out is safe now because the attempt-row + heal/backstop layers recover a committed-but-unconfirmed create instead of duplicating.
+
+3. **Post-run issue digest + triage page (Austin's feature request):** after each cron run, errors/refused-heals/daily-cap-aborts/stranded-attempts are summarised in an email (params xeroPostDigestTo, default austin@; no issues = no email) linking to /xero/run-issues — a zero-API page where each issue deep-links to the Xero document and the affected contract's /contracts/manual-refund page (contract resolved per record type).
+
+**Re 29452:** the daily-cap 429 means Xero REJECTED the create — nothing exists on Xero; it posts fresh next run. **Pending:** the full completeness re-test (windows 06-15/06-16) could not finish — demo org quota is zero until ~2026-07-10 17:00 UTC (rolling window). Resume tomorrow evening with `php yii xero-post/daily 24 25` (offsets shift with the date), then re-run the completeness report; the earlier snapshot was mid-run and is not a verdict. The interrupted run doubles as another organic kill-recovery case for the resume to prove.
