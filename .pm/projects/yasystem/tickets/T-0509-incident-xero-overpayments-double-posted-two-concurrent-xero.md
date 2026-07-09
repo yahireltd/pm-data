@@ -4,7 +4,7 @@ title: "INCIDENT: Xero overpayments double-posted — two concurrent xero/run-po
 type: incident
 state: triaged
 created: 2026-07-02T14:48:35Z
-updated: 2026-07-09T13:57:49Z
+updated: 2026-07-09T14:05:49Z
 project: yasystem
 section: null
 parent: null
@@ -40,7 +40,7 @@ labels:
   - accounts
   - incident
 attention: null
-version: 7
+version: 8
 ---
 
 ## What happened
@@ -171,3 +171,5 @@ The build found **264 pairs** (the definitive count — the earlier 232 used a n
 **4. Root cause is architectural, not incidental.** Every posting path = "select WHERE xero-id IS NULL → create in Xero → write id back after". Anything separating create from write-back (Xero 5xx, killed process/fpm timeout, concurrency, deploy lag) mints duplicates (non-unique objects) or orphans (invoices). Census shows this leaking since 2025-07. Mutex (added 07-02) covers concurrency only. Prevention ticket to follow.
 
 Side findings: test-box `xero_posting_logs` is stale (ends ~06-25) — live-log forensics must run on live; `/xero/quota` throws on a stale SDK enum (cosmetic, getOrganisations only).
+
+**2026-07-09 14:05 claude-code:** Correction to the remaining-worklist item above: **overpayment 47708's three surplus copies were already voided by Austin on 2026-05-20** (same day the deploy/test session created them). Keeper 233e1b7e-3c0d-4310-8b3f-5d7c71dc4f0a confirmed as the copy the DB points at. So the open-period repair is fully DONE; the only items left anywhere are the closed-period historical duplicates (2025-07→2026-03), which are accounts' call and presumed absorbed by reconciliation. Note: manual voids leave no trace in xero_posting_logs, which is why the census flagged this as outstanding — T-0534 includes persisting manual repair actions so future audits don't re-chase already-fixed items.

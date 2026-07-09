@@ -2,9 +2,9 @@
 id: T-0534
 title: "Make Xero posting self-healing: recover lost GUID write-backs instead of minting duplicates/orphans"
 type: bug
-state: triaged
+state: in_progress
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-09T13:58:22Z
+updated: 2026-07-09T14:14:02Z
 project: yasystem
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: agent
   name: claude-code
   channel: investigation with Austin 2026-07-09
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Re-posting an invoice that already exists in Xero (same InvoiceNumber) results in the local xeroInvoiceID being back-filled from Xero and NO error loop — verified on test box by nulling a posted invoice's xeroInvoiceID and re-running the window
   - A simulated 5xx/exception during a batch create (e.g. throw after the API call in a test double) leaves no permanently-NULL rows for objects Xero committed — the same run or the next run writes back their ids
@@ -35,13 +37,37 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260709-1413
+    model: claude-opus-4-8
+    started: 2026-07-09T14:13:20Z
+    status: in_progress
+    policy_ack:
+      branch: master
+      branch_source: project
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-09T14:13:20Z
+    progress:
+      - at: 2026-07-09T14:14:02Z
+        note: "All four guards implemented in the working tree on master (uncommitted — project policy blocks agent commits; Austin reviews and commits). Changes in common/models/XeroFunctionsNew.php: (1) postItemisedInvoices and postItemisedCreditNotes now post in chunks of 50 with GUID write-back immediately after each chunk (a killed process strands ≤1 chunk instead of a whole day/week batch); (2) a thrown batch create no longer aborts with `return []` — it runs recoverInvoiceGuids/recoverCreditNoteGuids on that chunk's numbers (Xero may have committed despite the throw — the 2026-06-19 500) and continues with remaining chunks; (3) \"must be unique\" validation errors now trigger the same recovery (self-heal: reads the existing GUID back by number, fills only blank local rows, never writes to Xero) instead of error-looping forever; (4) postDepositRefunds now saves xeroPaymentID BEFORE logging success, and logs an error if the local save fails. Recovery lookups are bulk (1 API call per 50 invoices / 20 credit notes) to respect the daily quota. Root-cause context: php-fpm request_terminate_timeout=600s (introduced with the PHP8 migration ~2026-04-30) SIGKILLs long posting runs silently — confirmed on the test box; awaiting Austin's confirmation of live's value. Also still uncommitted in the same tree: the earlier /xero/heal-invoice-numbers bulk rewrite (backend/controllers/XeroController.php)."
+    test_plan: |-
+      On the TEST box (no live risk, but note test box has no Xero token — API-touching paths need live or a token):
+      1. `php -l common/models/XeroFunctionsNew.php` after pulling — no syntax errors.
+      2. Code review the diff: confirm the chunk loop writes back inside the loop, the catch calls recover* then `continue` (never `return []`), and deposit refunds save before logging.
+
+      On LIVE after deploying (Austin):
+      3. Self-heal happy path: pick one already-posted itemised invoice from June, note its xeroInvoiceID, set it to NULL in the DB, re-run posting for that day's window. EXPECT: no repeated "Invoice # must be unique" error; a `self_heal` success row in xero_posting_logs for that invoice; xeroInvoiceID re-filled with the SAME GUID as before (compare!). This proves recovery never mints a new invoice.
+      4. Normal posting regression: run a quiet recent day's window end-to-end. EXPECT: identical posted/error counts to what that window produced before, plus no new duplicate GUIDs (census query from T-0509 comment shows zero NEW objects with >1 distinct xero_response).
+      5. Deposit refund ordering: after any window that posts deposit refunds, verify every deposit_refund success row has a non-NULL DepositRefundAllocations.xeroPaymentID (SELECT dra.id FROM deposit_refund_allocations dra JOIN xero_posting_logs l ON l.model_type='deposit_refund' AND l.model_id=dra.id AND l.status='success' WHERE dra.xeroPaymentID IS NULL — expect 0 rows for new activity).
+      6. Cross-impact: postItemisedInvoices/postItemisedCreditNotes are also called as prereq steps inside postAllInvoicePaymentAllocations, postCreditNoteInvoiceAllocations, postDepositCharges and postDepositRefunds — re-check one window where those prereq posts fire (log shows posted_itemised_invoices_before_payment_allocation) and confirm allocations then succeed.
+      7. Ongoing (2 weeks): re-run the duplicate census — zero NEW duplicated objects.
 labels:
   - xero
   - posting
   - data-integrity
 attention: null
-version: 1
+version: 4
 ---
 
 ## Problem
