@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: triaged
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-09T13:27:56Z
+updated: 2026-07-09T13:36:05Z
 project: yahire-website
 section: null
 parent: null
@@ -18,15 +18,15 @@ assignee:
   kind: human
   name: zsolt@yahire.com
 acceptance_criteria:
-  - A customer can log in to the yahirenew portal with email + password, separate from staff auth (own PortalUser identity + portalUser component + _identity-portal cookie).
-  - '"Stay logged in" keeps the session ~2 days via remember-me; logout clears it.'
-  - The logged-in customer's dashboard shows their real orders across the account's merged customer id-set (master + mergedIntoCustomerID children).
-  - A customer can register via an invite link (/portal/register?token=...) for both staff-initiated and owner-initiated invites, setting their own password.
-  - An account owner can invite team members (from the account's linked people), set each member's permissions from the catalog, and disable/remove them.
-  - Permissions are driven by portal_permissions + portal_user_permissions (owner = implicit all); adding a new option is an INSERT, not a schema change.
-  - Staff (SuperUsers + Sales Manager) can onboard/manage portal customers and the permission catalog from a dedicated page in ya-hire, without staff appearing in portal_users.
-  - Password reset works via emailed token; optional per-user email OTP 2FA can be enabled.
-  - The legacy yahirenew customer login is replaced/redirected to the new portal login; no customer rows are written to the internal user table.
+  - "[x] A customer can log in to the yahirenew portal with email + password, separate from staff auth (own PortalUser identity + portalUser component + _identity-portal cookie)."
+  - '[x] "Stay logged in" keeps the session ~2 days via remember-me; logout clears it.'
+  - "[x] The logged-in customer's dashboard shows their real orders across the account's merged customer id-set (master + mergedIntoCustomerID children)."
+  - "[x] A customer can register via an invite link (/portal/register?token=...) for both staff-initiated and owner-initiated invites, setting their own password."
+  - "[x] An account owner can invite team members (from the account's linked people), set each member's permissions from the catalog, and disable/remove them."
+  - "[x] Permissions are driven by portal_permissions + portal_user_permissions (owner = implicit all); adding a new option is an INSERT, not a schema change."
+  - "[x] Staff (SuperUsers + Sales Manager) can onboard/manage portal customers and the permission catalog from a dedicated page in ya-hire, without staff appearing in portal_users."
+  - "[x] Password reset works via emailed token; optional per-user email OTP 2FA can be enabled."
+  - "[x] The legacy yahirenew customer login is replaced/redirected to the new portal login; no customer rows are written to the internal user table."
 out_of_scope: []
 code_anchors:
   - path: yasite/yahirenew/config/main.php
@@ -50,7 +50,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 11
+version: 21
 surface: yahire-website
 department: Sales
 ---
@@ -170,3 +170,14 @@ This open item is now closed. No new work needed — the policy is already in pl
 **Optional future hardening (not doing now):** add a light throttle on the password step (e.g. temporarily block an email after ~5 failed attempts) as defence-in-depth. Logged as a possible follow-up only.
 
 With this, the only remaining open items on the portal are the menu link to the staff "Portal Customers" page (Zsolt to add) and reviewing/shipping the uncommitted changes.
+
+**2026-07-09 13:33 claude-code:** **Code review of the uncommitted portal changes — 09 Jul 2026**
+
+Reviewed all the not-yet-committed work across both codebases (the customer site: order detail, re-order, address handling, contact pre-fill; and the staff system: the billing Apply/Dismiss confirmations and tidy-up). Overall it's in good shape — no broken flows, nothing that would error, and customer data is properly protected (a customer can only ever see their own account's orders). One nice safety improvement noticed: changing or resetting a password now also signs the customer out of "trusted" devices, so the emailed login code is required again everywhere.
+
+**One decision this review surfaced (for Zsolt):**
+- There's a permission called **"place orders"** in the catalogue that currently isn't actually used anywhere. Meanwhile the **Re-order** feature is available to anyone who can *view* orders. So a team member given view-only access can still start a re-order. Re-order only creates a *quote* for the sales team to confirm (not a firm booking), so this may well be fine — but if "place orders" is meant to control who can start new orders, Re-order should be tied to it instead. **Decision needed:** either link Re-order to the "place orders" permission, or accept that viewing implies re-ordering (and treat "place orders" as unused for now).
+
+**Minor note (no action needed now):** the new confirmation pop-ups on the staff billing Apply/Dismiss buttons rely on that page being a normal full-page load, which it is today. Flagged only so it's on record if that page is ever converted to load its content in the background.
+
+Zsolt is committing the changes himself. Aside from the "place orders" decision above, the remaining open items are unchanged: add the menu link to the staff Portal Customers page, and the possible future follow-up of re-ordering old quotes.
