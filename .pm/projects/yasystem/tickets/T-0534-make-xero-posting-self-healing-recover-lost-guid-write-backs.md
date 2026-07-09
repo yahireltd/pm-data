@@ -4,7 +4,7 @@ title: "Make Xero posting self-healing: recover lost GUID write-backs instead of
 type: bug
 state: review
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-09T16:11:55Z
+updated: 2026-07-09T16:19:48Z
 project: yasystem
 section: null
 parent: null
@@ -102,7 +102,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-09T15:07:19Z
-version: 9
+version: 10
 ---
 
 ## Problem
@@ -160,3 +160,5 @@ Design principle: the sandbox tests prove posting MECHANICS (duplicate preventio
 **Per-demo-reset setup (~5 min total)**: reset Demo Company → create 2 bank accounts (exact names above) + account code 610 → connect via sandbox /xero/login → `yii xero-post/prep-sandbox --yes=1` → run the test suite.
 
 **Known-expected sandbox failure**: itemised credit note 75664 has document total ≠ sum of lines in OUR data (live log shows the same rejection) — it will fail in the demo org too. That's a data bug reproducing correctly, not a regression; exclude it from the clean-run assertion.
+
+**2026-07-09 16:19 claude-code:** Correction from Austin: account 610 is a Xero DEFAULT chart account (Accounts Receivable) — it already exists in every demo org, no creation needed (and for RECEIVE-OVERPAYMENT bank transactions Xero fixes the double-entry itself, so the line's account code is effectively moot). The per-demo-reset setup shrinks to just: create the two named bank accounts ('Barclays Test', 'Stripe Test') + connect via sandbox /xero/login + `yii xero-post/prep-sandbox --yes=1`. The resolve-error message has been updated to drop the 610 instruction.
