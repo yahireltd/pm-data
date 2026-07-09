@@ -4,7 +4,7 @@ title: "Make Xero posting self-healing: recover lost GUID write-backs instead of
 type: bug
 state: review
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-09T18:37:02Z
+updated: 2026-07-09T19:09:57Z
 project: yasystem
 section: null
 parent: null
@@ -102,7 +102,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-09T15:07:19Z
-version: 13
+version: 15
 branch: t0534-xero-posting-self-heal
 ---
 
@@ -187,3 +187,22 @@ Design principle: the sandbox tests prove posting MECHANICS (duplicate preventio
 3. **Post-run issue digest + triage page (Austin's feature request):** after each cron run, errors/refused-heals/daily-cap-aborts/stranded-attempts are summarised in an email (params xeroPostDigestTo, default austin@; no issues = no email) linking to /xero/run-issues — a zero-API page where each issue deep-links to the Xero document and the affected contract's /contracts/manual-refund page (contract resolved per record type).
 
 **Re 29452:** the daily-cap 429 means Xero REJECTED the create — nothing exists on Xero; it posts fresh next run. **Pending:** the full completeness re-test (windows 06-15/06-16) could not finish — demo org quota is zero until ~2026-07-10 17:00 UTC (rolling window). Resume tomorrow evening with `php yii xero-post/daily 24 25` (offsets shift with the date), then re-run the completeness report; the earlier snapshot was mid-run and is not a verdict. The interrupted run doubles as another organic kill-recovery case for the resume to prove.
+
+**2026-07-09 19:06 claude-code:** **End-of-day record (2026-07-09) — branch t0534-xero-posting-self-heal @ d13910d6, 7 commits, all deployed to the new test box (xerotest.yahire.com / 3.11.164.105).**
+
+**Commits today:** (1) 8bf47e20 core build — self-heal + heal-from-log + deterministic keys + DB token store + xero-post/daily + prep-sandbox + demo-tenant login guard; (2) 569f1512 reference backstop v1 (superseded); (3) 67c316ca backstop v2 — fetch Type+Date paged, match client-side on echoed description JSON (Xero's Reference string-function filters silently match nothing; line items only returned with page param); (4) 93d1cae8 write-ahead attempt rows on all 8 paths; (5) 7729656a fail-fast on daily-cap 429s (a 22.5h Retry-After froze a run in nanosleep) + Guzzle timeouts 15s/90s; (6) 55c636c6 post-run digest email + /xero/run-issues triage page (contract manual-refund links + Xero deep links); (7) d13910d6 skip invalid LINKED emails in contact creation (root cause of all 'Email address must be valid': phone number / double-@ / trailing-dot in ya_customers_linked_emails — NOT the customers' own email columns), honest 'customer not on Xero' skip labels (76219 'Unknown validation error' was a cascade of customer 59454), triage page grouping, backstop line-item hardening.
+
+**Test evidence so far:** clean run ✓, identical re-run (zero new objects) ✓, kill -9 recovery ✓, heal verified-restore ✓, tampered-GUID refusal ✓, two-GUID skip ✓, backstop recover ✓ + refuse ✓, locked token refresh ✓, cross-run key replay ✗ (disproven — replaced by backstop). PENDING: full completeness run (06-15/06-16 froze on daily-cap exhaustion mid-window).
+
+**TOMORROW'S TEST PLAN (Austin, WFH):**
+Quota unlock: RESET the Demo Company first — new org = fresh 5,000/day immediately (limit is per app per org). Then the ritual: /xero/login (pick Demo Company; guard refuses anything else) → create bank accounts 'Barclays Test' + 'Stripe Test' (exact names) → `php yii xero-post/prep-sandbox --yes=1`.
+1. Completeness run: `php yii xero-post/daily 24 25` (on 07-10 that's 06-15 then 06-16) — then the completeness report (claude runs it): PASS = zero UNCATEGORISED leftovers; specifically customers 59454/13658/5341 must now post (with customer_linked_email warning rows) and credit note 76219 must post.
+2. Attempt accounting: every attempt row has an outcome; zero stranded.
+3. Digest: if issues → email arrives at austin@ linking /xero/run-issues; if clean → 'no digest sent' on stdout. Verify the triage page grouping renders.
+4. Xero GUI spot-check (accounts eye): open 2-3 posted invoices/credit notes in the demo org — amounts + VAT match ours.
+5. Daily-cap fail-fast (free test): if any quota edge is hit, records must ERROR quickly (not freeze) and complete on re-run.
+KNOWN GOOD leftovers: bad-email warnings for the 3 customers (until live data fixed); demo-org duplicate debris (48332/48372/33585) vanishes with the reset.
+
+**Also queued (not quota-dependent):** re-add sandbox/refresh cron on live (0 3 * * *, runs on live); fix the 3 linked-email rows on LIVE data (SQL in chat/ticket); OPTIONAL improvements: proactive rate pacing in per-record loops (stop paying the 429 retry tax), include status='warning' rows in digest/triage, report the two Xero API defects (token-scoped idempotency replay; Reference filters matching nothing on BankTransactions) to Xero support. After all green: merge to master → live migrate → /xero/login (LIVE org) → manual canary window via console → single daily cron `0 6 * * *` (twice-daily dropped — its +12h-inside-key-window rationale died with cross-run replay).
+
+**2026-07-09 19:09 claude-code:** Amendment to the queued list: the live→test refresh cron stays OFF for now (Austin) — a nightly refresh would overwrite the prepped sandbox (blanked Xero columns / truncated logs) and force a re-prep before every test day. Re-add it AFTER T-0534 merges to master and live testing is done — sequencing then takes care of itself, since the refresh runs on live and the merged code carries the xero_oauth_tokens preserve line it needs.
