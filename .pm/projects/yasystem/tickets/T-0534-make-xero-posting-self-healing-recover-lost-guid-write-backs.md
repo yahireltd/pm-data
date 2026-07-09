@@ -4,7 +4,7 @@ title: "Make Xero posting self-healing: recover lost GUID write-backs instead of
 type: bug
 state: in_progress
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-09T14:14:02Z
+updated: 2026-07-09T14:52:41Z
 project: yasystem
 section: null
 parent: null
@@ -51,6 +51,8 @@ agent_runs:
     progress:
       - at: 2026-07-09T14:14:02Z
         note: "All four guards implemented in the working tree on master (uncommitted — project policy blocks agent commits; Austin reviews and commits). Changes in common/models/XeroFunctionsNew.php: (1) postItemisedInvoices and postItemisedCreditNotes now post in chunks of 50 with GUID write-back immediately after each chunk (a killed process strands ≤1 chunk instead of a whole day/week batch); (2) a thrown batch create no longer aborts with `return []` — it runs recoverInvoiceGuids/recoverCreditNoteGuids on that chunk's numbers (Xero may have committed despite the throw — the 2026-06-19 500) and continues with remaining chunks; (3) \"must be unique\" validation errors now trigger the same recovery (self-heal: reads the existing GUID back by number, fills only blank local rows, never writes to Xero) instead of error-looping forever; (4) postDepositRefunds now saves xeroPaymentID BEFORE logging success, and logs an error if the local save fails. Recovery lookups are bulk (1 API call per 50 invoices / 20 credit notes) to respect the daily quota. Root-cause context: php-fpm request_terminate_timeout=600s (introduced with the PHP8 migration ~2026-04-30) SIGKILLs long posting runs silently — confirmed on the test box; awaiting Austin's confirmation of live's value. Also still uncommitted in the same tree: the earlier /xero/heal-invoice-numbers bulk rewrite (backend/controllers/XeroController.php)."
+      - at: 2026-07-09T14:52:41Z
+        note: "Phase 2 (money objects) implemented in the working tree on master, all lint-clean. (1) XeroLogger::soleSuccessGuids — heal-from-log source: returns a GUID per record ONLY when the log holds exactly one distinct success GUID (records with 2+ are known duplicates, never auto-healed). (2) postOverpayments + postDepositOverpayments: heal-from-log pre-check (each heal VERIFIED against Xero by fetching the overpayment and matching our echoed JSON paymentID/depositID before writing xeroOverpaymentID; linked-deposit write-back mirrored), then per-record posting with DETERMINISTIC idempotency keys (yh-op-{paymentId} / yh-dep-{depositId}) and per-record try/catch — a failed create logs and continues, and a same-key retry within Xero's ~24h window replays the original response (no duplicate, write-back completes on retry). (3) postDepositRefunds: same heal (verified via payment reference allocationID) + per-payment posting with key yh-dra-{allocationId}. Remaining for the same pattern: credit-note refund payments (7 historical dupes), deposit charges (1), payment refund overpayments (1 triple) — same recipe, smaller paths. Cron design agreed with Austin: daily console posting at T-7 with T-8 re-sweep first (retries land inside the idempotency window), plus a second intra-day retry pass; BLOCKER for cron: Xero token lives in $_SESSION (StorageClass) — needs DB-backed token store with refresh lock (Xero refresh tokens are single-use; racing them is the likely cause of the invalid_grant errors in the log). Live fpm config confirmed identical to test: request_terminate_timeout=600s, Apache Timeout 300, memory 128M."
     test_plan: |-
       On the TEST box (no live risk, but note test box has no Xero token — API-touching paths need live or a token):
       1. `php -l common/models/XeroFunctionsNew.php` after pulling — no syntax errors.
@@ -67,7 +69,7 @@ labels:
   - posting
   - data-integrity
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
