@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T19:15:31Z
+updated: 2026-07-10T19:26:56Z
 project: yasystem
 section: null
 parent: null
@@ -113,7 +113,7 @@ labels:
   - xero
   - data-integrity
 attention: null
-version: 19
+version: 20
 branch: t0538-document-generator-integrity
 ---
 
@@ -220,3 +220,22 @@ New tier between the builder tests and the document replay: scenario tests that 
 **OPEN BUSINESS RULES needing Austin's decision before the priceFixed build:**
 1. Manual fix vs long-term-hire threshold crossing (date changes): does a manual fix survive? (proposed: yes + UI flag 'manual price — review?')
 2. Manual fix vs discount-matrix price on qty change: which wins when the matrix price differs from the manual fix (esp. when matrix is now CHEAPER)? Options: manual always wins / lower wins / manual wins + UI flag.
+
+**2026-07-10 19:26 claude-code:** **Consolidated update — everything on branch `t0538-document-generator-integrity` (b6b5c6b8..2ecd2d40, test box current)**
+
+**Engine fixes shipped:** (1) VAT codes int-cast, only explicit zero-rated code gives 0% — anything unexpected defaults to 20%, never 0; (2) reversal/removed lines use the OLD item's/version's VAT; (3) contract-level no-VAT honoured by amendment lines, charge diffs and first-invoice charges; (4) xeroNominal no longer leaks between lines; (5) **composite item keys** — the charge-reversal flow reuses the charge's itemRef for its 788 canceller, which made the diff engine emit reversal+re-invoice = double-sized credit notes (live doc 52590); (6) adjuster rework — residuals now on their own labeled 'Rounding adjustment'/'Balance adjustment' line instead of smeared into the last line's netAmount (which Xero ignores — the root of local-vs-Xero divergence); (7) log-only shadow invariant on every generated doc; (8) compensation/discount writers now log to acceptedchanges + compensation sign-guarded (-abs).
+
+**Validation:** 39 unit tests / 142 assertions against the REAL engine, proven failing-then-passing vs pre-fix code. Replay harness (read-only, new `doc-replay/run` command) re-ran the fixed engine over every itemised difference doc since go-live: **3,946 of 3,954 byte-stable, 4 broken (all data causes), 4 explained exceptions**.
+
+**Triage complete:** of the 4 live broken docs, 3 are internal TEST contracts (C089510 Zsolt; C089676 + C089368 Austin — all @yahire.com). **Only ONE real customer doc is broken in the entire live era: CR 78307** (C091771, Paula's compensation entered negative → double-negated to +£180). INV 69663 (test contract) leaked into live Xero as a £604.36 receivable — Austin voiding. Doc 72858 exception closed as test debris (package-inconsistency mechanism documented on T-0541).
+
+**Tooling shipped:** `/doc-integrity` triage page (mismatch list, classification, manual-refunds + Xero links, expandable change document incl. manual work list + temporary-vs-keep) and `/doc-integrity/view?id=N` deep dive (stored lines w/ smear highlighting, live replay of what the fixed engine would generate, version item diff, acceptedchanges trail). PDF links throughout + PDF icons on manual-refunds/manual-payments statement rows. Fixed the dormant `create-itemised-pdf` endpoint (checked file_exists on the web path — PDFs had been generating fine all along).
+
+**Tickets raised:** T-0541 (quote-builder review: manual-price survival rules + package-pricing evidence), T-0542 (stop test contracts posting to Xero — all three polluters used @yahire.com emails).
+
+**In progress now — charges/compensation deep-dive (Austin's request):**
+- **UK VAT gap confirmed structurally:** charges pick vatable/non-vatable stock (786/787) by issue type, but compensation ALWAYS uses vatable 788 — compensating a zero-rated supply reclaims output VAT that was never charged (incorrect per reg-38: adjustments must follow the original supply's rate). Fix direction: inherit VAT from the compensated item (chargeCompoStockID is already passed in).
+- `actionGenerateCredit` hardcodes `round(amount/1.2)` to strip VAT — wrong on no-VAT/zero-rated contexts and a penny-rounding generator.
+- Next: quantify occurrences in live data, then an end-to-end charge→compensate→reverse-charge→generate test on the box (the penny-rounding hotspot per Austin).
+
+**Austin's manual list:** void 69663 in Xero + 69663/75664/70029/70030 locally; item 251316 +£180 → −£180 then re-check 78307; decide T-0534 release order; T-0541/T-0542 decisions.
