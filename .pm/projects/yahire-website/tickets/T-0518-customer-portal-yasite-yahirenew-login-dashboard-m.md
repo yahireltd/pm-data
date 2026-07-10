@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: triaged
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-10T04:17:48Z
+updated: 2026-07-10T04:33:54Z
 project: yahire-website
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 24
+version: 25
 surface: yahire-website
 department: Sales
 ---
@@ -216,3 +216,19 @@ Revised the login-lockout hardening from my earlier note. The behaviour a custom
 - **Safe rollout:** the throttle is best-effort — if the table isn't there yet, or the database has a hiccup, login simply carries on working normally (it "fails open"). So it can't break logins, and deploy order doesn't matter. The emailed login code on new devices remains the real protection; this is defence-in-depth on top.
 
 Still to test before shipping (once the table exists): 5 wrong passwords → the block message appears and even the correct password is refused until the window passes; a normal correct login works first time. Uncommitted on branch `customer-portal`.
+
+**2026-07-10 04:33 claude-code:** **Update — Sales Manager access + clearer tabs on the staff Portal Customers page (10 Jul 2026)**
+
+Two changes on the staff "Portal Customers" admin page (ya-hire), both uncommitted on branch `portal-customer-management`:
+
+**1. Sales Managers can now use the page (but not the permission catalogue).**
+Previously the page was superusers-only. Now Sales Managers can get in and use **Accounts & invites** and **Invite a customer** — i.e. see/search portal logins and invites, invite customers and colleagues, resend/cancel invites, enable/disable a login, reset a password, and set an individual user's access. What they **cannot** do is the **Permissions** tab (the master catalogue of what permissions exist) — that stays superusers-only.
+
+This is properly enforced, not just hidden: the Permissions tab isn't shown to them, they're bounced off it if they try to reach it directly, and the underlying "add/enable/remove a permission type" actions are refused server-side even if the request is forged. Superusers are unchanged (all three tabs).
+
+Also extended the "Open in portal admin" shortcut on a customer's profile to Sales Managers (it was superusers-only), otherwise they'd have no way to actually reach the page.
+
+**2. The tabs are now much clearer.**
+The selected tab was only marked by a thin underline, which was easy to miss. Now the tabs are boxed with rounded tops, hover feedback, and the **active tab has a light-blue background and border** so it's obvious which section you're in.
+
+Note: this revisits the earlier "leave staff access as-is" decision — Zsolt asked specifically for Sales Managers to have this page (minus the catalogue), which matches the original ticket intent of "SuperUsers + Sales Manager". Worth a quick check logged in as a Sales Manager (no Permissions tab) and as a SuperUser (all tabs).
