@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: triaged
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T16:20:57Z
+updated: 2026-07-10T16:32:38Z
 project: yasystem
 section: null
 parent: null
@@ -41,7 +41,7 @@ labels:
   - xero
   - data-integrity
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -89,3 +89,16 @@ WHERE i.voided=0 GROUP BY i.id
 HAVING ABS(ABS(i.total)-ABS(lineSum)) > 0.02 OR ABS(ABS(i.VAT)-ABS(vatSum)) > 0.02;
 ```
 Candidate for inclusion in the unposted report / T-0534 digest as an ongoing tripwire.
+
+## Conversation
+
+**2026-07-10 16:32 claude-code:** **priceFixed-zeroing mechanism located (hypothesis refined with Austin — it is NOT date changes per se).**
+
+Data: 608 contract date changes in 2026 vs only 134 'Fixed Price Changed → 0' events (~40 contracts) — so date edits do not systematically wipe fixes. The real pattern: fixes are zeroed when the ITEM ROWS are rewritten by a contract/quote-builder save — bursts like contract 48404 (8 items' fixes zeroed in one second during an amendment with no date/qty changes on those items) and 48521 (fix zeroed in the same second as a qty change). Date changes correlate (80/134) only because date edits go through the same save flow.
+
+Sink: `YaContractItems::saveItemsAndAccessories` (line ~619) — `$contractItem->priceFixed = $item['priceFixed'];` overwrites verbatim with whatever the browser posts, for every row on every save. Callers: SalesController ~2567/~14811 (quote/contract builder screens — view-contract.php / quote-builder.php). So any builder interaction that rebuilds a row's client-side state without carrying the loaded fix posts 0 → fix silently wiped → contract totals shift → amendment diffs manufactured → generator bugs (this ticket) turn them into broken documents.
+
+**Fix plan for this part:**
+1. Server-side guard in saveItemsAndAccessories: `array_key_exists('priceFixed', $item)` distinguishes absent-vs-explicit; absent → PRESERVE stored value (explicit 0 stays legitimate — users can unfix).
+2. Trace/fix the builder JS so loaded fixes always round-trip (2-minute repro: sandbox UI → open a contract with a fixed price → change a qty → save → inspect the POSTed items payload in devtools).
+3. Keep the acceptedchanges 'Fixed Price Changed → 0' trail as the tripwire (it's how this was found).
