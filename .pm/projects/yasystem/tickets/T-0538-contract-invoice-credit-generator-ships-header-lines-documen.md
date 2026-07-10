@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T20:40:22Z
+updated: 2026-07-10T20:53:20Z
 project: yasystem
 section: null
 parent: null
@@ -113,7 +113,7 @@ labels:
   - xero
   - data-integrity
 attention: null
-version: 23
+version: 24
 branch: t0538-document-generator-integrity
 ---
 
@@ -268,3 +268,16 @@ Austin corrected the VAT-selection understanding: the vatable/zero-rated split f
 **Dispositioned without change**: unexpected-VAT-code header/line divergence stays loud-by-design (Austin's never-0%-default rule; data shows the case can't occur); issue re-resolution DELETES invoiced charge items (money-correct via the diff engine but bypasses the reversal flow — business question for Austin/T-0541); quote-side discount VAT bug (Quotes.php treats the vatRate CODE as a percentage — real bug, quote pricing, T-0541 scope); legacy poster's hardcoded 0.2 check; NOTE FOR ROLLOUT: /doc-integrity routes need the RBAC route permission granted (deny-by-default backend ACL).
 
 Full battery (unit + E2E + sales-inclusive replay) running on the box; results to follow.
+
+**2026-07-10 20:53 claude-code:** **Demo Company posting proof complete (deep dive layer 4, commit ac7918f5) — the last unproven link is closed.**
+
+Posted all 34 E2E sandbox documents to the Xero Demo Company via the production posting flow. The sandbox held both adjustment shapes (6 docs generated before the review-driven carrier-pair fix, 6 after) — a controlled experiment:
+- 22 plain + **all 6 carrier-pair (fixed shape) docs POSTED** ✓
+- **All 6 pre-fix old-shape docs REJECTED by Xero: "Tax amount must be between 0 and the line amount"** — empirically confirming the rule the code review predicted, and that the fix was necessary.
+- **Xero SubTotal/TotalTax == local header to the penny** on every posted adjustment doc (API read-back on all five) — the exact property the historic smear broke.
+
+Bonus finding: the first posting attempt failed wholesale on a missing demo chart account (charge/compensation lines post to nominal 201/202, which a fresh Demo Company lacks) — and the T-0534 safety net handled 34 simultaneous rejections perfectly: zero orphans, zero duplicates, every error logged verbatim, digest emailed. Demo-reset ritual now includes creating revenue accounts 201 (0% VAT) and 202 (20%, OUTPUT2).
+
+Sample-period answer (Austin's question): replay covered 2025-07-01 → the 02-Jul-2026 snapshot (extended run confirmed 2025-06-01 start adds only 7 more go-live-week hand-fix-era exceptions, nothing actionable; Austin deemed the period sufficient). Gap: live docs since the 02-Jul snapshot — read-only SQL provided to Austin to check live directly.
+
+Final battery: unit 39/39 (159 assertions), E2E 24/24, replay incl. sales contracts 3,992 docs / 3,984 stable / same 4 known broken / same explained exceptions.
