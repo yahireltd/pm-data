@@ -5,7 +5,7 @@ name: Accounts Integrity Programme — Xero posting & document generation
 state: active
 phase: build
 created: 2026-07-10T21:16:32Z
-updated: 2026-07-10T21:47:07Z
+updated: 2026-07-10T22:00:50Z
 owner:
   kind: human
   name: Austin
@@ -60,7 +60,7 @@ workstream_ownership:
     owner: Austin (with accounts team)
   - workstream: Quote-builder review (T-0541)
     owner: Austin + Zsolt
-version: 41
+version: 44
 success_measures:
   - "Count of accounts-requested IT data fixes per month attributable to generation/posting — target 0 (baseline: recurring, e.g. 34-doc census + 264-pair void incident)"
   - Hours of Austin's time per month on accounts data repairs — target ~0
@@ -131,13 +131,26 @@ Testing was deliberately brutal, and it *did* find problems — which is the p
 * **The testing caught our own mistakes too.** An independent code review found that our first version of the rounding fix could produce a line Xero would refuse. We fixed the construction, and then **proved it against Xero itself**: we posted 34 test documents to the practice company — all 28 correct-format documents were accepted with totals matching ours to the penny, and all 6 deliberately old-format documents were **rejected by Xero with exactly the error we predicted**. The review also caught a case where an early assumption of ours was simply wrong (we'd added duplicate history logging that wasn't needed) — we removed it and said so in the record.
 * **Ticket 534 was stress-tested far beyond normal.** We reset the practice copy of Xero and re-ran the whole posting process from scratch **around five times, posting thousands of transactions in total — not one orphaned, not one duplicated**. Along the way it survived: a 22-hour hang scenario (now impossible — it fails fast), sends deliberately interrupted mid-way and recovered on the next run, a full completeness rehearsal (**304 invoices and 109 payments posted with zero missing and zero duplicated**, every allocation reconciled), and — unplanned but valuable — the moment all 34 test documents were rejected at once by the practice company (a missing account setting): it handled the mass failure perfectly — nothing lost, nothing duplicated, every error logged and emailed.
 
-### **6. What this changes for accounts**
+### **6. Other things we found and dealt with along the way**
+
+| What we found                                                                                                                                                                                                                                                                                                            | What we did                                                                                                                                                                                                 |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Charges & compensations (issue resolution) had several traps**: a compensation typed as a negative number flipped into a positive charge; compensations on VAT-free contracts still carried VAT; the manual credit button always assumed 20% VAT; and cancelling a charge could produce a **double-sized credit note** | All fixed. Amounts can't flip sign any more, VAT-free contracts stay VAT-free, manual credits use the contract's real VAT rate, and a cancelled charge now produces exactly one correctly-sized credit line |
+| When staff **re-resolve** an issue, the old charge is *deleted* rather than reversed — the books stay correct, but the history of what was charged disappears                                                                                                                                                            | Needs a business decision (queued for this meeting — item 7)                                                                                                                                                |
+| Our internal links to Xero documents stopped working when Xero changed its screens                                                                                                                                                                                                                                       | Fixed everywhere, per-company setting so it keeps working after demo resets                                                                                                                                 |
+| **Staff test contracts leak into the real books** — every leaked document we found used an @yahire.com email; one test invoice sat in real Xero as a £604 unpaid receivable                                                                                                                                              | Cleanup + prevention decision at this meeting (items 4a and 5)                                                                                                                                              |
+| The quote builder can **double-charge bundles** (the bundle *and* its main item both priced — £420 twice on one test contract) and prices bundles inconsistently                                                                                                                                                         | Evidence packaged for the quote-builder review session with Zsolt (item 6)                                                                                                                                  |
+| A quote-stage discount bug computes VAT at **1% instead of 20%** when sizing discounts                                                                                                                                                                                                                                   | Added to the Zsolt review (item 6)                                                                                                                                                                          |
+| The PDF "summary" box on invoices shows **today's** contract totals, not the totals as they were when the document was issued — confusing when investigating history                                                                                                                                                     | Ticketed as a follow-up improvement                                                                                                                                                                         |
+| A "print PDF" function for itemised invoices had been broken since it was built (nobody had ever used it)                                                                                                                                                                                                                | Fixed — and PDF buttons added to the accounts pages so any document is one click away                                                                                                                       |
+
+### **7. What this changes for accounts**
 
 * **Posting stops being a job.** The system posts every morning; accounts read a short daily email instead. Anything needing a human links directly to the right place. Manual posting stays available as a fallback — and even the double-click is now harmless.
 * **Problems announce themselves** the day they happen, instead of being discovered in Xero weeks later.
 * **IT hand-fixes should drop to zero** for this class of problem — that's the measure we'll track.
 
-### **7. What's left**
+### **8. What's left**
 
 * The release itself (staged, with a safety week — see decisions).
 * A short clean-up list of historical items (see decisions).
@@ -147,7 +160,7 @@ Testing was deliberately brutal, and it *did* find problems — which is the p
 
 ## **Meeting agenda — decisions needed**
 
-*Suggested length: 45 minutes. Items 1–4 are the substance; 5–7 are quick.*
+*Suggested length: 45–50 minutes. Items 1–4 are the substance; 5–8 are quick.*
 
 **1. Approve the release plan** *(10 min — decision: yes / adjust)* Staged rollout: release the posting system first, then the document fixes. One supervised trial run on live, then a **safety week** where the automatic posting runs every morning *and* accounts keep doing their normal routine — they should find nothing left to post, which is the proof. Then formal handover. **Recommendation:** approve; target the trial run within a week.
 
@@ -159,9 +172,11 @@ Testing was deliberately brutal, and it *did* find problems — which is the p
 
 **5. Keeping test contracts out of the books** *(5 min — pick a direction)* All the leaked documents came from staff test contracts using @yahire.com emails. Options: mark test contracts explicitly; automatically exclude internal-email customers from posting; or policy-only (testing happens on the test server now that it exists). **Recommendation: automatic exclusion + policy.** (Full design ticket exists.)
 
-**6. Quote-builder pricing review** *(3 min — schedule it)* Separate, deliberately-untouched area (Zsolt's), with a review ticket prepared: how manual price fixes behave when dates/quantities change, and package pricing. **Decision: date for a session with Zsolt + Austin.** Interim awareness for staff: a manually-set price is still wiped by date/quantity changes — re-apply it.
+**6. Quote-builder pricing review** *(3 min — schedule it)* Separate, deliberately-untouched area (Zsolt's), with a review ticket prepared: how manual price fixes behave when dates/quantities change, bundle pricing, and the 1%-VAT discount bug. **Decision: date for a session with Zsolt + Austin.** Interim awareness for staff: a manually-set price is still wiped by date/quantity changes — re-apply it.
 
-**7. Steady state** *(2 min — note)* Success measure for the programme: **accounts requests to IT for data fixes → zero**, and Austin's time on accounts repairs → zero. Milestone review in \~30 days; anything still generating hand-fixes gets its own ticket.
+**7. Re-resolving issues: keep the charge history?** *(2 min — decision with accounts/Fran)* Today, re-resolving an issue *deletes* the previous charge and creates a new one — the numbers stay right, but the record of what was originally charged disappears. The cancellation flow already does this properly (it keeps the charge and adds a reversal). **Decision: should re-resolution work the same way? Recommendation: yes.** (Ticket ready.)
+
+**8. Steady state** *(2 min — note)* Success measure for the programme: **accounts requests to IT for data fixes → zero**, and Austin's time on accounts repairs → zero. Milestone review in \~30 days; anything still generating hand-fixes gets its own ticket.
 
 ***
 

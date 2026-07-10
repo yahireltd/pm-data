@@ -52,7 +52,7 @@ id_counters:
       decision: 6
       phase: 5
       sprint: 1
-      meeting: 1
+      meeting: 2
       tech_session: 2
   reminder: 6
 outbound_email:
