@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: triaged
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-09T13:36:05Z
+updated: 2026-07-10T04:04:44Z
 project: yahire-website
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 21
+version: 22
 surface: yahire-website
 department: Sales
 ---
@@ -181,3 +181,12 @@ Reviewed all the not-yet-committed work across both codebases (the customer site
 **Minor note (no action needed now):** the new confirmation pop-ups on the staff billing Apply/Dismiss buttons rely on that page being a normal full-page load, which it is today. Flagged only so it's on record if that page is ever converted to load its content in the background.
 
 Zsolt is committing the changes himself. Aside from the "place orders" decision above, the remaining open items are unchanged: add the menu link to the staff Portal Customers page, and the possible future follow-up of re-ordering old quotes.
+
+**2026-07-10 04:04 claude-code:** **Decision — "place orders" is not a real permission (10 Jul 2026)**
+
+Clarified with Zsolt: anyone can place an order on the public website, so gating anything on a "place orders" permission doesn't make sense.
+
+- **Re-order stays available to anyone who can view orders** — no code change. The earlier open question (should Re-order require `place_orders`) is closed: no.
+- **Cleanup:** the seeded `place_orders` entry in the permission catalogue should be **disabled** so it stops showing up as an assignable checkbox when owners/staff set team-member permissions (it controls nothing). This is a one-click "Disable" on the staff Portal Customers → Permissions tab. Reversible; no schema change. (The catalogue lives in the production database, so it's a data toggle, not a code change.)
+
+Remaining open items after this: add the menu link to the staff Portal Customers page, and the optional password-step throttle. Everything in the original acceptance criteria is done and committed.
