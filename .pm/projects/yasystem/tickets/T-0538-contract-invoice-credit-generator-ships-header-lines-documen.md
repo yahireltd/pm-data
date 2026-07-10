@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T18:46:53Z
+updated: 2026-07-10T19:15:31Z
 project: yasystem
 section: null
 parent: null
@@ -90,12 +90,30 @@ agent_runs:
           THE REAL LIVE DAMAGE LIST IS 4 DOCS ON 3 CONTRACTS: 78307/C091771 (the +£180 compensation data error), 75664/C089510 (header 503.65 vs lines −14.67), 70029+70030/C089676 (INV+CN pair, headers 3,412.29 vs lines ±99.38). All manual review/data fixes for Austin, all triageable on the new page.
 
           NEW TOOLING (per Austin's request): /doc-integrity (backend, read-only) — mismatch triage list with manual-refunds + Xero links and classification (no-lines/smeared/engine-mismatch), ?docs= pinning; /doc-integrity/view?id=N — stored lines with per-line coherence highlighting, live replay of what the FIXED engine would generate from the same archived version pair (adjuster preview, split-pair aware), raw version item diff, acceptedchanges trail (72h window, usernames), all docs on contract. Index embeds the expandable T-0538 change document: what/why per fix, testing evidence, Austin's manual work list, safety precautions, and temporary-vs-keep (nothing temporary committed; the two read-only tools are keep-recommended). Smoke-tested data paths on the box for docs 52590/68949/57069/78307.
+      - at: 2026-07-10T19:05:43Z
+        note: |-
+          Austin triaged the 4-doc mismatch list using the new /doc-integrity pages + PDF links (PDF icons also added to manual-refunds/manual-payments statement rows via StatementTableHelper; fixed the dormant create-itemised-pdf endpoint which checked file_exists on the web path — the PDF had been generating fine).
+
+          Dispositions (live xeroInvoiceID checked by Austin):
+          - C089510 (INV 69663 + CR 75664): TEST CONTRACT by Zsolt (quote-builder author; customer 'Zsolt Turu', zsolt@yahire.com), cancelled via zeroing 2026-06-03 by Jhuztine. INV 69663 IS in live Xero (GUID dcc8f76d-9ef5-4883-87d9-61c56cd2c697) — Austin checking if already voided there; if not, void in Xero. CR 75664 never posted — its PDF is a textbook smear specimen: single line qty 1 × £−14.67 with netAmount £−503.65, summary claims £604.38. Plan: void both locally.
+          - CR 78307 (C091771): never posted. Paula (sales) entered compensation 'her own way' → the +£180 double-negation. Needs Austin's data fix then regenerate/void decision.
+          - INV 70029 + CR 70030 (C089676): never posted. Headers £3,412.29 vs lines ±£99.38 — accounts review needed.
+          Safety note: all three unposted docs fail totals-vs-lines and get flagged to /xero/repair-docs rather than posting silently, but they will resurface every posting run until dispositioned — disposition before re-enabling posting.
+      - at: 2026-07-10T19:15:31Z
+        note: |-
+          TRIAGE COMPLETE — final verdict on every flagged document. Customer check on the 4 mismatch contracts: C089510 = Zsolt test (zsolt@yahire.com), C089676 AND C089368 = Austin's bundle/test contracts (austin@yahire.com), C091771 = the only real customer (ARC / David Akinluyi).
+
+          Bottom line: after legacy scoping and test-contract identification, EXACTLY ONE real customer document in the live era is broken: CR 78307 (Paula's +£180 negative-compensation double-negation, code-guarded going forward, awaiting Austin's data fix). Everything else on the mismatch list is internal test debris to void.
+
+          This also CLOSES the last open replay exception: doc 72858 (C089368, package-parent-without-children + stale archived insurance) is Austin's test contract — mechanism documented as T-0541 evidence (quote builder writes package data in inconsistent states: same product priced-as-parent on C089510/C089676 vs isPackage-with-no-children on C089368), no accounts impact. The 3 go-live-week exceptions (52385/52672/52400) remain attributed to Austin's manual DB corrections at the time.
+
+          Dispositions: void 69663 (in live Xero, Awaiting Payment — Austin has the link) + 75664, 70029, 70030 locally; fix item 251316 (+180 → −180) then re-examine 78307. T-0542 sharpened: all three polluting contracts used @yahire.com emails — internal-email exclusion would have caught every one.
 labels:
   - invoicing
   - xero
   - data-integrity
 attention: null
-version: 17
+version: 19
 branch: t0538-document-generator-integrity
 ---
 

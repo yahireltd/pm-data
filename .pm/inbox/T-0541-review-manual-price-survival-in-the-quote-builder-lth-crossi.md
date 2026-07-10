@@ -4,7 +4,7 @@ title: "Review: manual-price survival in the quote builder (LTH crossing + qty/m
 type: spike
 state: inbox
 created: 2026-07-10T18:31:35Z
-updated: 2026-07-10T18:31:35Z
+updated: 2026-07-10T19:13:43Z
 project: null
 section: null
 parent: null
@@ -45,7 +45,7 @@ labels:
   - pricing
   - t-0538-follow-on
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -72,3 +72,15 @@ Austin initially chose for both cases: **manual price survives + UI flag** ('man
 
 - The session-based quote builder is fragile (colleague-built); every writer mutates shared session arrays. Needs the quote-builder regression tests (T-0538 remaining item) in place BEFORE touching it.
 - Package children and the min-order item (785) have their own price semantics — exclude from any survival rule.
+
+## Conversation
+
+**2026-07-10 19:13 claude-code:** Live evidence for the quote-builder package-pricing review, from INV 69663 (test contract C089510, verified line-for-line identical local vs Xero — so these are contract data defects, not posting or generation defects):
+
+1. **Package double-charge**: 'White Wooden Bar Hire' 2 × £209.99 AND 'White wooden bar package' 2 × £209.99 both fully priced on the same contract — £419.98 charged twice. The other package components (bar top piece, folding bar frame, panel front & sides) are correctly zeroed alongside, so the bar hire line looks like a component that kept its full price.
+
+2. **Package-parent state inconsistency**: 'Party Starter Pack' 3 × £23 is PRICED as a parent line on this contract, while on C089368 the same product was flagged isPackage=1 with NO children — so the pricing engines skipped it and its £92 vanished from both header and lines (doc 72858, the open T-0538 replay exception). Same product, two contradictory data states, two different failure modes.
+
+3. **Duplicate item rows**: two 'Trestle Table Hire (6ft)' lines at different prices (3 × £11.00 and 1 × £10.49) for one product.
+
+These all originate in quote-builder item/package handling and belong in this review's scope alongside the manual-price survival rules. Both contracts are Zsolt's test contracts — worth walking through exactly what he did in the builder to produce each state.
