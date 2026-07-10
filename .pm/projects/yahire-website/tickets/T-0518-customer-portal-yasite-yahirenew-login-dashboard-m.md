@@ -2,9 +2,9 @@
 id: T-0518
 title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accounts & permissions"
 type: feature
-state: triaged
+state: review
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-10T05:10:48Z
+updated: 2026-07-10T05:30:08Z
 project: yahire-website
 section: null
 parent: null
@@ -15,8 +15,8 @@ reporter:
   kind: human
   name: Zsolt
 assignee:
-  kind: human
-  name: zsolt@yahire.com
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - "[x] A customer can log in to the yahirenew portal with email + password, separate from staff auth (own PortalUser identity + portalUser component + _identity-portal cookie)."
   - '[x] "Stay logged in" keeps the session ~2 days via remember-me; logout clears it.'
@@ -44,13 +44,79 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260710-0528
+    model: claude-opus-4-8
+    started: 2026-07-10T05:28:16Z
+    status: completed
+    policy_ack:
+      branch: master
+      branch_source: project
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-10T05:28:16Z
+    ended: 2026-07-10T05:30:08Z
+    summary: |-
+      Delivered a full customer portal for the Yahire website where customers log in to a private area, separate from staff logins, to see and manage their account. It covers: logging in with email + password and "stay logged in"; two-step verification (a one-time code emailed when signing in on a new device, with trusted devices skipping it); a dashboard and orders list showing the customer's real orders across all their merged customer records; an order detail page with a delivery and collection progress timeline; one-click re-ordering of a past order (pre-filled and handed to the quote page); viewing invoices; managing delivery addresses and requesting billing-address changes; and requesting changes to their account details — both routed to staff to review and apply. Company accounts are multi-user: an account owner can invite colleagues, set what each can do from a permissions list, and disable/remove them. Staff get a dedicated "Portal Customers" admin page (open to superusers and sales managers, with the permissions catalogue kept to superusers) plus a portal panel on each customer's profile to invite customers, manage logins, and approve address/detail change requests.
+
+      Why it matters: previously customers had no self-service — every order status query, address change, or re-order went through the sales team by phone/email. The portal lets customers help themselves and gives staff a tidy back-office to manage it, while keeping customer logins completely separate from internal staff accounts and never writing customers into the staff user table. Without it, that manual load would have kept growing as the customer base does.
+
+      This session's additions on top of the core build: a login lockout (temporary block after 5 failed password attempts) as extra brute-force protection on top of the mandatory login code; a "your trusted devices" list on the account page so a customer can see where their login is remembered and remove a specific device; giving sales managers access to the staff Portal Customers page (minus the permissions catalogue); clearer selected-tab styling and a fix for a customer-search dropdown that was intermittently invisible; and turning the account-details change request into a proper tracked request that staff Apply/Dismiss (same model as billing-address changes) so applied changes land on the customer record and flow onto future orders.
+    test_plan: |-
+      Requires three tables to exist in the `yasite` DB (all created): portal_login_throttle, portal_detail_requests, plus the earlier portal_* tables. Test the customer site (yahirenew) and the staff system (ya-hire).
+
+      ## Customer login & 2FA
+      - [ ] Log in with a portal email + correct password on a fresh browser → prompted for the emailed 6-digit code → enter it → reach the dashboard.
+      - [ ] Tick "keep me logged in" / pass 2FA → the device is trusted; log in again from the same browser → no code asked.
+      - [ ] LOCKOUT: enter a wrong password 5 times → on the 5th you see "Too many failed attempts… ~15 minutes" and even the CORRECT password is refused until the window passes (or the portal_login_throttle row is cleared). Wait/clear → correct login works and clears the counter. A 30-min gap between attempts resets the count.
+
+      ## Trusted devices (Account page)
+      - [ ] Account page lists each trusted device: "Chrome on Mac" style label, IP, last used, trusted-since, with "· This device" on the current one.
+      - [ ] Log in from a second browser → both appear. Click Remove on a non-current one → it disappears and will require a code next time on that device. "Forget all" still works.
+
+      ## Orders / order detail / re-order
+      - [ ] Dashboard and Orders list: clicking an order number opens the in-portal order detail page (NOT the external contract view). Delivery + collection timelines show sensible steps.
+      - [ ] Try an order id that isn't yours in the URL → friendly "not found", not an error page.
+      - [ ] Re-order a confirmed order → preview shows items + accessories → pick a saved delivery (and collection) address → Continue → lands on the quote page pre-filled with items, accessories, the chosen address, and the LOGGED-IN person's contact details (not the account owner's). Only dates left to choose.
+
+      ## Addresses & billing request
+      - [ ] Add/edit a normal delivery address; billing address is not directly editable → submit a billing change request → emails accounts@ + the account manager, and a pending request appears on the customer's profile in ya-hire.
+      - [ ] On the customer profile: Apply (with confirm) writes the new billing address to the record; Dismiss (with confirm) discards. Text sits with padding, note on its own line.
+
+      ## Account-detail change request (NEW, tracked like billing)
+      - [ ] Account page → "Request a change to your account details": Company/Account email/Account phone pre-filled → edit one → Send → success + pending notice; sending with nothing changed is refused.
+      - [ ] Staff customer profile shows a blue "Account details change requested" box with current → requested per field → Apply (confirm) writes company/email/phone onto the ya_customers record (verify it actually changed) → Dismiss (confirm) discards. Confirm the applied details then show on a fresh quote/order for that customer.
+
+      ## Team management (account owner) & invites
+      - [ ] Owner → Users page: invite a colleague from the account's contacts, tick permissions, disable/remove. Invite email arrives with a register link.
+      - [ ] Register via the invite link → set password → land in the portal with the granted permissions (e.g. a member without view_invoices can't see Invoices).
+
+      ## Staff Portal Customers page (ya-hire)
+      - [ ] As a SUPERUSER: all three tabs (Accounts & invites, Invite a customer, Permissions). Search, invite a customer (owner/member), resend/cancel invite, enable/disable, reset password, manage a user's permissions, add/disable/remove a catalogue permission.
+      - [ ] As a SALES MANAGER: can reach the page (via the "Open in portal admin" link on a customer profile) and use Accounts & invites + Invite a customer, but the Permissions tab is HIDDEN and forcing it via a crafted request is refused.
+      - [ ] Selected tab is clearly highlighted (light-blue box, not just an underline). Customer-search dropdown appears reliably and styled on every attempt.
+
+      ## Cross-impact / regression
+      - [ ] my-quote page still works for a NORMAL (non-portal) quote — the address/contact pre-fill only kicks in for a portal re-order.
+      - [ ] Staff refund flow's confirmation prompt still works (we bypassed the global yii.confirm override for portal buttons only).
+      - [ ] Changing/resetting a portal password still signs the customer out of trusted devices (2FA required again).
+      - [ ] Best-effort behaviour: if any portal_* table were missing or mail failed, pages must not 500 — the request still saves where applicable and failures are logged (check app log category portal.* on a forced failure).
+
+      ## Housekeeping (staff action, not code)
+      - [ ] Disable the unused "place_orders" permission on the Permissions tab (decided: re-order stays available to anyone who can view orders).
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - customer-portal
   - yahirenew
   - auth
-attention: null
-version: 27
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-10T05:30:08Z
+version: 30
 surface: yahire-website
 department: Sales
 ---
@@ -270,3 +336,9 @@ Upgraded the "Request a change" section on the customer's Account page from a si
 Uncommitted: yasite `customer-portal` (PortalController, account view) and ya-hire `portal-customer-management` (SalesController).
 
 **Test:** on the portal, change Company/phone on the Account page → Send → request saved + email sent, pending notice appears → on the customer's profile in the staff system, the blue box shows current → requested → Apply updates the customer record (check it lands on the ya_customers record); Dismiss discards.
+
+**2026-07-10 05:30 claude-code:** Run run-20260710-0528 completed — Delivered a full customer portal for the Yahire website where customers log in to a private area, separate from staff logins, to see and manage their account. It covers: logging in with email + password and "stay logged in"; two-step verification (a one-time code emailed when signing in on a new device, with trusted devices skipping it); a dashboard and orders list showing the customer's real orders across all their merged customer records; an order detail page with a delivery and collection progress timeline; one-click re-ordering of a past order (pre-filled and handed to the quote page); viewing invoices; managing delivery addresses and requesting billing-address changes; and requesting changes to their account details — both routed to staff to review and apply. Company accounts are multi-user: an account owner can invite colleagues, set what each can do from a permissions list, and disable/remove them. Staff get a dedicated "Portal Customers" admin page (open to superusers and sales managers, with the permissions catalogue kept to superusers) plus a portal panel on each customer's profile to invite customers, manage logins, and approve address/detail change requests.
+
+Why it matters: previously customers had no self-service — every order status query, address change, or re-order went through the sales team by phone/email. The portal lets customers help themselves and gives staff a tidy back-office to manage it, while keeping customer logins completely separate from internal staff accounts and never writing customers into the staff user table. Without it, that manual load would have kept growing as the customer base does.
+
+This session's additions on top of the core build: a login lockout (temporary block after 5 failed password attempts) as extra brute-force protection on top of the mandatory login code; a "your trusted devices" list on the account page so a customer can see where their login is remembered and remove a specific device; giving sales managers access to the staff Portal Customers page (minus the permissions catalogue); clearer selected-tab styling and a fix for a customer-search dropdown that was intermittently invisible; and turning the account-details change request into a proper tracked request that staff Apply/Dismiss (same model as billing-address changes) so applied changes land on the customer record and flow onto future orders.
