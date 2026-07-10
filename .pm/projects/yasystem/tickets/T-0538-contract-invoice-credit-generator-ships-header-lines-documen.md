@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T19:44:31Z
+updated: 2026-07-10T19:56:15Z
 project: yasystem
 section: null
 parent: null
@@ -113,7 +113,7 @@ labels:
   - xero
   - data-integrity
 attention: null
-version: 21
+version: 22
 branch: t0538-document-generator-integrity
 ---
 
@@ -247,3 +247,9 @@ New tier between the builder tests and the document replay: scenario tests that 
 **Guards shipped:** (1) createCreditNoteItem/createIssueChargeItem auto-swap to the 0% stock when the targeted product (chargeCompoStockID) or contract is zero-rated; (2) actionGenerateCredit strips VAT at the contract's rate instead of hardcoded /1.2; (3) actionCancelChargeCompo reversals now log to acceptedchanges (it was a third silent writer — it also never recalculated the contract price after reversing, noted: generation self-corrects); (4) **phantom-item trapdoor closed** — cloning an item can explicitly INSERT contractType NULL, and findAllIncSales filters on contractType, making the clone a real-in-SQL but invisible-to-everything row (excluded from recalculatePrice AND archiveNow). Hasn't fired in production (clones are DB-loaded) but both clone branches now set it explicitly.
 
 **End-to-end harness green — 24/24** (`php yii charge-compo-e2e/run <contractID>`, sandbox-only, drives the REAL writers + generator): charge; compensation with odd pennies; **penny-rounding stress** (3×33p charges forcing per-line-VAT vs header sum-then-round onto the labeled 'Rounding adjustment' line — the exact mechanism behind the historic smears Austin flagged); cancel-charge in production shape (RV ref) AND the historic same-itemRef collision shape — **single correctly-sized reversal, no double-count**; zero-rated target compensation auto-selecting 789/0%. Every doc coherent (header == Σ qty×unitPrice), every action trailed. Evidence docs INV/CN #78399–78406 on sandbox contract C087538 for eyeballing via /doc-integrity.
+
+**2026-07-10 19:56 claude-code:** **Correction from Austin + validations page (commit 2e497aa4)**
+
+Austin corrected the VAT-selection understanding: the vatable/zero-rated split for charges and compensation follows the **type of charge**, not the product involved — a charge for a damaged/missing item is compensation for loss (0% in the UK, hence the issue-type mapping to stock 787/789), while a dirty charge is a cleaning **service** (20% even on a zero-rated product). My earlier target-product inference in resolveVatVariant would have wrongly zero-rated a cleaning charge on a zero-rated product, so the guard is **narrowed to contract-level no-VAT only** (the one safe inference); the issue-type mapping remains the business rule. E2E re-run: 24/24 green, now including an assertion that a zero-rated target does NOT change the caller's stock choice.
+
+**New `/doc-integrity/validations` page** (Austin's request): the green counterpart of the mismatch list — every labeled 'Rounding adjustment'/'Balance adjustment' line ever written (only the fixed engine produces these; six already visible from the E2E runs, all sub-2p VAT reconciliations — the penny class), plus every document generated in a window with PASS/FAIL verdicts and investigate/PDF links, for side-by-side comparison against the same contract on live (where pre-fix documents smear or mismatch instead).
