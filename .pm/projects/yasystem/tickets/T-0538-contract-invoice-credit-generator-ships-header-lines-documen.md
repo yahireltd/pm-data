@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: triaged
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T16:32:38Z
+updated: 2026-07-10T16:50:56Z
 project: yasystem
 section: null
 parent: null
@@ -41,7 +41,7 @@ labels:
   - xero
   - data-integrity
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -102,3 +102,16 @@ Sink: `YaContractItems::saveItemsAndAccessories` (line ~619) — `$contractItem-
 1. Server-side guard in saveItemsAndAccessories: `array_key_exists('priceFixed', $item)` distinguishes absent-vs-explicit; absent → PRESERVE stored value (explicit 0 stays legitimate — users can unfix).
 2. Trace/fix the builder JS so loaded fixes always round-trip (2-minute repro: sandbox UI → open a contract with a fixed price → change a qty → save → inspect the POSTed items payload in devtools).
 3. Keep the acceptedchanges 'Fixed Price Changed → 0' trail as the tripwire (it's how this was found).
+
+**2026-07-10 16:50 claude-code:** **Zeroing mechanisms enumerated (with Austin) + scope decisions + test strategy.**
+
+**How contracts get zeroed (all verified in data):**
+1. **Issue-resolution compensation items** (Austin's find): 'Compensation for: Contract Cancelled', stockID 788, itemNo 8888-001-003, issueTypeOptionID=7, **status=100**, full contract value negated into quotedPriceUnit AND priceFixed. Writer: YaContractItems.php:822 (`priceFixed = -round($issueModel->chargeCompo,2)`). Examples: contracts 48207 (−927.85), 48687 (−207.00), and 45435 (−598.47 — credit note 75664's contract). **Created with NO acceptedchanges entry** — invisible in the change trail.
+2. **100% discount items** (stockID 962, YaContracts ~11315-11360): only discounts vatable+non-fixed-price+non-charge+non-credit lines (`$isDiscountable`), so 100% ≠ zero on contracts with fixed/charge items; per-line rounding then pct-rounding produces the ±pennies residue (45435's −0.02). Also saved with save(false) — **bypasses the changes log too**.
+3. Cancellation via unconvert (SalesController ~1086 'Cancelled by …unconvertReason') — flow located, not yet traced.
+
+**Refined divergence hypothesis for cancelled contracts:** 45435's archive versions 3-5 ALL contain the compensation line, so it cancels out of the version-diff — yet the balances/price engine registered a −503.65 move on 2026-06-03. The three engines (recalculatePrice, getBalances, compareContractVersions) appear to apply **different filters to special items (status=100, compensation, discount)** — investigate each engine's status/type filtering as the concrete divergence point.
+
+**Scope decisions (Austin):** proformas parked → **T-0539**; cross-project audit (yahirenew website invoice generation, chl sister site) → **T-0540**.
+
+**Test strategy (Austin's design — adopt as this ticket's test plan):** REWIND-AND-REPLAY. For each broken document: reconstruct the contract state at generation time from ya_contracts_archive/ya_contract_items_archive (versions exist for all cases checked), re-run generation with the FIXED code in a dry-run harness (console command, no writes), and diff the would-be document against the actually-stored one (still on live/sandbox DB). Acceptance: (a) all 34 broken docs regenerate CORRECTLY (header==Σlines, amounts match manual expectations); (b) a control sample of healthy contracts regenerates IDENTICALLY to what was originally produced (no regression).
