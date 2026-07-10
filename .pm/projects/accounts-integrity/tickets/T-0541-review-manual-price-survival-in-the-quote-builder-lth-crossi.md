@@ -4,7 +4,7 @@ title: "Review: manual-price survival in the quote builder (LTH crossing + qty/m
 type: spike
 state: triaged
 created: 2026-07-10T18:31:35Z
-updated: 2026-07-10T21:17:41Z
+updated: 2026-07-10T21:48:08Z
 project: accounts-integrity
 section: null
 parent: null
@@ -45,7 +45,7 @@ labels:
   - pricing
   - t-0538-follow-on
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
@@ -84,3 +84,5 @@ Austin initially chose for both cases: **manual price survives + UI flag** ('man
 3. **Duplicate item rows**: two 'Trestle Table Hire (6ft)' lines at different prices (3 × £11.00 and 1 × £10.49) for one product.
 
 These all originate in quote-builder item/package handling and belong in this review's scope alongside the manual-price survival rules. Both contracts are Zsolt's test contracts — worth walking through exactly what he did in the builder to produce each state.
+
+**2026-07-10 21:48 claude-code:** One more quote-side pricing defect for this review's scope, found during the T-0538 code review: **`Quotes.php` `syncDiscountItem` (quote-side, ~line 5002) treats the VAT-rate CODE as a percentage** — `($this->vatRate == 2) ? 0.0 : ($this->vatRate / 100.0)` computes VAT at **1%** for standard-rated quotes (code 1 ÷ 100) when sizing the 962 discount item. The contract-side equivalent was reviewed and is correct; this is quote-stage pricing only (feeds quoted discounts before conversion), but it's exactly the kind of silent mispricing this review exists to catch. Verify the blast radius (how discounted quotes convert to contracts) as part of the session with Zsolt.

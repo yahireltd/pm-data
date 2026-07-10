@@ -6,7 +6,7 @@ project: accounts-integrity
 state: planned
 order: 3072
 created: 2026-07-10T21:16:32Z
-updated: 2026-07-10T21:25:08Z
+updated: 2026-07-10T21:46:24Z
 acceptance_criteria:
   - Branch merged (after/with T-0534) and deployed
   - RBAC route permission granted for /doc-integrity; xeroOrgShortCode param set on live
@@ -15,8 +15,8 @@ acceptance_criteria:
   - Austin has completed the deep-dive sampling checklist (4 parts)
 slip_records: []
 target_date: 2026-08-07
-version: 2
-phase_id: PH-002
+version: 3
+phase_id: PH-005
 ---
 
 # Document generation integrity on live (T-0538)

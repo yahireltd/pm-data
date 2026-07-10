@@ -4,7 +4,7 @@ slug: accounts-integrity-programme-release-approval-posting-handov
 title: Accounts Integrity Programme — release approval & posting handover
 state: scheduled
 created: 2026-07-10T21:35:28Z
-updated: 2026-07-10T21:36:13Z
+updated: 2026-07-10T21:41:46Z
 scheduled_at: 2026-07-10T22:40:00Z
 duration_minutes: 45
 location: TBD (Austin to schedule with accounts + director)
@@ -42,13 +42,17 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: progress
-version: 2
+version: 3
 ---
 
 \
 Pre-read: docs/accounts-integrity-meeting-pack.md (plain-English narrative: discovery → findings → causes → fixes → testing → what testing caught → stress-testing evidence, followed by this agenda with recommendations per decision). Deep material for anyone who wants it: project P-0020 charter + ADR-001..006, and the T-0538 technical deep dive.
 
-<br />
+# **Accounts & Xero — what happened, what we fixed, and what we need to decide**
+
+*Meeting pack — prepared 10 July 2026. Audience: accounts team & directors. No technical background needed.*
+
+***
 
 ## **In one paragraph**
 
@@ -95,7 +99,7 @@ Testing was deliberately brutal, and it *did* find problems — which is the p
 * **Every historical document replayed.** We re-ran the new document engine against all 4,128 documents from the last year and compared the results. It changed nothing that was healthy, and correctly explained everything that wasn't.
 * **A live-fire rehearsal on a practice copy of Xero.** We ran the real charge → compensation → cancellation → invoice flows end-to-end (24 checks), including a "worst case" designed to force the rounding machinery to work. All green.
 * **The testing caught our own mistakes too.** An independent code review found that our first version of the rounding fix could produce a line Xero would refuse. We fixed the construction, and then **proved it against Xero itself**: we posted 34 test documents to the practice company — all 28 correct-format documents were accepted with totals matching ours to the penny, and all 6 deliberately old-format documents were **rejected by Xero with exactly the error we predicted**. The review also caught a case where an early assumption of ours was simply wrong (we'd added duplicate history logging that wasn't needed) — we removed it and said so in the record.
-* **Ticket 534 was stress-tested throughout the process.** It survived, among other things: a 22-hour hang scenario (now impossible — it fails fast), interrupted sends recovered on the next run, a full completeness rehearsal that posted **304 invoices and 109 payments to the practice company with zero missing and zero duplicated**, and — unplanned but valuable — the moment all 34 test documents were rejected at once by the practice company (a missing account setting): it handled the mass failure perfectly — nothing lost, nothing duplicated, every error logged and emailed.
+* **Ticket 534 was stress-tested far beyond normal.** We reset the practice copy of Xero and re-ran the whole posting process from scratch **around five times, posting thousands of transactions in total — not one orphaned, not one duplicated**. Along the way it survived: a 22-hour hang scenario (now impossible — it fails fast), sends deliberately interrupted mid-way and recovered on the next run, a full completeness rehearsal (**304 invoices and 109 payments posted with zero missing and zero duplicated**, every allocation reconciled), and — unplanned but valuable — the moment all 34 test documents were rejected at once by the practice company (a missing account setting): it handled the mass failure perfectly — nothing lost, nothing duplicated, every error logged and emailed.
 
 ### **6. What this changes for accounts**
 

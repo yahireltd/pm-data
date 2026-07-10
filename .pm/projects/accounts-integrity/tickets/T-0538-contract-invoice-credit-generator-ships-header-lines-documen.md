@@ -2,9 +2,9 @@
 id: T-0538
 title: Contract invoice/credit generator ships header≠lines documents (Xero rejections, wrong proformas) — adjuster dumps residuals, diff engine has 4 bugs
 type: bug
-state: in_progress
+state: review
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T21:17:16Z
+updated: 2026-07-10T21:48:53Z
 project: accounts-integrity
 section: null
 parent: null
@@ -41,7 +41,7 @@ agent_runs:
   - id: run-20260710-1721
     model: claude-opus-4-8
     started: 2026-07-10T17:21:01Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: master
       branch_source: project
@@ -108,12 +108,49 @@ agent_runs:
           This also CLOSES the last open replay exception: doc 72858 (C089368, package-parent-without-children + stale archived insurance) is Austin's test contract — mechanism documented as T-0541 evidence (quote builder writes package data in inconsistent states: same product priced-as-parent on C089510/C089676 vs isPackage-with-no-children on C089368), no accounts impact. The 3 go-live-week exceptions (52385/52672/52400) remain attributed to Austin's manual DB corrections at the time.
 
           Dispositions: void 69663 (in live Xero, Awaiting Payment — Austin has the link) + 75664, 70029, 70030 locally; fix item 251316 (+180 → −180) then re-examine 78307. T-0542 sharpened: all three polluting contracts used @yahire.com emails — internal-email exclusion would have caught every one.
+    ended: 2026-07-10T21:48:53Z
+    summary: "Invoices and credit notes were sometimes generated wrong — the totals on the document disagreed with the line items underneath, credit notes for cancelled charges could come out at double the right amount, and VAT could be calculated at the wrong rate. Each broken document became a manual database repair for IT after accounts spotted it. This run found and fixed every cause: rounding differences now appear as their own honestly-labelled line (so our copy, the customer's PDF and Xero always agree), the double-sized credit note bug is gone, the VAT slips are fixed, and a mistyped negative compensation can no longer flip into a positive charge. We proved it by re-checking every document generated since the new accounting system went live (4,128 — nothing healthy changed; exactly one real customer document in the whole era was broken, and it's on Austin's fix list), by running the real charge/compensation flows end-to-end, by an independent three-way code review (whose findings were fixed and re-proven, including one honest reversal of our own earlier assumption), and finally by posting test documents to a practice copy of Xero — all corrected formats accepted with totals matching to the penny, all deliberately-broken old formats rejected by Xero exactly as predicted. Doing nothing would have meant accounts continuing to find broken documents weeks late and IT continuing to repair them by hand. New investigation pages let anyone check any document's health in seconds. Nothing is released: everything sits on its feature branch on the test server, awaiting the release plan agreed at meeting M-001."
+    test_plan: |-
+      All on the test server (xerotest.yahire.com) unless marked LIVE. Branch t0538-document-generator-integrity is deployed there.
+
+      **A. The four broken documents (30 min)**
+      1. Open /doc-integrity — expect exactly 4 rows (CN 78307, CN 75664, INV 70029, CN 70030). For each, click *investigate*: read the classification, the acceptedchanges trail and the version diff — confirm the story matches your knowledge (78307 = Paula's +£180; the others = internal test contracts).
+      2. On 78307's investigate page, check "what the fixed engine would generate" shows the £300.96 divergence with a Balance adjustment preview.
+
+      **B. Random healthy sample (30–45 min)**
+      3. Open /doc-integrity/validations. Heading should show one FAIL (78307) and everything else PASS. Pick ~10 recent docs across types (first invoice, qty amendment, price-change amendment, compensation credit, cancellation CN). For each: open the PDF and the investigate page — lines coherent, replay reconciles with the header.
+      4. Compare 2–3 of the same documents on LIVE (old engine): confirm the difference is as described (smeared line or mismatch on live where applicable).
+
+      **C. Flow drills — sandbox writes (30 min)**
+      5. Via the UI on any sandbox contract: raise an issue → charge it; compensate; cancel the charge; add then remove a % goods discount; then generate the invoice/credit each time. After each: the new doc appears on validations as PASS; the trail names you.
+      6. Try a compensation typed as a NEGATIVE number — confirm the item lands negative (sign guard).
+      7. Optionally rerun the harness: php yii charge-compo-e2e/run <contractID> — expect 24/24 PASS (it refuses to run outside the sandbox — try it and confirm the refusal message if you want to verify the guard).
+
+      **D. Xero cross-check (10 min)**
+      8. In the Demo Company, open INV #78416 (penny-stress) and CN #78412 (same-ref canceller): Xero footer totals equal the local headers; the canceller CN has ONE reversal line, not two.
+
+      **E. Cross-impact checks (15 min)**
+      9. Statement pages: open manual-refunds AND manual-payments for any contract — PDF icons render on invoice/CN/deposit rows and open the right PDF (both pages share the same helper).
+      10. PDF endpoint: open a LEGACY (pre-June-2025) invoice PDF via an icon — legacy layout renders (the endpoint fix touched both layouts).
+      11. Xero links: click a Xero link on /doc-integrity and on /xero/run-issues — both open correctly in the new Xero UI (helper change touched the T-0534 page too).
+      12. Unit suite on the box: php vendor/bin/codecept run unit -c common pricing — 39 tests green (includes the pre-existing ContractPricingTest: proves no regression to the older pricing tests).
+
+      **F. Docs**
+      13. Skim docs/t0538-deep-dive.md §5 (what it does NOT solve) and §9 (review outcome) — confirm you're comfortable with every "dispositioned, not changed" item.
+    records:
+      docs: updated
+      tech_session: TS-002
+      status_note: written
+      docs_note: docs/t0538-deep-dive.md (full technical record incl. review outcome + posting proof) and docs/accounts-integrity-meeting-pack.md (plain-English narrative + decision agenda) committed on the branch
 labels:
   - invoicing
   - xero
   - data-integrity
-attention: null
-version: 25
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-10T21:48:53Z
+version: 26
 branch: t0538-document-generator-integrity
 ---
 
@@ -281,3 +318,5 @@ Bonus finding: the first posting attempt failed wholesale on a missing demo char
 Sample-period answer (Austin's question): replay covered 2025-07-01 → the 02-Jul-2026 snapshot (extended run confirmed 2025-06-01 start adds only 7 more go-live-week hand-fix-era exceptions, nothing actionable; Austin deemed the period sufficient). Gap: live docs since the 02-Jul snapshot — read-only SQL provided to Austin to check live directly.
 
 Final battery: unit 39/39 (159 assertions), E2E 24/24, replay incl. sales contracts 3,992 docs / 3,984 stable / same 4 known broken / same explained exceptions.
+
+**2026-07-10 21:48 claude-code:** Run run-20260710-1721 completed — Invoices and credit notes were sometimes generated wrong — the totals on the document disagreed with the line items underneath, credit notes for cancelled charges could come out at double the right amount, and VAT could be calculated at the wrong rate. Each broken document became a manual database repair for IT after accounts spotted it. This run found and fixed every cause: rounding differences now appear as their own honestly-labelled line (so our copy, the customer's PDF and Xero always agree), the double-sized credit note bug is gone, the VAT slips are fixed, and a mistyped negative compensation can no longer flip into a positive charge. We proved it by re-checking every document generated since the new accounting system went live (4,128 — nothing healthy changed; exactly one real customer document in the whole era was broken, and it's on Austin's fix list), by running the real charge/compensation flows end-to-end, by an independent three-way code review (whose findings were fixed and re-proven, including one honest reversal of our own earlier assumption), and finally by posting test documents to a practice copy of Xero — all corrected formats accepted with totals matching to the penny, all deliberately-broken old formats rejected by Xero exactly as predicted. Doing nothing would have meant accounts continuing to find broken documents weeks late and IT continuing to repair them by hand. New investigation pages let anyone check any document's health in seconds. Nothing is released: everything sits on its feature branch on the test server, awaiting the release plan agreed at meeting M-001.
