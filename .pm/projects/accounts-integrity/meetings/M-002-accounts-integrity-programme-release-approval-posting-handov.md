@@ -4,8 +4,8 @@ slug: accounts-integrity-programme-release-approval-posting-handov
 title: Accounts Integrity Programme — release approval & posting handover
 state: scheduled
 created: 2026-07-10T21:59:39Z
-updated: 2026-07-10T22:00:50Z
-scheduled_at: 2026-07-10T23:00:00Z
+updated: 2026-07-10T22:06:38Z
+scheduled_at: 2026-07-14T13:30:00Z
 duration_minutes: 50
 location: TBD (Austin to schedule with accounts + director; Fran needed for item 7)
 project: accounts-integrity
@@ -14,7 +14,48 @@ milestone: MS-002
 organizer:
   kind: human
   name: Austin
-stakeholders: []
+stakeholders:
+  - name: Jhuztine
+    channel: email
+    contact: jhuztine@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-10T22:02:14Z
+    role: Accounts SME
+  - name: Effie
+    channel: email
+    contact: effie@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-10T22:03:47Z
+    role: Accounts Manager
+  - name: ben
+    channel: email
+    contact: ben@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-10T22:04:10Z
+    role: Director
+    notify_on:
+      - assigned
+  - name: Austin
+    channel: email
+    contact: austin@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-10T22:04:23Z
+    role: Dev
+    notify_on:
+      - meeting_scheduled
+      - assigned
 agenda:
   - topic: Approve the staged release plan (posting system first, then document fixes; supervised trial run → safety week → handover)
     ticket: T-0534
@@ -42,10 +83,11 @@ agenda:
 outcomes: []
 attachments: []
 calendar:
-  graph_event_id: null
+  graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdhNwSdAAA=
   ics_url: null
+  organizer_mailbox: support@yahire.com
 kind: progress
-version: 2
+version: 15
 ---
 
 Pre-read: docs/accounts-integrity-meeting-pack.md (final version, commit 683223cd) — plain-English narrative: discovery → findings → causes → fixes → testing (incl. the \~5 demo resets / thousands of postings stress record and what testing caught) → the along-the-way findings table → this agenda with recommendations per decision. Depth for anyone who wants it: project P-0020 charter, ADR-001..006, tech sessions TS-001/TS-002, and the T-0538 technical deep dive. Suggested live demo: Demo Company invoice INV #78416 next to the old smeared credit note CR 75664 PDF.\

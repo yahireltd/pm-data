@@ -42,6 +42,8 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:44:37Z
     role: SME
+    notify_on:
+      - assigned
   - name: Rob Souse
     channel: email
     contact: rob@yahire.com
@@ -118,6 +120,24 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-10T00:37:41Z
     role: Dev
+  - name: Jhuztine
+    channel: email
+    contact: jhuztine@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-10T22:02:14Z
+    role: Accounts SME
+  - name: Effie
+    channel: email
+    contact: effie@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-10T22:03:47Z
+    role: Accounts Manager
 ---
 
 # Org roster
