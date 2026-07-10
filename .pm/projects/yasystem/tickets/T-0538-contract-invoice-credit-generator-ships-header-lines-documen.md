@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T17:41:18Z
+updated: 2026-07-10T18:10:51Z
 project: yasystem
 section: null
 parent: null
@@ -55,12 +55,26 @@ agent_runs:
         note: "NEW FINDING — duplicate-stock line deletion hazard, confirmed end-to-end in code: builder hydration keys ordinary items by BARE stockID (SalesController 2161-2168; only special stockIDs 784/786-789 get a composite stockID_itemRef key), so two lines of the same product collapse to one in the session; saveItemsAndAccessories then DELETES any DB row whose id is absent from the session (YaContractItems 587-589, $removedFromSession -> delete()). Net effect: editing a contract that carries duplicate same-product lines silently deletes one line. Blast radius TODAY: census shows only 1 contract with duplicate live ordinary lines (likely 45435's two Trestle rows), 0 active — BUT the mechanism destroys its own evidence (each edit deletes the duplicate), so historical damage is unmeasurable; treat current-low-exposure with suspicion. There is prior history here: code comments reference docs/bugs/quote-builder-duplicate-accessory-orphans.md (accessory flavour of the same identity problem). Fix direction: composite key (stockID_itemRef) for ALL items, not just specials — but the session key format is used throughout the builder JS/AJAX, so this lands inside the careful builder work with the full test matrix, not as a quick patch. Priority within ticket: below the priceFixed manual/computed distinction (that one is actively mispricing contracts)."
       - at: 2026-07-10T17:35:17Z
         note: "Data sampling (Austin's suggestion) — three design-shaping facts. (1) Amendment generation is HOT PATH: 2026 H1 alone has 191 docs with 'Increased by' lines, 127 with reversal pairs, 235 with compensation lines — hundreds of amendment documents per half-year, so generator changes carry real volume. (2) Golden convention confirmed from healthy doc 72989: vatAmount is LINE-level VAT (not unit), unitPrice×qty = line net, and healthy documents satisfy the header==Σlines invariant EXACTLY (net −538.84 vs credit 538.84, VAT −107.77 vs 107.77) — strong evidence the invariant will not false-positive on healthy flows. 'Rounding' never appears as a description — the label is free for our coherent rounding line. (3) Fix population: 37,715 live items carry priceFixed — 18.8k ABOVE quoted price (long-term-hire computed totals), 18.3k below (qty-matrix/manual discounts), only 620 equal. Computed fixes overwhelmingly dominate; manual fixes are buried among them, confirming the manual/computed split as the core design need. discountmatrix/stock_discountmatrix tables exist → retro-classification (fix == matrix/LTH-computed value ⇒ computed; else manual) is feasible and would both size the manual population and seed the backfill for the new manual flag."
+      - at: 2026-07-10T18:10:51Z
+        note: |-
+          Build phase 1 complete on branch t0538-document-generator-integrity (commits b6b5c6b8, 7f3bfd1a, 9189ef81). All pushed; test box (3.11.164.105) on branch, full pricing suite green: 38 tests / 138 assertions.
+
+          SHIPPED:
+          1. compareContractVersions mechanical fixes (all 3 loops): int-cast VAT codes with SAFE fallback per Austin — only explicit code 2 gives 0% VAT, anything unexpected defaults to 20% (never fall back to 0 VAT); reversal lines compute VAT at the OLD item's rate; $xeroNominal reset per line in main + removed-items loops; stale $products[$item->stockID] lookup fixed. Same safe default in getFullContractAsLineItems.
+          2. Silent writers now log to acceptedchanges via new logChangeSafe (never throws — item already saved, logging must not abort flow): issue charge/compensation items ('Issue Charge Item Added'/'Issue Compensation Item Added'), discount item create/update/delete in syncDiscountItem ('Discount Item Added/Updated/Removed').
+          3. Adjuster rework: adjustInvoiceLineTotals no longer smears residual into last line's netAmount (Xero renders qty×unitPrice → local vs Xero divergence = the 34 broken docs). Correction now on own coherent labeled line: 'Rounding adjustment' ≤ cap (2p/line, 5p floor) or 'Balance adjustment' + error log beyond. Old code also DROPPED the VAT residual when last line was zero-rated — fixed.
+          4. Shadow invariant in generateInvoiceWithItems: log-only header-vs-rendered-lines check to 'invoice-integrity' channel.
+          5. Engine census (live data): no null/odd vatRate codes; priceFixed NULL-or-numeric (engines agree post-roundtrip); old-accounting %-discount amendments extinct; found 28 no-VAT (contract vatRate=2) contracts historically amended with 20% VAT lines → FIXED: line engine + flattenOtherLines now honour contract-level vatRate (new lines use new version's, reversals/removals use old version's). Also found 6 positive-priced credit items (788/789) = data errors, engines disagree 2× — separate data fix needed.
+
+          PROOF: tests run against pre-fix code (checkout 902b04cb YaContracts.php) = 5 failures + 2 errors; fixed code = all green. New tests call the REAL compareContractVersions (existing ContractPricingTest only tests a simulate copy).
+
+          REMAINING: session-writer fixes (blocked on 2 business rules from Austin: manual fix vs LTH crossing; manual fix vs matrix price on qty change), rewind-and-replay harness on the 34 broken docs, quote-builder regression tests, duplicate-stock keying, 6 bad credit items data fix.
 labels:
   - invoicing
   - xero
   - data-integrity
 attention: null
-version: 13
+version: 14
 branch: t0538-document-generator-integrity
 ---
 
