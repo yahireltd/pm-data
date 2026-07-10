@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T18:10:51Z
+updated: 2026-07-10T18:31:47Z
 project: yasystem
 section: null
 parent: null
@@ -69,12 +69,24 @@ agent_runs:
           PROOF: tests run against pre-fix code (checkout 902b04cb YaContracts.php) = 5 failures + 2 errors; fixed code = all green. New tests call the REAL compareContractVersions (existing ContractPricingTest only tests a simulate copy).
 
           REMAINING: session-writer fixes (blocked on 2 business rules from Austin: manual fix vs LTH crossing; manual fix vs matrix price on qty change), rewind-and-replay harness on the 34 broken docs, quote-builder regression tests, duplicate-stock keying, 6 bad credit items data fix.
+      - at: 2026-07-10T18:23:46Z
+        note: |-
+          MAJOR FINDING via replay harness: the issue-resolution charge-reversal flow creates 788/789 credit items with the SAME itemRef as the 786/787 charge they cancel (e.g. C082716: stock 786 +30 and stock 788 −30 both ref a5a6aa57). compareContractVersions keyed versions by bare itemRef → the credit collided with the charge, engine saw +30→−30 as a price change → emitted reversal −30 PLUS re-invoice −30 = DOUBLE-SIZED CREDIT NOTE. Systematic for every post-invoice charge reversal — this is very likely the cause of the "credit note twice as big" class of accounts complaints. Fixed with composite keys (itemRef|stockID + occurrence counter) in commit 0d9f70b7; unit test encodes live doc 52590.
+
+          Replay harness numbers (doc-replay/run, read-only, all diff docs since 2025-07-01): 4208 docs replayed, 3946 healthy+stable under the new engine, 236 broken-before → 223 healed by the fixes (the stored-0.00 class = old adjuster smeared residuals into netAmount with unitPrice 0, which Xero renders as nothing). 6 apparent regressions all explained: 5 = the ref-collision double-count (now fixed, re-validating), 1 = doc 72858 C089368: package parent (stock 1005 Party Starter Pack) with NO children carrying its own price — both engines skip package parents so its £92 vanishes; archived insurance field also looks stale there (5.73 vs 97.73). Needs separate investigation.
+
+          Also: 6 positive-priced credit items found (data errors): 5 from 2024 (finished contracts), 1 live-era = C091771 item 251316 'Compensation for: Late' at +180 (typed negative → double-negated). Sign guard added to createCreditNoteItem; the +180 row needs a live data fix (Austin). Unit suite: 39 tests / 142 assertions green on the box.
+      - at: 2026-07-10T18:31:47Z
+        note: |-
+          Austin reversed the session-writer decision: quote-builder behaviour stays UNCHANGED (does not want to alter his colleague's quote-builder functionality without a dedicated review). No SalesController changes were made — verified clean; the t0538 branch contains only document-generation fixes (6 commits, b6b5c6b8..0d9f70b7). Created T-0541 (spike) to review manual-price survival properly: documents both wipe sites with line numbers, the initially-chosen-then-deferred rules (survive + UI flag in both cases), and the priceSource provenance design (NULL = legacy = current behaviour). T-0541 requires quote-builder regression tests before any implementation.
+
+          Final replay validation with composite keys: 4208 docs — 3948 healthy-stable, 224/236 broken healed, 4 remaining regressions all explained (3 go-live-week docs likely manually corrected in DB at the time; 1 = doc 72858 package-parent-without-children + stale archived insurance, open investigation). 39 unit tests / 142 assertions green.
 labels:
   - invoicing
   - xero
   - data-integrity
 attention: null
-version: 14
+version: 16
 branch: t0538-document-generator-integrity
 ---
 
