@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T17:29:39Z
+updated: 2026-07-10T17:35:17Z
 project: yasystem
 section: null
 parent: null
@@ -53,12 +53,14 @@ agent_runs:
         note: "Session-writer audit complete for the two prime suspects — both priceFixed wipe mechanisms located precisely. (1) actionCalculateHireDays (SalesController 6100-6111): when the discount matrix returns no discounted price, the fix survives ONLY if both old and new hire durations are below the long-term-hire threshold ($paramsHireDays); crossing the threshold blanks priceFixed='' (line 6110) for every such item — and reverting the date does NOT restore (already blanked in session). This is C091771's exact story. Line 6094: when the matrix DOES return a discounted price it overwrites the fix with the matrix price. (2) actionUpdateItemQty (line 3825): unconditionally writes the recomputed price into priceFixed — manual fixes replaced by matrix/rate-card values on every qty change. KEY INSIGHT: priceFixed is semantically overloaded — it stores BOTH salesperson manual overrides AND computed prices (qty-discount matrix, long-term-hire prices are written into the same field). Blanket 'preserve' would therefore be WRONG: automatic recalcs legitimately rewrite computed values. The bug is that MANUAL fixes are indistinguishable and get clobbered/blanked by automatic recalcs. Fix needs a manual-vs-computed distinction (flag/column set by actionManualPriceUpdate, honoured by recalc flows) — design decision needed from Austin on the business rule. OPEN QUESTION to verify next: session items appear keyed by stockID (actionEditQuote line 2189 $items[$itemStockID]) — if true, contracts with duplicate same-stock lines (45435 has two 'Trestle Table (6ft)' rows) may collapse on hydration → potential silent line loss on edit; needs verification against the hydration loop and saveItemsAndAccessories' handling of absent existing items."
       - at: 2026-07-10T17:26:47Z
         note: "NEW FINDING — duplicate-stock line deletion hazard, confirmed end-to-end in code: builder hydration keys ordinary items by BARE stockID (SalesController 2161-2168; only special stockIDs 784/786-789 get a composite stockID_itemRef key), so two lines of the same product collapse to one in the session; saveItemsAndAccessories then DELETES any DB row whose id is absent from the session (YaContractItems 587-589, $removedFromSession -> delete()). Net effect: editing a contract that carries duplicate same-product lines silently deletes one line. Blast radius TODAY: census shows only 1 contract with duplicate live ordinary lines (likely 45435's two Trestle rows), 0 active — BUT the mechanism destroys its own evidence (each edit deletes the duplicate), so historical damage is unmeasurable; treat current-low-exposure with suspicion. There is prior history here: code comments reference docs/bugs/quote-builder-duplicate-accessory-orphans.md (accessory flavour of the same identity problem). Fix direction: composite key (stockID_itemRef) for ALL items, not just specials — but the session key format is used throughout the builder JS/AJAX, so this lands inside the careful builder work with the full test matrix, not as a quick patch. Priority within ticket: below the priceFixed manual/computed distinction (that one is actively mispricing contracts)."
+      - at: 2026-07-10T17:35:17Z
+        note: "Data sampling (Austin's suggestion) — three design-shaping facts. (1) Amendment generation is HOT PATH: 2026 H1 alone has 191 docs with 'Increased by' lines, 127 with reversal pairs, 235 with compensation lines — hundreds of amendment documents per half-year, so generator changes carry real volume. (2) Golden convention confirmed from healthy doc 72989: vatAmount is LINE-level VAT (not unit), unitPrice×qty = line net, and healthy documents satisfy the header==Σlines invariant EXACTLY (net −538.84 vs credit 538.84, VAT −107.77 vs 107.77) — strong evidence the invariant will not false-positive on healthy flows. 'Rounding' never appears as a description — the label is free for our coherent rounding line. (3) Fix population: 37,715 live items carry priceFixed — 18.8k ABOVE quoted price (long-term-hire computed totals), 18.3k below (qty-matrix/manual discounts), only 620 equal. Computed fixes overwhelmingly dominate; manual fixes are buried among them, confirming the manual/computed split as the core design need. discountmatrix/stock_discountmatrix tables exist → retro-classification (fix == matrix/LTH-computed value ⇒ computed; else manual) is feasible and would both size the manual population and seed the backfill for the new manual flag."
 labels:
   - invoicing
   - xero
   - data-integrity
 attention: null
-version: 9
+version: 12
 ---
 
 ## Problem
@@ -152,3 +154,15 @@ Sink: `YaContractItems::saveItemsAndAccessories` (line ~619) — `$contractItem-
 4. **Thin Playwright smoke pack** (~6-8 flows against the sandbox builder UI, ~1 day to build): only tier that catches JS/DOM contract breakage. MANDATORY if the session key format changes (duplicate-line fix); optional otherwise.
 
 Combined with the rewind-and-replay document harness, the full T-0538 proof stack: unit → session-scenario → golden-master replay → (conditional) browser smoke → document replay (34 broken correct + healthy identical) → e2e cancel→credit→post on demo org.
+
+**2026-07-10 17:31 claude-code:** **Test plan addition (Austin): post-change invoicing assertions — edit → generate → assert exact lines.**
+
+New tier between the builder tests and the document replay: scenario tests that run the REAL pipeline (contract state → archive version → builder-equivalent edit → generateInvoiceWithItems) and assert the exact invoice_items produced (description, qty, unitPrice, vatAmount, nominal) AND the header invariant. Core scenarios: qty increase ('Increased by N' line at right price/VAT); price change (reversal + re-invoice pair, VAT at the item's own rate); item removal (negative line); manual fix + date change past LTH threshold (fix preserved, only date-driven delta invoiced); cancellation via issue-resolution compensation (credit CONTAINS the compensation line — the 75664 case generating correctly); 100% discount (visible discount line, £0.00 residual not −£0.02).
+
+**Correspondence oracle:** once the silent writers are logged (fix #1), assert two-way correspondence between acceptedchanges and the generated document — every line explainable by a logged change, every logged price-affecting change reflected in a line. The change log becomes the machine-checkable definition of 'intended changes', which is exactly how Austin verifies these by hand today.
+
+**2026-07-10 17:33 claude-code:** **Scenario refinement (Austin): qty changes can cross discount-matrix price breaks — the whole line reprices, not just the delta.** Scenario matrix updated: (a) qty increase WITHIN a band → single '(Increased by N)' delta line at unchanged price; (b) qty increase CROSSING a break → reversal (−old qty × old price) + re-invoice (new qty × new price); (c) qty DECREASE crossing back DOWN a break → reversal + re-invoice at the HIGHER unit price (fewer units = more per unit — commercially sensitive, explicit test); (d) qty change where matrix returns nothing → delta line and no priceFixed blanking (the 6110 branch, post-fix).
+
+**OPEN BUSINESS RULES needing Austin's decision before the priceFixed build:**
+1. Manual fix vs long-term-hire threshold crossing (date changes): does a manual fix survive? (proposed: yes + UI flag 'manual price — review?')
+2. Manual fix vs discount-matrix price on qty change: which wins when the matrix price differs from the manual fix (esp. when matrix is now CHEAPER)? Options: manual always wins / lower wins / manual wins + UI flag.
