@@ -6,14 +6,15 @@ project: accounts-integrity
 state: planned
 order: 5120
 created: 2026-07-10T21:16:32Z
-updated: 2026-07-10T21:25:26Z
+updated: 2026-07-10T22:39:21Z
 acceptance_criteria:
   - "T-0542: test contracts provably excluded from posting + existing leakage cleaned"
-  - "T-0541: quote-builder pricing review decided with Zsolt (manual-price survival + package pricing), with regression tests preceding any change"
-  - T-0539 proformas and T-0540 sister-project audit dispositioned (done or consciously parked with rationale)
+  - "T-0541: quote-builder pricing review decided with Zsolt (manual-price survival + package pricing + the 1%-VAT discount bug), with regression tests preceding any change"
+  - T-0539 proformas dispositioned (done or consciously parked with rationale)
+  - T-0545 re-resolution behaviour decided with accounts/Fran and implemented or consciously declined
 slip_records: []
 target_date: 2026-09-04
-version: 2
+version: 3
 phase_id: PH-003
 ---
 

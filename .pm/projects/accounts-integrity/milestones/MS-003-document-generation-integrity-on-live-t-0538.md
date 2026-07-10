@@ -6,16 +6,17 @@ project: accounts-integrity
 state: planned
 order: 3072
 created: 2026-07-10T21:16:32Z
-updated: 2026-07-10T21:46:24Z
+updated: 2026-07-10T22:38:57Z
 acceptance_criteria:
   - Branch merged (after/with T-0534) and deployed
   - RBAC route permission granted for /doc-integrity; xeroOrgShortCode param set on live
   - Validations page shows 100% PASS for documents generated in the first 2 weeks
   - invoice-integrity log channel quiet or triaged same-day
   - Austin has completed the deep-dive sampling checklist (4 parts)
+  - "Website generators brought up to date (T-0540): yahirenew + chl generate documents that pass the same header==lines checks — no old-engine documents flowing in from customer payments (milestone cannot be hit while they do)"
 slip_records: []
 target_date: 2026-08-07
-version: 3
+version: 4
 phase_id: PH-005
 ---
 
