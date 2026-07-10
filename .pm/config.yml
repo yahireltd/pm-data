@@ -52,6 +52,7 @@ id_counters:
       decision: 6
       phase: 4
       sprint: 1
+      meeting: 1
   reminder: 6
 outbound_email:
   from: support@yahire.com
