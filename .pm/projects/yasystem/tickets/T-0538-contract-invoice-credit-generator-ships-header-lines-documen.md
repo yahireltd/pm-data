@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: triaged
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T16:50:56Z
+updated: 2026-07-10T17:07:17Z
 project: yasystem
 section: null
 parent: null
@@ -41,7 +41,7 @@ labels:
   - xero
   - data-integrity
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
@@ -115,3 +115,14 @@ Sink: `YaContractItems::saveItemsAndAccessories` (line ~619) — `$contractItem-
 **Scope decisions (Austin):** proformas parked → **T-0539**; cross-project audit (yahirenew website invoice generation, chl sister site) → **T-0540**.
 
 **Test strategy (Austin's design — adopt as this ticket's test plan):** REWIND-AND-REPLAY. For each broken document: reconstruct the contract state at generation time from ya_contracts_archive/ya_contract_items_archive (versions exist for all cases checked), re-run generation with the FIXED code in a dry-run harness (console command, no writes), and diff the would-be document against the actually-stored one (still on live/sandbox DB). Acceptance: (a) all 34 broken docs regenerate CORRECTLY (header==Σlines, amounts match manual expectations); (b) a control sample of healthy contracts regenerates IDENTICALLY to what was originally produced (no regression).
+
+**2026-07-10 17:07 claude-code:** **Implementation plan AGREED with Austin (2026-07-10), with six binding constraints. NO LIVE ROLLOUT of any of this yet — everything below is build/test/sandbox only until explicitly cleared.**
+
+1. **Silent-writer logging** (discount + compensation items → acceptedchanges): agreed, build as-is. Zero behaviour change.
+2. **priceFixed preservation** — CONSTRAINT: the quote builder keeps its entire working state in SESSION (`$quoteNo.'.items'` etc., SalesController ~2343; save reads session, not the form; edits accumulate via AJAX handlers). Intended price changes travel through that session state, and the code is fragile (Austin: colleague-built, "sketchy"). Design: (a) audit every session `.items` writer to find which handler drops priceFixed; (b) fix at the writer(s); (c) server-side array_key_exists guard stays as backstop — but must be verified against the session flow so INTENDED price changes are never swallowed. Test: full builder matrix on the test system (qty change, date change, add/remove item, explicit price fix, explicit unfix) with payload/session inspection.
+3. **Mechanical diff-engine fixes** (stale $item, sticky nominal, reversal VAT rate): agreed — each must be PROVEN by a failing-then-passing unit test in ContractPricingTest.
+4. **Invariant** — CONSTRAINT: `Invoices` is saved from many unrelated flows (balance updates, Xero GUID write-backs, voiding, payments). The invariant must NOT be a model-level save hook. It attaches ONLY at document-generation call-sites (generateInvoiceWithItems and siblings), as an explicit check inside the existing generation transaction. Shadow mode first (log-only), enforce later and only after shadow data is clean.
+5. **Adjuster** — CONSTRAINTS: (a) legitimate rounding adjustments must be arithmetically coherent AND visible — a labeled line ('Rounding adjustment'), never a silent mutation of an unrelated line; (b) refusal is NOT the goal: the objective is documents that GENERATE CORRECTLY (otherwise refusals just hand Austin the manual work back in a new form). Engine alignment (6) must make the known cases — cancellations via compensation items, discounts — generate right; refusal remains only for genuinely unknown divergence, and each refusal is a bug to fix, not a steady state.
+6. **Engine filter-map investigation** (recalculatePrice vs getBalances vs compareContractVersions on status-100/compensation/discount items): agreed — investigation first, design from evidence.
+
+**Test strategy (unchanged):** unit tests → rewind-and-replay harness on the test DB (34 broken must regenerate correct; healthy control set must regenerate IDENTICAL; compensation/discount corpus must pass invariant) → end-to-end on test system + demo company via the T-0534 posting rig (cancel via issue resolution → credit → post) → live only after all green and explicit sign-off, logging-first ordering.
