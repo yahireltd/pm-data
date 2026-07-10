@@ -2,14 +2,14 @@
 id: T-0542
 title: Stop internal test contracts posting to live Xero
 type: chore
-state: inbox
+state: triaged
 created: 2026-07-10T19:13:23Z
-updated: 2026-07-10T19:13:23Z
-project: null
+updated: 2026-07-10T21:17:48Z
+project: accounts-integrity
 section: null
 parent: null
 children: []
-order: 1024
+order: 6144
 priority: p2
 reporter:
   kind: human
@@ -33,7 +33,7 @@ labels:
   - accounts
   - t-0538-follow-on
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem

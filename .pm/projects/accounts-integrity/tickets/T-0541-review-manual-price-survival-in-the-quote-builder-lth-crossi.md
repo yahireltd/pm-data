@@ -2,14 +2,14 @@
 id: T-0541
 title: "Review: manual-price survival in the quote builder (LTH crossing + qty/matrix reprice)"
 type: spike
-state: inbox
+state: triaged
 created: 2026-07-10T18:31:35Z
-updated: 2026-07-10T19:13:43Z
-project: null
+updated: 2026-07-10T21:17:41Z
+project: accounts-integrity
 section: null
 parent: null
 children: []
-order: 1024
+order: 5120
 priority: p2
 reporter:
   kind: agent
@@ -45,7 +45,7 @@ labels:
   - pricing
   - t-0538-follow-on
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem

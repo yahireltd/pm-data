@@ -4,12 +4,12 @@ title: Proforma (type 2) generator produces wrong totals — 16+ customer-facing
 type: bug
 state: triaged
 created: 2026-07-10T16:48:41Z
-updated: 2026-07-10T16:48:41Z
-project: yasystem
+updated: 2026-07-10T21:17:25Z
+project: accounts-integrity
 section: null
 parent: null
 children: []
-order: 1024
+order: 3072
 priority: p2
 reporter:
   kind: agent
@@ -30,7 +30,7 @@ labels:
   - data-integrity
   - proforma
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem

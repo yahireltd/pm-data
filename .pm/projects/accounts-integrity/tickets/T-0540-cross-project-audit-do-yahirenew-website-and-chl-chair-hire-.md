@@ -4,12 +4,12 @@ title: "Cross-project audit: do yahirenew (website) and chl (Chair Hire London) 
 type: spike
 state: triaged
 created: 2026-07-10T16:48:50Z
-updated: 2026-07-10T16:48:50Z
-project: yasystem
+updated: 2026-07-10T21:17:34Z
+project: accounts-integrity
 section: null
 parent: null
 children: []
-order: 1024
+order: 4096
 priority: p2
 reporter:
   kind: agent
@@ -30,7 +30,7 @@ labels:
   - data-integrity
   - cross-project
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem

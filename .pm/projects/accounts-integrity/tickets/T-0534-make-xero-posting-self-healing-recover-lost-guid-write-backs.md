@@ -4,8 +4,8 @@ title: "Make Xero posting self-healing: recover lost GUID write-backs instead of
 type: bug
 state: review
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-10T13:59:33Z
-project: yasystem
+updated: 2026-07-10T21:17:08Z
+project: accounts-integrity
 section: null
 parent: null
 children: []
@@ -102,7 +102,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-09T15:07:19Z
-version: 16
+version: 17
 branch: t0534-xero-posting-self-heal
 ---
 

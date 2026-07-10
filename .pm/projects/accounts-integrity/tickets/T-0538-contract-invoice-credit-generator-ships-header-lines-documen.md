@@ -4,12 +4,12 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T20:53:20Z
-project: yasystem
+updated: 2026-07-10T21:17:16Z
+project: accounts-integrity
 section: null
 parent: null
 children: []
-order: 1024
+order: 2048
 priority: p1
 reporter:
   kind: agent
@@ -113,7 +113,7 @@ labels:
   - xero
   - data-integrity
 attention: null
-version: 24
+version: 25
 branch: t0538-document-generator-integrity
 ---
 
