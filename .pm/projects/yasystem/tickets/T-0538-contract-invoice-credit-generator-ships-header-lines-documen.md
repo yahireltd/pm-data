@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T18:31:47Z
+updated: 2026-07-10T18:46:53Z
 project: yasystem
 section: null
 parent: null
@@ -81,12 +81,21 @@ agent_runs:
           Austin reversed the session-writer decision: quote-builder behaviour stays UNCHANGED (does not want to alter his colleague's quote-builder functionality without a dedicated review). No SalesController changes were made — verified clean; the t0538 branch contains only document-generation fixes (6 commits, b6b5c6b8..0d9f70b7). Created T-0541 (spike) to review manual-price survival properly: documents both wipe sites with line numbers, the initially-chosen-then-deferred rules (survive + UI flag in both cases), and the priceSource provenance design (NULL = legacy = current behaviour). T-0541 requires quote-builder regression tests before any implementation.
 
           Final replay validation with composite keys: 4208 docs — 3948 healthy-stable, 224/236 broken healed, 4 remaining regressions all explained (3 go-live-week docs likely manually corrected in DB at the time; 1 = doc 72858 package-parent-without-children + stale archived insurance, open investigation). 39 unit tests / 142 assertions green.
+      - at: 2026-07-10T18:46:53Z
+        note: |-
+          CORRECTION to earlier replay figures + new tooling shipped (branch at 405626fd, deployed to test box).
+
+          CORRECTED VALIDATION NUMBERS: earlier 'brokenBefore 236 / healed 224' was legacy-doc pollution — legacy-accounting contracts (created before go-live 2025-06-01) invoice via the legacy flow which stores NO itemised lines, so header-only is CORRECT for them, and the replay trivially 'matched' their headers. After scoping both tools to usesNewAccounting() contracts: 3,954 itemised difference docs replayed → 3,946 exactly stable under the fixed engine (99.8%), 4 broken-before (all data/upstream causes, not engine arithmetic), 4 explained exceptions (52385/52672/52400 = go-live week, likely Austin's manual DB corrections at the time; 72858 = package-parent-without-children + stale archived insurance, open).
+
+          THE REAL LIVE DAMAGE LIST IS 4 DOCS ON 3 CONTRACTS: 78307/C091771 (the +£180 compensation data error), 75664/C089510 (header 503.65 vs lines −14.67), 70029+70030/C089676 (INV+CN pair, headers 3,412.29 vs lines ±99.38). All manual review/data fixes for Austin, all triageable on the new page.
+
+          NEW TOOLING (per Austin's request): /doc-integrity (backend, read-only) — mismatch triage list with manual-refunds + Xero links and classification (no-lines/smeared/engine-mismatch), ?docs= pinning; /doc-integrity/view?id=N — stored lines with per-line coherence highlighting, live replay of what the FIXED engine would generate from the same archived version pair (adjuster preview, split-pair aware), raw version item diff, acceptedchanges trail (72h window, usernames), all docs on contract. Index embeds the expandable T-0538 change document: what/why per fix, testing evidence, Austin's manual work list, safety precautions, and temporary-vs-keep (nothing temporary committed; the two read-only tools are keep-recommended). Smoke-tested data paths on the box for docs 52590/68949/57069/78307.
 labels:
   - invoicing
   - xero
   - data-integrity
 attention: null
-version: 16
+version: 17
 branch: t0538-document-generator-integrity
 ---
 
