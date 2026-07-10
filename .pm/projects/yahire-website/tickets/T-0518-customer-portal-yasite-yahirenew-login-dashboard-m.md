@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: triaged
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-10T04:49:07Z
+updated: 2026-07-10T05:10:48Z
 project: yahire-website
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 26
+version: 27
 surface: yahire-website
 department: Sales
 ---
@@ -249,3 +249,24 @@ This is a standard security-hygiene feature (like Google/Facebook "your devices"
 Uncommitted on branch `customer-portal` (PortalController + the account view).
 
 **Test:** sign in with "keep me logged in" so the device gets trusted → Account page lists it as "This device"; sign in from a second browser → both appear; Remove a non-current one → it disappears and will require a code next time.
+
+**2026-07-10 05:10 claude-code:** **Added — account-detail change requests, now tracked like billing (10 Jul 2026)**
+
+Upgraded the "Request a change" section on the customer's Account page from a single free-text box (which just emailed the team) into a proper tracked request, working the same way as a billing-address change request. Table `portal_detail_requests` created in the `yasite` database.
+
+**Decision behind it:** the portal shows two separate things — the person's **portal login** (their name/login-email/phone) and the **account record** (the company's details that orders and invoices are attached to). We deliberately kept everything **request-only, no self-editing**, and this request targets the **account record** so that once staff apply it, the new details flow onto the customer's future orders.
+
+**Customer side (portal → Account):**
+- Instead of one message box, there are now separate fields for **Company, Account email, Account phone**, pre-filled with the current values — the customer edits what they want changed and sends.
+- Submitting saves a tracked request and emails **accounts@ + the account manager** a clear "current → requested" comparison.
+- Shows a note if they already have a request awaiting review, and makes clear this does **not** change their portal login email — only the account contact details.
+
+**Staff side (ya-hire customer profile):**
+- A new "Account details change requested" box (styled blue, to tell it apart from the amber billing one) lists each pending request showing **current → requested** per field.
+- **Apply** writes the company/email/phone onto the customer record; **Dismiss** discards it — both behind the same confirmation pop-up, and recorded (who/when). Same staff-permission gate as the billing action.
+
+**Notes:** best-effort throughout (a missing table or mail hiccup won't break the page or lose the request silently — failures are logged). No change to the billing flow. The old free-text-to-info@ behaviour is fully replaced.
+
+Uncommitted: yasite `customer-portal` (PortalController, account view) and ya-hire `portal-customer-management` (SalesController).
+
+**Test:** on the portal, change Company/phone on the Account page → Send → request saved + email sent, pending notice appears → on the customer's profile in the staff system, the blue box shows current → requested → Apply updates the customer record (check it lands on the ya_customers record); Dismiss discards.
