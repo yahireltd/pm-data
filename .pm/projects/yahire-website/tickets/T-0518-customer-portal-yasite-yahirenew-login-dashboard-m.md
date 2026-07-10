@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: triaged
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-10T04:04:44Z
+updated: 2026-07-10T04:17:48Z
 project: yahire-website
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 22
+version: 24
 surface: yahire-website
 department: Sales
 ---
@@ -190,3 +190,29 @@ Clarified with Zsolt: anyone can place an order on the public website, so gating
 - **Cleanup:** the seeded `place_orders` entry in the permission catalogue should be **disabled** so it stops showing up as an assignable checkbox when owners/staff set team-member permissions (it controls nothing). This is a one-click "Disable" on the staff Portal Customers → Permissions tab. Reversible; no schema change. (The catalogue lives in the production database, so it's a data toggle, not a code change.)
 
 Remaining open items after this: add the menu link to the staff Portal Customers page, and the optional password-step throttle. Everything in the original acceptance criteria is done and committed.
+
+**2026-07-10 04:09 claude-code:** **Added — login lockout after repeated failures (10 Jul 2026)**
+
+Implemented the optional brute-force hardening we'd parked. On the customer portal login:
+
+- After **5 failed password attempts**, that person is **temporarily blocked for 15 minutes** — during the block the password isn't even checked; they see a clear message: *"Too many failed attempts. Please try again in about 15 minutes, or reset your password below."* (the reset link is right there).
+- A **successful login clears the count** straight away, so a customer who just mistyped a couple of times isn't affected once they get it right.
+- Counting is done per email **and** device/network, so someone repeatedly guessing gets blocked at their end **without** being able to lock a real customer out of their own account.
+
+This sits on top of the existing protections (the emailed login code is still always required on a new device), so it's defence-in-depth — it mainly stops repeated automated guessing and the log-noise/server load that comes with it.
+
+No database change was needed (it uses the app's short-term cache, which clears itself after the block expires). Uncommitted on branch `customer-portal`.
+
+**Test steps (for review):** try logging in with a real portal email and a wrong password 5 times → on the 5th you should see the "too many attempts" message and be unable to log in even with the *correct* password until ~15 min pass (or clear the app cache). Confirm a normal correct login still works first time on a fresh browser.
+
+**2026-07-10 04:17 claude-code:** **Update — login lockout now uses a shared database table (10 Jul 2026)**
+
+Revised the login-lockout hardening from my earlier note. The behaviour a customer sees is unchanged (after 5 failed password attempts they're temporarily blocked for ~15 minutes, with a clear "try again shortly or reset your password" message; a correct login clears it immediately, and it's counted per email + device/network so no one can lock a real customer out of their own account).
+
+**What changed under the hood:** instead of the app's short-term cache, the attempt counts now live in a small shared **database table** (`portal_login_throttle`). This makes the limit exact even if the site runs across more than one web server behind a load balancer — a browser reload or new tab can't reset it, because it was never stored in the browser to begin with.
+
+**Two operational notes:**
+- **One-time setup:** a new table needs creating in the portal database before this takes effect. The SQL is saved in the code at `yahirenew/sql/portal_login_throttle.sql`. (I don't touch the production database directly, so Zsolt runs this.)
+- **Safe rollout:** the throttle is best-effort — if the table isn't there yet, or the database has a hiccup, login simply carries on working normally (it "fails open"). So it can't break logins, and deploy order doesn't matter. The emailed login code on new devices remains the real protection; this is defence-in-depth on top.
+
+Still to test before shipping (once the table exists): 5 wrong passwords → the block message appears and even the correct password is refused until the window passes; a normal correct login works first time. Uncommitted on branch `customer-portal`.
