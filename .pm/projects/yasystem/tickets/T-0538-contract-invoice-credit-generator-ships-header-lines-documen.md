@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T19:26:56Z
+updated: 2026-07-10T19:44:31Z
 project: yasystem
 section: null
 parent: null
@@ -113,7 +113,7 @@ labels:
   - xero
   - data-integrity
 attention: null
-version: 20
+version: 21
 branch: t0538-document-generator-integrity
 ---
 
@@ -239,3 +239,11 @@ New tier between the builder tests and the document replay: scenario tests that 
 - Next: quantify occurrences in live data, then an end-to-end charge→compensate→reverse-charge→generate test on the box (the penny-rounding hotspot per Austin).
 
 **Austin's manual list:** void 69663 in Xero + 69663/75664/70029/70030 locally; item 251316 +£180 → −£180 then re-check 78307; decide T-0534 release order; T-0541/T-0542 decisions.
+
+**2026-07-10 19:44 claude-code:** **Charges/compensation flow: UK VAT verdict, guards shipped, and full E2E green (commits a58d4cad + a9342c78)**
+
+**UK VAT question answered:** crediting 20% VAT against a zero-rated supply is NOT correct (reg-38: an adjustment carries the original supply's rate) — but the data shows **zero historical mispairs since go-live**: staff manually pick the 0% stocks (787/789 — 751 zero-rated credits, £122k), and the cancel-charge flow was already VAT-symmetric (786→788, 787→789). So no accounts damage exists; the fix is forward-only prevention, stamped writer-side at item creation, which means **no already-posted document recalculates differently** (Austin's concern — the rate lives on the item row and every engine reads the stored value).
+
+**Guards shipped:** (1) createCreditNoteItem/createIssueChargeItem auto-swap to the 0% stock when the targeted product (chargeCompoStockID) or contract is zero-rated; (2) actionGenerateCredit strips VAT at the contract's rate instead of hardcoded /1.2; (3) actionCancelChargeCompo reversals now log to acceptedchanges (it was a third silent writer — it also never recalculated the contract price after reversing, noted: generation self-corrects); (4) **phantom-item trapdoor closed** — cloning an item can explicitly INSERT contractType NULL, and findAllIncSales filters on contractType, making the clone a real-in-SQL but invisible-to-everything row (excluded from recalculatePrice AND archiveNow). Hasn't fired in production (clones are DB-loaded) but both clone branches now set it explicitly.
+
+**End-to-end harness green — 24/24** (`php yii charge-compo-e2e/run <contractID>`, sandbox-only, drives the REAL writers + generator): charge; compensation with odd pennies; **penny-rounding stress** (3×33p charges forcing per-line-VAT vs header sum-then-round onto the labeled 'Rounding adjustment' line — the exact mechanism behind the historic smears Austin flagged); cancel-charge in production shape (RV ref) AND the historic same-itemRef collision shape — **single correctly-sized reversal, no double-count**; zero-rated target compensation auto-selecting 789/0%. Every doc coherent (header == Σ qty×unitPrice), every action trailed. Evidence docs INV/CN #78399–78406 on sandbox contract C087538 for eyeballing via /doc-integrity.
