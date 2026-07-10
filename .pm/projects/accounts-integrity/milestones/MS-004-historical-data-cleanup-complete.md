@@ -6,7 +6,7 @@ project: accounts-integrity
 state: planned
 order: 4096
 created: 2026-07-10T21:16:32Z
-updated: 2026-07-10T21:16:32Z
+updated: 2026-07-10T21:25:17Z
 acceptance_criteria:
   - Test docs voided locally (69663/75664/70029/70030) and INV 69663 voided in Xero
   - Item 251316 corrected (+£180 → −£180) and CR 78307 dispositioned
@@ -15,7 +15,8 @@ acceptance_criteria:
   - Decision recorded on the 5 legacy 2024 positive credit items
 slip_records: []
 target_date: 2026-08-07
-version: 1
+version: 2
+phase_id: PH-002
 ---
 
 # Historical data cleanup complete
