@@ -2,9 +2,9 @@
 id: T-0538
 title: Contract invoice/credit generator ships header≠lines documents (Xero rejections, wrong proformas) — adjuster dumps residuals, diff engine has 4 bugs
 type: bug
-state: triaged
+state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T17:07:17Z
+updated: 2026-07-10T17:29:39Z
 project: yasystem
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: agent
   name: claude-code
   channel: deep dive with Austin 2026-07-10
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - adjustInvoiceLineTotals only reconciles ≤ ~5p of rounding and keeps qty×unitPrice == netAmount; larger discrepancies refuse generation with a loud log naming contract + both engines' numbers
   - A saved invoice/credit note ALWAYS satisfies header total == |Σ qty×unitPrice| and header VAT == |Σ vatAmount| (violation blocked, logged, digest-visible)
@@ -35,13 +37,28 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260710-1721
+    model: claude-opus-4-8
+    started: 2026-07-10T17:21:01Z
+    status: in_progress
+    policy_ack:
+      branch: master
+      branch_source: project
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-10T17:21:01Z
+    progress:
+      - at: 2026-07-10T17:22:38Z
+        note: "Session-writer audit complete for the two prime suspects — both priceFixed wipe mechanisms located precisely. (1) actionCalculateHireDays (SalesController 6100-6111): when the discount matrix returns no discounted price, the fix survives ONLY if both old and new hire durations are below the long-term-hire threshold ($paramsHireDays); crossing the threshold blanks priceFixed='' (line 6110) for every such item — and reverting the date does NOT restore (already blanked in session). This is C091771's exact story. Line 6094: when the matrix DOES return a discounted price it overwrites the fix with the matrix price. (2) actionUpdateItemQty (line 3825): unconditionally writes the recomputed price into priceFixed — manual fixes replaced by matrix/rate-card values on every qty change. KEY INSIGHT: priceFixed is semantically overloaded — it stores BOTH salesperson manual overrides AND computed prices (qty-discount matrix, long-term-hire prices are written into the same field). Blanket 'preserve' would therefore be WRONG: automatic recalcs legitimately rewrite computed values. The bug is that MANUAL fixes are indistinguishable and get clobbered/blanked by automatic recalcs. Fix needs a manual-vs-computed distinction (flag/column set by actionManualPriceUpdate, honoured by recalc flows) — design decision needed from Austin on the business rule. OPEN QUESTION to verify next: session items appear keyed by stockID (actionEditQuote line 2189 $items[$itemStockID]) — if true, contracts with duplicate same-stock lines (45435 has two 'Trestle Table (6ft)' rows) may collapse on hydration → potential silent line loss on edit; needs verification against the hydration loop and saveItemsAndAccessories' handling of absent existing items."
+      - at: 2026-07-10T17:26:47Z
+        note: "NEW FINDING — duplicate-stock line deletion hazard, confirmed end-to-end in code: builder hydration keys ordinary items by BARE stockID (SalesController 2161-2168; only special stockIDs 784/786-789 get a composite stockID_itemRef key), so two lines of the same product collapse to one in the session; saveItemsAndAccessories then DELETES any DB row whose id is absent from the session (YaContractItems 587-589, $removedFromSession -> delete()). Net effect: editing a contract that carries duplicate same-product lines silently deletes one line. Blast radius TODAY: census shows only 1 contract with duplicate live ordinary lines (likely 45435's two Trestle rows), 0 active — BUT the mechanism destroys its own evidence (each edit deletes the duplicate), so historical damage is unmeasurable; treat current-low-exposure with suspicion. There is prior history here: code comments reference docs/bugs/quote-builder-duplicate-accessory-orphans.md (accessory flavour of the same identity problem). Fix direction: composite key (stockID_itemRef) for ALL items, not just specials — but the session key format is used throughout the builder JS/AJAX, so this lands inside the careful builder work with the full test matrix, not as a quick patch. Priority within ticket: below the priceFixed manual/computed distinction (that one is actively mispricing contracts)."
 labels:
   - invoicing
   - xero
   - data-integrity
 attention: null
-version: 4
+version: 9
 ---
 
 ## Problem
@@ -126,3 +143,12 @@ Sink: `YaContractItems::saveItemsAndAccessories` (line ~619) — `$contractItem-
 6. **Engine filter-map investigation** (recalculatePrice vs getBalances vs compareContractVersions on status-100/compensation/discount items): agreed — investigation first, design from evidence.
 
 **Test strategy (unchanged):** unit tests → rewind-and-replay harness on the test DB (34 broken must regenerate correct; healthy control set must regenerate IDENTICAL; compensation/discount corpus must pass invariant) → end-to-end on test system + demo company via the T-0534 posting rig (cancel via issue resolution → credit → post) → live only after all green and explicit sign-off, logging-first ordering.
+
+**2026-07-10 17:29 claude-code:** **Builder regression strategy (Austin's requirement: prove builder changes don't break the builder). Four tiers, cheapest-per-confidence first:**
+
+1. **Model-level unit tests for saveItemsAndAccessories** (AllocationCapTest pattern): update-vs-create matching, the absent-id deletion rule (incl. duplicate-stock case), new priceFixed semantics (manual preserved / computed rewritten / explicit unfix works). Mandatory.
+2. **Session-scenario tests for the 7 session-writer actions** — the session is the builder's real interface (every AJAX action = f(session, POST) → session'): seed session, invoke action, assert resulting session. Scenarios: qty change on manually-fixed item; date change crossing the long-term-hire threshold (the 6110 blanking branch); manual fix; unfix; add; remove; discount apply/remove. Mandatory.
+3. **Golden-master capture**: temporary sandbox-only instrumentation logging each builder action's session-in/POST/session-out while Austin clicks through the builder normally for ~10 minutes; recordings become replayable fixtures — after changes, replay all captured interactions and diff. Captures the colleague-built code's ACTUAL contract without reverse-engineering it. Mandatory before shipping builder changes.
+4. **Thin Playwright smoke pack** (~6-8 flows against the sandbox builder UI, ~1 day to build): only tier that catches JS/DOM contract breakage. MANDATORY if the session key format changes (duplicate-line fix); optional otherwise.
+
+Combined with the rewind-and-replay document harness, the full T-0538 proof stack: unit → session-scenario → golden-master replay → (conditional) browser smoke → document replay (34 broken correct + healthy identical) → e2e cancel→credit→post on demo org.
