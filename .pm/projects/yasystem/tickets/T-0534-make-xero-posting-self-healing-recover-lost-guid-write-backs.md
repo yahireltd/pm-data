@@ -4,7 +4,7 @@ title: "Make Xero posting self-healing: recover lost GUID write-backs instead of
 type: bug
 state: review
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-09T19:09:57Z
+updated: 2026-07-10T13:59:33Z
 project: yasystem
 section: null
 parent: null
@@ -102,7 +102,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-09T15:07:19Z
-version: 15
+version: 16
 branch: t0534-xero-posting-self-heal
 ---
 
@@ -206,3 +206,15 @@ KNOWN GOOD leftovers: bad-email warnings for the 3 customers (until live data fi
 **Also queued (not quota-dependent):** re-add sandbox/refresh cron on live (0 3 * * *, runs on live); fix the 3 linked-email rows on LIVE data (SQL in chat/ticket); OPTIONAL improvements: proactive rate pacing in per-record loops (stop paying the 429 retry tax), include status='warning' rows in digest/triage, report the two Xero API defects (token-scoped idempotency replay; Reference filters matching nothing on BankTransactions) to Xero support. After all green: merge to master → live migrate → /xero/login (LIVE org) → manual canary window via console → single daily cron `0 6 * * *` (twice-daily dropped — its +12h-inside-key-window rationale died with cross-run replay).
 
 **2026-07-09 19:09 claude-code:** Amendment to the queued list: the live→test refresh cron stays OFF for now (Austin) — a nightly refresh would overwrite the prepped sandbox (blanked Xero columns / truncated logs) and force a re-prep before every test day. Re-add it AFTER T-0534 merges to master and live testing is done — sequencing then takes care of itself, since the refresh runs on live and the merged code carries the xero_oauth_tokens preserve line it needs.
+
+**2026-07-10 13:59 claude-code:** **Acceptance testing 2026-07-10 (WFH session): ALL GREEN.** Demo Company reset for fresh quota, sandbox prepped, then four windows posted (2026-06-09, 06-10, 06-15, 06-16) via `xero-post/daily`.
+
+Results against the handover checklist:
+1. **Completeness** — zero UNCATEGORISED leftovers across all 10 money-path scopes + referenced customers, all four windows. (~2,067 successful posts, 0 validation errors.)
+2. **The three fixed customers** — 59454, 13658, 5341 all posted, each with exactly one `customer_linked_email` warning naming the bad address (07912406000 / rose@themanuallondon.com. / orders@@azreliant.co.uk). Credit note 76219 posted (466efd65-…). Note: the checklist's windows (06-15/16) never contained these records — their documents are dated 06-01→06-11, hence the extra 06-09/06-10 run. A fourth, unplanned proof also appeared: customer 89428 hit the same skip mechanism organically.
+3. **Attempt accounting** — 1,022 attempt rows, 0 stranded.
+4. **Digest** — clean-run path confirmed ("no digest sent" on old code). NEW: per Austin's request, clean runs now send an "all clear" digest listing every step outcome (commit d1751ab5d) — verified live, email received at austin@.
+5. **Re-run no-op** — same windows re-run completed in 4.3s, zero new posts, census still empty.
+6. **Duplicate census** — empty throughout.
+
+Remaining before merge: Austin's accounts-eye spot check in the demo GUI (amounts/VAT on 2–3 documents) + triage page render check. The completeness report script (reconstructed this session, previously uncommitted) lives at `/home/ubuntu/xero-completeness-report.php` on xerotest — worth committing to the repo so it survives the box.
