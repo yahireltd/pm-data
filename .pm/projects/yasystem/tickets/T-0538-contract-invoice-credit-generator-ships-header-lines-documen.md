@@ -1,0 +1,91 @@
+---
+id: T-0538
+title: Contract invoice/credit generator ships header≠lines documents (Xero rejections, wrong proformas) — adjuster dumps residuals, diff engine has 4 bugs
+type: bug
+state: triaged
+created: 2026-07-10T16:20:57Z
+updated: 2026-07-10T16:20:57Z
+project: yasystem
+section: null
+parent: null
+children: []
+order: 1024
+priority: p1
+reporter:
+  kind: agent
+  name: claude-code
+  channel: deep dive with Austin 2026-07-10
+assignee: null
+acceptance_criteria:
+  - adjustInvoiceLineTotals only reconciles ≤ ~5p of rounding and keeps qty×unitPrice == netAmount; larger discrepancies refuse generation with a loud log naming contract + both engines' numbers
+  - A saved invoice/credit note ALWAYS satisfies header total == |Σ qty×unitPrice| and header VAT == |Σ vatAmount| (violation blocked, logged, digest-visible)
+  - "compareContractVersions: stale $item fixed, $xeroNominal reset per line, reversal VAT uses the OLD item's rate — covered by ContractPricingTest additions"
+  - Census query returns zero NEW rows after deploy (existing 34 tracked for repair separately)
+  - Root cause of hire-date-change zeroing priceFixed identified (fix here or split to follow-up ticket)
+out_of_scope: []
+code_anchors:
+  - path: common/models/YaContracts.php
+    note: "generateInvoiceWithItems ~4845 (two unreconciled engines: getBalances headers vs compareContractVersions lines); compareContractVersions ~10582 (stale $item ~10619, sticky $xeroNominal, reversal VAT rate); adjustInvoiceLineTotals ~10848 (unbounded residual dump onto netAmount/vatAmount, unitPrice untouched); createInvoiceLineItemsFromDifferences ~10883; splitLineItemsByBalance ~11043; flattenOtherLines ~10808"
+  - path: common/models/XeroFunctionsNew.php
+    note: posting payload reads quantity/unitPrice/vatAmount and IGNORES netAmount — why adjusted documents are Xero-rejected
+  - path: common/tests/unit/pricing/ContractPricingTest.php
+    note: existing test scaffolding for the diff engine
+relates: []
+blocks: []
+blocked_by: []
+duplicates: []
+duplicate_of: null
+agent_runs: []
+labels:
+  - invoicing
+  - xero
+  - data-integrity
+attention: null
+version: 1
+---
+
+## Problem
+
+34 documents since 2025-01 (census on the 02-Jul live snapshot) have header totals that disagree with their line items — credit notes/invoices that Xero permanently rejects ("The document total does not equal the sum of the lines", "Tax amount cannot be greater than the line amount" — live example: credit note 75664, erroring on every posting run since June), and **type-2 proformas that are customer-facing and simply wrong** (worst: proforma 68216 header £0.01 vs lines £4,890.24; 67004 header £120 vs lines £2,498).
+
+## Root cause chain (traced via acceptedchanges + code)
+
+`YaContracts::generateInvoiceWithItems` computes the document from **two independent engines that are never reconciled**:
+- **Header totals** ← `getBalances()['uninvoicedBalanceLessVat'/'uninvoicedVatBalance']` (account arithmetic: contract total minus already-invoiced).
+- **Line items** ← `compareContractVersions($lastInvoicedVersion, $currentVersion)` (version-diff arithmetic).
+
+When they disagree, `adjustInvoiceLineTotals` (YaContracts ~10848) "fixes" it by **dumping the entire residual onto the last line's `netAmount`/`vatAmount` — without touching `unitPrice`/`quantity`, and without any size limit**. The Xero payload however is built from `quantity × unitPrice` + `vatAmount` (`XeroFunctionsNew::postItemisedInvoices/CreditNotes`) and ignores `netAmount`. So every adjusted document is internally contradictory: **Xero computes the line total from the UNadjusted unitPrice while carrying the ADJUSTED vatAmount** → both rejection messages fall out naturally.
+
+**Worked example — credit note 75664 (contract 45435):** acceptedchanges 2026-06-03 20:35:14 shows the contract being zeroed (contractPrice 503.63 → **−0.02**, VAT 100.73 → −0) by user 687. Header from balances = credit £503.65/£100.73 ✓. Version diff found no item changes (only header prices were forced), emitting just the insurance/waiver other-line (−£14.67). The adjuster then dumped −£488.98 net + the full −£100.73 VAT onto that waiver line's netAmount/vatAmount. Result: stored line = qty 1 × unitPrice −14.67 with vatAmount −100.73 → Xero: tax (100.73) > line (14.67) AND doc total (503.65) ≠ Σ lines (14.67). Permanently unpostable. (Also note the zeroing flow left the contract at −0.02, not 0.)
+
+**Worked example — credit note 78307 (C091771):** an amendment saga (06-23/24) in which **changing the hire end date zeroed `priceFixed` on multiple items** (acceptedchanges: "Fixed Price Changed 11→0", "17.49→0", "8.49→0", "9.75→0", "−180→0" at the exact moment of the hireEnd change; changing the date BACK did not restore them). The eventual credit (07-01) mixes increase lines, (Reversal) lines, a Compensation line, and a "Collection £60 with VAT −£60" line; header 29.52/5.90 vs lines +330.48/−5.90.
+
+## Contributing bugs in `compareContractVersions` (YaContracts ~10582)
+
+1. **Stale variable** (~10619): `$products[$item->stockID]` uses `$item` — a leftover from the PREVIOUS loop — instead of `$newItem`; wrong product's nominal fetched.
+2. **Sticky `$xeroNominal`**: never reset per line; when a lookup misses, the previous line's nominal silently leaks in.
+3. **Reversal VAT at the wrong rate**: old-item reversal lines use the NEW item's vatRate.
+4. Package-parent skips + override fields make the item-diff systematically diverge from the balance arithmetic (the mixed-sign '-1:1'/'1:-1' split path has its own totals logic).
+
+## Upstream data bug (separate but feeding this)
+
+**Hire-end-date changes zero items' `priceFixed`** (and don't restore on revert) — visible verbatim in acceptedchanges for C091771. Every contract that has dates nudged loses its price fixes, changing contract totals and manufacturing version-diffs. Needs its own investigation/fix — likely responsible for a large share of the amendments that then hit the generator bugs.
+
+## Proposed fix
+
+1. **Stop the silent dump**: in `adjustInvoiceLineTotals`, only reconcile GENUINE rounding (≤ a few pence) and do it COHERENTLY (adjust unitPrice so qty×unitPrice == netAmount). Any larger discrepancy = a bug signal: refuse to generate, log loudly (contract, both engines' numbers), surface in the daily digest.
+2. **Invariant at save**: after building any invoice/credit, assert header total == |Σ qty×unitPrice| and header VAT == |Σ vatAmount| (Xero's own validation, applied locally) — violations blocked + flagged, never shipped to customers or Xero.
+3. Fix the four compareContractVersions bugs (stale $item, sticky nominal, reversal VAT rate, per-line nominal reset).
+4. Separate ticket-worthy: the date-change → priceFixed-zeroing flow.
+5. **Repair**: review/regenerate the 34 broken documents (list reproducible via the census query; several are live posting blockers, several are customer-facing proformas).
+
+## Census query (zero API, re-runnable tripwire)
+
+```sql
+SELECT i.id, i.type, i.contractID, i.created, i.total, i.VAT,
+       ROUND(SUM(ii.quantity*ii.unitPrice),2) lineSum, ROUND(SUM(ii.vatAmount),2) vatSum
+FROM invoices i JOIN invoice_items ii ON ii.invoiceID=i.id
+WHERE i.voided=0 GROUP BY i.id
+HAVING ABS(ABS(i.total)-ABS(lineSum)) > 0.02 OR ABS(ABS(i.VAT)-ABS(vatSum)) > 0.02;
+```
+Candidate for inclusion in the unposted report / T-0534 digest as an ongoing tripwire.
