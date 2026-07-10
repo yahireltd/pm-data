@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: in_progress
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T19:56:15Z
+updated: 2026-07-10T20:40:22Z
 project: yasystem
 section: null
 parent: null
@@ -113,7 +113,7 @@ labels:
   - xero
   - data-integrity
 attention: null
-version: 22
+version: 23
 branch: t0538-document-generator-integrity
 ---
 
@@ -253,3 +253,18 @@ New tier between the builder tests and the document replay: scenario tests that 
 Austin corrected the VAT-selection understanding: the vatable/zero-rated split for charges and compensation follows the **type of charge**, not the product involved — a charge for a damaged/missing item is compensation for loss (0% in the UK, hence the issue-type mapping to stock 787/789), while a dirty charge is a cleaning **service** (20% even on a zero-rated product). My earlier target-product inference in resolveVatVariant would have wrongly zero-rated a cleaning charge on a zero-rated product, so the guard is **narrowed to contract-level no-VAT only** (the one safe inference); the issue-type mapping remains the business rule. E2E re-run: 24/24 green, now including an assertion that a zero-rated target does NOT change the caller's stock choice.
 
 **New `/doc-integrity/validations` page** (Austin's request): the green counterpart of the mismatch list — every labeled 'Rounding adjustment'/'Balance adjustment' line ever written (only the fixed engine produces these; six already visible from the E2E runs, all sub-2p VAT reconciliations — the penny class), plus every document generated in a window with PASS/FAIL verdicts and investigate/PDF links, for side-by-side comparison against the same contract on live (where pre-fix documents smear or mismatch instead).
+
+**2026-07-10 20:40 claude-code:** **In-depth code review complete (3 independent adversarial passes) + deep-dive doc shipped — commit ffc19ab6**
+
+`docs/t0538-deep-dive.md` (on the branch, also sent to Austin) covers: all 8 root causes with evidence docs, every fix with the forward-only safety rule, the three testing layers with results, the honest scope answer (what still needs T-0539/40/41/42 + the manual list), Austin's 4-part sampling method, release runbook, and the review outcome.
+
+**Review verdict: no blockers survived.** Fixed on the branch as a result:
+1. **Adjuster now emits Xero-VALID lines** (high — found by two reviewers independently): a VAT-only residual (£0.00 net + £0.01 VAT) violates Xero's tax-within-line-amount rule and would have created documents that CANNOT POST (the T-0534 orphan class recurring). Such residuals now split into a VAT-carrier + net-offset pair — the same construction XeroDocRepairService already uses. Tests assert per-line Xero validity.
+2. **Sandbox guard on the E2E harness** (blocker): it writes real documents; now refuses unless params.sandbox + restored-DSN (XeroPostController pattern).
+3. **Sales contracts were silently excluded** from the replay census and uninvestigable on the view page (default YaContracts scope filters contractType=1) — both now use findAllIncSales; census re-running.
+4. **HONEST CORRECTION — the 'silent writers' premise was WRONG**: YaContractItems afterSave/beforeDelete auto-log every item add/delete/priceFixed change (Austin's own trail screenshots show Kaneesha's compensation logged as 'Item Added To Contract'). The writer-level logging added earlier this session was pure duplication/trail noise and has been REVERTED. What stands in those flows: the sign guard, VAT-variant guard, composite keys, contractType stamps — the money fixes.
+5. Smaller: create-itemised-pdf legacy no-items guard; contractType stamped in the two writers + two contract-extension clone sites; rounding cap tightened to 1p/line; deterministic archive item ordering; 404 guard on manual credit; (a log-spam bug in the discount-update logging was caught, then mooted by the revert).
+
+**Dispositioned without change**: unexpected-VAT-code header/line divergence stays loud-by-design (Austin's never-0%-default rule; data shows the case can't occur); issue re-resolution DELETES invoiced charge items (money-correct via the diff engine but bypasses the reversal flow — business question for Austin/T-0541); quote-side discount VAT bug (Quotes.php treats the vatRate CODE as a percentage — real bug, quote pricing, T-0541 scope); legacy poster's hardcoded 0.2 check; NOTE FOR ROLLOUT: /doc-integrity routes need the RBAC route permission granted (deny-by-default backend ACL).
+
+Full battery (unit + E2E + sales-inclusive replay) running on the box; results to follow.
