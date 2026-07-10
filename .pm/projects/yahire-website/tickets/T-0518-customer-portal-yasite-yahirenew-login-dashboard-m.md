@@ -2,9 +2,9 @@
 id: T-0518
 title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accounts & permissions"
 type: feature
-state: review
+state: done
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-10T05:30:08Z
+updated: 2026-07-10T05:38:35Z
 project: yahire-website
 section: null
 parent: null
@@ -112,11 +112,8 @@ labels:
   - customer-portal
   - yahirenew
   - auth
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-10T05:30:08Z
-version: 30
+attention: null
+version: 32
 surface: yahire-website
 department: Sales
 ---
@@ -342,3 +339,9 @@ Uncommitted: yasite `customer-portal` (PortalController, account view) and ya-hi
 Why it matters: previously customers had no self-service — every order status query, address change, or re-order went through the sales team by phone/email. The portal lets customers help themselves and gives staff a tidy back-office to manage it, while keeping customer logins completely separate from internal staff accounts and never writing customers into the staff user table. Without it, that manual load would have kept growing as the customer base does.
 
 This session's additions on top of the core build: a login lockout (temporary block after 5 failed password attempts) as extra brute-force protection on top of the mandatory login code; a "your trusted devices" list on the account page so a customer can see where their login is remembered and remove a specific device; giving sales managers access to the staff Portal Customers page (minus the permissions catalogue); clearer selected-tab styling and a fix for a customer-search dropdown that was intermittently invisible; and turning the account-details change request into a proper tracked request that staff Apply/Dismiss (same model as billing-address changes) so applied changes land on the customer record and flow onto future orders.
+
+---
+
+**2026-07-10 05:38 — you**
+
+tested, any new updates/features to be discussed later
