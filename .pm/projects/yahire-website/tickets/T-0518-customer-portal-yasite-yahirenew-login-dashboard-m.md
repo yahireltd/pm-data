@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: triaged
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-10T04:33:54Z
+updated: 2026-07-10T04:49:07Z
 project: yahire-website
 section: null
 parent: null
@@ -50,7 +50,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 25
+version: 26
 surface: yahire-website
 department: Sales
 ---
@@ -232,3 +232,20 @@ Also extended the "Open in portal admin" shortcut on a customer's profile to Sal
 The selected tab was only marked by a thin underline, which was easy to miss. Now the tabs are boxed with rounded tops, hover feedback, and the **active tab has a light-blue background and border** so it's obvious which section you're in.
 
 Note: this revisits the earlier "leave staff access as-is" decision — Zsolt asked specifically for Sales Managers to have this page (minus the catalogue), which matches the original ticket intent of "SuperUsers + Sales Manager". Worth a quick check logged in as a Sales Manager (no Permissions tab) and as a SuperUser (all tabs).
+
+**2026-07-10 04:49 claude-code:** **Added — trusted-devices list on the customer's Account page (10 Jul 2026)**
+
+Improved the Two-factor authentication section of the portal Account page. Previously it only showed a count ("2 trusted devices skip the code") with a single "Forget all" button. Now the customer sees an actual **list of their trusted devices** — the ones where the emailed login code is currently skipped — with, for each:
+
+- A friendly device name worked out from the browser (e.g. "Chrome on Mac", "Safari on iPhone")
+- The IP address it was trusted from, when it was last used, and when it was first trusted
+- A clear **"This device"** highlight on the one they're using right now
+- A **Remove** button to revoke that one device (with a confirm), alongside the existing **Forget all trusted devices**
+
+This is a standard security-hygiene feature (like Google/Facebook "your devices"): a customer can see everywhere their login is remembered and kick a specific old/shared/public computer off without signing out everywhere.
+
+**Notes:** removing a device just means it'll ask for a login code next time (it doesn't forcibly log anyone out mid-session). Removal is locked to the logged-in user's own devices, so a tampered request can't affect anyone else. No database change — all the needed details (browser, IP, dates) were already being stored.
+
+Uncommitted on branch `customer-portal` (PortalController + the account view).
+
+**Test:** sign in with "keep me logged in" so the device gets trusted → Account page lists it as "This device"; sign in from a second browser → both appear; Remove a non-current one → it disappears and will require a code next time.
