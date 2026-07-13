@@ -11,7 +11,7 @@ defaults:
     state: planning
 id_counters:
   ticket: 551
-  project: 20
+  project: 21
   section: 14
   perProject:
     pm-tool-self:
@@ -54,6 +54,8 @@ id_counters:
       sprint: 1
       meeting: 3
       tech_session: 2
+    stock-management-development:
+      milestone: 1
   reminder: 6
 outbound_email:
   from: support@yahire.com
