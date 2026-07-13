@@ -4,7 +4,7 @@ title: Daily posting cron go-live & accounts handover plan
 type: chore
 state: in_progress
 created: 2026-07-10T21:28:58Z
-updated: 2026-07-13T13:11:50Z
+updated: 2026-07-13T13:30:49Z
 project: accounts-integrity
 section: null
 parent: null
@@ -52,12 +52,14 @@ agent_runs:
           Master fast-forwarded 74a39606 → 425c6c2a (clean, zero conflicts — the branch already contained Austin's Jul-9 heal-page commits) and pushed. Exactly ONE migration ships (m260709_160000 xero_oauth_tokens). t0538 merged the guard (37de5d41) and the test box is updated, so the branches stay a coherent superset.
 
           Extracted from the handover for the runbook: the 3 linked-email data fixes (5341 double-@, 13658 trailing dot, 59454 phone-as-email), the census tripwire query, the exact cron lines. Next: Austin executes the live steps (pull, migrate, login+verify tenant, SQL fixes, supervised canary), then cron + parallel week per the staged plan.
+      - at: 2026-07-13T13:30:49Z
+        note: "Backlog-fill feature added and rehearsed. xero-post/daily now takes --date / --from/--to (validated, 40-day cap, circuit breaker between windows; cron default unchanged) — commit 162c4688, on master + t0538 + test box. Demo Company was found reset (stale token 403s on all 12 posting steps — which incidentally proved graceful total-API-failure behaviour: clean completion, verbatim logging, issue digest). Full ritual re-run: Austin reset+login+bank accounts; API-created revenue 201/202; shortcode param → !!6J3Q; prep-sandbox blanked dead-org GUIDs. REHEARSAL: real posting run via --date=2026-06-20 against the fresh org — 21/21 window docs posted, 13 customers, 8 payments, 10 deposit allocations, zero duplicates (census empty), zero stranded attempts, all-clear digest delivered. Live runbook unchanged and ready: master at 162c4688; Austin's canary becomes --from/--to over the paused dates."
 labels:
   - xero
   - release
   - accounts-handover
 attention: null
-version: 5
+version: 6
 ---
 
 ## Problem
