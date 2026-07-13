@@ -56,6 +56,7 @@ id_counters:
       tech_session: 2
     stock-management-development:
       milestone: 1
+      meeting: 1
   reminder: 6
 outbound_email:
   from: support@yahire.com
