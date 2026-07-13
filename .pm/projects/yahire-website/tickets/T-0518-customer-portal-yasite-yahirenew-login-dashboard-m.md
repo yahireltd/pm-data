@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: done
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-10T05:38:35Z
+updated: 2026-07-13T10:24:07Z
 project: yahire-website
 section: null
 parent: null
@@ -113,7 +113,7 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 32
+version: 33
 surface: yahire-website
 department: Sales
 ---
@@ -345,3 +345,22 @@ This session's additions on top of the core build: a login lockout (temporary bl
 **2026-07-10 05:38 — you**
 
 tested, any new updates/features to be discussed later
+
+**2026-07-13 10:24 claude-code:** **Follow-up polish — staff "Portal Customers" page (ya-hire) + portal reset email (13 Jul 2026)**
+
+A round of usability and tidy-up work, mostly on the staff Portal Customers admin page. On ya-hire branch `portal-customer-management` (uncommitted, for review) unless noted.
+
+**Customer-facing (yasite `customer-portal`, committed):**
+- The **password-reset email** sent from the portal login page is now branded to match our other portal emails (pink header, proper button, footer) instead of the previous plain-text version.
+
+**Staff Portal Customers page (ya-hire):**
+- **Colour-coded the action buttons** on the Accounts & invites tab so they read at a glance — green = enable / invite, red = disable, blue = reset password, amber = trusted devices.
+- **"Permissions" and "Invite a member" now open in a pop-up window (modal)** instead of a panel appearing at the top of the page — cleaner and keeps you in context; the Save/Cancel buttons sit in the modal footer.
+- **Success and error messages now show as a small pop-up notification** (top-right), and the confirmation prompts use the same styled pop-ups, for a consistent look.
+- **"Invite a member" now validates before sending** — you must pick a contact or enter an email, enter a first name + surname when typing details in manually, and tick at least one permission; otherwise it lists what's missing.
+- **"Forget devices" is now "Trusted devices"** — it opens a list of the devices where that customer currently skips the login code, showing browser/OS, IP address, when it was first trusted and last used. You can forget a single device or forget them all from there (each with a confirmation). Note: this is the trusted-device list, not a full login history (we don't record every individual login).
+- **Adding a permission is stricter and simpler** — key, label and description are now *all* required (was key + label only), and the manual "sort order" box is gone: new permissions are numbered automatically (highest + 10).
+
+**Housekeeping (DB):** dropped four unused columns from `portal_users` (`canOrder`, `canViewInvoices`, `canManageAddresses`, `canManageUsers`) — leftovers from before the permissions-catalogue model; confirmed nothing in any codebase reads them.
+
+No other database changes; the trusted-devices list reuses details we already store. Worth a quick click-through on the Portal Customers page once the ya-hire branch is reviewed/shipped.
