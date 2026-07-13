@@ -2,15 +2,15 @@
 id: T-0503
 title: "Re: Bank details form for BACS refund"
 type: support
-state: inbox
+state: triaged
 priority: p2
 created: 2026-07-02T11:46:09Z
-updated: 2026-07-13T16:57:37Z
-project: null
+updated: 2026-07-13T17:18:21Z
+project: yasystem
 section: null
 parent: null
 children: []
-order: 1024
+order: 40960
 reporter:
   kind: customer
   name: Austin Pickering
@@ -39,7 +39,7 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdbLWPWAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAAF7DfPTGEdBtEBeGfuJOcw=
-version: 2
+version: 4
 ---
 
 ## Request
