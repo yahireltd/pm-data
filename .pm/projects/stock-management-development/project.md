@@ -5,7 +5,7 @@ name: Stock Management Development
 state: planning
 phase: planning
 created: 2026-07-13T11:14:18Z
-updated: 2026-07-13T11:23:58Z
+updated: 2026-07-13T12:03:41Z
 owner:
   kind: human
   name: you
@@ -37,30 +37,19 @@ cost_of_inaction: |-
     inconsistent and undocumented, and there's no data to project losses or optimise. As the stock base grows, this manual overhead and shortfall risk only increase, and
     Sandor/workshop keep relying on ad-hoc checks with Ben/IT firefighting.
 kind: initiative
-version: 7
+version: 8
 scope_in:
-  - |-
-    Quality management (grading scale, multiple photos, failure points, quality overview & history)
-
-    &#x20; Sale stock manual quantity adjustment
-
-    &#x20; Suppliers (edit supplier items, consolidated orders view)
-
-    &#x20; Buffer stock + set stock levels + shortage/replenish alerts
-
-    &#x20; Upcoming stock & order-management rework
-
-    &#x20; YaBundles (populate + small tweaks)
-
-    &#x20; Out of scope:
-
-    &#x20; Venue Database → cart postcode auto-detection ("is your event at ExCel?") — separate ticket
-
-    &#x20; Revenue optimisation — likely stays with Austin (TBC)
-
-    &#x20; Full stock expiration / end-of-life tracking across large mixed lines — later spike
-
-    &#x20; Loss projections modelling — later, ties into capacity utilisation
+  - Quality management (grading scale, multiple photos, failure points, quality overview & history)
+  - Sale stock manual quantity adjustment
+  - Suppliers (edit supplier items, consolidated orders view)
+  - Buffer stock + set stock levels + shortage/replenish alerts
+  - Upcoming stock & order-management rework
+  - YaBundles (populate + small tweaks)
+scope_out:
+  - Venue Database → cart postcode auto-detection ("is your event at ExCel?") — separate ticket
+  - Revenue optimisation — likely stays with Austin (TBC)
+  - Full stock expiration / end-of-life tracking across large mixed lines — later spike
+  - Loss projections modelling — later, ties into capacity utilisation
 ---
 
 # Stock Management Development
