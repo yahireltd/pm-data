@@ -4,7 +4,7 @@ title: "Customer Profile: attach documents (Word strategic account plans) to a c
 type: feature
 state: triaged
 created: 2026-07-13T10:30:36Z
-updated: 2026-07-13T10:32:03Z
+updated: 2026-07-13T10:56:08Z
 project: yasystem
 section: null
 parent: null
@@ -44,7 +44,10 @@ labels:
   - account-management
   - sales
 attention: null
-version: 3
+version: 4
+collaborators:
+  - kind: human
+    name: Zsolt
 ---
 
 ## Problem
