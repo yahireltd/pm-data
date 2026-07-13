@@ -4,7 +4,7 @@ title: "Customer Profile: attach documents (Word strategic account plans) to a c
 type: feature
 state: triaged
 created: 2026-07-13T10:30:36Z
-updated: 2026-07-13T10:30:36Z
+updated: 2026-07-13T10:32:03Z
 project: yasystem
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: email (forwarded request)
-assignee: null
+assignee:
+  kind: human
+  name: zsolt@yahire.com
 acceptance_criteria:
   - The customer profile page (ya-hire) has a "Documents" section where a staff member can upload a file against that customer.
   - Word documents are supported (.doc and .docx) as the primary case; PDF should also be accepted (confirm full allowed-type list with requester).
@@ -42,7 +44,7 @@ labels:
   - account-management
   - sales
 attention: null
-version: 1
+version: 3
 ---
 
 ## Problem
@@ -69,3 +71,9 @@ A simple, secure document store per customer: upload → list → download → d
 ## Notes
 - Acceptance criteria below are a first draft — confirm the open questions with the requester before claiming (Definition of Ready).
 - Keep the file store **not publicly guessable** and gate downloads behind a staff login + access check.
+
+## Conversation
+
+**2026-07-13 10:32 — Zsolt**
+
+Next to the addresses section, under the notes is space for this
