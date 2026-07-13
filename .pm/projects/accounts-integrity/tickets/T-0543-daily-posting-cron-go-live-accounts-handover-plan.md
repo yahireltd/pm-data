@@ -4,7 +4,7 @@ title: Daily posting cron go-live & accounts handover plan
 type: chore
 state: in_progress
 created: 2026-07-10T21:28:58Z
-updated: 2026-07-13T13:07:24Z
+updated: 2026-07-13T13:11:50Z
 project: accounts-integrity
 section: null
 parent: null
@@ -44,12 +44,20 @@ agent_runs:
     model: claude-fable-5
     started: 2026-07-13T13:07:24Z
     status: in_progress
+    progress:
+      - at: 2026-07-13T13:11:50Z
+        note: |-
+          Stage 0 code work done. Pre-flight found + fixed a real release risk: the /xero/login callback only guarded tenant selection on the SANDBOX side — on live it took getConnections()[0], and the same Xero user is connected to BOTH the live org and the Demo Company through this app, so live's token store could silently aim all posting at demo. Live now mirrors the sandbox guard in reverse (refuses demo-only), and the callback prints WHICH organisation was connected by name (the runbook's verify step). Commit 425c6c2a on t0534.
+
+          Master fast-forwarded 74a39606 → 425c6c2a (clean, zero conflicts — the branch already contained Austin's Jul-9 heal-page commits) and pushed. Exactly ONE migration ships (m260709_160000 xero_oauth_tokens). t0538 merged the guard (37de5d41) and the test box is updated, so the branches stay a coherent superset.
+
+          Extracted from the handover for the runbook: the 3 linked-email data fixes (5341 double-@, 13658 trailing dot, 59454 phone-as-email), the census tripwire query, the exact cron lines. Next: Austin executes the live steps (pull, migrate, login+verify tenant, SQL fixes, supervised canary), then cron + parallel week per the staged plan.
 labels:
   - xero
   - release
   - accounts-handover
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
