@@ -2,9 +2,9 @@
 id: T-0543
 title: Daily posting cron go-live & accounts handover plan
 type: chore
-state: triaged
+state: in_progress
 created: 2026-07-10T21:28:58Z
-updated: 2026-07-10T21:28:58Z
+updated: 2026-07-13T13:07:24Z
 project: accounts-integrity
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Austin
   channel: claude-code session
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - "Canary run on live: clean digest, zero orphans/duplicates, run-issues reviewed"
   - "Parallel week completed: cron posted everything first; accounts' manual runs were no-ops; no mutex conflicts"
@@ -24,19 +26,30 @@ acceptance_criteria:
   - Rollback path documented and tested in principle (cron disable + manual post available)
   - Sandbox refresh cron re-enabled on live
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: console/controllers/XeroPostController.php
+    symbol: actionDaily
+    note: the cron entry point (post=7, sweep=8 day offsets)
+  - path: console/migrations/m260709_160000_create_xero_oauth_tokens_table.php
+    note: the one migration this release runs
+  - path: common/services/XeroApiService.php
+    note: DB token store + locked refresh primed by /xero/login
 relates: []
 blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260713-1307
+    model: claude-fable-5
+    started: 2026-07-13T13:07:24Z
+    status: in_progress
 labels:
   - xero
   - release
   - accounts-handover
 attention: null
-version: 1
+version: 4
 ---
 
 ## Problem
