@@ -120,6 +120,8 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-10T00:37:41Z
     role: Dev
+    notify_on:
+      - assigned
   - name: Jhuztine
     channel: email
     contact: jhuztine@yahire.com

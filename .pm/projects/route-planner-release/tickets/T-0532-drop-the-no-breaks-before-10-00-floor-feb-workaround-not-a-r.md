@@ -2,9 +2,9 @@
 id: T-0532
 title: Drop the "no breaks before 10:00" floor (Feb workaround, not a real policy)
 type: chore
-state: review
+state: done
 created: 2026-07-08T18:38:35Z
-updated: 2026-07-08T18:43:58Z
+updated: 2026-07-13T16:54:19Z
 project: route-planner-release
 section: null
 parent: null
@@ -19,9 +19,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Replay of run #2495 (10 Jul): 0 drops, all required breaks still scheduled"
-  - Early far runs (e.g. New Forest) no longer get artificially delayed dispatches purely to push the break past 10:00
-  - A break may now legally start before 10:00 when ≥3h active has accumulated
+  - "[x] Replay of run #2495 (10 Jul): 0 drops, all required breaks still scheduled"
+  - "[x] Early far runs (e.g. New Forest) no longer get artificially delayed dispatches purely to push the break past 10:00"
+  - "[x] A break may now legally start before 10:00 when ≥3h active has accumulated"
 out_of_scope: []
 code_anchors:
   - path: backend/assets/RoutePlannerPython/solver_td.py:31
@@ -50,11 +50,8 @@ agent_runs:
 labels:
   - solver
   - route-planner
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-08T18:43:58Z
-version: 4
+attention: null
+version: 9
 ---
 
 ## Problem
@@ -66,3 +63,9 @@ Set MIN_BREAK_START_HOUR = 0 (kept as a dial rather than deleting the machinery,
 ## Conversation
 
 **2026-07-08 18:43 claude-code:** Run run-20260708-1838 completed — Removed the hidden "no driver breaks before 10:00" rule that had constrained every plan since February. Austin confirmed it was a workaround from early break-scheduling problems, not a business or legal rule — the real protections (no break before 3 hours of work, at least an hour of work after, drivers'-hours trigger) all remain. With the floor gone, early-starting routes take their break naturally when the 3 hours are up instead of the solver contorting the plan around 10:00 (artificially delayed departures, end-of-route or mid-drive breaks). Kept as a one-number dial so it can be restored or softened if drivers ever push back. Verified by replaying the 10 July request: still 0 dropped jobs across 16 routes, with two breaks now sitting naturally at 08:40 and 09:46 and fewer forced mid-drive placements.
+
+---
+
+**2026-07-13 16:54 — you**
+
+Done

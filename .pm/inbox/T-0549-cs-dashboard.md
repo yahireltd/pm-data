@@ -5,7 +5,7 @@ type: support
 state: inbox
 priority: p2
 created: 2026-07-13T10:16:27Z
-updated: 2026-07-13T10:16:27Z
+updated: 2026-07-13T16:52:53Z
 project: null
 section: null
 parent: null
@@ -39,7 +39,18 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdjNbCXAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAG1V0G6KsFhJhGcbuEB1su4=
-version: 1
+version: 2
+stakeholders:
+  - name: Zsolt Turu
+    channel: email
+    contact: zsolt@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-13T16:52:53Z
+    notify_on:
+      - assigned
 ---
 
 ## Request

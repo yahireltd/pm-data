@@ -5,7 +5,7 @@ name: Accounts Integrity Programme — Xero posting & document generation
 state: active
 phase: build
 created: 2026-07-10T21:16:32Z
-updated: 2026-07-10T22:45:53Z
+updated: 2026-07-13T16:51:03Z
 owner:
   kind: human
   name: Austin
@@ -60,7 +60,7 @@ workstream_ownership:
     owner: Austin (with accounts team)
   - workstream: Quote-builder review (T-0541)
     owner: Austin + Zsolt
-version: 63
+version: 74
 success_measures:
   - "Count of accounts-requested IT data fixes per month attributable to generation/posting — target 0 (baseline: recurring, e.g. 34-doc census + 264-pair void incident)"
   - Hours of Austin's time per month on accounts data repairs — target ~0

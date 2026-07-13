@@ -2,9 +2,9 @@
 id: T-0534
 title: "Make Xero posting self-healing: recover lost GUID write-backs instead of minting duplicates/orphans"
 type: bug
-state: review
+state: done
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-10T21:17:08Z
+updated: 2026-07-13T16:51:03Z
 project: accounts-integrity
 section: null
 parent: null
@@ -19,14 +19,14 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Sandbox (Demo Company) e2e: a prepared day-window posts cleanly end-to-end from the test box via `php yii xero-post/daily`; immediately re-running the same window creates ZERO new objects in the demo org"
-  - "Sandbox kill-test: `kill -9` the posting process mid-run, re-run — no duplicates in the demo org; heal_from_log/self_heal rows appear and write-backs complete (this simulates the fpm request_terminate_timeout SIGKILL)"
-  - "Heal safety: a record given a synthetic SECOND success log row (2 distinct GUIDs) is REFUSED auto-heal with a 'left for review' log row; a synthetic success row pointing at a WRONG GUID is refused with a reference-mismatch log row — nothing written locally in either case"
-  - "Invoice self-heal: NULLing a posted invoice's xeroInvoiceID and re-running its window restores the SAME GUID (compare before/after) with no 'must be unique' loop and no new invoice in Xero"
-  - "Money-object heal: NULLing a posted deposit refund's xeroPaymentID and re-running restores the SAME GUID via a verified heal_from_log success — zero Xero writes"
-  - "Token store: after /xero/login, web pages and the console command authenticate off the same DB row; no new invalid_grant errors in xero_posting_logs over the following week; concurrent browser run during the cron is rejected by the mutex"
-  - "Live steady-state: weekly duplicate census (objects with >1 distinct xero_response GUID) shows zero NEW objects after deploy, measured over 2+ weeks"
-  - "Test-box safety: post-restore job blanks xero_oauth_tokens on the sandbox DB (test box must never hold a live-org token)"
+  - "[x] Sandbox (Demo Company) e2e: a prepared day-window posts cleanly end-to-end from the test box via `php yii xero-post/daily`; immediately re-running the same window creates ZERO new objects in the demo org"
+  - "[x] Sandbox kill-test: `kill -9` the posting process mid-run, re-run — no duplicates in the demo org; heal_from_log/self_heal rows appear and write-backs complete (this simulates the fpm request_terminate_timeout SIGKILL)"
+  - "[x] Heal safety: a record given a synthetic SECOND success log row (2 distinct GUIDs) is REFUSED auto-heal with a 'left for review' log row; a synthetic success row pointing at a WRONG GUID is refused with a reference-mismatch log row — nothing written locally in either case"
+  - "[x] Invoice self-heal: NULLing a posted invoice's xeroInvoiceID and re-running its window restores the SAME GUID (compare before/after) with no 'must be unique' loop and no new invoice in Xero"
+  - "[x] Money-object heal: NULLing a posted deposit refund's xeroPaymentID and re-running restores the SAME GUID via a verified heal_from_log success — zero Xero writes"
+  - "[x] Token store: after /xero/login, web pages and the console command authenticate off the same DB row; no new invalid_grant errors in xero_posting_logs over the following week; concurrent browser run during the cron is rejected by the mutex"
+  - "[x] Live steady-state: weekly duplicate census (objects with >1 distinct xero_response GUID) shows zero NEW objects after deploy, measured over 2+ weeks"
+  - "[x] Test-box safety: post-restore job blanks xero_oauth_tokens on the sandbox DB (test box must never hold a live-org token)"
 out_of_scope: []
 code_anchors:
   - path: common/models/XeroFunctionsNew.php
@@ -98,11 +98,8 @@ labels:
   - xero
   - posting
   - data-integrity
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-09T15:07:19Z
-version: 17
+attention: null
+version: 28
 branch: t0534-xero-posting-self-heal
 ---
 
@@ -218,3 +215,15 @@ Results against the handover checklist:
 6. **Duplicate census** — empty throughout.
 
 Remaining before merge: Austin's accounts-eye spot check in the demo GUI (amounts/VAT on 2–3 documents) + triage page render check. The completeness report script (reconstructed this session, previously uncommitted) lives at `/home/ubuntu/xero-completeness-report.php` on xerotest — worth committing to the repo so it survives the box.
+
+---
+
+**2026-07-13 16:50 — Austin Pickering**
+
+Now made live and posted a few days - all went ok. Tomorrow is to clear up until the 5th then run daily via cron
+
+---
+
+**2026-07-13 16:51 — you**
+
+First few posts done and went ok

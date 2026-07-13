@@ -2,9 +2,9 @@
 id: T-0528
 title: Strip dead solver options from /solve-td requests (speed profile, speed factor, max gap)
 type: chore
-state: review
+state: done
 created: 2026-07-08T17:08:20Z
-updated: 2026-07-08T17:10:31Z
+updated: 2026-07-13T16:51:42Z
 project: route-planner-release
 section: null
 parent: null
@@ -19,9 +19,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "A fresh sketch solve's saved request_json (solver_runs table) contains none of: speed_profile, speed_multipliers, speed_factor, max_gap_between_jobs_sec"
-  - "Solve results unchanged (fields were dead): re-solve a day and get an equivalent plan"
-  - compare-solvers page (v1/cost engines) still receives the fields and works
+  - "[x] A fresh sketch solve's saved request_json (solver_runs table) contains none of: speed_profile, speed_multipliers, speed_factor, max_gap_between_jobs_sec"
+  - "[x] Solve results unchanged (fields were dead): re-solve a day and get an equivalent plan"
+  - "[x] compare-solvers page (v1/cost engines) still receives the fields and works"
 out_of_scope: []
 code_anchors:
   - path: common/components/RoutePlannerPlanService.php:486-494
@@ -52,11 +52,8 @@ agent_runs:
 labels:
   - route-planner
   - solver
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-08T17:10:31Z
-version: 4
+attention: null
+version: 9
 ---
 
 ## Problem
@@ -71,3 +68,9 @@ Unset the four fields right after the endpoint choice in RoutePlannerPlanService
 ## Conversation
 
 **2026-07-08 17:10 claude-code:** Run run-20260708-1708 completed — Removed the misleading dead options from the sketch planner's solver requests. The TD solver ignores the speed profile, speed factor and max-gap settings, but they were still sent and saved with every run — anyone tuning them would wrongly conclude the solver was broken. They are now stripped only on the TD path; the legacy comparison engines still receive them because they genuinely use them there. The on-screen legacy ETA tables are unaffected (their multiplier is captured before the strip).
+
+---
+
+**2026-07-13 16:51 — you**
+
+Done
