@@ -5,7 +5,7 @@ type: support
 state: inbox
 priority: p2
 created: 2026-07-10T14:38:30Z
-updated: 2026-07-10T14:38:30Z
+updated: 2026-07-13T18:22:54Z
 project: null
 section: null
 parent: null
@@ -39,7 +39,14 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdhNp7ZAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAEBx__Ecr0u4umGjM2LOKAg=
-version: 1
+version: 2
+attachments:
+  - key: tickets/T-0537/1783966973575-Screenshot_2026-07-13_at_19.18.02.png
+    filename: Screenshot 2026-07-13 at 19.18.02.png
+    content_type: image/png
+    size: 226669
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-07-13T18:22:54Z
 ---
 
 ## Request
