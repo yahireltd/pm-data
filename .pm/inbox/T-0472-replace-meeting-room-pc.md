@@ -2,10 +2,10 @@
 id: T-0472
 title: Replace meeting room PC
 type: chore
-state: triaged
+state: ready
 priority: p2
 created: 2026-06-23T12:15:41Z
-updated: 2026-07-13T17:19:28Z
+updated: 2026-07-13T17:28:16Z
 project: null
 section: null
 parent: null
@@ -41,7 +41,7 @@ intake_message_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAA
 intake_message_ids:
   - AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAAAAAAEMAACnphZ2BstsS50BbU5pWRaYAAdV2DtzAAA=
 conversation_id: AAQkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgAQAK6FgzXH-T1HpxC5iL9RG8Q=
-version: 5
+version: 6
 stakeholders:
   - name: Zsolt Turu
     channel: email

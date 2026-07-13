@@ -2,9 +2,9 @@
 id: T-0552
 title: /xero/post runs the console poster (detached) instead of an in-request run; UI range capped at 3 days
 type: feature
-state: in_progress
+state: done
 created: 2026-07-13T14:31:08Z
-updated: 2026-07-13T14:31:37Z
+updated: 2026-07-13T17:21:55Z
 project: yasystem
 section: null
 parent: null
@@ -48,11 +48,15 @@ agent_runs:
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-07-13T14:31:37Z
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - xero
   - accounts
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
@@ -66,3 +70,9 @@ version: 3
 
 ## Benefit
 Runs survive browser closes and fpm/Apache timeouts, always finish with the issue-digest email, and can never overlap (same mutex as the cron).
+
+## Conversation
+
+**2026-07-13 17:21 — you**
+
+Done and tested
