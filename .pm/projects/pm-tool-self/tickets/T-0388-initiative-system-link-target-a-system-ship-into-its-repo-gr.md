@@ -4,7 +4,7 @@ title: "Initiative → System link: target a system, ship into its repo, graduat
 type: feature
 state: triaged
 created: 2026-06-16T17:10:34Z
-updated: 2026-07-14T13:55:30Z
+updated: 2026-07-14T14:36:39Z
 project: pm-tool-self
 section: null
 parent: null
@@ -12,7 +12,10 @@ children: []
 order: 1024
 priority: p3
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - An initiative project can declare the system project it targets, visible on both projects
+  - Graduating/closing the initiative routes its remaining open tickets to the target system's backlog (BAU handover)
+  - The link is settable in the web UI and via MCP
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -26,7 +29,7 @@ labels:
   - modeling
   - sales
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem

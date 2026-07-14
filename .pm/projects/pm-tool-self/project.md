@@ -4,7 +4,7 @@ slug: pm-tool-self
 name: pm-tool — dogfood improvements
 state: active
 created: 2026-05-05T17:15:00Z
-updated: 2026-07-14T14:26:39Z
+updated: 2026-07-14T14:37:15Z
 owner:
   kind: human
   name: austin
@@ -185,7 +185,7 @@ go_live_target: 2026-06-30
 time_budget_hours: 120
 repo_url: https://github.com/yahireltd/pm-tool
 branch: master
-version: 610
+version: 633
 ---
 
 # pm-tool — dogfood improvements

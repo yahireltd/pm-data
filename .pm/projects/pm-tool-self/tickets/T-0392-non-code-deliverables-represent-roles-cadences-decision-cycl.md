@@ -4,7 +4,7 @@ title: "Non-code deliverables: represent roles / cadences / decision-cycles, not
 type: spike
 state: triaged
 created: 2026-06-16T17:10:34Z
-updated: 2026-06-16T17:10:34Z
+updated: 2026-07-14T14:36:38Z
 project: pm-tool-self
 section: null
 parent: null
@@ -12,7 +12,10 @@ children: []
 order: 1024
 priority: p2
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - A written proposal (ADR) for representing non-code work (roles, cadences, decision-cycles) in the tool
+  - Includes at least three concrete examples from current projects and how each would be tracked
+  - Ends with a build / don't-build recommendation and a suggested entity shape
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -25,7 +28,7 @@ labels:
   - m-009
   - modeling
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem

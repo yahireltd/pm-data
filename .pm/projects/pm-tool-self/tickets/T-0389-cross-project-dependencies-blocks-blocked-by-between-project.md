@@ -4,7 +4,7 @@ title: "Cross-project dependencies: blocks/blocked-by between projects + program
 type: feature
 state: triaged
 created: 2026-06-16T17:10:34Z
-updated: 2026-06-16T17:10:34Z
+updated: 2026-07-14T14:36:40Z
 project: pm-tool-self
 section: null
 parent: null
@@ -12,7 +12,10 @@ children: []
 order: 1024
 priority: p2
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - A ticket in one project can block / be blocked by a ticket in another, visible from both sides (verify the existing cross-project links and document them)
+  - A programme-level view shows the chain of cross-project blockers (critical path) for a chosen project
+  - Circular dependencies are rejected with a clear error
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -25,7 +28,7 @@ labels:
   - m-009
   - modeling
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem

@@ -4,7 +4,7 @@ title: "Programme rollup: group projects + align projects → org goals (coheren
 type: spike
 state: triaged
 created: 2026-06-16T17:10:34Z
-updated: 2026-06-16T17:10:34Z
+updated: 2026-07-14T14:36:36Z
 project: pm-tool-self
 section: null
 parent: null
@@ -12,7 +12,10 @@ children: []
 order: 1024
 priority: p2
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - A written proposal (ADR) for grouping projects into programmes and aligning them to org goals, explicitly compatible with the incoming strategy framework (don't preempt it)
+  - Covers the data shape (programme/goal entities or fields), the rollup views wanted, and what's out of scope
+  - Reviewed with Austin before any build ticket is cut
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -26,7 +29,7 @@ labels:
   - coherence
   - modeling
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
