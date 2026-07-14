@@ -2,9 +2,9 @@
 id: T-0560
 title: "Buffer stock: dedicated management page (view buffer levels, move buffer ↔ live stock, role-gated)"
 type: feature
-state: triaged
+state: in_progress
 created: 2026-07-14T06:35:49Z
-updated: 2026-07-14T06:35:49Z
+updated: 2026-07-14T06:46:10Z
 project: stock-management-development
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: kickoff M-001
-assignee: null
+assignee:
+  kind: human
+  name: Zsolt
 acceptance_criteria:
   - A dedicated Buffer Stock management page lists buffer quantities per product.
   - Staff can move buffer into live stock (and, where appropriate, back), with each movement logged (who/when/qty).
@@ -42,7 +44,7 @@ labels:
   - buffer-stock
   - stock
 attention: null
-version: 1
+version: 2
 ---
 
 ## Source

@@ -2,9 +2,9 @@
 id: T-0561
 title: "Quality: all-stock quality overview page (every product + quality level, last-check date, stats/charts, add check from there)"
 type: feature
-state: triaged
+state: in_progress
 created: 2026-07-14T06:36:03Z
-updated: 2026-07-14T06:36:03Z
+updated: 2026-07-14T06:46:12Z
 project: stock-management-development
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: kickoff M-001
-assignee: null
+assignee:
+  kind: human
+  name: Zsolt
 acceptance_criteria:
   - A single page lists all products / stock lines with their current quality level/grade (the label + underlying 1–10 value from T-0553).
   - Each row shows the last quality-check date for that product.
@@ -44,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 1
+version: 2
 ---
 
 ## Source

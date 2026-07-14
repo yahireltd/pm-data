@@ -4,7 +4,7 @@ title: "Quality Management: grade on a 1–10 DB scale (labels Good as new/Good/
 type: feature
 state: in_progress
 created: 2026-07-14T05:07:50Z
-updated: 2026-07-14T06:31:15Z
+updated: 2026-07-14T06:49:07Z
 project: stock-management-development
 section: null
 parent: null
@@ -25,6 +25,7 @@ acceptance_criteria:
   - Each grade supports multiple photos — up to 3 (currently 1).
   - Existing quality data (current grade + single photo) is preserved and maps onto the new scale / multi-photo model with no data loss.
   - The Quality section on the product info page shows the label (not just the raw number) with its photos.
+  - "Overall-quality notes become one-to-many: staff can add multiple dated, attributed notes about a product's overall quality (replacing the single overwritten `otherNotes` field) — kept simple for now, expandable later."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/backend/controllers/StockController.php
@@ -45,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 3
+version: 4
 ---
 
 ## Source
