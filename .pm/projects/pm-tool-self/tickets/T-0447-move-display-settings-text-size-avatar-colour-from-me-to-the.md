@@ -4,7 +4,7 @@ title: Move display settings (text size + avatar colour) from /me to the Setting
 type: feature
 state: ready
 created: 2026-06-19T09:38:42Z
-updated: 2026-06-22T16:14:10Z
+updated: 2026-07-14T12:23:39Z
 project: pm-tool-self
 section: null
 parent: null
@@ -36,8 +36,11 @@ agent_runs: []
 labels:
   - facelift
   - ui
-attention: null
-version: 5
+attention:
+  needed_by: human
+  reason: 'Backlog audit: this conflicts with an earlier decision. Display settings (text size + avatar colour) are still on /me — deliberately, per T-0420 ("still here, just no longer the headline"), and /settings is the admin Users-and-roles page. Decide: keep them on /me and close this as superseded by T-0420, or confirm you still want them moved to Settings and it becomes real work.'
+  since: 2026-07-14T12:23:39Z
+version: 6
 collaborators:
   - kind: human
     name: Austin Pickering

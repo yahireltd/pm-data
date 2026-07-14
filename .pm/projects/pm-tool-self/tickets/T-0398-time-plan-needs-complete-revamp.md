@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-17T11:21:34Z
-updated: 2026-06-22T14:03:39Z
+updated: 2026-07-14T12:23:38Z
 project: pm-tool-self
 section: null
 parent: null
@@ -27,8 +27,11 @@ duplicates: []
 duplicate_of: null
 agent_runs: []
 labels: []
-attention: null
-version: 3
+attention:
+  needed_by: human
+  reason: "Backlog audit: half of this shipped under this ticket's own id — the multi-project sprint-level roadmap exists (Roadmap in the nav + per-project tab, commits de2c946/b5275c2). The other half (\"hide the current Time plan view\") was never done: Time plan is still in the project nav. Decide: close this and raise a small \"retire the old Time plan view\" ticket, or send back to finish the hiding under this one."
+  since: 2026-07-14T12:23:38Z
+version: 4
 ---
 
 ## Problem
