@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 568
+  ticket: 572
   project: 21
   section: 14
   perProject:
@@ -55,10 +55,10 @@ id_counters:
       meeting: 3
       tech_session: 2
     stock-management-development:
-      milestone: 4
+      milestone: 5
       meeting: 1
       sprint: 1
-      phase: 4
+      phase: 5
       decision: 3
   reminder: 6
 outbound_email:

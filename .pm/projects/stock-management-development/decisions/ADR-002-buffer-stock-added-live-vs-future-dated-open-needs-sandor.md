@@ -1,10 +1,12 @@
 ---
 id: ADR-002
 slug: buffer-stock-added-live-vs-future-dated-open-needs-sandor
-title: "Buffer stock: added live vs future-dated (OPEN — needs Sandor)"
-state: proposed
+title: "Buffer stock: entered via Upcoming Stock with a stock/buffer split (future-dated)"
+state: accepted
 decided: 2026-07-14
-decided_by: []
+decided_by:
+  - Zsolt
+  - Sandor
 project: stock-management-development
 supersedes: null
 superseded_by: null
@@ -12,19 +14,16 @@ tickets:
   - T-0559
   - T-0560
   - T-0564
-version: 1
+version: 2
 ---
 
 ## Context
-Buffer stock needs a way to be added and drawn down. Two models are on the table:
-- **Future-dated** — buffer is entered via the Upcoming Stock page (like an upcoming delivery) and moved into stock/buffer on arrival.
-- **Live** — buffer is added/adjusted immediately (Zsolt's lean: "if we have buffer and need it, we should do it live rather than future-date it").
-
-Ben's note: effective date is irrelevant for buffer adds — we add from the upcoming page only to keep set stock levels.
+Buffer stock needed a defined way to be added and drawn down. Two models were on the table: future-dated (entered via Upcoming Stock) vs live (added immediately).
 
 ## Decision
-**OPEN.** To be agreed with Sandor when he's back. This choice changes the data flow for the whole buffer stream.
+**Future-dated, via the Upcoming Stock page.** When entering an upcoming delivery you set the incoming quantity **split** — how many units go to **stock** and how many to **buffer**. When the delivery **arrives**, you add them accordingly: some to **stock**, some to **buffer stock**.
 
 ## Consequences
-- Gates T-0559 (buffer on upcoming), T-0560 (buffer management page), and T-0564 (set stock levels + alerts).
-- Determines the buffer table shape and where buffer is entered/edited.
+- Confirms the design in **T-0559** (buffer option + qty split on the Upcoming page; add-to-stock modal gets a buffer qty on arrival; new buffer table).
+- **T-0560** (buffer management page) and **T-0564** (set stock levels + shortage/replenish alerts) are unblocked.
+- Buffer is entered from Upcoming only (effective date irrelevant — it's about keeping set stock levels); buffer stays hidden from sales.
