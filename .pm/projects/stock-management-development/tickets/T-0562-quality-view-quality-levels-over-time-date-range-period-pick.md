@@ -4,7 +4,7 @@ title: "Quality: view quality levels over time (date-range / period picker, comp
 type: feature
 state: triaged
 created: 2026-07-14T06:48:32Z
-updated: 2026-07-14T06:48:32Z
+updated: 2026-07-14T12:51:48Z
 project: stock-management-development
 section: null
 parent: null
@@ -40,7 +40,8 @@ labels:
   - stock
   - concept
 attention: null
-version: 1
+version: 2
+milestone: MS-003
 ---
 
 ## Source

@@ -4,7 +4,7 @@ title: 'Spike: consolidated "Orders" page + product-decision board (concept + pr
 type: spike
 state: triaged
 created: 2026-07-14T05:35:30Z
-updated: 2026-07-14T06:49:07Z
+updated: 2026-07-14T12:51:50Z
 project: stock-management-development
 section: null
 parent: null
@@ -32,7 +32,8 @@ labels:
   - stock
   - concept
 attention: null
-version: 2
+version: 3
+milestone: MS-004
 ---
 
 ## Source

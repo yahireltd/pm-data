@@ -4,7 +4,7 @@ title: "Buffer stock on the Upcoming Stock page: split upcoming qty into Stock v
 type: feature
 state: in_progress
 created: 2026-07-14T05:48:46Z
-updated: 2026-07-14T06:54:54Z
+updated: 2026-07-14T12:51:46Z
 project: stock-management-development
 section: null
 parent: null
@@ -51,7 +51,8 @@ labels:
   - upcoming-stock
   - stock
 attention: null
-version: 3
+version: 4
+milestone: MS-002
 ---
 
 ## Source

@@ -4,7 +4,7 @@ title: Set stock levels (per product) + shortage/replenish cron alerts (buffer-a
 type: feature
 state: triaged
 created: 2026-07-14T06:54:48Z
-updated: 2026-07-14T06:54:55Z
+updated: 2026-07-14T12:51:48Z
 project: stock-management-development
 section: null
 parent: null
@@ -48,7 +48,8 @@ labels:
   - stock
   - alerts
 attention: null
-version: 2
+version: 3
+milestone: MS-002
 ---
 
 ## Source

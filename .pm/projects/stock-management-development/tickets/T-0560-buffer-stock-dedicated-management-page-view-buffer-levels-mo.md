@@ -4,7 +4,7 @@ title: "Buffer stock: dedicated management page (view buffer levels, move buffer
 type: feature
 state: in_progress
 created: 2026-07-14T06:35:49Z
-updated: 2026-07-14T06:54:54Z
+updated: 2026-07-14T12:51:47Z
 project: stock-management-development
 section: null
 parent: null
@@ -45,7 +45,8 @@ labels:
   - buffer-stock
   - stock
 attention: null
-version: 3
+version: 4
+milestone: MS-002
 ---
 
 ## Source

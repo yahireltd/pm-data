@@ -55,10 +55,11 @@ id_counters:
       meeting: 3
       tech_session: 2
     stock-management-development:
-      milestone: 1
+      milestone: 4
       meeting: 1
       sprint: 1
-      phase: 1
+      phase: 4
+      decision: 3
   reminder: 6
 outbound_email:
   from: support@yahire.com

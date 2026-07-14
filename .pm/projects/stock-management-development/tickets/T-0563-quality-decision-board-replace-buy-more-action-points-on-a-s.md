@@ -4,7 +4,7 @@ title: "Quality decision board: replace / buy-more action points on a status boa
 type: feature
 state: triaged
 created: 2026-07-14T06:48:41Z
-updated: 2026-07-14T06:49:07Z
+updated: 2026-07-14T12:51:49Z
 project: stock-management-development
 section: null
 parent: null
@@ -42,7 +42,8 @@ labels:
   - stock
   - concept
 attention: null
-version: 2
+version: 3
+milestone: MS-003
 ---
 
 ## Source
