@@ -58,6 +58,7 @@ id_counters:
       milestone: 1
       meeting: 1
       sprint: 1
+      phase: 1
   reminder: 6
 outbound_email:
   from: support@yahire.com

@@ -6,7 +6,7 @@ project: stock-management-development
 state: in_progress
 order: 1024
 created: 2026-07-14T05:07:50Z
-updated: 2026-07-14T06:58:57Z
+updated: 2026-07-14T12:40:35Z
 committed_items:
   - T-0553
   - T-0554
@@ -20,7 +20,10 @@ goal: Ship the quick-win stock improvements agreed at the kickoff (quality gradi
 start_date: 2026-07-14
 end_date: 2026-07-28
 milestone: MS-001
-version: 10
+version: 11
+owner:
+  kind: human
+  name: zsolt
 ---
 
 # SPR-001: Stock — Sprint 1

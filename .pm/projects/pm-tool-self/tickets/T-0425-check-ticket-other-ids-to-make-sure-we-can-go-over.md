@@ -2,10 +2,10 @@
 id: T-0425
 title: "Ensure ids keep working past T-9999 (5-digit ids: loosen test regexes + audit string sorts)"
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-06-18T12:53:42Z
-updated: 2026-07-14T12:23:10Z
+updated: 2026-07-14T12:35:39Z
 project: pm-tool-self
 section: null
 parent: null
@@ -17,8 +17,8 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Id patterns accept 5+ digits (T-\d{4,} and friends)
-  - No string sort breaks ordering at the 4→5 digit rollover
+  - "[x] Id patterns accept 5+ digits (T-\\d{4,} and friends)"
+  - "[x] No string sort breaks ordering at the 4→5 digit rollover"
 out_of_scope: []
 code_anchors:
   - path: schemas/ticket.schema.json
@@ -45,11 +45,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-14T12:23:10Z
-version: 9
+attention: null
+version: 13
 ---
 
 ## Problem
@@ -83,3 +80,9 @@ Not a crash risk — a "pick A or B, then loosen test regexes + fix the sort" ta
 ## Conversation
 
 **2026-07-14 12:23 claude-code:** Run run-20260714-1222 completed — Backlog audit: this was already handled — ids will keep working past T-9999. The id patterns across the schemas accept four OR MORE digits (tickets T-\d{4,}, projects P-\d{4,}, decisions ADR-\d{3,}), so T-10000 is valid the day we reach it, and the places that order by id extract the number rather than comparing text, so ordering won't jumble at the rollover. One tiny footnote from the audit: decision lists compare ADR ids as text, which only matters if ADRs ever pass ADR-999 — far away and easy to fix then. Nothing to build now; please confirm and close.
+
+---
+
+**2026-07-14 12:35 — you**
+
+Done

@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-17T11:21:34Z
-updated: 2026-07-14T12:23:38Z
+updated: 2026-07-14T12:36:11Z
 project: pm-tool-self
 section: null
 parent: null
@@ -15,9 +15,9 @@ order: 112640
 reporter: null
 assignee: null
 acceptance_criteria:
-  - Current time-plan view is hidden behind a toggle/flag (not deleted)
-  - A design note (or spike) exists for the sprint-level, multi-project planned-sprint layout
-  - Build acceptance criteria are added once the design is agreed
+  - "[x] Current time-plan view is hidden behind a toggle/flag (not deleted)"
+  - "[x] A design note (or spike) exists for the sprint-level, multi-project planned-sprint layout"
+  - "[x] Build acceptance criteria are added once the design is agreed"
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -31,7 +31,7 @@ attention:
   needed_by: human
   reason: "Backlog audit: half of this shipped under this ticket's own id — the multi-project sprint-level roadmap exists (Roadmap in the nav + per-project tab, commits de2c946/b5275c2). The other half (\"hide the current Time plan view\") was never done: Time plan is still in the project nav. Decide: close this and raise a small \"retire the old Time plan view\" ticket, or send back to finish the hiding under this one."
   since: 2026-07-14T12:23:38Z
-version: 4
+version: 7
 ---
 
 ## Problem
