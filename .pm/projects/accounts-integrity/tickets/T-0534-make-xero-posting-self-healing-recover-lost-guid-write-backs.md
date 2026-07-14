@@ -4,7 +4,7 @@ title: "Make Xero posting self-healing: recover lost GUID write-backs instead of
 type: bug
 state: done
 created: 2026-07-09T13:58:22Z
-updated: 2026-07-13T16:51:03Z
+updated: 2026-07-14T19:17:58Z
 project: accounts-integrity
 section: null
 parent: null
@@ -99,7 +99,7 @@ labels:
   - posting
   - data-integrity
 attention: null
-version: 28
+version: 29
 branch: t0534-xero-posting-self-heal
 ---
 
@@ -227,3 +227,16 @@ Now made live and posted a few days - all went ok. Tomorrow is to clear up until
 **2026-07-13 16:51 — you**
 
 First few posts done and went ok
+
+**2026-07-14 19:17 claude-code:** Cron automation finalised with Austin (2026-07-14 evening), completing the "run daily via cron" step from his 07-13 note:
+
+```
+15 6 * * * /usr/bin/php8.3 -q /var/www/yasystem/yii xero-post/daily 9 10 >> /var/www/yasystem/runtime/logs/xero-post-cron.log 2>&1
+30 3 * * * /usr/bin/php8.3 -q /var/www/yasystem/yii sandbox/refresh --yes >> /var/log/yasystem-cron.log 2>&1
+```
+
+- **Offsets 9/10, not the default 7/8**: accounts are posted through July 5th; Austin wants each run to do "the latest done" (T-10 re-sweep) and "the latest new" (T-9 post). First cron run tomorrow (July 15) re-sweeps the 5th and posts the 6th; rolls forward daily from there.
+- **Single 06:15 slot** (not 0 6,18): matches this ticket's own conclusion — the +12h twice-daily rationale died when sandbox testing disproved cross-run idempotency-key replay; failure recovery comes from next morning's T-10 sweep + heal-from-log + the on-Xero backstop.
+- **sandbox/refresh re-added on live at 03:30** — the queued item from 07-09 that was deliberately deferred until after the merge. Safe now: the merged code carries the xero_oauth_tokens PRESERVE line, so the sandbox keeps its own Demo Company token and never receives live's. Reminder recorded to Austin: the nightly refresh wipes sandbox test state and any sandbox-only migration applications (re-run `php yii migrate` on the sandbox when testing unreleased migrations).
+- Caveat flagged to Austin: cron times run on the server's system clock, not the app's Europe/London setting — verify with `timedatectl` that the box is on London time.
+- If posting ever pauses long enough for days to age past T-10, catch-up is the manual range fill: `php yii xero-post/daily --from=YYYY-MM-DD --to=YYYY-MM-DD`.

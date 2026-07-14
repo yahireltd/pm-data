@@ -2,10 +2,10 @@
 id: T-0573
 title: ZL Run Overview Updates.
 type: feature
-state: review
+state: done
 priority: p2
 created: 2026-07-14T16:22:23Z
-updated: 2026-07-14T18:07:57Z
+updated: 2026-07-14T19:18:15Z
 project: yasystem
 section: null
 parent: null
@@ -17,14 +17,14 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Unload-view item issue modal replaced with driver-app-style flow: pick ONE issue type, then qty stepper, photo capture (enforced when IssueTypeOptions.photoRequired=1), fault + comments — instead of the current 3-counts-at-once form. Submits through the existing /issue-reports/save-issues-new path (Issues + IssueChosenOptions), so YaRunContracts::checkItemCount still resolves the shortfall."
-  - 'Quick-missing prompt on unload view only: when complete-unload finds entered < expected, show a yes/no prompt "You entered X/Y — report N missing?". Yes creates a Missing issue (issueTypeOptionID 12, qty = shortfall, no photo) and lets the unload complete without opening the full modal; No opens the full issue form as today.'
-  - "Migration sets IssueTypeOptions.photoRequired=0 for Missing (option 12) — DECIDED: you cannot photograph an item that isn't there. Driver app then treats the photo as optional for Missing automatically via its issue-types sync (isPhotoRequired reads the flag); driver-app test fixture updated to match (driver-app/src/logic/__tests__/issueTypes.test.ts:34)."
-  - "Runs-overview-new unloading side: red fast-forward manager-override icon on Back-at-Base runs (status 40–69) with contracts not yet counted. Visible only to users holding the new RBAC permission; the backend endpoint re-checks the permission server-side (Yii::$app->user->can), marks all the run's contracts unloaded, creates a contract-level issue \"Unloaded Without System Count\" (new IssueTypeOptions entry) on each contract, and marks the run complete (status 70)."
-  - "New RBAC permission seeded via migration (pattern: m260402_150000_add_choose_warehouse_photos_permission) and assigned to BOTH Warehouse Manager and WHSupervisors (DECIDED); users without it never see the icon and get a 403/error from the endpoint."
-  - '"Unloaded Without System Count" issue type does NOT appear in any manual issue-type pick list (warehouse modal or driver app) — system-generated only (DECIDED). It must still display correctly in issue lists/resolution views (all-issues, contract-history-new).'
-  - "Left-side fast-forward on runs with no deliveries sets Loaded/Ready (status 20, mark-loaded semantics) instead of jumping to dispatched (status 30). DECIDED: run remains in the Loading-Done section until the driver actually departs."
-  - "Existing flows unaffected: normal unload with correct counts, driver-app issue reporting (other than Missing photo becoming optional), and the loading-side flow for runs WITH deliveries all behave as before."
+  - "[x] Unload-view item issue modal replaced with driver-app-style flow: pick ONE issue type, then qty stepper, photo capture (enforced when IssueTypeOptions.photoRequired=1), fault + comments — instead of the current 3-counts-at-once form. Submits through the existing /issue-reports/save-issues-new path (Issues + IssueChosenOptions), so YaRunContracts::checkItemCount still resolves the shortfall."
+  - '[x] Quick-missing prompt on unload view only: when complete-unload finds entered < expected, show a yes/no prompt "You entered X/Y — report N missing?". Yes creates a Missing issue (issueTypeOptionID 12, qty = shortfall, no photo) and lets the unload complete without opening the full modal; No opens the full issue form as today.'
+  - "[x] Migration sets IssueTypeOptions.photoRequired=0 for Missing (option 12) — DECIDED: you cannot photograph an item that isn't there. Driver app then treats the photo as optional for Missing automatically via its issue-types sync (isPhotoRequired reads the flag); driver-app test fixture updated to match (driver-app/src/logic/__tests__/issueTypes.test.ts:34)."
+  - "[x] Runs-overview-new unloading side: red fast-forward manager-override icon on Back-at-Base runs (status 40–69) with contracts not yet counted. Visible only to users holding the new RBAC permission; the backend endpoint re-checks the permission server-side (Yii::$app->user->can), marks all the run's contracts unloaded, creates a contract-level issue \"Unloaded Without System Count\" (new IssueTypeOptions entry) on each contract, and marks the run complete (status 70)."
+  - "[x] New RBAC permission seeded via migration (pattern: m260402_150000_add_choose_warehouse_photos_permission) and assigned to BOTH Warehouse Manager and WHSupervisors (DECIDED); users without it never see the icon and get a 403/error from the endpoint."
+  - '[x] "Unloaded Without System Count" issue type does NOT appear in any manual issue-type pick list (warehouse modal or driver app) — system-generated only (DECIDED). It must still display correctly in issue lists/resolution views (all-issues, contract-history-new).'
+  - "[x] Left-side fast-forward on runs with no deliveries sets Loaded/Ready (status 20, mark-loaded semantics) instead of jumping to dispatched (status 30). DECIDED: run remains in the Loading-Done section until the driver actually departs."
+  - "[x] Existing flows unaffected: normal unload with correct counts, driver-app issue reporting (other than Missing photo becoming optional), and the loading-side flow for runs WITH deliveries all behave as before."
 out_of_scope: []
 code_anchors:
   - path: backend/views/warehouse/unload-run.php
@@ -152,11 +152,8 @@ agent_runs:
         path: common/models/RunsOverview.php
         note: red override icon, permission + uncounted-collections gated
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-14T17:19:22Z
-version: 13
+attention: null
+version: 24
 attachments:
   - key: tickets/T-0573/1784046183546-Screenshot_2026-07-14_at_17-22-41_.png
     filename: Screenshot 2026-07-14 at 17-22-41 .png
@@ -227,3 +224,17 @@ Known behaviour to be aware of (pre-existing, unchanged): if someone reports mis
 Verified: all PHP lint clean, backend-a.js parses, E2E harness re-run 25/25 (confirms the IssueFormNew fault change didn't break the save path). Awaiting Austin's re-test of the new dialog + count-time prompt (hard refresh needed — backend-a.js changed).
 
 **2026-07-14 18:07 claude-code:** Bug found by Austin during manual testing (pre-existing, not introduced by this ticket): the truck icon on zero-collection Back-at-Base runs POSTs /runs/complete-run successfully (run completes server-side, status 70) but then throws `TypeError: can't access property "parentNode", element is null` in removeElement — the new runs-overview rows carry only data-runid, not the old view's id="R<runID>" convention, so the row never disappears until a manual refresh. Fixed in both runs-overview-new.php and runs-overview-mobile-new.php: completeRun now reloads the page on success (consistent with runComplete and managerOverrideComplete) and shows the server error on failure instead of failing silently. This bug predates T-0573 — the runs were completing fine, the UI just crashed afterwards.
+
+---
+
+**2026-07-14 19:18 — you**
+
+Done and live
+
+**2026-07-14 19:18 claude-code:** Deploy + rollout status (2026-07-14 evening):
+
+**Deployed to live.** Austin committed and pushed the full T-0573 work himself as 7650344c (all 16 files, including both cache-busting bumps: backend-a.js?v=1.1 in AppAsset and sw.js CACHE_NAME v2-10→v2-11 so the old driver PWAs and warehouse tablets refetch the changed JS). During the live pull we found unrelated server drift: an uncommitted hot-edit on the live box adding css/reset.css to AppAsset (file tracked since 2021 but the bundle line exists only on live — Zsolt-era). Resolution: stash/pull/pop; Austin to either commit it properly or drop it deliberately. The reset.css line is now also in the local working tree.
+
+**OPEN ITEM — supervisor can't see the override button.** Austin demoed to the warehouse supervisor (Bonnell Bailey): no red fast-forward for him. Root cause found via the new read-only diagnostic (`php yii t0573-e2e/rbac-diag <name>`): the migration granted "Warehouse Run Override" to WHSupervisors (4 holders), Warehouse Manager (2) and SuperUsers (7) — but the floor supervisors actually hold the "Warehouse Supervisors Permissions" group, which never got the grant. Bonnell's assignments: Calendar Read Only Permissions, Logistics, StockTransactionPermissions, Warehouse, Warehouse Permissions, Warehouse Supervisors Permissions.
+
+Fix prepared but NOT applied: follow-up migration m260714_210000_t0573_grant_override_to_supervisors_group (idempotent — adds the grant to "Warehouse Supervisors Permissions"), sitting uncommitted in the local tree awaiting Austin's confirmation that this is the right group. Instant alternative: grant it via the RBAC admin UI (no auth cache configured, takes effect on next page load); the migration then no-ops and serves as the git record. Manager override otherwise confirmed working by Austin (tested with his own SuperUsers access).
