@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-07-14T16:22:23Z
-updated: 2026-07-14T17:57:02Z
+updated: 2026-07-14T18:07:57Z
 project: yasystem
 section: null
 parent: null
@@ -156,7 +156,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-14T17:19:22Z
-version: 12
+version: 13
 attachments:
   - key: tickets/T-0573/1784046183546-Screenshot_2026-07-14_at_17-22-41_.png
     filename: Screenshot 2026-07-14 at 17-22-41 .png
@@ -225,3 +225,5 @@ Manual UI walk-through on austin.yahire.com is next (Austin).
 Known behaviour to be aware of (pre-existing, unchanged): if someone reports missing and then edits the count again to a different shortfall, the old issue stays and the full form is required at complete time (exact-qty match rule).
 
 Verified: all PHP lint clean, backend-a.js parses, E2E harness re-run 25/25 (confirms the IssueFormNew fault change didn't break the save path). Awaiting Austin's re-test of the new dialog + count-time prompt (hard refresh needed — backend-a.js changed).
+
+**2026-07-14 18:07 claude-code:** Bug found by Austin during manual testing (pre-existing, not introduced by this ticket): the truck icon on zero-collection Back-at-Base runs POSTs /runs/complete-run successfully (run completes server-side, status 70) but then throws `TypeError: can't access property "parentNode", element is null` in removeElement — the new runs-overview rows carry only data-runid, not the old view's id="R<runID>" convention, so the row never disappears until a manual refresh. Fixed in both runs-overview-new.php and runs-overview-mobile-new.php: completeRun now reloads the page on success (consistent with runComplete and managerOverrideComplete) and shows the server error on failure instead of failing silently. This bug predates T-0573 — the runs were completing fine, the UI just crashed afterwards.
