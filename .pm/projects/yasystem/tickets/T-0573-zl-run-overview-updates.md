@@ -2,10 +2,10 @@
 id: T-0573
 title: ZL Run Overview Updates.
 type: feature
-state: triaged
+state: in_progress
 priority: p2
 created: 2026-07-14T16:22:23Z
-updated: 2026-07-14T16:51:10Z
+updated: 2026-07-14T16:54:08Z
 project: yasystem
 section: null
 parent: null
@@ -13,7 +13,9 @@ milestone: null
 children: []
 order: 41984
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - "Unload-view item issue modal replaced with driver-app-style flow: pick ONE issue type, then qty stepper, photo capture (enforced when IssueTypeOptions.photoRequired=1), fault + comments — instead of the current 3-counts-at-once form. Submits through the existing /issue-reports/save-issues-new path (Issues + IssueChosenOptions), so YaRunContracts::checkItemCount still resolves the shortfall."
   - 'Quick-missing prompt on unload view only: when complete-unload finds entered < expected, show a yes/no prompt "You entered X/Y — report N missing?". Yes creates a Missing issue (issueTypeOptionID 12, qty = shortfall, no photo) and lets the unload complete without opening the full modal; No opens the full issue form as today.'
@@ -77,10 +79,20 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260714-1654
+    model: claude-fable-5
+    started: 2026-07-14T16:54:08Z
+    status: in_progress
+    policy_ack:
+      branch: master
+      branch_source: project
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-14T16:54:08Z
 labels: []
 attention: null
-version: 7
+version: 9
 attachments:
   - key: tickets/T-0573/1784046183546-Screenshot_2026-07-14_at_17-22-41_.png
     filename: Screenshot 2026-07-14 at 17-22-41 .png
