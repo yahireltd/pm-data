@@ -2,10 +2,10 @@
 id: P-0021
 slug: stock-management-development
 name: Stock Management Development
-state: planning
+state: active
 phase: planning
 created: 2026-07-13T11:14:18Z
-updated: 2026-07-14T07:00:14Z
+updated: 2026-07-14T07:03:56Z
 owner:
   kind: human
   name: you
@@ -37,7 +37,7 @@ cost_of_inaction: |-
     inconsistent and undocumented, and there's no data to project losses or optimise. As the stock base grows, this manual overhead and shortfall risk only increase, and
     Sandor/workshop keep relying on ad-hoc checks with Ben/IT firefighting.
 kind: initiative
-version: 27
+version: 34
 scope_in:
   - Quality management (grading scale, multiple photos, failure points, quality overview & history)
   - Sale stock manual quantity adjustment
@@ -50,6 +50,11 @@ scope_out:
   - Revenue optimisation — likely stays with Austin (TBC)
   - Full stock expiration / end-of-life tracking across large mixed lines — later spike
   - Loss projections modelling — later, ties into capacity utilisation
+repo_url: https://github.com/yahireltd/Ya-Hire-Management
+branch: Stock-Management-Development
+agent_policy:
+  allow_commit: false
+  allow_push: false
 ---
 
 # Stock Management Development
