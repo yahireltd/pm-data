@@ -2,10 +2,10 @@
 id: T-0446
 title: Unify avatar initials & colour per person (same user renders as different circles)
 type: bug
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-19T09:15:24Z
-updated: 2026-07-14T13:51:55Z
+updated: 2026-07-14T14:00:50Z
 project: pm-tool-self
 section: null
 parent: null
@@ -46,19 +46,19 @@ agent_runs:
   - id: run-20260714-1222
     started: 2026-07-14T12:22:37Z
     status: completed
-    ended: 2026-07-14T12:23:22Z
-    summary: "Backlog audit: this looks already fixed. Avatars now come from one shared component that derives the initials and colour from the person's name the same way everywhere, with your saved colour override applied on top (the picker on /me), and the comment threads load those overrides so the same person renders identically across pages. Since this was a visual bug you reported, you're the right judge: if you can still find a place where the same person shows different initials or colours, send this back with a screenshot of where; otherwise close it."
-    test_plan: 1. Find yourself (and Zsolt) in several places — a ticket's comments, meeting stakeholders, project register, dashboards — and confirm the circle shows the same initials and colour everywhere. 2. Change your avatar colour on /me → it applies wherever you appear. 3. If any surface still renders differently, send back with a screenshot naming the page.
+    ended: 2026-07-14T14:00:50Z
+    summary: "Send-back fixed: the avatar next to your name in the top bar now shows your chosen colour. You'd picked red, but that corner stayed the automatic green — the top bar runs in the browser and simply couldn't read the colour choices, which live in the server's settings, so it always fell back to the auto colour. The page shell now looks your colour up on the server (matched exactly the way the picker saves it) and hands it to the top bar. Everywhere else already honoured the pick. One honest caveat from the wider audit: the deeper ask on this ticket — making every spelling of a person (\"Austin\", \"Austin Pickering\", the email) resolve to one identical circle — is NOT built yet; if that still matters day-to-day, send this back once more and it becomes the next piece of work."
+    test_plan: "1. After deploy, with your avatar colour set to red on Settings (moved there by T-0447): the circle at the TOP RIGHT next to your name is red, on every page. 2. Change the colour → the top bar updates after a refresh; set it to Auto → it returns to the automatic colour. 3. Spot-check other surfaces still match (comments, stakeholder panels). 4. Known remaining gap: different spellings of the same person may still render as different circles in lists — that's the unbuilt canonicalisation half; send back if you want it built now."
     records:
       docs: none-needed
       tech_session: none-needed
       status_note: none-needed
 labels: []
 attention:
-  needed_by: agent
-  reason: In my chosen avatar colour i have picked a red avatar. At the top right of the menu (next to the logged in user for me)  The avatar is green not red
-  since: 2026-07-14T13:51:53Z
-version: 22
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-14T14:00:50Z
+version: 23
 defect_status: confirmed
 collaborators:
   - kind: human

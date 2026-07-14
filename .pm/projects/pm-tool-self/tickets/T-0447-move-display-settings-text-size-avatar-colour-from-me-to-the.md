@@ -2,9 +2,9 @@
 id: T-0447
 title: Move display settings (text size + avatar colour) from /me to the Settings page
 type: feature
-state: in_progress
+state: review
 created: 2026-06-19T09:38:42Z
-updated: 2026-07-14T13:49:18Z
+updated: 2026-07-14T14:01:12Z
 project: pm-tool-self
 section: null
 parent: null
@@ -37,10 +37,10 @@ labels:
   - facelift
   - ui
 attention:
-  needed_by: agent
-  reason: We want it on the settings page only
-  since: 2026-07-14T13:49:16Z
-version: 11
+  needed_by: human
+  reason: Built per your send-back ("settings page only") — display settings moved off /me onto /settings, which is now reachable by every signed-in user. Confirm and close, or send back.
+  since: 2026-07-14T14:00:51Z
+version: 13
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -75,3 +75,11 @@ app/me/page.tsx (remove the Display settings block), app/settings/page.tsx (add 
 **2026-07-14 13:48 — Austin Pickering**
 
 we want to have it only on the settings page
+
+**2026-07-14 14:01 claude-code:** **What we did** Moved the display settings (Text size + Avatar colour) off the "My work" page and onto the Settings page — they now live there only, in a "Display" section at the top. Because Settings used to be an admins-only page, we also opened it up: every signed-in user (members and stakeholders too) can now reach Settings, while the Users & roles sections stay visible to admins only.
+
+**Why** Your decision on the send-back: "we want it on the settings page only." Zsolt originally raised it — preferences aren't work, so the work page shouldn't carry them. Opening Settings up was necessary so non-admins (like Zsolt) don't lose access to their own preferences.
+
+**If we did nothing** Preferences would stay stranded on the work dashboard, and moving them naïvely would have locked members out of them entirely.
+
+**Test after deploy** 1. Settings (left nav) shows a Display section with both controls; they behave exactly as before. 2. "My work" no longer shows Display settings. 3. Signed in as a member (or preview-as Zsolt): Settings is reachable and shows ONLY the Display section — no admin panels. (commit 11966f0)
