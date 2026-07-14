@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-07-14T16:22:23Z
-updated: 2026-07-14T17:19:22Z
+updated: 2026-07-14T17:42:41Z
 project: yasystem
 section: null
 parent: null
@@ -156,7 +156,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-14T17:19:22Z
-version: 10
+version: 11
 attachments:
   - key: tickets/T-0573/1784046183546-Screenshot_2026-07-14_at_17-22-41_.png
     filename: Screenshot 2026-07-14 at 17-22-41 .png
@@ -204,3 +204,14 @@ Also flagged: there are two runs-overview implementations — runs-overview-new.
 Acceptance criteria updated to reflect all three. Ticket now meets Definition of Ready (ACs + code anchors in place).
 
 **2026-07-14 17:19 claude-code:** Run run-20260714-1654 completed — Built all four warehouse pain-point fixes Zac asked for. (1) Reporting an item issue at unload no longer walks staff through every issue type one after another — they now pick what's wrong (Missing / Damaged / Dirty / Not Ours) and only answer that one question, matching how the driver app works. Photos are still forced for damaged and dirty items. (2) When staff enter fewer items than expected and press complete, they now get a simple "you entered 20/28 — report 8 missing?" yes/no prompt; Yes files the missing report and finishes the unload in one tap instead of opening the full issue form. (3) Managers (Warehouse Manager and WHSupervisors roles only) get a red fast-forward button on Back-at-Base runs that were unloaded without counts being entered: it marks every outstanding contract as unloaded, files an "Unloaded Without System Count" issue on each so goods-in knows to double-check, and completes the run — clearing the clutter from the runs overview. (4) The fast-forward button on runs with no deliveries now marks the run Loaded/Ready (staying in the Loading Done column until the driver departs) instead of wrongly showing it as on the road. Also: "Missing" no longer demands a photo anywhere, including the driver app — you can't photograph an item that isn't there. Without these changes warehouse staff would keep skipping the clunky flows, leaving runs stuck on the overview and counts missing from the system.
+
+**2026-07-14 17:42 claude-code:** Local testing round 1 (automated) — all green, on Austin's local setup (austin.yahire.com serving the working tree, DB = sandbox RDS clone via Secrets Manager):
+
+- Migration applied to the sandbox DB (only pending migration; clean apply, all three role grants inserted).
+- New E2E harness `php yii t0573-e2e/run` (console/controllers/T0573E2eController.php): **25/25 assertions pass** — migration state (9), full quick-missing cycle: short unload count recorded → checkItemCount flags it → quick-missing issue saved with the exact UI payload → re-check resolves (8), manager override end-state: 2 outstanding collection contracts processed, override issue on each, items unloaded, run status 70 (8). Harness is sandbox/local-guarded, transactional, rolls back by default (`--keep` to persist for UI inspection).
+- Driver-app jest suite: 42/42.
+- To make the override console-testable, its core moved from the controller action into YaRuns::managerOverrideUnloadComplete() — endpoint behaviour unchanged.
+
+Two environment notes: (1) IssueChosenOptionsResponses validates `answer` as a string — fine over HTTP (form-encoding), the harness now mirrors that wire format. (2) YaRunContracts::afterSave touches the web Response object, so the harness mounts one (known console quirk, same as T-0538's archiveNow).
+
+Manual UI walk-through on austin.yahire.com is next (Austin).
