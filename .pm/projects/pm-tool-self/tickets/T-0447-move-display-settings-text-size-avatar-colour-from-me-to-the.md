@@ -2,9 +2,9 @@
 id: T-0447
 title: Move display settings (text size + avatar colour) from /me to the Settings page
 type: feature
-state: review
+state: done
 created: 2026-06-19T09:38:42Z
-updated: 2026-07-14T14:01:12Z
+updated: 2026-07-14T14:25:25Z
 project: pm-tool-self
 section: null
 parent: null
@@ -20,11 +20,11 @@ assignee:
   kind: human
   name: austin@yahire.com
 acceptance_criteria:
-  - The Text size control and the Avatar colour control both render on the Settings page (app/settings/page.tsx), grouped under a 'Display' section.
-  - The /me ('My work') page no longer shows the 'Display settings' section — the work page is purely work.
-  - "Both controls behave exactly as before after the move: text size still persists per-browser and scales the UI; avatar colour still saves to config and shows the same colour for every viewer."
-  - No dead imports, unused components, or empty layout containers are left behind on /me.
-  - Navigating to Settings shows the controls in a sensible position; no visual regressions on either page.
+  - "[x] The Text size control and the Avatar colour control both render on the Settings page (app/settings/page.tsx), grouped under a 'Display' section."
+  - "[x] The /me ('My work') page no longer shows the 'Display settings' section — the work page is purely work."
+  - "[x] Both controls behave exactly as before after the move: text size still persists per-browser and scales the UI; avatar colour still saves to config and shows the same colour for every viewer."
+  - "[x] No dead imports, unused components, or empty layout containers are left behind on /me."
+  - "[x] Navigating to Settings shows the controls in a sensible position; no visual regressions on either page."
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -36,11 +36,8 @@ agent_runs: []
 labels:
   - facelift
   - ui
-attention:
-  needed_by: human
-  reason: Built per your send-back ("settings page only") — display settings moved off /me onto /settings, which is now reachable by every signed-in user. Confirm and close, or send back.
-  since: 2026-07-14T14:00:51Z
-version: 13
+attention: null
+version: 22
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -83,3 +80,15 @@ we want to have it only on the settings page
 **If we did nothing** Preferences would stay stranded on the work dashboard, and moving them naïvely would have locked members out of them entirely.
 
 **Test after deploy** 1. Settings (left nav) shows a Display section with both controls; they behave exactly as before. 2. "My work" no longer shows Display settings. 3. Signed in as a member (or preview-as Zsolt): Settings is reachable and shows ONLY the Display section — no admin panels. (commit 11966f0)
+
+---
+
+**2026-07-14 14:25 — you**
+
+Done
+
+---
+
+**2026-07-14 14:25 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

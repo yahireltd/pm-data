@@ -87,5 +87,5 @@ inbound_email:
     - austin@yahire.com
     - ben@yahire.com
 avatar_colors:
-  austin pickering: bg-rose-500
+  austin pickering: bg-fuchsia-500
   zsolt: bg-blue-500

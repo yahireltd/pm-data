@@ -2,10 +2,10 @@
 id: T-0446
 title: Unify avatar initials & colour per person (same user renders as different circles)
 type: bug
-state: review
+state: done
 priority: p2
 created: 2026-06-19T09:15:24Z
-updated: 2026-07-14T14:00:50Z
+updated: 2026-07-14T14:26:39Z
 project: pm-tool-self
 section: null
 parent: null
@@ -17,18 +17,18 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - A single person renders with identical initials AND identical colour across every surface (tickets list, kanban, inbox, dashboard, ticket detail) regardless of how their name is stored.
-  - Austin's variants ("Austin Pickering", "Austin", "austin", "austin@yahire.com") all resolve to one avatar (same initials, same colour).
-  - Zsolt's variants ("Zsolt Turu", "Zsolt", "zsolt@yahire.com") all resolve to one avatar.
-  - An `avatar_colors` override set for a person applies to ALL of their name variants, not just the exact configured key.
-  - Initials are derived from the canonical display name (two-word names give first-letter-of-each; single names give first two letters).
-  - Agent/system avatars (claude, claude-code) keep their icon-forward circles and are NOT converted to initials.
-  - A name not present in the roster falls back to today's behaviour (hashed colour + sliced initials) with no error.
-  - The resolver reads the roster/config once per render pass, not once per avatar (no N+1 disk reads on a long list).
-  - Hovering an avatar shows the canonical person name in the title tooltip.
-  - "No avatar regressions on: comments, meeting attendees, decision owners, project owners, stakeholder lists."
-  - 'Avatar colour selection is exclusive: when a user picks a colour already claimed by a different person, setMyAvatarColor rejects it with a clear error (e.g. "That colour is already taken.") and the choice is not saved.'
-  - "The colour picker on /me reflects taken colours: swatches already claimed by other people are visibly disabled/greyed (with a 'taken' affordance), so only free colours can be selected; clearing your colour (Auto) frees it for others."
+  - "[x] A single person renders with identical initials AND identical colour across every surface (tickets list, kanban, inbox, dashboard, ticket detail) regardless of how their name is stored."
+  - "[x] Austin's variants (\"Austin Pickering\", \"Austin\", \"austin\", \"austin@yahire.com\") all resolve to one avatar (same initials, same colour)."
+  - "[x] Zsolt's variants (\"Zsolt Turu\", \"Zsolt\", \"zsolt@yahire.com\") all resolve to one avatar."
+  - "[x] An `avatar_colors` override set for a person applies to ALL of their name variants, not just the exact configured key."
+  - "[x] Initials are derived from the canonical display name (two-word names give first-letter-of-each; single names give first two letters)."
+  - "[x] Agent/system avatars (claude, claude-code) keep their icon-forward circles and are NOT converted to initials."
+  - "[x] A name not present in the roster falls back to today's behaviour (hashed colour + sliced initials) with no error."
+  - "[x] The resolver reads the roster/config once per render pass, not once per avatar (no N+1 disk reads on a long list)."
+  - "[x] Hovering an avatar shows the canonical person name in the title tooltip."
+  - "[x] No avatar regressions on: comments, meeting attendees, decision owners, project owners, stakeholder lists."
+  - '[x] Avatar colour selection is exclusive: when a user picks a colour already claimed by a different person, setMyAvatarColor rejects it with a clear error (e.g. "That colour is already taken.") and the choice is not saved.'
+  - "[x] The colour picker on /me reflects taken colours: swatches already claimed by other people are visibly disabled/greyed (with a 'taken' affordance), so only free colours can be selected; clearing your colour (Auto) frees it for others."
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/Avatar.tsx
@@ -54,11 +54,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-14T14:00:50Z
-version: 23
+attention: null
+version: 39
 defect_status: confirmed
 collaborators:
   - kind: human
@@ -105,3 +102,9 @@ web/app/_lib/colors.ts, web/app/_lib/avatar-prefs.ts, web/app/_components/Avatar
 ## Conversation
 
 **2026-07-14 12:23 claude-code:** Run run-20260714-1222 completed — Backlog audit: this looks already fixed. Avatars now come from one shared component that derives the initials and colour from the person's name the same way everywhere, with your saved colour override applied on top (the picker on /me), and the comment threads load those overrides so the same person renders identically across pages. Since this was a visual bug you reported, you're the right judge: if you can still find a place where the same person shows different initials or colours, send this back with a screenshot of where; otherwise close it.
+
+---
+
+**2026-07-14 14:26 — you**
+
+Done
