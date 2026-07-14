@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-07-14T16:22:23Z
-updated: 2026-07-14T17:42:41Z
+updated: 2026-07-14T17:57:02Z
 project: yasystem
 section: null
 parent: null
@@ -156,7 +156,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-14T17:19:22Z
-version: 11
+version: 12
 attachments:
   - key: tickets/T-0573/1784046183546-Screenshot_2026-07-14_at_17-22-41_.png
     filename: Screenshot 2026-07-14 at 17-22-41 .png
@@ -215,3 +215,13 @@ Acceptance criteria updated to reflect all three. Ticket now meets Definition of
 Two environment notes: (1) IssueChosenOptionsResponses validates `answer` as a string — fine over HTTP (form-encoding), the harness now mirrors that wire format. (2) YaRunContracts::afterSave touches the web Response object, so the harness mounts one (known console quirk, same as T-0538's archiveNow).
 
 Manual UI walk-through on austin.yahire.com is next (Austin).
+
+**2026-07-14 17:57 claude-code:** Round 2 from Austin's manual testing (2026-07-14): picker functionality approved; manager override tested working. Two refinements built:
+
+1. **Full driver-app visual for the item issue dialog** — yes, it's possible in the Yii site. The item flow is now one dialog mirroring the driver app's ItemIssueModal: red header with item name + expected qty, issue-type button grid (tap to select), quantity stepper with +/− buttons capped at what's still unreported for that item, photo section whose label switches Required/Optional per issue type (enforced on submit), a Yahire's/Customer fault toggle, and a single Submit button. The fault choice is now saved on the issue (IssueChosenOptions.fault, same field the driver app writes) — previously the warehouse web flow never captured fault.
+
+2. **Quick-missing moved to count time** — the old "Unexpected Quantity?" alert (shown the moment a short count is typed) is now the yes/no prompt itself: "You entered 20/28 — report 8 missing?" Yes files the Missing issue immediately and turns the count green; No leaves the red border for correcting. The complete-time prompt remains as a safety net for anyone who chose No and forgot to fix the count. Over-counts (entered more than expected) keep an alert-style message. mark-counted response now includes contractID/runContractID/expectedQty (additive).
+
+Known behaviour to be aware of (pre-existing, unchanged): if someone reports missing and then edits the count again to a different shortfall, the old issue stays and the full form is required at complete time (exact-qty match rule).
+
+Verified: all PHP lint clean, backend-a.js parses, E2E harness re-run 25/25 (confirms the IssueFormNew fault change didn't break the save path). Awaiting Austin's re-test of the new dialog + count-time prompt (hard refresh needed — backend-a.js changed).
