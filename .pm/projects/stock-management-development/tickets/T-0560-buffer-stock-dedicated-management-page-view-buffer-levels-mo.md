@@ -4,7 +4,7 @@ title: "Buffer stock: dedicated management page (view buffer levels, move buffer
 type: feature
 state: in_progress
 created: 2026-07-14T06:35:49Z
-updated: 2026-07-14T06:46:10Z
+updated: 2026-07-14T06:54:54Z
 project: stock-management-development
 section: null
 parent: null
@@ -35,7 +35,8 @@ code_anchors:
   - path: ya-hire/common/models/StockLevels.php
     note: live stock levels — target of buffer→stock moves
 relates: []
-blocks: []
+blocks:
+  - T-0564
 blocked_by: []
 duplicates: []
 duplicate_of: null
@@ -44,7 +45,7 @@ labels:
   - buffer-stock
   - stock
 attention: null
-version: 2
+version: 3
 ---
 
 ## Source

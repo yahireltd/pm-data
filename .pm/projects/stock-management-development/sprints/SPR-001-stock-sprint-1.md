@@ -3,10 +3,10 @@ id: SPR-001
 slug: stock-sprint-1
 title: Stock — Sprint 1
 project: stock-management-development
-state: planned
+state: in_progress
 order: 1024
 created: 2026-07-14T05:07:50Z
-updated: 2026-07-14T06:45:18Z
+updated: 2026-07-14T06:58:57Z
 committed_items:
   - T-0553
   - T-0554
@@ -20,7 +20,7 @@ goal: Ship the quick-win stock improvements agreed at the kickoff (quality gradi
 start_date: 2026-07-14
 end_date: 2026-07-28
 milestone: MS-001
-version: 9
+version: 10
 ---
 
 # SPR-001: Stock — Sprint 1

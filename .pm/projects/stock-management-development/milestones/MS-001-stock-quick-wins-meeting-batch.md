@@ -6,11 +6,14 @@ project: stock-management-development
 state: planned
 order: 1024
 created: 2026-07-13T11:20:21Z
-updated: 2026-07-13T11:20:21Z
+updated: 2026-07-14T07:00:14Z
 acceptance_criteria:
   - "Quality grading uses labels (Good as new / Good / OK / Needs replaced) on a 1–10 DB scale   Up to 3 photos per grade   Failure points: multiple, each with name + note + photo + active on/off, plus in-stock qty   Sale stock: manual add/remove quantity with a note (sold / binned / contract #)   Suppliers: edit option on supplier items   Suppliers: view-all-orders with filters"
 slip_records: []
-version: 1
+version: 2
+owner:
+  kind: human
+  name: Zsolt Turu
 ---
 
 # Stock quick wins (meeting batch)

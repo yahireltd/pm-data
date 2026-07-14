@@ -4,7 +4,7 @@ title: "Buffer stock on the Upcoming Stock page: split upcoming qty into Stock v
 type: feature
 state: in_progress
 created: 2026-07-14T05:48:46Z
-updated: 2026-07-14T06:31:33Z
+updated: 2026-07-14T06:54:54Z
 project: stock-management-development
 section: null
 parent: null
@@ -40,7 +40,8 @@ code_anchors:
   - path: ya-hire/backend/views/stock
     note: the 'add to stock' modal — add a buffer-qty field on arrival
 relates: []
-blocks: []
+blocks:
+  - T-0564
 blocked_by: []
 duplicates: []
 duplicate_of: null
@@ -50,7 +51,7 @@ labels:
   - upcoming-stock
   - stock
 attention: null
-version: 2
+version: 3
 ---
 
 ## Source
