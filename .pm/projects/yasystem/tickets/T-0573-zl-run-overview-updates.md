@@ -2,16 +2,16 @@
 id: T-0573
 title: ZL Run Overview Updates.
 type: feature
-state: inbox
+state: triaged
 priority: p2
 created: 2026-07-14T16:22:23Z
-updated: 2026-07-14T16:22:23Z
-project: null
+updated: 2026-07-14T16:23:27Z
+project: yasystem
 section: null
 parent: null
 milestone: null
 children: []
-order: 21504
+order: 41984
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -25,7 +25,14 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 3
+attachments:
+  - key: tickets/T-0573/1784046183546-Screenshot_2026-07-14_at_17-22-41_.png
+    filename: Screenshot 2026-07-14 at 17-22-41 .png
+    content_type: image/png
+    size: 168400
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-07-14T16:23:04Z
 ---
 
 A few things that have been a pain point for the warehouse. Zac has said the runs overview is getting cluttered with warehouse often missing the unloading on the app (they do actually unload it but do not put the counts in properly etc) 
