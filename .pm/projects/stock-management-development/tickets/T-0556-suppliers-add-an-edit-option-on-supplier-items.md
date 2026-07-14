@@ -2,9 +2,9 @@
 id: T-0556
 title: "Suppliers: add an Edit option on supplier items"
 type: feature
-state: ready
+state: in_progress
 created: 2026-07-14T05:35:11Z
-updated: 2026-07-14T05:35:36Z
+updated: 2026-07-14T06:31:22Z
 project: stock-management-development
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: kickoff M-001
-assignee: null
+assignee:
+  kind: human
+  name: Zsolt
 acceptance_criteria:
   - Each supplier item (StockSupplierItems) on the suppliers page has an Edit control.
   - Editing opens a form/modal to change the item's fields (confirm exact fields on pickup — e.g. name/description/link/qty/price) and save.
@@ -40,7 +42,7 @@ labels:
   - suppliers
   - stock
 attention: null
-version: 2
+version: 3
 ---
 
 ## Source

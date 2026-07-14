@@ -2,9 +2,9 @@
 id: T-0555
 title: "Sale stock: manual add/remove quantity with a reason note (Sold / Binned / contract #) + audit log"
 type: feature
-state: ready
+state: in_progress
 created: 2026-07-14T05:32:53Z
-updated: 2026-07-14T05:32:57Z
+updated: 2026-07-14T06:31:20Z
 project: stock-management-development
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: kickoff M-001
-assignee: null
+assignee:
+  kind: human
+  name: Zsolt
 acceptance_criteria:
   - On the sale-stock screen, a staff member can manually adjust (add OR remove) an item's sale-stock quantity.
   - Each manual adjustment requires a reason note (e.g. Sold / Binned) and can optionally include a contract number for the record.
@@ -43,7 +45,7 @@ labels:
   - sale-stock
   - stock
 attention: null
-version: 2
+version: 3
 ---
 
 ## Source

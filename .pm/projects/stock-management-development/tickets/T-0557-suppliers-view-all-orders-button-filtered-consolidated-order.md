@@ -2,9 +2,9 @@
 id: T-0557
 title: 'Suppliers: "View all orders" button → filtered consolidated orders list'
 type: feature
-state: ready
+state: in_progress
 created: 2026-07-14T05:35:20Z
-updated: 2026-07-14T05:35:37Z
+updated: 2026-07-14T06:31:26Z
 project: stock-management-development
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: kickoff M-001
-assignee: null
+assignee:
+  kind: human
+  name: Zsolt
 acceptance_criteria:
   - The suppliers page has a 'View all orders' button that opens a consolidated list of all placed orders.
   - The list has filter options (e.g. by status, supplier, and/or date).
@@ -41,7 +43,7 @@ labels:
   - orders
   - stock
 attention: null
-version: 2
+version: 3
 ---
 
 ## Source

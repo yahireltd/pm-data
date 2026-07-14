@@ -2,9 +2,9 @@
 id: T-0559
 title: "Buffer stock on the Upcoming Stock page: split upcoming qty into Stock vs Buffer, add-to-stock+buffer on arrival, new buffer table"
 type: feature
-state: triaged
+state: in_progress
 created: 2026-07-14T05:48:46Z
-updated: 2026-07-14T05:48:46Z
+updated: 2026-07-14T06:31:33Z
 project: stock-management-development
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: kickoff M-001
-assignee: null
+assignee:
+  kind: human
+  name: Zsolt
 acceptance_criteria:
   - Upcoming stock entries can be split between an 'Add to stock' quantity and a 'Buffer' quantity (Total = stock qty + buffer qty).
   - A 'Buffer' option is available on the upcoming stock page (alongside/instead of 'Addition to stock'); buffer items appear in Upcoming labelled 'Buffer' and do NOT show on the stock planner until moved into stock.
@@ -48,7 +50,7 @@ labels:
   - upcoming-stock
   - stock
 attention: null
-version: 1
+version: 2
 ---
 
 ## Source

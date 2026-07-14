@@ -2,9 +2,9 @@
 id: T-0553
 title: "Quality Management: grade on a 1–10 DB scale (labels Good as new/Good/OK/Needs replaced) + up to 3 photos per grade"
 type: feature
-state: ready
+state: in_progress
 created: 2026-07-14T05:07:50Z
-updated: 2026-07-14T05:08:51Z
+updated: 2026-07-14T06:31:15Z
 project: stock-management-development
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: kickoff M-001
-assignee: null
+assignee:
+  kind: human
+  name: Zsolt
 acceptance_criteria:
   - "Quality grade is captured using the labels: Good as new / Good / OK / Needs replaced."
   - The grade is stored in the DB on a reserved 1–10 numeric scale (the 4 labels map onto fixed points on the 1–10 range), so the scale can be made more granular later without losing or reinterpreting past inputs.
@@ -43,7 +45,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 2
+version: 3
 ---
 
 ## Source

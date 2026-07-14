@@ -2,9 +2,9 @@
 id: T-0554
 title: "Quality: multiple structured failure points per product (name + note + photo + active toggle) with affected in-stock qty"
 type: feature
-state: ready
+state: in_progress
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-14T05:11:17Z
+updated: 2026-07-14T06:31:17Z
 project: stock-management-development
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: kickoff M-001
-assignee: null
+assignee:
+  kind: human
+  name: Zsolt
 acceptance_criteria:
   - A product can have multiple failure points (replacing today's single free-text field on StockQualityInfo.failurePoints).
   - "Each failure point has: name, note, a photo, and an Active on/off status."
@@ -44,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 2
+version: 3
 ---
 
 ## Source

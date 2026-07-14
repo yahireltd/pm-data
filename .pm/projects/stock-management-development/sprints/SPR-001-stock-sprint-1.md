@@ -6,18 +6,19 @@ project: stock-management-development
 state: planned
 order: 1024
 created: 2026-07-14T05:07:50Z
-updated: 2026-07-14T05:35:38Z
+updated: 2026-07-14T06:30:15Z
 committed_items:
   - T-0553
   - T-0554
   - T-0555
   - T-0556
   - T-0557
+  - T-0559
 goal: Ship the quick-win stock improvements agreed at the kickoff (quality grading + photos, failure points, sale-stock qty edit, supplier item edit, orders view).
 start_date: 2026-07-14
 end_date: 2026-07-28
 milestone: MS-001
-version: 6
+version: 7
 ---
 
 # SPR-001: Stock — Sprint 1

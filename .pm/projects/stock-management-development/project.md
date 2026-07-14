@@ -5,7 +5,7 @@ name: Stock Management Development
 state: planning
 phase: planning
 created: 2026-07-13T11:14:18Z
-updated: 2026-07-14T05:35:38Z
+updated: 2026-07-14T06:31:33Z
 owner:
   kind: human
   name: you
@@ -37,7 +37,7 @@ cost_of_inaction: |-
     inconsistent and undocumented, and there's no data to project losses or optimise. As the stock base grows, this manual overhead and shortfall risk only increase, and
     Sandor/workshop keep relying on ad-hoc checks with Ben/IT firefighting.
 kind: initiative
-version: 14
+version: 21
 scope_in:
   - Quality management (grading scale, multiple photos, failure points, quality overview & history)
   - Sale stock manual quantity adjustment
