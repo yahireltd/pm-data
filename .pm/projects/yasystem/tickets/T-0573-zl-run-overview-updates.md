@@ -2,10 +2,10 @@
 id: T-0573
 title: ZL Run Overview Updates.
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-07-14T16:22:23Z
-updated: 2026-07-14T16:54:08Z
+updated: 2026-07-14T17:19:22Z
 project: yasystem
 section: null
 parent: null
@@ -83,16 +83,80 @@ agent_runs:
   - id: run-20260714-1654
     model: claude-fable-5
     started: 2026-07-14T16:54:08Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: master
       branch_source: project
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-07-14T16:54:08Z
+    ended: 2026-07-14T17:19:22Z
+    summary: "Built all four warehouse pain-point fixes Zac asked for. (1) Reporting an item issue at unload no longer walks staff through every issue type one after another — they now pick what's wrong (Missing / Damaged / Dirty / Not Ours) and only answer that one question, matching how the driver app works. Photos are still forced for damaged and dirty items. (2) When staff enter fewer items than expected and press complete, they now get a simple \"you entered 20/28 — report 8 missing?\" yes/no prompt; Yes files the missing report and finishes the unload in one tap instead of opening the full issue form. (3) Managers (Warehouse Manager and WHSupervisors roles only) get a red fast-forward button on Back-at-Base runs that were unloaded without counts being entered: it marks every outstanding contract as unloaded, files an \"Unloaded Without System Count\" issue on each so goods-in knows to double-check, and completes the run — clearing the clutter from the runs overview. (4) The fast-forward button on runs with no deliveries now marks the run Loaded/Ready (staying in the Loading Done column until the driver departs) instead of wrongly showing it as on the road. Also: \"Missing\" no longer demands a photo anywhere, including the driver app — you can't photograph an item that isn't there. Without these changes warehouse staff would keep skipping the clunky flows, leaving runs stuck on the overview and counts missing from the system."
+    test_plan: |-
+      **Pre-req: run the migration** (test box first): `php yii migrate` — applies m260714_170000_t0573_warehouse_unload_overrides. Verify in DB: `issue_type_options` id 12 (Missing) has photoRequired=0; new row "Unloaded Without System Count" (issueTypeID 1, showOnReports 0); `auth_item` has "Warehouse Run Override" with `auth_item_child` grants to Warehouse Manager, WHSupervisors, SuperUsers.
+
+      **Also pre-req:** backend-a.js changed and assetManager appendTimestamp=false — hard-refresh warehouse tablets/browsers or they will run the cached old JS.
+
+      **1. Item issue picker (unload view)**
+      - Open /warehouse/unload-run?id=<run> for a Back-at-Base run, press "Report Issue" on a contract, then "Report Issue" on an item.
+      - Expect: a radio prompt "What is wrong with the item?" (Missing / Damaged / Dirty / Not Ours) — NOT four sequential count questions.
+      - Pick Damaged, enter a count > 0 → photo capture is forced. Pick Missing → no photo demanded. Cancel on the radio → nothing recorded.
+      - Label under the item updates with the count; "Save Issue Report" still requires the comments box and saves successfully (check contract history shows the issue).
+      - Cross-impact: the same modal is used from contract-history-new.php and collection-master-sheet.php "Report Issue" buttons — open one of each and confirm the item flow works there too.
+
+      **2. Quick-missing prompt (unload view only)**
+      - On an unload, enter LESS than expected for an item (e.g. 20 of 28), tick items, press Complete Contract.
+      - Expect: "Report Missing Items?" prompt showing "you entered 20/28 — report 8 missing?".
+      - Yes → unload completes with no further forms; contract history shows a Missing issue qty 8 reported at unload stage.
+      - No → the full issue form opens (old behaviour) with the old error toast.
+      - Edge: an item that already has a Missing issue with a DIFFERENT qty gets the full form, not the quick prompt.
+      - Regression: entering correct counts completes with no prompt at all.
+
+      **3. Manager override (runs-overview-new)**
+      - As a user WITH Warehouse Run Override (or SuperUsers): on the Unloading side, a Back-at-Base run (status 40-69) with uncounted collections shows a RED fast-forward icon. Click → strong warning → confirm.
+      - Expect: page reloads, run is complete (status 70, appears in Show Done); every previously-uncounted collection contract has an "Unloaded Without System Count" issue (check contract history / all-issues); item statuses set to unloaded; a catering collection lands on the cleaning list.
+      - As a user WITHOUT the permission: no red icon; `curl -X POST /runs/manager-override-complete -d runID=<id>` (logged in as them) returns 403.
+      - Edge: run where all contracts are already counted → no red icon (existing truck icon behaviour for zero-collection runs unchanged).
+
+      **4. Loaded/Ready fast-forward (no-delivery runs)**
+      - Loading side: a pushed run with NO deliveries shows the black fast-forward icon. Click it.
+      - Expect: run gets status 20 (Loaded), stays on the LOADING side as a done row — it must NOT jump to the Unloading column (previous behaviour).
+      - The driver starting the run in the driver app still moves it to on-the-road/unloading normally.
+      - Edge: out-of-hours run (start before 6am/after 10pm) still shows the "Ensure keys are ready" warning first.
+      - Check the mobile view (runs-overview-mobile-new) too — same button, same change.
+
+      **5. Driver app**
+      - After the migration, force an issue-types sync (or reinstall/sync screen). Reporting a Missing item issue now shows "Photo (Optional)" and submits without a photo.
+      - "Unloaded Without System Count" must NOT appear in the driver app's issue-type buttons (showOnReports=0) nor in the warehouse web modal's manual list.
+      - Jest: `cd driver-app && npx jest src/logic/__tests__/issueTypes.test.ts` — 14/14 pass (ran locally).
+
+      **Not committed** — all changes are in the working tree on master per the project agent policy; php -l clean on all touched PHP, node --check clean on backend-a.js.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: written
+    artifacts:
+      - type: migration
+        path: console/migrations/m260714_170000_t0573_warehouse_unload_overrides.php
+        note: Missing photo flag, new issue type option, RBAC permission
+      - type: endpoint
+        path: backend/controllers/RunsController.php
+        note: actionManagerOverrideComplete (RBAC-gated, transactional)
+      - type: js
+        path: backend/web/js/backend-a.js
+        note: driver-app-style issue type picker in reportNewIssue; number inputs
+      - type: view
+        path: backend/views/warehouse/unload-run.php
+        note: quick-missing yes/no prompt
+      - type: model
+        path: common/models/RunsOverview.php
+        note: red override icon, permission + uncounted-collections gated
 labels: []
-attention: null
-version: 9
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-14T17:19:22Z
+version: 10
 attachments:
   - key: tickets/T-0573/1784046183546-Screenshot_2026-07-14_at_17-22-41_.png
     filename: Screenshot 2026-07-14 at 17-22-41 .png
@@ -138,3 +202,5 @@ Also flagged: there are two runs-overview implementations — runs-overview-new.
 3. **Override permission** — assign to BOTH Warehouse Manager and WHSupervisors. The new "Unloaded Without System Count" issue type is system-generated only and must be excluded from all manual issue-type dropdowns (warehouse modal and driver app), while still rendering correctly in issue lists and resolution views.
 
 Acceptance criteria updated to reflect all three. Ticket now meets Definition of Ready (ACs + code anchors in place).
+
+**2026-07-14 17:19 claude-code:** Run run-20260714-1654 completed — Built all four warehouse pain-point fixes Zac asked for. (1) Reporting an item issue at unload no longer walks staff through every issue type one after another — they now pick what's wrong (Missing / Damaged / Dirty / Not Ours) and only answer that one question, matching how the driver app works. Photos are still forced for damaged and dirty items. (2) When staff enter fewer items than expected and press complete, they now get a simple "you entered 20/28 — report 8 missing?" yes/no prompt; Yes files the missing report and finishes the unload in one tap instead of opening the full issue form. (3) Managers (Warehouse Manager and WHSupervisors roles only) get a red fast-forward button on Back-at-Base runs that were unloaded without counts being entered: it marks every outstanding contract as unloaded, files an "Unloaded Without System Count" issue on each so goods-in knows to double-check, and completes the run — clearing the clutter from the runs overview. (4) The fast-forward button on runs with no deliveries now marks the run Loaded/Ready (staying in the Loading Done column until the driver departs) instead of wrongly showing it as on the road. Also: "Missing" no longer demands a photo anywhere, including the driver app — you can't photograph an item that isn't there. Without these changes warehouse staff would keep skipping the clunky flows, leaving runs stuck on the overview and counts missing from the system.
