@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-07-14T16:22:23Z
-updated: 2026-07-14T16:42:10Z
+updated: 2026-07-14T16:51:10Z
 project: yasystem
 section: null
 parent: null
@@ -16,11 +16,13 @@ reporter: null
 assignee: null
 acceptance_criteria:
   - "Unload-view item issue modal replaced with driver-app-style flow: pick ONE issue type, then qty stepper, photo capture (enforced when IssueTypeOptions.photoRequired=1), fault + comments — instead of the current 3-counts-at-once form. Submits through the existing /issue-reports/save-issues-new path (Issues + IssueChosenOptions), so YaRunContracts::checkItemCount still resolves the shortfall."
-  - 'Quick-missing prompt on unload view only: when complete-unload finds entered < expected, show a yes/no prompt "You entered X/Y — report N missing?". Yes creates a Missing issue (issueTypeOptionID 12, qty = shortfall) and lets the unload complete without opening the full modal; No opens the full issue form as today.'
-  - "Runs-overview-new unloading side: red fast-forward manager-override icon on Back-at-Base runs (status 40–69) with contracts not yet counted. Visible only to users holding a new RBAC permission; the backend endpoint re-checks the permission server-side (Yii::$app->user->can), marks all the run's contracts unloaded, creates a contract-level issue \"Unloaded Without System Count\" (new IssueTypeOptions entry, system-generated) on each contract, and marks the run complete (status 70)."
-  - "New RBAC permission seeded via migration (pattern: m260402_150000_add_choose_warehouse_photos_permission) and assigned to the agreed roles; users without it never see the icon and get a 403/error from the endpoint."
-  - Left-side fast-forward on runs with no deliveries sets Loaded/Ready (status 20, mark-loaded semantics) instead of jumping to dispatched (status 30 via /runs/fast-forward-loaded). Run shows as Loaded on the loading side until the driver actually departs.
-  - "Existing flows unaffected: normal unload with correct counts, driver-app issue reporting, and the loading-side flow for runs WITH deliveries all behave as before."
+  - 'Quick-missing prompt on unload view only: when complete-unload finds entered < expected, show a yes/no prompt "You entered X/Y — report N missing?". Yes creates a Missing issue (issueTypeOptionID 12, qty = shortfall, no photo) and lets the unload complete without opening the full modal; No opens the full issue form as today.'
+  - "Migration sets IssueTypeOptions.photoRequired=0 for Missing (option 12) — DECIDED: you cannot photograph an item that isn't there. Driver app then treats the photo as optional for Missing automatically via its issue-types sync (isPhotoRequired reads the flag); driver-app test fixture updated to match (driver-app/src/logic/__tests__/issueTypes.test.ts:34)."
+  - "Runs-overview-new unloading side: red fast-forward manager-override icon on Back-at-Base runs (status 40–69) with contracts not yet counted. Visible only to users holding the new RBAC permission; the backend endpoint re-checks the permission server-side (Yii::$app->user->can), marks all the run's contracts unloaded, creates a contract-level issue \"Unloaded Without System Count\" (new IssueTypeOptions entry) on each contract, and marks the run complete (status 70)."
+  - "New RBAC permission seeded via migration (pattern: m260402_150000_add_choose_warehouse_photos_permission) and assigned to BOTH Warehouse Manager and WHSupervisors (DECIDED); users without it never see the icon and get a 403/error from the endpoint."
+  - '"Unloaded Without System Count" issue type does NOT appear in any manual issue-type pick list (warehouse modal or driver app) — system-generated only (DECIDED). It must still display correctly in issue lists/resolution views (all-issues, contract-history-new).'
+  - "Left-side fast-forward on runs with no deliveries sets Loaded/Ready (status 20, mark-loaded semantics) instead of jumping to dispatched (status 30). DECIDED: run remains in the Loading-Done section until the driver actually departs."
+  - "Existing flows unaffected: normal unload with correct counts, driver-app issue reporting (other than Missing photo becoming optional), and the loading-side flow for runs WITH deliveries all behave as before."
 out_of_scope: []
 code_anchors:
   - path: backend/views/warehouse/unload-run.php
@@ -78,7 +80,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 5
+version: 7
 attachments:
   - key: tickets/T-0573/1784046183546-Screenshot_2026-07-14_at_17-22-41_.png
     filename: Screenshot 2026-07-14 at 17-22-41 .png
@@ -116,3 +118,11 @@ We also want to make a slight change to the left hand side we have an icon \<i 
 3. **Which roles** get the new override permission (Warehouse Manager? WHSupervisors? named users?), and should "Unloaded Without System Count" be hidden from the manual issue-type pick list (system-generated only)?
 
 Also flagged: there are two runs-overview implementations — runs-overview-new.php (active, renders via RunsOverview::outputRunDesktop) and the legacy runs-overview.php. All changes target the new one; worth confirming nothing still routes warehouse staff to the old page.
+
+**2026-07-14 16:51 claude-code:** Austin settled the three open decisions (2026-07-14):
+
+1. **Loaded/Ready button** — confirmed: a no-deliveries run should stay in the Loading-Done section at status 20 until the driver departs. Implement by switching the runComplete call from /runs/fast-forward-loaded to mark-loaded semantics.
+2. **Missing photo rule** — Missing must NOT require a photo anywhere, including the driver app ("you can't photograph an item that isn't there"). Implement as a migration flipping IssueTypeOptions.photoRequired=0 for option 12 (Missing); the driver app picks that up automatically via its /api/drivers/issue-types sync. Update the driver-app test fixture (issueTypes.test.ts:34) which currently asserts photoRequired=1 for Missing.
+3. **Override permission** — assign to BOTH Warehouse Manager and WHSupervisors. The new "Unloaded Without System Count" issue type is system-generated only and must be excluded from all manual issue-type dropdowns (warehouse modal and driver app), while still rendering correctly in issue lists and resolution views.
+
+Acceptance criteria updated to reflect all three. Ticket now meets Definition of Ready (ACs + code anchors in place).
