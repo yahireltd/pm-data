@@ -4,13 +4,13 @@ title: "Initiative → System link: target a system, ship into its repo, graduat
 type: feature
 state: triaged
 created: 2026-06-16T17:10:34Z
-updated: 2026-06-16T17:10:34Z
+updated: 2026-07-14T13:55:30Z
 project: pm-tool-self
 section: null
 parent: null
 children: []
 order: 1024
-priority: p1
+priority: p3
 assignee: null
 acceptance_criteria: []
 out_of_scope: []
@@ -26,7 +26,7 @@ labels:
   - modeling
   - sales
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem

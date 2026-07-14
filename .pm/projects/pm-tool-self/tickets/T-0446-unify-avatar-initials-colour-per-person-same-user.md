@@ -2,10 +2,10 @@
 id: T-0446
 title: Unify avatar initials & colour per person (same user renders as different circles)
 type: bug
-state: review
+state: in_progress
 priority: p2
 created: 2026-06-19T09:15:24Z
-updated: 2026-07-14T12:23:22Z
+updated: 2026-07-14T13:51:55Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,10 +55,10 @@ agent_runs:
       status_note: none-needed
 labels: []
 attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-14T12:23:22Z
-version: 20
+  needed_by: agent
+  reason: In my chosen avatar colour i have picked a red avatar. At the top right of the menu (next to the logged in user for me)  The avatar is green not red
+  since: 2026-07-14T13:51:53Z
+version: 22
 defect_status: confirmed
 collaborators:
   - kind: human

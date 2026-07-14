@@ -2,9 +2,9 @@
 id: T-0447
 title: Move display settings (text size + avatar colour) from /me to the Settings page
 type: feature
-state: ready
+state: in_progress
 created: 2026-06-19T09:38:42Z
-updated: 2026-07-14T12:23:39Z
+updated: 2026-07-14T13:49:18Z
 project: pm-tool-self
 section: null
 parent: null
@@ -37,10 +37,10 @@ labels:
   - facelift
   - ui
 attention:
-  needed_by: human
-  reason: 'Backlog audit: this conflicts with an earlier decision. Display settings (text size + avatar colour) are still on /me — deliberately, per T-0420 ("still here, just no longer the headline"), and /settings is the admin Users-and-roles page. Decide: keep them on /me and close this as superseded by T-0420, or confirm you still want them moved to Settings and it becomes real work.'
-  since: 2026-07-14T12:23:39Z
-version: 6
+  needed_by: agent
+  reason: We want it on the settings page only
+  since: 2026-07-14T13:49:16Z
+version: 11
 collaborators:
   - kind: human
     name: Austin Pickering
@@ -69,3 +69,9 @@ The /me ("My work") page carries a "Display settings" section (Text size + Avata
 ## Key files
 
 app/me/page.tsx (remove the Display settings block), app/settings/page.tsx (add the Display section), app/_components/FontScaleControl.tsx, app/_components/AvatarColorControl.tsx.
+
+## Conversation
+
+**2026-07-14 13:48 — Austin Pickering**
+
+we want to have it only on the settings page
