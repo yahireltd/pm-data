@@ -4,7 +4,7 @@ slug: it-meeting
 title: IT Meeting
 state: scheduled
 created: 2026-07-15T10:45:32Z
-updated: 2026-07-15T11:44:50Z
+updated: 2026-07-15T12:01:27Z
 scheduled_at: 2026-07-15T11:00:00Z
 duration_minutes: 30
 location: IT Office
@@ -70,8 +70,9 @@ agenda:
   - topic: "Google analytics: Bounce rate 44.40% (41.60%), Session duration 5m 11s (5m 15s), Users 3.4K (3.7k)"
   - topic: Check website errors
   - topic: Change linux to Ubuntu 22.04+ for php 8+ on yasite
-  - topic: Pizza party for cabinet re-wiring
+  - topic: Pizza party for cabinet re-wiring - remove servers & move network drives
   - topic: BL Off 4th-18th Aug
+  - topic: Austin Off September 4th (around a week not sure on exact dates yet)
 outcomes: []
 attachments: []
 calendar:
@@ -79,7 +80,7 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: other
-version: 27
+version: 29
 recurrence:
   unit: week
   interval: 1
