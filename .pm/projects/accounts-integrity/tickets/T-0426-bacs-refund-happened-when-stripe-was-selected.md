@@ -2,16 +2,16 @@
 id: T-0426
 title: Bacs refund happened when stripe was selected
 type: feature
-state: in_progress
+state: review
 priority: p2
 created: 2026-06-18T15:44:12Z
-updated: 2026-07-15T16:44:25Z
-project: yasystem
+updated: 2026-07-15T17:17:53Z
+project: accounts-integrity
 section: null
 parent: null
-milestone: null
+milestone: MS-003
 children: []
-order: 36864
+order: 7168
 reporter: null
 assignee:
   kind: agent
@@ -31,7 +31,8 @@ code_anchors:
     symbol: actionProcessContractRefunds
     note: useBacs param -> creditsViaBacs semantics; new coverage endpoint lands here
 relates: []
-blocks: []
+blocks:
+  - T-0538
 blocked_by: []
 duplicates: []
 duplicate_of: null
@@ -39,16 +40,49 @@ agent_runs:
   - id: run-20260715-1644
     model: claude-fable-5
     started: 2026-07-15T16:44:25Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: t0426-refund-method-gate
       branch_source: ticket
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-07-15T16:44:25Z
+    ended: 2026-07-15T17:17:53Z
+    summary: "Refunds sometimes went out by bank transfer even when staff picked \"Stripe (refund to card)\". Cause: the page offered the Stripe/BACS choice whenever the contract had ANY card payment, but a payment surplus (an overpayment) is money that physically sits on one specific payment and can only be returned the way it came in — so if that surplus was on a bank payment, the system quietly did a bank refund regardless of the choice. The only money that can genuinely be sent either way is a credit-note balance. Fix: the choice now appears ONLY when the whole refund is credit-note balance and the card can cover it in full; otherwise there's no misleading choice — staff see a plain confirmation of exactly what will happen and to which method. Surplus refunds always follow their own payment's method. Without this, staff keep selecting Stripe and getting BACS, and have to chase/correct refunds by hand. This change is now part of the T-0538 release branch, so the two must be tested together before going live."
+    test_plan: |-
+      On the sandbox (xerotest.yahire.com, branch already deployed at ddcffc80). DO NOT click the final "Process refund" / submit on live-money contracts — for the dialog checks, confirm the dialog/message then CANCEL.
+
+      **A. The choice appears only for genuine credit-only refunds**
+      1. C092481 → Process Payment Refunds → expect the Stripe/BACS dialog ("£227.22 of credit-note balance to refund"). Cancel.
+      2. C092494 → same → dialog with £607.20. Cancel.
+      (Austin has spot-checked several of these already — confirmed showing correctly.)
+
+      **B. No misleading choice on surplus refunds**
+      3. A contract with an unrefunded payment surplus (ask Claude to surface one on the snapshot) → Process Payment Refunds → expect NO method dialog, instead an info confirmation "£X will be refunded to the original payment method(s)". Cancel.
+      4. (Proven by harness: C090850 reconstructed to its pre-refund state returns surplus £554.41, no dialog — the exact reported bug.)
+
+      **C. Mixed and partial-coverage**
+      5. If a contract has BOTH surplus and credit balance → no dialog; confirmation explains "£X to original method(s), £Y credit by BACS".
+      6. If credit balance exceeds refundable card balance → no Stripe option; confirmation says card refund not available.
+
+      **D. Cross-impact / regression (the risky part — shared refund pipeline)**
+      7. A pure BACS contract (no card payments) with a refund due → unchanged behaviour, BACS refund, no dialog.
+      8. Submit ONE real credit-only refund end to end on the sandbox (dry-run Stripe gateway, no real money): pick Stripe → a dry-run card refund request is logged, PaymentRefund row has a stripeRefundID; pick BACS → BACS reference, no Stripe. Check the manual-refund page statement reflects it.
+      9. RefundGuard cap still enforced (over-cap refund still blocked).
+      10. Deposit refunds (processDepositRefunds) were deliberately NOT changed — confirm they still behave as before; decide in review whether they need the same gate (separate follow-up).
+
+      **E. Release coupling**
+      11. This ships in the T-0538 branch — verify BOTH the document-integrity work AND this refund change on the same deploy; do not release one without the other having been tested.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: written
 labels: []
-attention: null
-version: 9
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-15T17:17:53Z
+version: 12
 branch: t0426-refund-method-gate
 ---
 
@@ -113,3 +147,5 @@ b) **Failed card refunds**: if a Stripe refund fails technically (expired card, 
 3. Pure credit-note balance, coverage insufficient (deposit reserve) → per decision (a).
 4. Mixed surplus+credit → no dialog; surplus by-method, credit via BACS.
 5. Stripe-method surplus → refunds to card WITHOUT any dialog (by-method), proving the decoupling didn't lose card refunds for stripe surpluses.
+
+**2026-07-15 17:17 claude-code:** Run run-20260715-1644 completed — Refunds sometimes went out by bank transfer even when staff picked "Stripe (refund to card)". Cause: the page offered the Stripe/BACS choice whenever the contract had ANY card payment, but a payment surplus (an overpayment) is money that physically sits on one specific payment and can only be returned the way it came in — so if that surplus was on a bank payment, the system quietly did a bank refund regardless of the choice. The only money that can genuinely be sent either way is a credit-note balance. Fix: the choice now appears ONLY when the whole refund is credit-note balance and the card can cover it in full; otherwise there's no misleading choice — staff see a plain confirmation of exactly what will happen and to which method. Surplus refunds always follow their own payment's method. Without this, staff keep selecting Stripe and getting BACS, and have to chase/correct refunds by hand. This change is now part of the T-0538 release branch, so the two must be tested together before going live.

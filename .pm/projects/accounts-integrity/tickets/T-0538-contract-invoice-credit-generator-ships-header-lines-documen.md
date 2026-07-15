@@ -4,7 +4,7 @@ title: Contract invoice/credit generator ships header≠lines documents (Xero re
 type: bug
 state: review
 created: 2026-07-10T16:20:57Z
-updated: 2026-07-10T22:38:41Z
+updated: 2026-07-15T17:17:18Z
 project: accounts-integrity
 section: null
 parent: null
@@ -36,6 +36,7 @@ relates: []
 blocks: []
 blocked_by:
   - T-0540
+  - T-0426
 duplicates: []
 duplicate_of: null
 agent_runs:
@@ -151,7 +152,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-10T21:48:53Z
-version: 27
+version: 28
 branch: t0538-document-generator-integrity
 ---
 
