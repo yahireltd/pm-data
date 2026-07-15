@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 576
+  ticket: 578
   project: 21
   section: 14
   perProject:
@@ -26,7 +26,7 @@ id_counters:
       tech_session: 2
       status_note: 2
     org:
-      meeting: 9
+      meeting: 10
       pre_project: 11
     stock-predictions-engine:
       milestone: 16
