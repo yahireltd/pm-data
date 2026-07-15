@@ -4,7 +4,7 @@ title: "Mobile priority surfaces: ticket view, meeting view, top menu"
 type: bug
 state: review
 created: 2026-07-15T14:37:56Z
-updated: 2026-07-15T14:43:17Z
+updated: 2026-07-15T15:00:06Z
 project: pm-tool-self
 section: null
 parent: null
@@ -35,9 +35,9 @@ agent_runs:
   - id: run-20260715-1438
     started: 2026-07-15T14:38:36Z
     status: completed
-    ended: 2026-07-15T14:43:17Z
-    summary: "The three screens you use most from a phone now fit a phone. The ticket page was the worst: its layout reserved a fixed 320-pixel side panel no matter how small the screen, leaving the actual ticket about 70 pixels — the one-word-per-line smear in your screenshot. On phones the side panel (assignee, files, reporter, project…) now sits below the content at full width, and the page reads as one clean column; on a desktop nothing changes. The meeting page's header — the row of state/kind/repeat selectors and action buttons — now wraps onto extra lines instead of spilling off-screen. And the top menu no longer hides most destinations behind a sideways scrollbar: on phones each item shows as its coloured icon with its red count badge (labels come back on wider screens), so all seven fit at once. If we'd left these, phone use would stay limited to the meeting-record trick. Benefit: reviewing tickets and running meetings from your phone is now genuinely workable."
-    test_plan: "1. After deploy, on your PHONE open the same ticket as your screenshot: one readable column, the meta panel (assignee/files/reporter/project) below the content, no sideways scrolling, normal word wrapping. 2. Open a meeting (e.g. M-010): the header's selectors and buttons wrap neatly onto rows; recording/attachments/outcomes all reachable. 3. Look at the top bar: all seven workflow icons with their count badges visible at once — no scrollbar; tapping each goes to the right page (long-press/hover shows the name). 4. On DESKTOP: ticket page identical to before (side rail on the right), meeting header one row as before, top menu shows full labels. 5. Sanity: /tickets list and kanban are still awaiting the phase-2 pass (T-0591) — not covered here."
+    ended: 2026-07-15T15:00:06Z
+    summary: "The phone screens you use most now genuinely fit a phone — including round two on the top menu. The ticket page's fixed side panel (which squeezed content to one word per line) now stacks below the content; the meeting header's selectors and buttons wrap instead of spilling off-screen; and the top menu was rebuilt for mobile as TWO rows: a slim first row (menu button, New ticket, your account) and a second row where the workflow icons get the whole width of the screen, spread out evenly — every destination and its red count badge visible at once, no sideways scrolling at all. The Work-mode toggle no longer appears on phones — it was taking a third of the bar for something rarely flipped on the go (it's still on desktop). Desktop layouts are unchanged everywhere. Benefit: reviewing tickets and running meetings from your phone works without fighting the interface."
+    test_plan: "1. After deploy, on your phone: the top of every page shows TWO bars — first: ☰, New-ticket (+), your avatar and sign-out; second: all seven workflow icons with badges spread across the full width. NO horizontal scrolling anywhere in the header, and NO Work-mode pill. 2. Tap each icon in the second bar — right pages open; long-press shows the name. 3. Re-open the ticket from your earlier screenshot: single readable column, meta panel below content. 4. Open M-010: header controls wrap neatly; record/outcomes/transcript all usable. 5. Desktop: single-row header exactly as before, Work mode present, full labels. 6. Still pending in T-0591: tickets LIST, kanban, phases planner, settings tables."
     records:
       docs: none-needed
       tech_session: none-needed
@@ -49,8 +49,8 @@ labels:
 attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
-  since: 2026-07-15T14:43:17Z
-version: 5
+  since: 2026-07-15T15:00:06Z
+version: 6
 ---
 
 ## Problem
