@@ -2,9 +2,9 @@
 id: T-0543
 title: Daily posting cron go-live & accounts handover plan
 type: chore
-state: in_progress
+state: review
 created: 2026-07-10T21:28:58Z
-updated: 2026-07-13T13:30:49Z
+updated: 2026-07-15T16:05:10Z
 project: accounts-integrity
 section: null
 parent: null
@@ -19,9 +19,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Canary run on live: clean digest, zero orphans/duplicates, run-issues reviewed"
-  - "Parallel week completed: cron posted everything first; accounts' manual runs were no-ops; no mutex conflicts"
-  - "Accounts briefed and formally handed over: manual posting stopped, digest/triage routine owned by accounts with an agreed escalation rule"
+  - "[x] Canary run on live: clean digest, zero orphans/duplicates, run-issues reviewed"
+  - "[x] Parallel week completed: cron posted everything first; accounts' manual runs were no-ops; no mutex conflicts"
+  - "[x] Accounts briefed and formally handed over: manual posting stopped, digest/triage routine owned by accounts with an agreed escalation rule"
   - Posting-window offsets confirmed with accounts (or adjusted)
   - Rollback path documented and tested in principle (cron disable + manual post available)
   - Sandbox refresh cron re-enabled on live
@@ -59,7 +59,7 @@ labels:
   - release
   - accounts-handover
 attention: null
-version: 6
+version: 10
 ---
 
 ## Problem
