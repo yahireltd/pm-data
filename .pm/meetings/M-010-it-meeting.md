@@ -4,7 +4,7 @@ slug: it-meeting
 title: IT Meeting
 state: scheduled
 created: 2026-07-15T10:45:32Z
-updated: 2026-07-15T10:51:04Z
+updated: 2026-07-15T11:33:35Z
 scheduled_at: 2026-07-15T11:00:00Z
 duration_minutes: 30
 location: IT Office
@@ -57,7 +57,7 @@ agenda:
   - topic: "Consumables/Parts: Anything we need?"
   - topic: Any other Major server / voodoo / interruption / user issues?
   - topic: Super clear out Aug! Keep ticket numbers down
-  - topic: Server restarts, every Wednesday, Sage, Insp, Yii
+  - topic: Server restarts, every Wednesday, Sage, Insp, Yii - LET GO
   - topic: Users In and Out.
   - topic: Certificates Sept (need bringing in line)
   - topic: "Zsolt`s Road Map: Sales, Venue DB, Stock, Speed, YaBundles, Annuals"
@@ -79,7 +79,7 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: other
-version: 24
+version: 25
 ---
 
 # IT Meeting
