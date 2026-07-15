@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 579
+  ticket: 580
   project: 21
   section: 14
   perProject:
@@ -60,6 +60,9 @@ id_counters:
       sprint: 1
       phase: 5
       decision: 3
+    yahire-website:
+      phase: 1
+      milestone: 1
   reminder: 6
 outbound_email:
   from: support@yahire.com
