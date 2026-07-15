@@ -4,7 +4,7 @@ title: "Mobile-friendly shell: sidebar drawer + compact top bar (record meetings
 type: feature
 state: review
 created: 2026-07-15T14:11:01Z
-updated: 2026-07-15T14:14:59Z
+updated: 2026-07-15T15:23:41Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,10 +18,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - On a phone-width viewport the sidebar is hidden behind a hamburger; opening it slides a drawer over the content, backdrop tap or navigating closes it
-  - Desktop (lg+) layout is pixel-identical to today
-  - "The top bar fits a phone: hamburger + compact actions, no horizontal page overflow"
-  - "A meeting page is usable on a phone: record button reachable, attachments/outcomes readable, no layout breakage"
+  - "[x] On a phone-width viewport the sidebar is hidden behind a hamburger; opening it slides a drawer over the content, backdrop tap or navigating closes it"
+  - "[x] Desktop (lg+) layout is pixel-identical to today"
+  - "[x] The top bar fits a phone: hamburger + compact actions, no horizontal page overflow"
+  - "[x] A meeting page is usable on a phone: record button reachable, attachments/outcomes readable, no layout breakage"
   - Recording works from a mobile browser (iOS Safari / Android Chrome) end to end
 out_of_scope: []
 code_anchors:
@@ -54,7 +54,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-15T14:14:59Z
-version: 4
+version: 8
 ---
 
 ## Problem
