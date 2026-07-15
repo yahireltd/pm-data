@@ -2,9 +2,9 @@
 id: T-0529
 title: Purge pre-fix duplicate/junk cost_alt rows from solver run history
 type: chore
-state: review
+state: done
 created: 2026-07-08T17:08:29Z
-updated: 2026-07-08T17:12:05Z
+updated: 2026-07-15T17:52:37Z
 project: route-planner-release
 section: null
 parent: null
@@ -19,9 +19,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - History page for Fri 10 Jul 2026 shows one card per real solve (full_luton primaries), no blank/duplicate-ID cards
-  - Row counts logged before/after the delete (in ticket comment)
-  - solver_runs table row count unchanged
+  - "[x] History page for Fri 10 Jul 2026 shows one card per real solve (full_luton primaries), no blank/duplicate-ID cards"
+  - "[x] Row counts logged before/after the delete (in ticket comment)"
+  - "[x] solver_runs table row count unchanged"
 out_of_scope: []
 code_anchors:
   - path: common/components/RoutePlannerPlanService.php:1801-1900
@@ -53,11 +53,8 @@ agent_runs:
 labels:
   - route-planner
   - data-cleanup
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-08T17:12:05Z
-version: 4
+attention: null
+version: 9
 ---
 
 ## Problem
@@ -72,3 +69,9 @@ solver_runs rows are NOT touched — full replay data is preserved; only the his
 ## Conversation
 
 **2026-07-08 17:12 claude-code:** Run run-20260708-1710 completed — Cleaned the solver run history on the sandbox database. Removed 432 junk cards from the history page: 30 duplicate "Manual" twins (the cost_alt plan mislabelled as a normal run with 0 contracts) and 402 pre-fix cost-alternative cards, which under the old selection bug always showed plans that dropped more jobs than the real one. History went from 1,844 rows to 1,412; the underlying solver_runs data (2,457 rows) is untouched, so any old run can still be replayed. Solves from today's fixed code (single primary card + at most one properly-badged "Cost alt" card, both after 16:00) were preserved.
+
+---
+
+**2026-07-15 17:52 — you**
+
+Done

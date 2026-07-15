@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-06-18T15:44:12Z
-updated: 2026-07-15T17:17:53Z
+updated: 2026-07-15T17:51:32Z
 project: accounts-integrity
 section: null
 parent: null
@@ -82,8 +82,8 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-15T17:17:53Z
-version: 12
-branch: t0426-refund-method-gate
+version: 13
+branch: t0538-document-generator-integrity
 ---
 
 https\://system.yahire.com/contracts/manual-refund?quoteOrContractNumber=C090850 ben chose stripe and it refunded by BACS anyway
