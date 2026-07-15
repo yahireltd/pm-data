@@ -4,7 +4,7 @@ title: "Customer Portal (yasite / yahirenew): login, dashboard, multi-user accou
 type: feature
 state: done
 created: 2026-07-07T09:13:17Z
-updated: 2026-07-13T10:24:07Z
+updated: 2026-07-15T11:16:30Z
 project: yahire-website
 section: null
 parent: null
@@ -113,9 +113,10 @@ labels:
   - yahirenew
   - auth
 attention: null
-version: 33
+version: 34
 surface: yahire-website
 department: Sales
+milestone: MS-001
 ---
 
 ## Goal
