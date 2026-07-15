@@ -4,7 +4,7 @@ slug: it-meeting
 title: IT Meeting
 state: scheduled
 created: 2026-07-15T10:45:32Z
-updated: 2026-07-15T11:33:35Z
+updated: 2026-07-15T11:44:50Z
 scheduled_at: 2026-07-15T11:00:00Z
 duration_minutes: 30
 location: IT Office
@@ -79,7 +79,11 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: other
-version: 25
+version: 27
+recurrence:
+  unit: week
+  interval: 1
+next: M-011
 ---
 
 # IT Meeting
