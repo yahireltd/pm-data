@@ -2,9 +2,9 @@
 id: T-0593
 title: "Mobile priority surfaces: ticket view, meeting view, top menu"
 type: bug
-state: review
+state: done
 created: 2026-07-15T14:37:56Z
-updated: 2026-07-15T15:00:06Z
+updated: 2026-07-15T15:30:00Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,10 +18,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Ticket page on a phone: one readable column, meta rail stacked below content full-width, no horizontal scroll, no one-word-per-line"
-  - "Meeting page on a phone: the header controls (state/kind/repeats + action buttons) wrap instead of overflowing; content stacks (already single-column)"
-  - "Top menu on a phone: all workflow items visible WITHOUT sideways scrolling (icon + count badges, labels return on wider screens)"
-  - Desktop (lg+) unchanged on all three surfaces
+  - "[x] Ticket page on a phone: one readable column, meta rail stacked below content full-width, no horizontal scroll, no one-word-per-line"
+  - "[x] Meeting page on a phone: the header controls (state/kind/repeats + action buttons) wrap instead of overflowing; content stacks (already single-column)"
+  - "[x] Top menu on a phone: all workflow items visible WITHOUT sideways scrolling (icon + count badges, labels return on wider screens)"
+  - "[x] Desktop (lg+) unchanged on all three surfaces"
 out_of_scope: []
 code_anchors:
   - path: web/app/tickets/[id]/page.tsx
@@ -46,11 +46,8 @@ labels:
   - ux
   - mobile
   - dogfood-finding
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-15T15:00:06Z
-version: 6
+attention: null
+version: 11
 ---
 
 ## Problem
@@ -64,3 +61,9 @@ Stack below lg: container `flex-col lg:flex-row`; the rail becomes full-width be
 ## Conversation
 
 **2026-07-15 14:43 claude-code:** Run run-20260715-1438 completed — The three screens you use most from a phone now fit a phone. The ticket page was the worst: its layout reserved a fixed 320-pixel side panel no matter how small the screen, leaving the actual ticket about 70 pixels — the one-word-per-line smear in your screenshot. On phones the side panel (assignee, files, reporter, project…) now sits below the content at full width, and the page reads as one clean column; on a desktop nothing changes. The meeting page's header — the row of state/kind/repeat selectors and action buttons — now wraps onto extra lines instead of spilling off-screen. And the top menu no longer hides most destinations behind a sideways scrollbar: on phones each item shows as its coloured icon with its red count badge (labels come back on wider screens), so all seven fit at once. If we'd left these, phone use would stay limited to the meeting-record trick. Benefit: reviewing tickets and running meetings from your phone is now genuinely workable.
+
+---
+
+**2026-07-15 15:30 — you**
+
+Done

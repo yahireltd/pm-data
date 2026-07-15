@@ -2,9 +2,9 @@
 id: T-0590
 title: "Mobile-friendly shell: sidebar drawer + compact top bar (record meetings from phone/tablet)"
 type: feature
-state: review
+state: done
 created: 2026-07-15T14:11:01Z
-updated: 2026-07-15T15:23:41Z
+updated: 2026-07-15T15:24:09Z
 project: pm-tool-self
 section: null
 parent: null
@@ -22,7 +22,7 @@ acceptance_criteria:
   - "[x] Desktop (lg+) layout is pixel-identical to today"
   - "[x] The top bar fits a phone: hamburger + compact actions, no horizontal page overflow"
   - "[x] A meeting page is usable on a phone: record button reachable, attachments/outcomes readable, no layout breakage"
-  - Recording works from a mobile browser (iOS Safari / Android Chrome) end to end
+  - "[x] Recording works from a mobile browser (iOS Safari / Android Chrome) end to end"
 out_of_scope: []
 code_anchors:
   - path: web/app/_components/AppShell.tsx
@@ -50,11 +50,8 @@ agent_runs:
 labels:
   - ux
   - mobile
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-15T14:14:59Z
-version: 8
+attention: null
+version: 11
 ---
 
 ## Problem
@@ -72,3 +69,9 @@ Phase 2 (separate ticket): the wide desktop surfaces — tickets table, kanban, 
 ## Conversation
 
 **2026-07-15 14:14 claude-code:** Run run-20260715-1411 completed — The tool now works on a phone or tablet — which matters because the new Record button is most useful on the device you carry into the meeting. The problem was structural: the side menu was a fixed column that ate three-quarters of a phone's screen with no way to hide it. Now, on small screens the menu tucks away behind a ☰ button in the top bar and slides in over the page when you need it (tapping outside, pressing Escape, or navigating closes it); on a desktop nothing changes at all. The top bar also compacts on phones — the New-ticket button becomes icon-only and your name hides at the narrowest widths so nothing overflows. With the shell fixed, the meeting page (already single-column-friendly) is fully usable on mobile: open the meeting, tap Record, stop, and the recording attaches — then the Mac worker picks it up as usual. The remaining desktop-shaped screens (tickets table, kanban board, phases planner, settings tables) are deliberately a separate phase-2 ticket (T-0591). If we did nothing, in-the-room recording would mean carrying a laptop. Benefit: the record-a-meeting flow works from the device in your pocket.
+
+---
+
+**2026-07-15 15:24 — you**
+
+done and tested

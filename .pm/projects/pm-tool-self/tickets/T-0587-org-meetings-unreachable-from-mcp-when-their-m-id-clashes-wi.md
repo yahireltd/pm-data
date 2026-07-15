@@ -2,9 +2,9 @@
 id: T-0587
 title: Org meetings unreachable from MCP when their M-id clashes with a project meeting — add 'org' scope sentinel
 type: bug
-state: review
+state: done
 created: 2026-07-15T12:52:48Z
-updated: 2026-07-15T12:54:15Z
+updated: 2026-07-15T15:26:04Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,9 +18,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - pm_record_outcome / pm_get_meeting / pm_update_meeting_state / pm_delete_meeting accept project="org" and resolve the org-bucket meeting only
-  - The id-clash error message tells the caller to use "org" for the org-wide meeting
-  - Project-slug and no-scope behaviour unchanged (clash still throws rather than guessing)
+  - '[x] pm_record_outcome / pm_get_meeting / pm_update_meeting_state / pm_delete_meeting accept project="org" and resolve the org-bucket meeting only'
+  - '[x] The id-clash error message tells the caller to use "org" for the org-wide meeting'
+  - "[x] Project-slug and no-scope behaviour unchanged (clash still throws rather than guessing)"
 out_of_scope: []
 code_anchors:
   - path: mcp-server/src/lib/paths.ts
@@ -46,11 +46,8 @@ agent_runs:
 labels:
   - mcp
   - dogfood-finding
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-15T12:54:15Z
-version: 4
+attention: null
+version: 9
 ---
 
 ## Problem
@@ -64,3 +61,9 @@ Trying to record the Ben→Rob call outcomes on the GLOBAL weekly meeting M-010 
 ## Conversation
 
 **2026-07-15 12:54 claude-code:** Run run-20260715-1253 completed — Agents can now reach global (org-level) meetings even when their id number is shared with a project meeting. Trying to record the Ben→Rob call outcomes on the global weekly meeting M-010 failed: another project also has an M-010, the safety check that refuses to guess between them kicked in (correctly), but there was no way to say "I mean the global one" — so ANY global meeting with a duplicated number was simply unreachable for agents, on every meeting operation (read, record outcome, change state, delete). The fix: passing "org" as the project now targets the global bucket precisely, the error message tells you to do exactly that, and the tools' documentation says so. The website was never affected. If we'd left it, agents would stay locked out of exactly the meetings that matter most — the recurring global ones like the weekly M-010. Benefit: the weekly-meeting workflow (record outcomes, mark held, schedule next) fully works for agents.
+
+---
+
+**2026-07-15 15:26 — you**
+
+done tool could find the meeting after fix
