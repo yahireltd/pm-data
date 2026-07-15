@@ -2,16 +2,16 @@
 id: T-0585
 title: Look Into whisper.cpp for meeting and call transcripts.
 type: feature
-state: inbox
+state: triaged
 priority: p2
 created: 2026-07-15T12:04:36Z
-updated: 2026-07-15T12:04:36Z
-project: null
+updated: 2026-07-15T14:46:41Z
+project: pm-tool-self
 section: null
 parent: null
 milestone: null
 children: []
-order: 21504
+order: 121856
 reporter: null
 assignee: null
 acceptance_criteria: []
@@ -25,7 +25,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
