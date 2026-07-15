@@ -4,7 +4,7 @@ title: "Quote Builder: automatic transport-cost discounts & surcharges (by compa
 type: feature
 state: triaged
 created: 2026-07-13T10:38:26Z
-updated: 2026-07-13T10:38:26Z
+updated: 2026-07-15T10:22:01Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -32,7 +32,8 @@ code_anchors:
     note: Quote Builder actions / transport cost handling — apply the company + venue adjustment logic
   - path: ya-hire/backend/controllers/VenueDbController.php
     note: Venue Database — where a per-venue transport adjustment would be configured and read from
-relates: []
+relates:
+  - T-0470
 blocks: []
 blocked_by: []
 duplicates: []
@@ -46,7 +47,8 @@ labels:
   - account-management
   - sales
 attention: null
-version: 1
+version: 4
+milestone: MS-001
 ---
 
 ## Problem
@@ -75,3 +77,9 @@ The requester notes the venue adjustment "only applies if the venue is assigned"
 ## Notes
 - Likely needs a short design/scoping pass first (data model for the adjustments, the stacking rule, and the two config UIs) before build — acceptance criteria below are a first draft; confirm the open questions with the requester (Definition of Ready).
 - Keep existing behaviour unchanged for accounts/venues with nothing configured.
+
+## Conversation
+
+**2026-07-15 10:18 claude-code:** **From the Sales Phase 1 prep doc (main-pages review):** Nathan raised **customer discounts on delivery prices** — i.e. a customer-level discount applied to delivery/transport charges.
+
+This is the **customer-level angle of the same delivery-pricing-discount feature** this ticket already covers (company-profile + venue transport adjustments). Worth designing together, with a single delivery-charge adjustment that can be sourced from: **venue**, **company profile**, and/or **specific customer**. Flag to pick up when this ticket is scoped.

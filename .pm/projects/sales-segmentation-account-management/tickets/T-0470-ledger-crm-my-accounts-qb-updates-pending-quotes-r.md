@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-23T11:51:35Z
-updated: 2026-07-15T07:36:59Z
+updated: 2026-07-15T10:18:48Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -18,7 +18,8 @@ acceptance_criteria:
   - Quick updates to bring things up to speed (not a full overhaul Since the Processes are still developing)
 out_of_scope: []
 code_anchors: []
-relates: []
+relates:
+  - T-0551
 blocks: []
 blocked_by: []
 duplicates: []
@@ -26,7 +27,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
