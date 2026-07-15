@@ -2,9 +2,9 @@
 id: T-0543
 title: Daily posting cron go-live & accounts handover plan
 type: chore
-state: review
+state: done
 created: 2026-07-10T21:28:58Z
-updated: 2026-07-15T16:05:26Z
+updated: 2026-07-15T17:49:28Z
 project: accounts-integrity
 section: null
 parent: null
@@ -54,12 +54,16 @@ agent_runs:
           Extracted from the handover for the runbook: the 3 linked-email data fixes (5341 double-@, 13658 trailing dot, 59454 phone-as-email), the census tripwire query, the exact cron lines. Next: Austin executes the live steps (pull, migrate, login+verify tenant, SQL fixes, supervised canary), then cron + parallel week per the staged plan.
       - at: 2026-07-13T13:30:49Z
         note: "Backlog-fill feature added and rehearsed. xero-post/daily now takes --date / --from/--to (validated, 40-day cap, circuit breaker between windows; cron default unchanged) — commit 162c4688, on master + t0538 + test box. Demo Company was found reset (stale token 403s on all 12 posting steps — which incidentally proved graceful total-API-failure behaviour: clean completion, verbatim logging, issue digest). Full ritual re-run: Austin reset+login+bank accounts; API-created revenue 201/202; shortcode param → !!6J3Q; prep-sandbox blanked dead-org GUIDs. REHEARSAL: real posting run via --date=2026-06-20 against the fresh org — 21/21 window docs posted, 13 customers, 8 payments, 10 deposit allocations, zero duplicates (census empty), zero stranded attempts, all-clear digest delivered. Live runbook unchanged and ready: master at 162c4688; Austin's canary becomes --from/--to over the paused dates."
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - xero
   - release
   - accounts-handover
 attention: null
-version: 13
+version: 15
 ---
 
 ## Problem
@@ -93,3 +97,9 @@ The daily command posts documents at **T-7/T-8 day windows** by default. Confirm
 ## Also
 - Re-enable the sandbox-refresh cron on live after the T-0534 merge (it was paused to freeze the test snapshot).
 - After a clean parallel week, record the outcome on MS-002 and the project.
+
+## Conversation
+
+**2026-07-15 17:49 — you**
+
+Done
