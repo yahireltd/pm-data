@@ -4,7 +4,7 @@ slug: sales-phase-1-nathan-prep-review-pages-menu-venue-special-ca
 title: Sales Phase 1 — Nathan prep review (pages, menu, venue, special captures, email templates)
 state: scheduled
 created: 2026-07-15T07:41:07Z
-updated: 2026-07-15T07:41:07Z
+updated: 2026-07-15T09:51:51Z
 scheduled_at: 2026-07-16T09:00:00
 duration_minutes: 60
 location: TBD
@@ -44,12 +44,31 @@ agenda:
   - topic: Email templates — template manager overhaul + personalisation + ownership
     ticket: T-0575
 outcomes: []
-attachments: []
+attachments:
+  - key: meetings/M-010/1784109063870-management-page-usage-report.html
+    filename: management-page-usage-report.html
+    content_type: text/html;charset=utf-8
+    size: 20147
+    uploaded_by: zsolt@yahire.com
+    uploaded_at: 2026-07-15T09:51:05Z
+  - key: meetings/M-010/1784109082608-rbac-menu.csv
+    filename: rbac-menu.csv
+    content_type: text/csv
+    size: 20590
+    uploaded_by: zsolt@yahire.com
+    uploaded_at: 2026-07-15T09:51:23Z
+  - key: meetings/M-010/1784109094975-sales-page-usage-report.html
+    filename: sales-page-usage-report.html
+    content_type: text/html;charset=utf-8
+    size: 15230
+    uploaded_by: zsolt@yahire.com
+    uploaded_at: 2026-07-15T09:51:36Z
 calendar:
-  graph_event_id: null
+  graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdklJRIAAA=
   ics_url: null
+  organizer_mailbox: support@yahire.com
 kind: scoping
-version: 1
+version: 5
 ---
 
 **Purpose:** work through the "Question prep for Nathan — sales phase 1" doc to gather the info needed to scope Phase 1 (PH-001 / MS-001).
