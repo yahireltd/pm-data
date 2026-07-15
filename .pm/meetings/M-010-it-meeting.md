@@ -4,7 +4,7 @@ slug: it-meeting
 title: IT Meeting
 state: scheduled
 created: 2026-07-15T10:45:32Z
-updated: 2026-07-15T13:27:02Z
+updated: 2026-07-15T14:21:08Z
 scheduled_at: 2026-07-15T11:00:00Z
 duration_minutes: 30
 location: IT Office
@@ -87,13 +87,24 @@ outcomes:
       name: Phil
   - description: "Flagged: testing is the final ~10% blocking implementation; the project has already been deferred repeatedly (from Ben→Rob call, 15 Jul)"
     recorded_at: 2026-07-15T13:27:02Z
-attachments: []
+  - description: "Meeting-recording pipeline verified end to end: recorded in the browser on the meeting, transcribed on-device, transcript on the meeting. Noted during the test: the tool needs to be more mobile-friendly — shell fix shipped (T-0590), wide surfaces ticketed (T-0591)."
+    recorded_at: 2026-07-15T14:21:08Z
+    owner:
+      kind: human
+      name: Austin
+attachments:
+  - key: meetings/M-010/1784124777006-meeting-recording-2026-07-15-1412.m4a
+    filename: meeting-recording-2026-07-15-1412.m4a
+    content_type: audio/mp4
+    size: 404523
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-07-15T14:12:58Z
 calendar:
   graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdklJRJAAA=
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: other
-version: 32
+version: 35
 recurrence:
   unit: week
   interval: 1
@@ -109,3 +120,12 @@ _Agenda is in frontmatter._
 ## Minutes
 
 _Filled during/after._
+
+## Transcript — meeting-recording-2026-07-15-1412.m4a
+
+_Transcribed 2026-07-15T14:20:48Z on-device._
+
+I'm just trying to test the recording of the meeting.
+ So I'll put a button.
+ I need to make the mobile more friendly,
+ but recording the meeting now, stop.
