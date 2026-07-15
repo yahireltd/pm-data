@@ -4,7 +4,7 @@ title: Meeting decision docket — link proposed decisions to agenda items; nag 
 type: feature
 state: triaged
 created: 2026-07-03T00:30:29Z
-updated: 2026-07-03T00:30:29Z
+updated: 2026-07-15T15:10:41Z
 project: pm-tool-self
 section: null
 parent: null
@@ -27,7 +27,8 @@ out_of_scope:
   - Calendar (Google/Outlook) integration
   - Auto-scheduling decisions into future meetings
 code_anchors: []
-relates: []
+relates:
+  - T-0592
 blocks: []
 blocked_by: []
 duplicates: []
@@ -39,7 +40,7 @@ labels:
   - decisions
   - governance
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
