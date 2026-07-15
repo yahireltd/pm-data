@@ -5,11 +5,11 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-07-01T12:55:18Z
-updated: 2026-07-01T12:55:18Z
+updated: 2026-07-15T10:28:28Z
 project: sales-segmentation-account-management
 section: null
 parent: null
-milestone: MS-001
+milestone: MS-012
 children: []
 order: 19456
 reporter: null
@@ -26,7 +26,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
