@@ -6,7 +6,7 @@ project: pm-tool-self
 state: in_progress
 order: 32768
 created: 2026-06-18T12:46:36Z
-updated: 2026-06-22T11:54:55Z
+updated: 2026-07-15T11:03:09Z
 committed_items:
   - T-0421
   - T-0424
@@ -16,6 +16,10 @@ committed_items:
   - T-0362
   - T-0446
   - T-0447
+  - T-0576
+  - T-0577
+  - T-0578
+  - T-0579
 goal: Comlete the tickets that zsolt inputted
 velocity_history:
   - sprint: SPR-029
@@ -28,7 +32,7 @@ capacity:
   total: 5
   unit: tickets
 velocity_committed: 5
-version: 14
+version: 18
 ---
 
 # SPR-032: Zsolt Features
