@@ -4,7 +4,7 @@ slug: it-meeting
 title: IT Meeting
 state: scheduled
 created: 2026-07-15T10:45:32Z
-updated: 2026-07-15T12:01:27Z
+updated: 2026-07-15T13:27:02Z
 scheduled_at: 2026-07-15T11:00:00Z
 duration_minutes: 30
 location: IT Office
@@ -73,14 +73,27 @@ agenda:
   - topic: Pizza party for cabinet re-wiring - remove servers & move network drives
   - topic: BL Off 4th-18th Aug
   - topic: Austin Off September 4th (around a week not sure on exact dates yet)
-outcomes: []
+outcomes:
+  - description: Logistics to make a big testing push today, ahead of tomorrow's feedback meeting with Costin (from Ben→Rob call, 15 Jul)
+    recorded_at: 2026-07-15T13:26:43Z
+    owner:
+      kind: human
+      name: Rob
+    due: 2026-07-15
+  - description: Phil continues working through the earlier test notes (minimal progress so far — from Ben→Rob call, 15 Jul)
+    recorded_at: 2026-07-15T13:26:57Z
+    owner:
+      kind: human
+      name: Phil
+  - description: "Flagged: testing is the final ~10% blocking implementation; the project has already been deferred repeatedly (from Ben→Rob call, 15 Jul)"
+    recorded_at: 2026-07-15T13:27:02Z
 attachments: []
 calendar:
   graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdklJRJAAA=
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: other
-version: 29
+version: 32
 recurrence:
   unit: week
   interval: 1
