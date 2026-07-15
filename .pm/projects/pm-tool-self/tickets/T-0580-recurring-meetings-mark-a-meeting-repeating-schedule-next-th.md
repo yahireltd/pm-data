@@ -2,9 +2,9 @@
 id: T-0580
 title: "Recurring meetings: mark a meeting repeating + schedule-next that copies agenda & stakeholders (not outcomes)"
 type: feature
-state: review
+state: done
 created: 2026-07-15T11:13:06Z
-updated: 2026-07-15T15:36:13Z
+updated: 2026-07-15T15:50:47Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,11 +18,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - A meeting can be marked repeating (weekly / every 2 weeks / monthly) from its header, and un-marked
-  - "A repeating meeting offers 'Schedule next meeting': creates a NEW meeting one interval later copying agenda, stakeholders, reminders config and setup — but NOT outcomes, minutes, or attachments"
-  - Each occurrence records its own outcomes/minutes independently
-  - "The chain is navigable: the source shows a link to the next occurrence (and the new one links back); schedule-next can't create duplicates"
-  - Works for org-level meetings (M-010) and project meetings alike
+  - "[x] A meeting can be marked repeating (weekly / every 2 weeks / monthly) from its header, and un-marked"
+  - "[x] A repeating meeting offers 'Schedule next meeting': creates a NEW meeting one interval later copying agenda, stakeholders, reminders config and setup — but NOT outcomes, minutes, or attachments"
+  - "[x] Each occurrence records its own outcomes/minutes independently"
+  - "[x] The chain is navigable: the source shows a link to the next occurrence (and the new one links back); schedule-next can't create duplicates"
+  - "[x] Works for org-level meetings (M-010) and project meetings alike"
 out_of_scope: []
 code_anchors:
   - path: web/app/_actions/meetings.ts
@@ -49,11 +49,8 @@ agent_runs:
       status_note: none-needed
 labels:
   - meetings
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-15T15:26:17Z
-version: 7
+attention: null
+version: 14
 ---
 
 ## Problem
@@ -73,3 +70,9 @@ M-010 is a weekly global meeting, but the tool has no recurrence: each week eith
 **2026-07-15 15:26 claude-code:** Follow-up fixes from Austin's first live use (commit e2f150d). What went wrong: clicking "Schedule next" gave no visual feedback, so a second click raced the first — M-011 AND M-012 were both created; deleting them left M-010 pointing at a ghost next-occurrence, which blocked scheduling entirely. Fixed three ways: the button now shows "Scheduling…" and locks while working; the server double-checks after creating and rolls back the loser if two requests race; and a dead next-link self-heals — plus deletes now tidy the chain in both directions so ghosts can't happen again. After the next deploy, one click on M-010 schedules next week normally.
 
 **2026-07-15 15:36 claude-code:** Second follow-up (commit 285413f): after deploying the first round, M-010 still showed the dead "Next: M-011" link. Cause: the self-repair ran inside the Schedule action — but the page hides the Schedule button whenever a next-link exists, so with a dead link there was nothing to click and the repair could never run. The meeting page now checks that the linked next/previous meeting actually EXISTS before showing it: a dead link is treated as "not scheduled yet", the Schedule button comes back, and the first click repairs the stored link and schedules normally. Re-test after deploying: open M-010 — the "Next: M-011" text should be GONE and "Schedule next meeting" back; click it once → next week's meeting is created and linked.
+
+---
+
+**2026-07-15 15:50 — you**
+
+DONE
