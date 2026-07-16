@@ -4,7 +4,7 @@ slug: accounts-integrity-programme-release-approval-posting-handov
 title: Accounts Integrity Programme — release approval & posting handover
 state: scheduled
 created: 2026-07-10T22:41:30Z
-updated: 2026-07-16T14:02:02Z
+updated: 2026-07-16T14:02:28Z
 scheduled_at: 2026-07-16T14:30:00Z
 duration_minutes: 50
 location: TBD (Austin to schedule with accounts + director; Fran needed for item 7)
@@ -111,6 +111,24 @@ outcomes:
     owner:
       kind: human
       name: Effie & Jhuztine
+  - description: "NOT RESOLVED — carried forward: website sequencing for Release 2 (customer sites still generate invoices/credits with old logic on online payment — hold vs fast-follow monitored via the health page) was never discussed. Needs a decision before/at the go/no-go."
+    recorded_at: 2026-07-16T14:02:18Z
+    owner:
+      kind: human
+      name: Austin
+    due: 2026-07-24
+  - description: "NOT RESOLVED — carried forward: the historical clean-up approvals were not walked through item by item (£180 ARC compensation correction + reissue; the £3,412 C089676 pair void; the five 2024 credit items leave-or-fix). Needs explicit accounts sign-off — only the £604 case was settled (Zsolt test contract)."
+    recorded_at: 2026-07-16T14:02:22Z
+    owner:
+      kind: human
+      name: Effie & Jhuztine
+  - description: 'NOT RESOLVED — carried forward: the quote-builder pricing session with Zsolt is not scheduled (manual-price wipes on date/qty changes, bundle double-charging, the 1%-VAT discount bug — Austin: "I need to have a chat with Zsolt"). Interim staff awareness stands: manual prices still get wiped — re-apply them.'
+    recorded_at: 2026-07-16T14:02:26Z
+    owner:
+      kind: human
+      name: Austin
+  - description: "NOT RESOLVED — carried forward: no NAMED digest owner in accounts (currently \"both\"), and the 30-day milestone review isn't scheduled. Success measure was informally agreed as \"accounts need less of Austin's time / data-fix requests trend to zero\" — worth pinning at the review."
+    recorded_at: 2026-07-16T14:02:28Z
 attachments:
   - key: meetings/M-003/1784209290200-meeting-recording-2026-07-16-1341.m4a
     filename: meeting-recording-2026-07-16-1341.m4a
@@ -128,7 +146,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: progress
-version: 20
+version: 24
 ---
 
 \
