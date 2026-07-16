@@ -2,9 +2,9 @@
 id: M-003
 slug: accounts-integrity-programme-release-approval-posting-handov
 title: Accounts Integrity Programme — release approval & posting handover
-state: scheduled
+state: held
 created: 2026-07-10T22:41:30Z
-updated: 2026-07-16T14:02:28Z
+updated: 2026-07-16T15:44:28Z
 scheduled_at: 2026-07-16T14:30:00Z
 duration_minutes: 50
 location: TBD (Austin to schedule with accounts + director; Fran needed for item 7)
@@ -146,7 +146,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: progress
-version: 24
+version: 25
 ---
 
 \
