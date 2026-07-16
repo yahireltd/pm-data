@@ -60,6 +60,7 @@ id_counters:
       sprint: 1
       phase: 5
       decision: 3
+      status_note: 1
     yahire-website:
       phase: 1
       milestone: 1
