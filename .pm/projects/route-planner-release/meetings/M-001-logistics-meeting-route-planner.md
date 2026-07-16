@@ -4,7 +4,7 @@ slug: logistics-meeting-route-planner
 title: Logistics Meeting Route Planner
 state: held
 created: 2026-07-08T12:16:32Z
-updated: 2026-07-16T17:08:33Z
+updated: 2026-07-16T17:18:29Z
 scheduled_at: 2026-07-16T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -96,13 +96,14 @@ outcomes:
     follow_up_ticket: T-0603
   - description: When finalising a sketch, the weight and volume of the run need a calculate (contracts show the accrued weight and volume at the point of deliver or collect of that contract, the run should show the start, end and max weight and volume - they report this doesnt currently show)
     recorded_at: 2026-07-16T17:08:33Z
+    follow_up_ticket: T-0604
 attachments: []
 calendar:
   graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdbLqJ6AAA=
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 32
+version: 33
 reminders:
   - minutes_before: 1440
     channels:
