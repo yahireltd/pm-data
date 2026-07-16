@@ -2,9 +2,9 @@
 id: T-0595
 title: "Nightly sandbox refresh: copy user.user live → test so userIDs stay in sync"
 type: chore
-state: review
+state: done
 created: 2026-07-15T17:59:59Z
-updated: 2026-07-15T18:00:54Z
+updated: 2026-07-16T13:09:41Z
 project: yasystem
 section: null
 parent: null
@@ -18,10 +18,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - After the nightly refresh, user.user on test matches live (same COUNT(*) and MAX(userID))
-  - Rest of the test-side `user` db (auth_*, django_*, user_types) is NOT overwritten by the refresh
-  - Refresh-plan confirmation output lists the extra tables being copied
-  - A failed table copy fails the run with a non-zero exit (no silent partial copy)
+  - "[x] After the nightly refresh, user.user on test matches live (same COUNT(*) and MAX(userID))"
+  - "[x] Rest of the test-side `user` db (auth_*, django_*, user_types) is NOT overwritten by the refresh"
+  - "[x] Refresh-plan confirmation output lists the extra tables being copied"
+  - "[x] A failed table copy fails the run with a non-zero exit (no silent partial copy)"
 out_of_scope: []
 code_anchors:
   - path: console/controllers/SandboxController.php
@@ -57,11 +57,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-15T18:00:54Z
-version: 4
+attention: null
+version: 10
 ---
 
 ## Problem
@@ -80,3 +77,9 @@ Notes:
 ## Conversation
 
 **2026-07-15 18:00 claude-code:** Run run-20260715-1800 completed — Every night the test system is refreshed with a copy of the live data, but the list of user accounts lives in a separate database that the refresh never touched. Whenever a new user was added on live, the test system ended up with records pointing at users it didn't know about, causing intermittent errors on test. We extended the nightly refresh so it also copies the user list from live to test, keeping the two in step automatically. If we did nothing, every new starter added on live would keep producing these mismatches on test until someone copied the users across by hand. Only the user list is copied — the test system's own logins/sessions in that database are left alone. Austin is committing and deploying the change himself.
+
+---
+
+**2026-07-16 13:09 — you**
+
+Done and ran last night ok

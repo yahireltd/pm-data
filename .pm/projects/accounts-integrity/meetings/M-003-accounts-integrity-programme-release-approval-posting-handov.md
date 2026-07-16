@@ -4,7 +4,7 @@ slug: accounts-integrity-programme-release-approval-posting-handov
 title: Accounts Integrity Programme — release approval & posting handover
 state: scheduled
 created: 2026-07-10T22:41:30Z
-updated: 2026-07-13T17:20:54Z
+updated: 2026-07-16T13:07:57Z
 scheduled_at: 2026-07-16T14:30:00Z
 duration_minutes: 50
 location: TBD (Austin to schedule with accounts + director; Fran needed for item 7)
@@ -14,7 +14,34 @@ milestone: MS-002
 organizer:
   kind: human
   name: Austin
-stakeholders: []
+stakeholders:
+  - name: Effie
+    channel: email
+    contact: effie@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-16T13:07:00Z
+    role: Accounts SME
+  - name: Jhuztine
+    channel: email
+    contact: jhuztine@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-16T13:07:39Z
+    role: Accounts SME
+  - name: Austin
+    channel: email
+    contact: austin@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-16T13:07:57Z
+    role: DEV
 agenda:
   - topic: "Approve the staged release plan (posting first → trial run → safety week → handover) AND decide website sequencing: the customer sites generate invoices/credits on online payment with old logic — hold Release 2 for them, or fast-follow monitored via the health page (rec: fast-follow)"
     ticket: T-0534
@@ -45,7 +72,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: progress
-version: 6
+version: 9
 ---
 
 \

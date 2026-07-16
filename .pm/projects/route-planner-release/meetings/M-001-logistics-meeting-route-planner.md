@@ -2,9 +2,9 @@
 id: M-001
 slug: logistics-meeting-route-planner
 title: Logistics Meeting Route Planner
-state: scheduled
+state: held
 created: 2026-07-08T12:16:32Z
-updated: 2026-07-16T12:53:23Z
+updated: 2026-07-16T13:05:38Z
 scheduled_at: 2026-07-16T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -106,7 +106,7 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 23
+version: 24
 reminders:
   - minutes_before: 1440
     channels:
