@@ -4,7 +4,7 @@ slug: logistics-meeting-route-planner
 title: Logistics Meeting Route Planner
 state: scheduled
 created: 2026-07-08T12:16:32Z
-updated: 2026-07-08T12:25:01Z
+updated: 2026-07-16T11:51:27Z
 scheduled_at: 2026-07-16T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -54,8 +54,55 @@ stakeholders:
       - outcome_recorded
       - meeting_held
 agenda:
-  - topic: Review the feedback from the logistics users
-  - topic: Decide if they are confident enough to start using it on live or are further development or bug fixes are needed
+  - topic: >-
+      Recap — what changed since the test checklist was written: far jobs no
+      longer dropped (was 7/day), drive times recalibrated against Google,
+      breaks fixed and now visible on the board, off-road + hire-vehicle
+      buttons
+    duration_min: 5
+    ticket: T-0527
+  - topic: >-
+      Test results — workflow basics: build on a clean date, push, appears in
+      run planner; reset & re-solve with no lost jobs; locked routes hold
+      through re-solve
+    duration_min: 10
+  - topic: >-
+      Test results — on-the-day replanning: loaded runs auto-lock in sketch,
+      re-solve preserves locked & loading work, push updates the run planner
+      without touching loaded work
+    duration_min: 8
+  - topic: >-
+      Test results — concurrent editing: second user blocked with name shown,
+      run planner blocked while sketch open, 60s stale-session release,
+      locks hold through the auto-poll
+    duration_min: 5
+  - topic: >-
+      Test results — safety nets: pick log survives a vehicle move,
+      loaded-on-different-vehicle warning at finalize, overlapping locked
+      shift warning, manual/item-level splits preserved
+    duration_min: 5
+    ticket: T-0505
+  - topic: >-
+      Drive-time accuracy: where do the plans run early/late now? Walk the
+      Google-vs-solver rows on real runs; do the far runs (Coventry / New
+      Forest) look right since the 8 Jul recalibration? Decide on the
+      report-incorrect-drive-time button
+    duration_min: 8
+  - topic: >-
+      Bugs and niggles not covered above — incl. contracts skipped for bad
+      postcodes (e.g. the W14 6DS typo): do we want postcode validation at
+      order entry?
+    duration_min: 5
+  - topic: >-
+      GO / NO-GO — confident to run live? GO: agree start date, first live
+      days, who plans each morning, fallback, week-1 support. NO-GO: written
+      blocking list, each item with an owner and a date, and a re-meet date
+    duration_min: 12
+  - topic: >-
+      Confirm remaining sprint work is still what logistics wants next:
+      half-luton splitting, inactive-runs copy fix, run-status progress bars
+    duration_min: 2
+    ticket: T-0221
 outcomes: []
 attachments: []
 calendar:
@@ -63,7 +110,7 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 14
+version: 15
 reminders:
   - minutes_before: 1440
     channels:
@@ -128,3 +175,16 @@ reminders_sent:
 
 Known issues.\
 \- Drive time multipliers at certain times of day. These will be tweaked once I have some more info on which are wrong. You will probably notice at certain times of day we are on the early / late side – please give a report when you see these  - I may add in an option to report incorrect drive time which will help me build the data.
+
+## Update for the meeting (16 Jul) — shipped since the checklist was written
+
+- **Far jobs are no longer dropped** (T-0524/T-0527): the solver was massively over-estimating long drives and abandoning out-of-town jobs (Coventry, New Forest, Chichester) while vans sat spare. The 10 Jul test day went from 7 dropped jobs to 0.
+- **Drive times recalibrated against Google actuals** (8 Jul): far legs now predict at or slightly over Google — the "early/late at certain times of day" known issue above should be much reduced. Please still flag anything that looks off; every solve now logs solver-vs-Google per leg for the next calibration pass.
+- **Breaks** (T-0530/T-0531/T-0532): long single-run days can take the legal break mid-drive (services stop — shows as a memo on the route); breaks after the final stop and the drive back to depot now SHOW on the board (previously invisible, so route totals looked wrong); the hidden "no breaks before 10:00" rule from February is gone.
+- **Fleet buttons**: off-road (maintenance) and hire-vehicle pool buttons live on the sketch; the off-road list shows which vehicles are already used in today's plan.
+- **Split preservation** (T-0505/T-0506): manual and item-level splits made by logistics survive re-solve and finalize — the safety-net tests above exercise exactly this.
+
+## Go / no-go framework
+
+**GO** means agreeing, in the meeting: start date; which live days go first (suggest quieter days); who runs the plan each morning; the fallback (run planner works unchanged if a sketch is wrong); and how issues get reported in week 1.
+**NO-GO** means a written blocking list — every item gets an owner and a date, and we book the re-meet before leaving the room.
