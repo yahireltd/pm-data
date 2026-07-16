@@ -2,10 +2,10 @@
 id: T-0603
 title: Solver prefers a second shift on the same vehicle over an idle same-class vehicle — price second runs properly
 type: bug
-state: triaged
+state: in_progress
 priority: p1
 created: 2026-07-16T17:04:10Z
-updated: 2026-07-16T17:29:03Z
+updated: 2026-07-16T17:43:48Z
 project: route-planner-release
 section: null
 parent: null
@@ -13,7 +13,9 @@ milestone: null
 children: []
 order: 10240
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - On a day with a spare same-class vehicle, the solver uses the spare instead of a second run on an already-used vehicle (reproduce logistics' 3.5T case)
   - Days that genuinely need multi-shift (more runs than vehicles of the class) still solve — 10 Jul replay stays 0 drops
@@ -30,13 +32,17 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260716-1743
+    model: claude-fable-5
+    started: 2026-07-16T17:43:48Z
+    status: in_progress
 labels:
   - solver
   - route-planner
   - release-blocker
 attention: null
-version: 3
+version: 5
 due: 2026-07-20
 ---
 

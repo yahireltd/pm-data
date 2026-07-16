@@ -2,10 +2,10 @@
 id: T-0604
 title: Finalised runs missing start/end/max weight & volume on the run planner
 type: bug
-state: triaged
+state: ready
 priority: p1
 created: 2026-07-16T17:18:29Z
-updated: 2026-07-16T17:28:41Z
+updated: 2026-07-16T17:49:03Z
 project: route-planner-release
 section: null
 parent: null
@@ -37,7 +37,7 @@ labels:
   - route-planner
   - release-blocker
 attention: null
-version: 3
+version: 4
 due: 2026-07-20
 ---
 
