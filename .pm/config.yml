@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 596
+  ticket: 597
   project: 21
   section: 14
   perProject:

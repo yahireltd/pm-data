@@ -4,7 +4,7 @@ slug: logistics-meeting-route-planner
 title: Logistics Meeting Route Planner
 state: scheduled
 created: 2026-07-08T12:16:32Z
-updated: 2026-07-16T12:41:05Z
+updated: 2026-07-16T12:53:23Z
 scheduled_at: 2026-07-16T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -82,6 +82,12 @@ outcomes:
     recorded_at: 2026-07-16T12:39:13Z
   - description: Nana mentioned the original run planner not respecting the job minutes entered by sales - check this isn’t only when it is split and even if it is when split is this the right behaviour
     recorded_at: 2026-07-16T12:40:28Z
+  - description: Item lists for split jobs - currently doesnt split on the item level until finalise. We should do this before finalise so it isnt confusing - particularly when loading a live plan that was pre-split from logistics
+    recorded_at: 2026-07-16T12:52:02Z
+  - description: Full address of job not visible anywhere on the sketch planner
+    recorded_at: 2026-07-16T12:52:32Z
+  - description: Failed collections to show on the map until they are done. This will allow logistics to see where our routes are passing and potentially add the failed collection onto one
+    recorded_at: 2026-07-16T12:53:23Z
 attachments:
   - key: meetings/M-001/1784203038363-meeting-recording-2026-07-16-1157.m4a
     filename: meeting-recording-2026-07-16-1157.m4a
@@ -100,7 +106,7 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 20
+version: 23
 reminders:
   - minutes_before: 1440
     channels:
