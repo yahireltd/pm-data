@@ -2,9 +2,9 @@
 id: T-0596
 title: Mega-menu filter tile renders dead link when url saved as empty string (not NULL)
 type: bug
-state: triaged
+state: done
 created: 2026-07-16T06:20:17Z
-updated: 2026-07-16T06:20:17Z
+updated: 2026-07-16T06:22:46Z
 project: yahire-website
 section: null
 parent: null
@@ -49,8 +49,12 @@ labels:
   - backend
   - mega-menu
   - filter-images
-attention: null
-version: 1
+attention:
+  needed_by: human
+  reason: Fix is committed (64312db) and live in production. Needs a human to run the verification checklist and close.
+  since: 2026-07-16T06:22:46Z
+version: 5
+defect_status: confirmed
 ---
 
 ## Problem
@@ -85,3 +89,32 @@ Two separate apps must both ship: the `backend` admin (Site Manager) and the `ya
 ## Follow-up (optional)
 
 The `group` field in the same two save actions has the identical `?? null` pattern and could also store `''`. It only affects tile grouping display, not links, so lower priority — worth normalising for consistency.
+
+## Conversation
+
+**2026-07-16 06:22 claude-code:** **Shipped by Zsolt — live and committed.**
+
+Commit: `64312db` "Ignore blank menu URLs". All three fix layers are in the commit and deployed to production:
+- Backend `SiteManagementController.php` — blank/whitespace `url` normalised to `NULL` on save (add + update filter-image actions).
+- Frontend `views/layouts/main.php` — empty/whitespace/`#` url treated as unset, falls back to the category link (both the config-resolution point and the final href guard).
+- Data: `ya_filter_images.url` for the Tall & Poseur row (id 8) reset from `''` to `NULL`.
+
+**Verification checklist for close:**
+1. On the live site, open the Table Hire mega-menu → hover **Tall & Poseur**: status bar shows `/table-hire` (not just the base domain), and clicking navigates/filters rather than reloading the current page.
+2. Confirm its siblings (Dining & Banquet, Coffee & Side) still work as before.
+3. In Site Manager, edit a filter image leaving the URL field blank and save → check `ya_filter_images.url` stores `NULL`, not `''` (test both a new tile and an edit of an existing one).
+4. Spot-check another category's mega-menu to confirm no regression in tiles that use a real configured `url`.
+
+Not yet done (optional follow-up, noted in body): the `group` field has the same `?? null` pattern and can still store `''` — cosmetic only.
+
+---
+
+**2026-07-16 06:22 — you**
+
+fixed the issue, tested
+
+---
+
+**2026-07-16 06:22 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.
