@@ -4,7 +4,7 @@ slug: logistics-meeting-route-planner
 title: Logistics Meeting Route Planner
 state: scheduled
 created: 2026-07-08T12:16:32Z
-updated: 2026-07-16T12:38:05Z
+updated: 2026-07-16T12:41:05Z
 scheduled_at: 2026-07-16T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -78,6 +78,10 @@ agenda:
 outcomes:
   - description: Decided to go live monday need to have a clear rollout plan with safety in mind
     recorded_at: 2026-07-16T12:38:05Z
+  - description: Logistics to send me some email templates and how and where they should be triggered
+    recorded_at: 2026-07-16T12:39:13Z
+  - description: Nana mentioned the original run planner not respecting the job minutes entered by sales - check this isn’t only when it is split and even if it is when split is this the right behaviour
+    recorded_at: 2026-07-16T12:40:28Z
 attachments:
   - key: meetings/M-001/1784203038363-meeting-recording-2026-07-16-1157.m4a
     filename: meeting-recording-2026-07-16-1157.m4a
@@ -85,12 +89,18 @@ attachments:
     size: 903486
     uploaded_by: austin@yahire.com
     uploaded_at: 2026-07-16T11:57:19Z
+  - key: meetings/M-001/1784205663859-meeting-recording-2026-07-16-1241.m4a
+    filename: meeting-recording-2026-07-16-1241.m4a
+    content_type: audio/mp4
+    size: 136207
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-07-16T12:41:05Z
 calendar:
   graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdbLqJ6AAA=
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 17
+version: 20
 reminders:
   - minutes_before: 1440
     channels:
