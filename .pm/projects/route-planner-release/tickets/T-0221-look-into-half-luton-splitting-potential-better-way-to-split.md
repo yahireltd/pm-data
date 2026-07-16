@@ -5,7 +5,7 @@ type: feature
 state: in_progress
 priority: p2
 created: 2026-06-04T14:04:19Z
-updated: 2026-07-08T12:11:09Z
+updated: 2026-07-16T17:30:19Z
 project: route-planner-release
 section: null
 parent: null
@@ -27,7 +27,7 @@ agent_runs: []
 labels: []
 attention: null
 branch: PickingSketchSalesDashFriday
-version: 6
+version: 7
 ---
 
 ## Problem
@@ -35,3 +35,7 @@ version: 6
 _Suggested feature from meeting M-003._
 
 look into half luton splitting - potential better way to split if they get re-combined anyway on finalise.
+
+## Conversation
+
+**2026-07-16 17:30 claude-code:** **Decision from the M-001 UAT meeting (16 Jul, via Rob):** enable half-luton splitting as a selectable option in the sketch planner's Split dropdown — the DEFAULT stays full_luton. This is in scope for Monday's release. So the remaining work here is: (1) confirm the solver/split pipeline handles split_strategy=half_luton end-to-end (the splitter itself has the size table; check finalise recombination behaves), (2) add "Half Luton" to the Split dropdown on sketch + run planner solve controls, default unchanged.
