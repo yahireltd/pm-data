@@ -2,10 +2,10 @@
 id: T-0603
 title: Solver prefers a second shift on the same vehicle over an idle same-class vehicle — price second runs properly
 type: bug
-state: in_progress
+state: review
 priority: p1
 created: 2026-07-16T17:04:10Z
-updated: 2026-07-16T17:43:48Z
+updated: 2026-07-16T17:57:44Z
 project: route-planner-release
 section: null
 parent: null
@@ -36,13 +36,29 @@ agent_runs:
   - id: run-20260716-1743
     model: claude-fable-5
     started: 2026-07-16T17:43:48Z
-    status: in_progress
+    status: completed
+    ended: 2026-07-16T17:57:44Z
+    summary: 'Fixed the solver double-running vehicles while identical ones sat idle. Root cause: a second run on the same physical vehicle cost the solver exactly the same as using an idle vehicle (staff and fuel are identical either way), so it picked arbitrarily — and logistics watched a 3.5T go out twice with its twin parked. Two changes on the solver: a £100 "turnaround" charge on every second/third run per vehicle (pricing the rushed warehouse unload-reload a double-run forces), and a deterministic tidy-up pass after the optimiser that moves any remaining second-run onto the cheapest idle vehicle that can take it. Verified on the 10 July replay: second-runs went from 5 to ZERO (16 routes on 16 distinct vehicles), no jobs dropped, and the plan actually got £190 cheaper. The charge is far below the drop penalty, so days genuinely needing a vehicle out twice still solve. Deployed to the solver box and synced to the repo.'
+    test_plan: |-
+      1. Re-solve a busy day on the sandbox sketch: check the board for the same registration appearing on two routes — should now only happen when every vehicle of every usable class is already out.
+      2. Reproduce logistics' case: a day with spare 3.5Ts — the spare must be used before any 3.5T goes out twice.
+      3. Force the multi-shift case: mark enough vehicles off-road that a day needs more runs than vehicles — second runs must still appear (jobs must NOT drop instead). 
+      4. Locked routes: lock a route, re-solve — the polish pass never moves locked routes or steals locked vehicles.
+      5. Watch dispatch times on any remaining second-runs: slot-2 runs still respect the turnaround gap.
+      Dial: SECOND_RUN_TURNAROUND_PENCE (£100) in solver_td.py — raise if logistics still see unwanted double-runs, lower if too many big vehicles get used for small second loads. Deploy = scp repo copy + restart vrp-solver (backup solver_td.py.bak-20260716-T0603 on the box).
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - solver
   - route-planner
   - release-blocker
-attention: null
-version: 5
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-16T17:57:44Z
+version: 6
 due: 2026-07-20
 ---
 
@@ -54,3 +70,7 @@ The SA cost (_compute_route_cost) charges staff + fuel per ROUTE — a second sh
 
 ## Guard
 Do NOT make second runs infeasible — days genuinely needing 2 shifts per vehicle must still solve. Verify with the 10 Jul replay request (uses 51 virtual slots) that drops stay 0.
+
+## Conversation
+
+**2026-07-16 17:57 claude-code:** Run run-20260716-1743 completed — Fixed the solver double-running vehicles while identical ones sat idle. Root cause: a second run on the same physical vehicle cost the solver exactly the same as using an idle vehicle (staff and fuel are identical either way), so it picked arbitrarily — and logistics watched a 3.5T go out twice with its twin parked. Two changes on the solver: a £100 "turnaround" charge on every second/third run per vehicle (pricing the rushed warehouse unload-reload a double-run forces), and a deterministic tidy-up pass after the optimiser that moves any remaining second-run onto the cheapest idle vehicle that can take it. Verified on the 10 July replay: second-runs went from 5 to ZERO (16 routes on 16 distinct vehicles), no jobs dropped, and the plan actually got £190 cheaper. The charge is far below the drop penalty, so days genuinely needing a vehicle out twice still solve. Deployed to the solver box and synced to the repo.

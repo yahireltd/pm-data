@@ -2,10 +2,10 @@
 id: T-0600
 title: Show open failed collections on the sketch map until completed
 type: feature
-state: triaged
+state: in_progress
 priority: p1
 created: 2026-07-16T17:01:32Z
-updated: 2026-07-16T17:29:29Z
+updated: 2026-07-16T18:01:56Z
 project: route-planner-release
 section: null
 parent: null
@@ -13,7 +13,9 @@ milestone: null
 children: []
 order: 7168
 reporter: null
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Open failed collections appear on the sketch map with a visually distinct marker and an info popup (contract, postcode, weight, days outstanding)
   - They appear on every planning date until the collection is completed, then disappear
@@ -32,13 +34,17 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260716-1801
+    model: claude-fable-5
+    started: 2026-07-16T18:01:56Z
+    status: in_progress
 labels:
   - route-planner
   - ui
   - release-blocker
 attention: null
-version: 3
+version: 5
 due: 2026-07-20
 ---
 
