@@ -4,7 +4,7 @@ slug: logistics-meeting-route-planner
 title: Logistics Meeting Route Planner
 state: scheduled
 created: 2026-07-08T12:16:32Z
-updated: 2026-07-16T11:57:19Z
+updated: 2026-07-16T12:38:05Z
 scheduled_at: 2026-07-16T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -75,7 +75,9 @@ agenda:
   - topic: "Confirm remaining sprint work is still what logistics wants next: half-luton splitting, inactive-runs copy fix, run-status progress bars"
     duration_min: 2
     ticket: T-0221
-outcomes: []
+outcomes:
+  - description: Decided to go live monday need to have a clear rollout plan with safety in mind
+    recorded_at: 2026-07-16T12:38:05Z
 attachments:
   - key: meetings/M-001/1784203038363-meeting-recording-2026-07-16-1157.m4a
     filename: meeting-recording-2026-07-16-1157.m4a
@@ -88,7 +90,7 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 16
+version: 17
 reminders:
   - minutes_before: 1440
     channels:
