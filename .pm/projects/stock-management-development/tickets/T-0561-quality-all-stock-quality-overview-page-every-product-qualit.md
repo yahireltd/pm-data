@@ -4,7 +4,7 @@ title: "Quality: all-stock quality overview page (every product + quality level,
 type: feature
 state: in_progress
 created: 2026-07-14T06:36:03Z
-updated: 2026-07-16T05:41:26Z
+updated: 2026-07-16T06:58:12Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,8 +46,8 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 3
-milestone: MS-001
+version: 4
+milestone: MS-003
 ---
 
 ## Source
