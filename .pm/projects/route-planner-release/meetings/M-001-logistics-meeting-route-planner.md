@@ -4,7 +4,7 @@ slug: logistics-meeting-route-planner
 title: Logistics Meeting Route Planner
 state: held
 created: 2026-07-08T12:16:32Z
-updated: 2026-07-16T13:50:25Z
+updated: 2026-07-16T17:08:33Z
 scheduled_at: 2026-07-16T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -84,17 +84,25 @@ outcomes:
     recorded_at: 2026-07-16T12:40:28Z
   - description: Item lists for split jobs - currently doesnt split on the item level until finalise. We should do this before finalise so it isnt confusing - particularly when loading a live plan that was pre-split from logistics
     recorded_at: 2026-07-16T12:52:02Z
+    follow_up_ticket: T-0602
   - description: Full address of job not visible anywhere on the sketch planner
     recorded_at: 2026-07-16T12:52:32Z
+    follow_up_ticket: T-0601
   - description: Failed collections to show on the map until they are done. This will allow logistics to see where our routes are passing and potentially add the failed collection onto one
     recorded_at: 2026-07-16T12:53:23Z
+    follow_up_ticket: T-0600
+  - description: Make second runs for the vehicle more expensive on the solver. They noted that even though we had spare 3.5T vehicles, it tried to use the same 3.5T vehicle more than once even though we had a spare of the same class. This means that we have to put more pressure on the warehouse to turn that vehicle around quickly.
+    recorded_at: 2026-07-16T17:04:02Z
+    follow_up_ticket: T-0603
+  - description: When finalising a sketch, the weight and volume of the run need a calculate (contracts show the accrued weight and volume at the point of deliver or collect of that contract, the run should show the start, end and max weight and volume - they report this doesnt currently show)
+    recorded_at: 2026-07-16T17:08:33Z
 attachments: []
 calendar:
   graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdbLqJ6AAA=
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 26
+version: 32
 reminders:
   - minutes_before: 1440
     channels:
