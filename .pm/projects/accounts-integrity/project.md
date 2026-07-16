@@ -5,7 +5,7 @@ name: Accounts Integrity Programme — Xero posting & document generation
 state: active
 phase: build
 created: 2026-07-10T21:16:32Z
-updated: 2026-07-16T13:41:31Z
+updated: 2026-07-16T14:43:22Z
 owner:
   kind: human
   name: Austin
@@ -60,7 +60,7 @@ workstream_ownership:
     owner: Austin (with accounts team)
   - workstream: Quote-builder review (T-0541)
     owner: Austin + Zsolt
-version: 93
+version: 95
 success_measures:
   - "Count of accounts-requested IT data fixes per month attributable to generation/posting — target 0 (baseline: recurring, e.g. 34-doc census + 264-pair void incident)"
   - Hours of Austin's time per month on accounts data repairs — target ~0
@@ -74,6 +74,25 @@ workflow_impact:
     - Austin (hypercare oversight for the first weeks, then out of the loop)
     - IT (only escalations that genuinely need engineering)
   migration_path: phased
+stakeholders:
+  - name: Effie
+    channel: email
+    contact: effie@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-16T14:42:58Z
+    role: Accounts SME
+  - name: Jhuztine
+    channel: email
+    contact: jhuztine@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-16T14:43:22Z
+    role: Accounts SME
 ---
 
 # Accounts Integrity Programme — Xero posting & document generation
