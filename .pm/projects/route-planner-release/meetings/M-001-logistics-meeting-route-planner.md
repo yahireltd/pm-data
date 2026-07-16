@@ -4,7 +4,7 @@ slug: logistics-meeting-route-planner
 title: Logistics Meeting Route Planner
 state: held
 created: 2026-07-08T12:16:32Z
-updated: 2026-07-16T13:05:38Z
+updated: 2026-07-16T13:50:25Z
 scheduled_at: 2026-07-16T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -88,25 +88,13 @@ outcomes:
     recorded_at: 2026-07-16T12:52:32Z
   - description: Failed collections to show on the map until they are done. This will allow logistics to see where our routes are passing and potentially add the failed collection onto one
     recorded_at: 2026-07-16T12:53:23Z
-attachments:
-  - key: meetings/M-001/1784203038363-meeting-recording-2026-07-16-1157.m4a
-    filename: meeting-recording-2026-07-16-1157.m4a
-    content_type: audio/mp4
-    size: 903486
-    uploaded_by: austin@yahire.com
-    uploaded_at: 2026-07-16T11:57:19Z
-  - key: meetings/M-001/1784205663859-meeting-recording-2026-07-16-1241.m4a
-    filename: meeting-recording-2026-07-16-1241.m4a
-    content_type: audio/mp4
-    size: 136207
-    uploaded_by: austin@yahire.com
-    uploaded_at: 2026-07-16T12:41:05Z
+attachments: []
 calendar:
   graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdbLqJ6AAA=
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 24
+version: 26
 reminders:
   - minutes_before: 1440
     channels:

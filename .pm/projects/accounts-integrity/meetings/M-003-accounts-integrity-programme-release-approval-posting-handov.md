@@ -4,7 +4,7 @@ slug: accounts-integrity-programme-release-approval-posting-handov
 title: Accounts Integrity Programme — release approval & posting handover
 state: scheduled
 created: 2026-07-10T22:41:30Z
-updated: 2026-07-16T13:07:57Z
+updated: 2026-07-16T13:41:31Z
 scheduled_at: 2026-07-16T14:30:00Z
 duration_minutes: 50
 location: TBD (Austin to schedule with accounts + director; Fran needed for item 7)
@@ -67,12 +67,18 @@ agenda:
   - topic: "Steady state: success measure = accounts→IT data-fix requests to zero; 30-day milestone review"
     duration_min: 2
 outcomes: []
-attachments: []
+attachments:
+  - key: meetings/M-003/1784209290200-meeting-recording-2026-07-16-1341.m4a
+    filename: meeting-recording-2026-07-16-1341.m4a
+    content_type: audio/mp4
+    size: 7600310
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-07-16T13:41:31Z
 calendar:
   graph_event_id: null
   ics_url: null
 kind: progress
-version: 9
+version: 10
 ---
 
 \
