@@ -4,7 +4,7 @@ slug: logistics-meeting-route-planner
 title: Logistics Meeting Route Planner
 state: scheduled
 created: 2026-07-08T12:16:32Z
-updated: 2026-07-16T11:51:27Z
+updated: 2026-07-16T11:57:19Z
 scheduled_at: 2026-07-16T11:30:00Z
 duration_minutes: 60
 location: IT Office
@@ -54,63 +54,41 @@ stakeholders:
       - outcome_recorded
       - meeting_held
 agenda:
-  - topic: >-
-      Recap — what changed since the test checklist was written: far jobs no
-      longer dropped (was 7/day), drive times recalibrated against Google,
-      breaks fixed and now visible on the board, off-road + hire-vehicle
-      buttons
+  - topic: "Recap — what changed since the test checklist was written: far jobs no longer dropped (was 7/day), drive times recalibrated against Google, breaks fixed and now visible on the board, off-road + hire-vehicle buttons"
     duration_min: 5
     ticket: T-0527
-  - topic: >-
-      Test results — workflow basics: build on a clean date, push, appears in
-      run planner; reset & re-solve with no lost jobs; locked routes hold
-      through re-solve
+  - topic: "Test results — workflow basics: build on a clean date, push, appears in run planner; reset & re-solve with no lost jobs; locked routes hold through re-solve"
     duration_min: 10
-  - topic: >-
-      Test results — on-the-day replanning: loaded runs auto-lock in sketch,
-      re-solve preserves locked & loading work, push updates the run planner
-      without touching loaded work
+  - topic: "Test results — on-the-day replanning: loaded runs auto-lock in sketch, re-solve preserves locked & loading work, push updates the run planner without touching loaded work"
     duration_min: 8
-  - topic: >-
-      Test results — concurrent editing: second user blocked with name shown,
-      run planner blocked while sketch open, 60s stale-session release,
-      locks hold through the auto-poll
+  - topic: "Test results — concurrent editing: second user blocked with name shown, run planner blocked while sketch open, 60s stale-session release, locks hold through the auto-poll"
     duration_min: 5
-  - topic: >-
-      Test results — safety nets: pick log survives a vehicle move,
-      loaded-on-different-vehicle warning at finalize, overlapping locked
-      shift warning, manual/item-level splits preserved
+  - topic: "Test results — safety nets: pick log survives a vehicle move, loaded-on-different-vehicle warning at finalize, overlapping locked shift warning, manual/item-level splits preserved"
     duration_min: 5
     ticket: T-0505
-  - topic: >-
-      Drive-time accuracy: where do the plans run early/late now? Walk the
-      Google-vs-solver rows on real runs; do the far runs (Coventry / New
-      Forest) look right since the 8 Jul recalibration? Decide on the
-      report-incorrect-drive-time button
+  - topic: "Drive-time accuracy: where do the plans run early/late now? Walk the Google-vs-solver rows on real runs; do the far runs (Coventry / New Forest) look right since the 8 Jul recalibration? Decide on the report-incorrect-drive-time button"
     duration_min: 8
-  - topic: >-
-      Bugs and niggles not covered above — incl. contracts skipped for bad
-      postcodes (e.g. the W14 6DS typo): do we want postcode validation at
-      order entry?
+  - topic: "Bugs and niggles not covered above — incl. contracts skipped for bad postcodes (e.g. the W14 6DS typo): do we want postcode validation at order entry?"
     duration_min: 5
-  - topic: >-
-      GO / NO-GO — confident to run live? GO: agree start date, first live
-      days, who plans each morning, fallback, week-1 support. NO-GO: written
-      blocking list, each item with an owner and a date, and a re-meet date
+  - topic: "GO / NO-GO — confident to run live? GO: agree start date, first live days, who plans each morning, fallback, week-1 support. NO-GO: written blocking list, each item with an owner and a date, and a re-meet date"
     duration_min: 12
-  - topic: >-
-      Confirm remaining sprint work is still what logistics wants next:
-      half-luton splitting, inactive-runs copy fix, run-status progress bars
+  - topic: "Confirm remaining sprint work is still what logistics wants next: half-luton splitting, inactive-runs copy fix, run-status progress bars"
     duration_min: 2
     ticket: T-0221
 outcomes: []
-attachments: []
+attachments:
+  - key: meetings/M-001/1784203038363-meeting-recording-2026-07-16-1157.m4a
+    filename: meeting-recording-2026-07-16-1157.m4a
+    content_type: audio/mp4
+    size: 903486
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-07-16T11:57:19Z
 calendar:
   graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdbLqJ6AAA=
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: uat
-version: 15
+version: 16
 reminders:
   - minutes_before: 1440
     channels:
