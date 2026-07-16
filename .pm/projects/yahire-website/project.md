@@ -5,7 +5,7 @@ name: Websites (yasite)
 state: planning
 phase: intake
 created: 2026-06-10T09:51:16Z
-updated: 2026-07-16T06:22:37Z
+updated: 2026-07-16T06:49:35Z
 owner:
   kind: human
   name: you
@@ -19,7 +19,7 @@ key_decisions: []
 labels: []
 order: 1024
 category: system
-version: 76
+version: 81
 agent_policy:
   allow_commit: false
   allow_push: false

@@ -4,7 +4,7 @@ title: Mega-menu filter tile renders dead link when url saved as empty string (n
 type: bug
 state: done
 created: 2026-07-16T06:20:17Z
-updated: 2026-07-16T06:22:46Z
+updated: 2026-07-16T06:49:35Z
 project: yahire-website
 section: null
 parent: null
@@ -17,10 +17,10 @@ reporter:
   contact: zsolt@yahire.com
 assignee: null
 acceptance_criteria:
-  - Saving a filter image with a blank URL field in Site Manager stores NULL in ya_filter_images.url, not an empty string (both add and update actions)
-  - A mega-menu filter tile with an empty/whitespace/'#' url falls back to the category link (e.g. /table-hire) instead of an empty href
-  - "Tall & Poseur tile in the Table Hire mega-menu links correctly: hover shows /table-hire and click navigates/filters rather than reloading"
-  - Existing tiles that navigate via filterOn=1 + filters continue to work unchanged
+  - "[x] Saving a filter image with a blank URL field in Site Manager stores NULL in ya_filter_images.url, not an empty string (both add and update actions)"
+  - "[x] A mega-menu filter tile with an empty/whitespace/'#' url falls back to the category link (e.g. /table-hire) instead of an empty href"
+  - "[x] Tall & Poseur tile in the Table Hire mega-menu links correctly: hover shows /table-hire and click navigates/filters rather than reloading"
+  - "[x] Existing tiles that navigate via filterOn=1 + filters continue to work unchanged"
 out_of_scope: []
 code_anchors:
   - path: yahirenew/views/layouts/main.php
@@ -49,11 +49,8 @@ labels:
   - backend
   - mega-menu
   - filter-images
-attention:
-  needed_by: human
-  reason: Fix is committed (64312db) and live in production. Needs a human to run the verification checklist and close.
-  since: 2026-07-16T06:22:46Z
-version: 5
+attention: null
+version: 10
 defect_status: confirmed
 ---
 
