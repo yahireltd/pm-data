@@ -2,8 +2,8 @@
 id: ADR-010
 slug: stewardship-steering-basis-unrealised-potential-vs-realised-
 title: Stewardship steering basis — unrealised potential vs realised value (needs sales-expert input)
-state: proposed
-decided: 2026-07-03
+state: rejected
+decided: 2026-07-17
 decided_by: []
 project: sales-segmentation-account-management
 supersedes: null
@@ -11,7 +11,7 @@ superseded_by: null
 tickets:
   - T-0457
   - T-0479
-version: 1
+version: 2
 ---
 
 ## Context

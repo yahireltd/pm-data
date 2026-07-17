@@ -3,9 +3,9 @@ id: P-0018
 slug: sales-segmentation-account-management
 name: Sales Segmentation / Account Management
 state: active
-phase: build
+phase: planning
 created: 2026-06-16T17:34:29Z
-updated: 2026-07-17T16:17:38Z
+updated: 2026-07-17T16:34:49Z
 owner:
   kind: human
   name: Ben
@@ -136,7 +136,7 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:25:30Z
     role: Marketing / Sales Ops
-version: 335
+version: 337
 agent_policy:
   allow_commit: false
   allow_push: false
