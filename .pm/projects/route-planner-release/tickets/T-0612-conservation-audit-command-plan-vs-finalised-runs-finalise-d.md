@@ -2,9 +2,9 @@
 id: T-0612
 title: Conservation audit command (plan vs finalised runs) + finalise decision logging
 type: feature
-state: triaged
+state: in_progress
 created: 2026-07-17T13:09:55Z
-updated: 2026-07-17T13:09:55Z
+updated: 2026-07-17T13:14:20Z
 project: route-planner-release
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Austin
   channel: session
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - php yii planner-audit/date <date> runs on the sandbox and reports PASS on a healthy finalised date
   - Deliberately breaking a date (delete one run-contract item row in a transaction) flips the relevant check to FAIL naming the contract
@@ -35,13 +37,17 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260717-1314
+    model: claude-fable-5
+    started: 2026-07-17T13:14:20Z
+    status: in_progress
 labels:
   - route-planner
   - release-blocker
   - testing
 attention: null
-version: 1
+version: 3
 ---
 
 ## Problem
