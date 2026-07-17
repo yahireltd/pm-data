@@ -4,7 +4,7 @@ slug: scoring-segmentation-how-sales-spots-value-exploratory-look-
 title: Scoring & segmentation — how sales spots value + exploratory look at the suggested processes (Ben / Austin / Nathan)
 state: scheduled
 created: 2026-07-17T16:15:22Z
-updated: 2026-07-17T16:17:38Z
+updated: 2026-07-17T20:13:59Z
 scheduled_at: 2026-07-21T14:15:00+01:00
 duration_minutes: 60
 location: TBD (in person / call)
@@ -60,12 +60,18 @@ agenda:
   - topic: "Next steps: prototype process design keeping existing workflow similarity; visible for interrogation/confirmation by Nathan, Taran, Sam + wider team (implementation not before Nathan returns from leave)"
     duration_min: 5
 outcomes: []
-attachments: []
+attachments:
+  - key: meetings/M-013/1784319237975-meeting-recording-2026-07-17-2013.m4a
+    filename: meeting-recording-2026-07-17-2013.m4a
+    content_type: audio/mp4
+    size: 21196
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-07-17T20:13:59Z
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 4
+version: 5
 ---
 
 ## When / who
