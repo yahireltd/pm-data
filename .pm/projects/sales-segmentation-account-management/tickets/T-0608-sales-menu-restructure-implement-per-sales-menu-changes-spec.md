@@ -4,7 +4,7 @@ title: Sales menu restructure — implement per "sales menu changes" spec (keep/
 type: feature
 state: triaged
 created: 2026-07-17T06:37:50Z
-updated: 2026-07-17T07:23:30Z
+updated: 2026-07-17T08:02:03Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -21,9 +21,8 @@ assignee:
   name: Zsolt
 acceptance_criteria:
   - "Sales menu rebuilt to the target structure: removals, keeps, moves and new submenus (My Accounts, Customer related, Sales Management) applied per the spec."
-  - "Removed from menu: Leads, Key Account Requests, Add New Customer, Account & ZC Last Year Contracts, Rating Search, Customer Scoring, Account Segmentation, Sales Person Q/C (after verifying its contract logic is covered elsewhere)."
+  - "Removed from menu: Leads, Key Account Requests, Add New Customer, Account & ZC Last Year Contracts, Rating Search, Customer Scoring, Account Segmentation, Website Quotes, Sales Person Q/C (after verifying its contract logic is covered elsewhere)."
   - "Moved: Delivery Capacity → Logistics; Payment Related (Unpaid Contracts / Todays Payments / Manual Payment) → Accounts (overlap checked); Pending Quotes → My Accounts; Sold Items and Manage Activities into their new submenus."
-  - Website Quotes replaced by the Contract Checking page once built (sequenced with T-0467/T-0468).
   - New Venue links added (Q/C Unassigned Venues + the 3 Venue DB links) to the Venue menu.
   - "RBAC verified: regular sales users cannot see everyone's contract values (Contracts by conversion date, Sales Person Q/C)."
 out_of_scope: []
@@ -31,6 +30,7 @@ code_anchors: []
 relates:
   - T-0468
   - T-0467
+  - T-0609
 blocks: []
 blocked_by: []
 duplicates: []
@@ -38,7 +38,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
@@ -47,7 +47,7 @@ Concrete restructure of the **Sales** menu, per the "sales menu changes" spreads
 ## Target changes (from the spreadsheet)
 
 ### Sales (top-level container) — existing items
-- **Website Quotes** (`/sales/website-quotes`) — **replace with Contract Checking** once that page is built (see T-0467/T-0468).
+- **Website Quotes** (`/sales/website-quotes`) — **remove from menu**.
 - **Leads** (`/sales/leads`) — **remove**.
 - **Delivery Capacity** (`/sales/delivery-capacity`) — **move to Logistics**.
 - **Smartest View** (`/sales/smartest-view`) — **keep**.
@@ -90,6 +90,5 @@ Concrete restructure of the **Sales** menu, per the "sales menu changes" spreads
 - Manage Activities (moved from Misc, above)
 
 ## Notes / cross-impact
-- **Contract Checking** page is a prerequisite for retiring Website Quotes (T-0467/T-0468).
 - **Delivery Capacity → Logistics** and **Payment Related → Accounts** are cross-area moves — coordinate with those owners and check for overlap/duplication.
 - The contract-value visibility check (Contracts by conversion date, and Sales Person Q/C) is an RBAC concern — verify regular sales roles can't see others' contract values.

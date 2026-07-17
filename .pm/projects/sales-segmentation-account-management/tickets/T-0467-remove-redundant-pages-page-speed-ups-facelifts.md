@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-23T11:47:31Z
-updated: 2026-07-17T06:37:55Z
+updated: 2026-07-17T08:01:39Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -18,13 +18,13 @@ acceptance_criteria:
   - A Nathan-approved list of pages to retire or merge is produced, backed by last-2-months usage data.
   - "Leads, Website Quotes, and Key Account Requests (incl. its QB icon) are each decided: retire, merge, or keep (with reason)."
   - The Smartest View / Ledger overlap on contracts is resolved (merge, or keep-both with rationale).
-  - Website Quotes removal is sequenced after the contract-checking page (T-0468) is live.
   - High-traffic slow pages identified from usage are queued for speed-ups.
 out_of_scope: []
 code_anchors: []
 relates:
   - T-0468
   - T-0608
+  - T-0609
 blocks: []
 blocked_by: []
 duplicates: []
@@ -32,7 +32,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 6
+version: 7
 ---
 
 ## Problem
@@ -40,7 +40,7 @@ Sales/management screens have accumulated pages that are redundant, duplicated, 
 
 ## Redundant / merge candidates (from M-010, Nathan)
 - **Leads** — candidate to retire.
-- **Website Quotes** — retire once a dedicated contract-checking page exists (see T-0468).
+- **Website Quotes** — decision: retire. (The retirement + the contract-checking page it depends on are tracked in T-0609 — not owned here.)
 - **Key Account Requests** — retire, including its icon on the Quote Builder.
 - **Smartest View ↔ Ledger** — possible overlap, specifically around contracts; candidate to merge.
 
