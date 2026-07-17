@@ -4,7 +4,7 @@ title: Sales menu restructure — implement per "sales menu changes" spec (keep/
 type: feature
 state: done
 created: 2026-07-17T06:37:50Z
-updated: 2026-07-17T11:10:53Z
+updated: 2026-07-17T11:17:06Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -20,11 +20,11 @@ assignee:
   kind: human
   name: Zsolt
 acceptance_criteria:
-  - "Sales menu rebuilt to the target structure: removals, keeps, moves and new submenus (My Accounts, Customer related, Sales Management) applied per the spec."
-  - "Removed from menu: Leads, Key Account Requests, Add New Customer, Account & ZC Last Year Contracts, Rating Search, Customer Scoring, Account Segmentation, Website Quotes, Sales Person Q/C (after verifying its contract logic is covered elsewhere)."
-  - "Moved: Delivery Capacity → Logistics; Payment Related (Unpaid Contracts / Todays Payments / Manual Payment) → Accounts (overlap checked); Pending Quotes → My Accounts; Sold Items and Manage Activities into their new submenus."
+  - "[x] Sales menu rebuilt to the target structure: removals, keeps, moves and new submenus (My Accounts, Customer related, Sales Management) applied per the spec."
+  - "[x] Removed from menu: Leads, Key Account Requests, Add New Customer, Account & ZC Last Year Contracts, Rating Search, Customer Scoring, Account Segmentation, Website Quotes, Sales Person Q/C (after verifying its contract logic is covered elsewhere)."
+  - "[x] Moved: Delivery Capacity → Logistics; Payment Related (Unpaid Contracts / Todays Payments / Manual Payment) → Accounts (overlap checked); Pending Quotes → My Accounts; Sold Items and Manage Activities into their new submenus."
   - New Venue links added (Q/C Unassigned Venues + the 3 Venue DB links) to the Venue menu.
-  - "RBAC verified: regular sales users cannot see everyone's contract values (Contracts by conversion date, Sales Person Q/C)."
+  - "[x] RBAC verified: regular sales users cannot see everyone's contract values (Contracts by conversion date, Sales Person Q/C)."
 out_of_scope: []
 code_anchors: []
 relates:
@@ -38,7 +38,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 6
+version: 10
 ---
 
 ## Problem
