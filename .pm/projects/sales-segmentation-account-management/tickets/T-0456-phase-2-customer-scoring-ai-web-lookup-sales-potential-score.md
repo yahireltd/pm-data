@@ -4,7 +4,7 @@ title: Phase 2 · Customer scoring — AI web-lookup sales-potential scores
 type: feature
 state: triaged
 created: 2026-06-22T21:41:31Z
-updated: 2026-07-03T00:24:37Z
+updated: 2026-07-17T15:55:37Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -34,7 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 8
+version: 9
 ---
 
 ## What this is
@@ -106,3 +106,11 @@ OUTSTANDING:
 - Deployment: all segment/classification data + columns exist only on the sandbox (wiped nightly; restore = idempotent migrations + runtime/p0018/export SQL). Production customer_sales_scores (~530 rows, 12 Jun) lacks the new columns.
 - Blocker for applying the migrations anywhere via the normal path: ./yii migrate still aborts at m260615_140000_create_warehouse_settings — common\components\IdempotentMigrationTrait does not exist in the tree. Needs a separate fix ticket.
 - Re-score cadence/triggers: still the open decision from the ticket body.
+
+**2026-07-17 15:55 claude-code:** **2026-07-17 — MILESTONE: the entire hired-customer base is now scored & segmented.** Verified zero unscored domains with any delivered-hire history.
+
+- **9,074 domains scored** (1,202 A / 3,051 B / 4,821 C), all with segment (industry / company_type / sub_type / labels / classification), method web-lookup-v5.
+- Final waves today: the last 417 of the <£1k band + 12 newer customers who had crossed £1k since their band was swept (caught by re-checking ALL spend bands, not just the original extract).
+- Storage: sandbox `yahire_db.customer_sales_scores` (protected from the nightly refresh via PRESERVE_TABLES) + durable re-runnable export `runtime/p0018/export/customer_sales_scores_data.sql` (9,074-row upsert) — **Austin replays this to live-main manually** (live currently holds 8,885; needs one more replay to pick up today's 429).
+- The `/segment-research` page (live, commit f31705fd) computes from this table — once live is topped up + its ~10-min cache turns, it will show the complete base.
+- **Remaining scope decision (open):** ~14,142 quote-only corporate leads (never hired). Options: score-on-demand at quote time (matches enrichment-on-demand), top-slice by quote value, or bulk sweep. To discuss with Ben.
