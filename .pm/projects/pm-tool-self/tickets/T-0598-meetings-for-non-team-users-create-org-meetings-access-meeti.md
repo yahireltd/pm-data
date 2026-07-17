@@ -2,9 +2,9 @@
 id: T-0598
 title: "Meetings for non-team users: create org meetings + access meetings you're invited to + see them on /me"
 type: feature
-state: review
+state: done
 created: 2026-07-16T14:25:40Z
-updated: 2026-07-16T14:57:12Z
+updated: 2026-07-17T19:57:20Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,11 +18,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - A non-team signed-in user (e.g. Effie) can open /meetings, see org meetings, and create one
-  - Org-meeting operations (agenda/outcomes/stakeholders/reminders/notes/state) work for any signed-in user; project-meeting edits remain team-only; delete + held-revert remain admin-only
-  - A user on a project meeting's stakeholder list can open that meeting's page even without project membership
-  - /me shows a 'Your meetings' section with upcoming meetings the user is invited to (org + project), each linking through
-  - Members/stakeholders see Meetings in the sidebar; admins' experience unchanged
+  - "[x] A non-team signed-in user (e.g. Effie) can open /meetings, see org meetings, and create one"
+  - "[x] Org-meeting operations (agenda/outcomes/stakeholders/reminders/notes/state) work for any signed-in user; project-meeting edits remain team-only; delete + held-revert remain admin-only"
+  - "[x] A user on a project meeting's stakeholder list can open that meeting's page even without project membership"
+  - "[x] /me shows a 'Your meetings' section with upcoming meetings the user is invited to (org + project), each linking through"
+  - "[x] Members/stakeholders see Meetings in the sidebar; admins' experience unchanged"
 out_of_scope: []
 code_anchors:
   - path: web/app/_lib/access.ts
@@ -53,11 +53,8 @@ labels:
   - meetings
   - access
   - dogfood-finding
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-16T14:56:58Z
-version: 6
+attention: null
+version: 13
 ---
 
 ## Problem
@@ -76,3 +73,9 @@ At the M-003 accounts meeting, Effie signed in and saw "nothing on your plate" �
 **2026-07-16 14:32 claude-code:** Run run-20260716-1426 completed — People like Effie and Jhuztine can now actually use meetings. Three walls came down. First, org-wide meetings are now the company's shared space: anyone signed in can open the Meetings page, read any org meeting, create one, and run it — agenda, outcomes, attendees, reminders and notes — without needing to be on a project team. Second, being invited to a PROJECT meeting now means something: if your email is on that meeting's attendee list, you can open that meeting's page even when you're not on the project — exactly Effie's situation at the accounts meeting. Third, discovery: the "My work" page now has a "Your meetings" section listing upcoming meetings you're invited to (org or project), so signing in no longer shows "nothing on your plate" when you have a meeting to attend; members and stakeholders also get the Meetings link in their menu. Guard-rails kept: editing a project meeting still needs the project team, and deleting a meeting or reverting a mis-clicked "held" stays admin-only. If we did nothing, every non-team attendee would keep bouncing off the tool at exactly the moment we ask them to use it. Benefit: invite someone to a meeting and the tool actually works for them.
 
 **2026-07-16 14:57 claude-code:** Round 2 (commit e14cb5b), from Austin previewing as Effie: (1) the Meetings page was showing EVERY org meeting to any signed-in user — it's now scoped for non-admins to just the meetings they're part of (invited org meetings + their projects' + invite-only project meetings); admins keep the full calendar. (2) Creating a meeting now auto-adds the creator as an Organizer stakeholder — otherwise a non-admin's own new meeting would disappear from their scoped view. (3) The PM/Stakeholder view switcher was rendering for everyone — it's an admin preview affordance and is now admin-only. Re-test in preview-as-Effie: no toggle, and Meetings shows only M-003 + anything she's invited to.
+
+---
+
+**2026-07-17 19:57 — you**
+
+Done and tested
