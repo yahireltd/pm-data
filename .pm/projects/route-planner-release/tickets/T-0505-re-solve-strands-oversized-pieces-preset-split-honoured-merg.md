@@ -2,9 +2,9 @@
 id: T-0505
 title: "Re-solve strands oversized pieces: preset-split honoured merged run-contract rows verbatim (C091282)"
 type: bug
-state: triaged
+state: review
 created: 2026-07-02T12:57:40Z
-updated: 2026-07-08T12:11:12Z
+updated: 2026-07-17T15:23:43Z
 project: route-planner-release
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: agent
   name: claude-code
   channel: claude-code session with Austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Re-solve of a date whose run contracts contain merged (oversized) split rows re-splits by capacity instead of stranding pieces
   - Genuine manual splits with fleet-loadable pieces are still honoured verbatim on re-solve
@@ -32,12 +34,26 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260717-1523
+    model: claude-fable-5
+    started: 2026-07-17T15:23:27Z
+    status: completed
+    ended: 2026-07-17T15:23:43Z
+    summary: "Retrospective close-out — the fix shipped on 2 July under this very ticket but the run was never recorded (predates the stricter flow). Three commits on the release branch: cf3f4a42 (discard unloadable preset splits — the C091282 stranding fix: oversized merged rows are re-split by capacity instead of fed to the solver verbatim), 07edc907 (preset honouring requires HUMAN intent — manual run-planner split markers or the keep-this-split tick — instead of bare row-count, and the preserve markers now survive the full solve→sketch→finalize round-trip), f78d3fb8 (item-level preservation: logistics' deliberate per-piece item assignments are snapshotted and replayed piece-for-piece through finalize instead of being re-dealt by weight). Unit coverage: PresetSplitSanityTest (18 cases) + DeliberateSplitItemsTest (5 cases), all green at the time; the machinery has since been exercised further by T-0602 (sketch-time item lists reuse the same distribution/preserve logic) and is covered by scenario S2 of the release test plan (ADR-001)."
+    test_plan: "In-app verification = scenario S2 of the weekend checklist (this weekend's manual testing): (1) manual item-deliberate split on the run planner → load in sketch (green 'as split by logistics' per piece) → re-solve keeps the shape → finalize → run planner shows the human's exact item assignment; (2) solver splits re-split freely each re-solve; (3) the original C091282-style case — a date carrying merged oversized rows — re-solves into capacity-size pieces with a [Jobs][PRESET-SPLIT] discard warning in the log. Run planner-audit/date after each finalize (item conservation check covers the replay)."
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - sketch-planner
   - route-planning
-attention: null
-version: 6
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-17T15:23:43Z
+version: 9
 branch: PickingSketchSalesDashFriday
 ---
 
@@ -82,3 +98,5 @@ The fleet-capacity gate from the original fix stays as a safety net for already-
 **Test plan additions:** `DeliberateSplitItemsTest` (5 cases) — green; full planner suites green (104 tests). In-app: split a contract on the run planner putting a distinctive item entirely in piece 2; re-solve the date on the sketch; finalize; open the run planner and check piece 2 still holds exactly that item (not a weight-balanced mix). Edge: change the split type so the solver re-splits by capacity — items should redistribute by weight (old behaviour) with no errors.
 
 **Known remaining limitation:** if the contract's items are amended AFTER the manual split (qty increased), the replayed assignment reflects the split-time quantities — same staleness the run planner itself has for manual splits. Not addressed.
+
+**2026-07-17 15:23 claude-code:** Run run-20260717-1523 completed — Retrospective close-out — the fix shipped on 2 July under this very ticket but the run was never recorded (predates the stricter flow). Three commits on the release branch: cf3f4a42 (discard unloadable preset splits — the C091282 stranding fix: oversized merged rows are re-split by capacity instead of fed to the solver verbatim), 07edc907 (preset honouring requires HUMAN intent — manual run-planner split markers or the keep-this-split tick — instead of bare row-count, and the preserve markers now survive the full solve→sketch→finalize round-trip), f78d3fb8 (item-level preservation: logistics' deliberate per-piece item assignments are snapshotted and replayed piece-for-piece through finalize instead of being re-dealt by weight). Unit coverage: PresetSplitSanityTest (18 cases) + DeliberateSplitItemsTest (5 cases), all green at the time; the machinery has since been exercised further by T-0602 (sketch-time item lists reuse the same distribution/preserve logic) and is covered by scenario S2 of the release test plan (ADR-001).

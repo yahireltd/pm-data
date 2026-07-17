@@ -12,13 +12,14 @@ superseded_by: null
 tickets:
   - T-0611
   - T-0612
+  - T-0613
 kind: test-plan
-version: 2
+version: 3
 ---
 
 # Context
 
-The sketch planner + run-planner integration releases to live on Monday 20 Jul. The UAT meeting (M-001) returned a GO with follow-up tickets, all now built. The residual risks are silent loss (jobs/items missing off finalised runs), incorrect weights/volumes, concurrent-edit overwrites, and same-day plan replacement. Canonical detail: `backend/views/route-planner/RELEASE-PLAN-2026-07-20.md` (branch PickingSketchSalesDashFriday).
+The sketch planner + run-planner integration releases to live on Monday 20 Jul. The UAT meeting (M-001) returned a GO with follow-up tickets, all now built. The residual risks are silent loss (jobs/items missing off finalised runs), incorrect weights/volumes, concurrent-edit overwrites, same-day plan replacement, and stale plans (restored/old plans whose contracts changed) writing bad runs. Canonical detail: `backend/views/route-planner/RELEASE-PLAN-2026-07-20.md` (branch PickingSketchSalesDashFriday).
 
 # Decision
 
@@ -38,13 +39,15 @@ Weekend testing on the sandbox combines automated conservation checks with a man
 
 **S6 Visibility** — failed-collection pins only for open failures; map routes on live-loaded plans; bold addresses; break banners (mid-route, trailing, return-leg, mid-drive memo).
 
+**S7 Supersede / restore / staleness (T-0613)** — finalize plan A, then finalize a re-solved candidate B: A flips to `superseded` (finalize-supersede logged), purple restore banner appears. Restore A → working draft (old draft archived), delta banner flags contract changes. Staleness on finalize: a contract moved to another date / gone self-collection/self-return / cancelled → stop SKIPPED with named warning, audit PASS on the remainder; weight drift >10% / postcode change / window change / service-time increase → warning "planned X, now Y — consider a re-solve" but the stop finalises with CURRENT details. Restore + finalise of a TODAY plan still triggers the typed-TODAY dialog.
+
 ## Entry criteria
 - Branch pulled on sandbox, hard-refreshed; solver box already live (byte-matched).
-- Review tickets T-0600–T-0612 closed or consciously deferred.
+- Review tickets T-0600–T-0613 closed or consciously deferred.
 
 ## Exit criteria (gate to merge)
 - All scenarios pass; every finalise audit exits 0; no unexplained sketch-planner.log WARN/SKIP entries.
-- Open decisions resolved: split job-minutes policy (T-0606); finalized-drift handling (supersede-on-replan) accepted or explicitly deferred with week-1 audit as the mitigation.
+- Remaining open decision resolved: split job-minutes policy (T-0606) — proportional vs full-per-piece vs floor.
 
 ## Sign-off
 - Austin (developer/release owner) + one logistics tester (Orfield or Conor) confirm the checklist; sign-off recorded as an outcome on M-001 or a comment on this ADR, then this ADR moves to accepted.

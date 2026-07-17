@@ -2,9 +2,9 @@
 id: T-0506
 title: Copy-path operational lock keyed per piece ({contractID}|{type}) — deferred asymmetry closed
 type: bug
-state: triaged
+state: review
 created: 2026-07-02T12:57:55Z
-updated: 2026-07-08T12:11:12Z
+updated: 2026-07-17T15:24:26Z
 project: route-planner-release
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: agent
   name: claude-code
   channel: claude-code session with Austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - A locked delivery piece no longer skips the same contract's unlocked collection piece on the copy path
   - A warehouse-touched delivery row can never be reassigned while processing the contract's collection stop
@@ -30,12 +32,26 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260717-1524
+    model: claude-fable-5
+    started: 2026-07-17T15:24:08Z
+    status: completed
+    ended: 2026-07-17T15:24:26Z
+    summary: "Retrospective close-out — fixed 2 July under this ticket (commit 97d9a00a on the release branch), run never recorded at the time. The copy path's operational lock was keyed by contract only, so a locked delivery also froze the same contract's unlocked collection; it now keys per piece ({contractID}|{type}), matching the live finalize path. Two adjacent holes closed in the same pass: warehouse-touched rows also keyed per piece so a collection stop can never reassign the contract's loaded delivery row, and the run-deletion sweep now preserves pushed and in-progress runs (status ≥ 30), not just manually locked ones. Note from the original work stands: all three public copy entry points have no callers (the live path is SketchPlanService::finalize, which only borrows helpers) — fixed anyway so the parallel implementation is safe if ever resurrected, and it remains a candidate for deletion in a future cleanup. Unit coverage: CopyPlanPieceLockTest (7 cases) plus the ReplanSafety/SplitPreservation/OperationallyLocked/FinalizeProtection suites, green at the time."
+    test_plan: "No direct in-app test possible — the copy path has no UI callers. The equivalent live-path semantics (per-piece locks on finalize) are exercised by the weekend checklist: lock a route containing a contract's delivery while its collection sits on an unlocked route → re-solve + finalize → the collection moves freely, the delivery stays. If that passes (scenario S1/S5 of ADR-001), this ticket's semantics are verified by proxy. Optional cleanup ticket later: delete the dead copy entry points."
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - sketch-planner
   - route-planning
-attention: null
-version: 4
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-17T15:24:26Z
+version: 7
 branch: PickingSketchSalesDashFriday
 ---
 
@@ -59,3 +75,7 @@ All three public copy entry points (`copyPlanToRuns`, `copyCurrentPlanToRuns`, `
 ## Test plan
 - Unit: `CopyPlanPieceLockTest` (7 cases) — green; full related suites (ReplanSafety, SplitPreservation, OperationallyLocked, FinalizeProtection) — green.
 - In-app: none possible directly (path has no UI callers); the piece-key semantics match the already-verified sketch finalize behaviour.
+
+## Conversation
+
+**2026-07-17 15:24 claude-code:** Run run-20260717-1524 completed — Retrospective close-out — fixed 2 July under this ticket (commit 97d9a00a on the release branch), run never recorded at the time. The copy path's operational lock was keyed by contract only, so a locked delivery also froze the same contract's unlocked collection; it now keys per piece ({contractID}|{type}), matching the live finalize path. Two adjacent holes closed in the same pass: warehouse-touched rows also keyed per piece so a collection stop can never reassign the contract's loaded delivery row, and the run-deletion sweep now preserves pushed and in-progress runs (status ≥ 30), not just manually locked ones. Note from the original work stands: all three public copy entry points have no callers (the live path is SketchPlanService::finalize, which only borrows helpers) — fixed anyway so the parallel implementation is safe if ever resurrected, and it remains a candidate for deletion in a future cleanup. Unit coverage: CopyPlanPieceLockTest (7 cases) plus the ReplanSafety/SplitPreservation/OperationallyLocked/FinalizeProtection suites, green at the time.
