@@ -4,7 +4,7 @@ title: Daily posting cron go-live & accounts handover plan
 type: chore
 state: done
 created: 2026-07-10T21:28:58Z
-updated: 2026-07-15T17:49:28Z
+updated: 2026-07-17T11:52:17Z
 project: accounts-integrity
 section: null
 parent: null
@@ -63,7 +63,7 @@ labels:
   - release
   - accounts-handover
 attention: null
-version: 15
+version: 16
 ---
 
 ## Problem
@@ -103,3 +103,5 @@ The daily command posts documents at **T-7/T-8 day windows** by default. Confirm
 **2026-07-15 17:49 — you**
 
 Done
+
+**2026-07-17 11:52 claude-code:** Live bug found during the parallel week (2026-07-17): a warnings-only posting run's digest said "1 warning — click here" but the linked /xero/run-issues page rendered nothing. Cause: the digest counts status='warning' rows, but the page's XeroLogger::issuesSince() only queried errors + stranded attempts — two out-of-sync queries. Fixed: issuesSince() gains an opt-in includeWarnings flag; the run-issues page passes it (rows labelled "warning (posted OK)"); the digest is untouched so it still decides all-clear on errors only (a skipped-email warning never makes a clean run look failed). Committed to master 7c6f8e84 (live), cherry-picked to t0538 de7dd136. The warning itself is almost certainly a customer_linked_email skip (malformed linked email, record skipped, everything else posted) — same class as the go-live 5341/13658/59454 fixes; once deployed the page shows it for the last 24h.
