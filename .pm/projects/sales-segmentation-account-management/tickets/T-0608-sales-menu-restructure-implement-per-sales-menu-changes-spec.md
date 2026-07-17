@@ -4,7 +4,7 @@ title: Sales menu restructure — implement per "sales menu changes" spec (keep/
 type: feature
 state: done
 created: 2026-07-17T06:37:50Z
-updated: 2026-07-17T08:26:14Z
+updated: 2026-07-17T11:10:53Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -38,7 +38,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 5
+version: 6
 ---
 
 ## Problem
@@ -104,3 +104,5 @@ duplicate ticket
 **2026-07-17 08:26 — you**
 
 Records: docs none-needed; tech-session none-needed; status-note none-needed.
+
+**2026-07-17 11:10 claude-code:** **Contract-value visibility check — verified.** The spreadsheet flagged checking that regular salespeople can't see *everyone's* contract values on the Contracts-by-conversion-date and Sales Person Q/C pages. Zsolt has checked this: regular sales **cannot** see others' contract values. No data-exposure issue — that acceptance criterion is satisfied.
