@@ -4,7 +4,7 @@ slug: sales-phase-1-nathan-prep-review-pages-menu-venue-special-ca
 title: Sales Phase 1 — Nathan prep review (pages, menu, venue, special captures, email templates)
 state: held
 created: 2026-07-15T07:41:07Z
-updated: 2026-07-17T06:35:16Z
+updated: 2026-07-17T19:26:18Z
 scheduled_at: 2026-07-16T09:00:00
 duration_minutes: 60
 location: TBD
@@ -145,12 +145,18 @@ attachments:
     size: 975
     uploaded_by: zsolt@yahire.com
     uploaded_at: 2026-07-17T06:35:16Z
+  - key: meetings/M-010/1784316378762-meeting-recording-2026-07-17-0635-transcript.txt
+    filename: meeting-recording-2026-07-17-0635-transcript.txt
+    content_type: text/plain
+    size: 115
+    uploaded_by: transcribe-worker
+    uploaded_at: 2026-07-17T19:26:18Z
 calendar:
   graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdklJRIAAA=
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: scoping
-version: 24
+version: 25
 ---
 
 **Purpose:** work through the "Question prep for Nathan — sales phase 1" doc to gather the info needed to scope Phase 1 (PH-001 / MS-001).
@@ -160,3 +166,9 @@ version: 24
 **⏰ Time TBC** — placeholder 09:00, morning of 16 Jul. Confirm the exact time.
 
 **Prep:** Zsolt to bring the pages-vs-last-2-months usage summary (for the redundant-pages / main-pages items). Most agenda items are discussion/needs-Nathan — output is detail (acceptance criteria) to flesh out T-0467/0468/0469/0470/0574/0575, plus decisions on the special-capture tiers and email-template ownership.
+
+## Transcript — meeting-recording-2026-07-17-0635.webm
+
+_Transcribed 2026-07-17T19:26:18Z on-device._
+
+_(No audible speech in this recording — nothing to transcribe. It may have been a mis-fired or empty recording.)_
