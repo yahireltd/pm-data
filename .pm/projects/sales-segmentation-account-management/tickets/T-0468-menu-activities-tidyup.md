@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-23T11:48:35Z
-updated: 2026-07-15T10:18:45Z
+updated: 2026-07-17T06:33:42Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -15,13 +15,15 @@ order: 3072
 reporter: null
 assignee: null
 acceptance_criteria:
-  - Daily-driver pages confirmed (from the page-usage reports + Nathan) and placed on the Top Level menu.
-  - Remaining pages categorised into a submenu or top-level alphabetically; menu links removed for pages not used / very rarely used.
-  - The menu is built from the usage CSV we compile (top-used → top-level; rarely/never used → drop or submenu).
-  - Menu search is released to all users.
+  - "Menu rebuilt from the CSV: constantly-used pages on Top Level, the rest in submenus / alphabetical."
+  - Menu links for unused/rarely-used pages removed.
+  - Menu search released to all users.
+  - A contract-checking page exists; Website Quotes retired; select-all + page optimisation added.
+  - Activity-editing simplification (Call/Email/Meeting/Task + icon) scoped, or explicitly deferred as a deep-dive.
 out_of_scope: []
 code_anchors: []
-relates: []
+relates:
+  - T-0467
 blocks: []
 blocked_by: []
 duplicates: []
@@ -29,25 +31,17 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 4
 ---
 
-## Source
-Sales Phase 1 — "Question prep for Nathan" doc (Menu / activities tidy).
+## Problem
+The menu/navigation needs tidying: constantly-used pages should be top-level, the rest organised into submenus, and dead links removed. Menu search should be available to everyone.
 
-## Scope
-- Confirm the main daily-driver pages and put them on the **Top Level** menu — driven by the page-usage reports (sales + management, last 60 days).
-- **Build the menu from the usage CSV** we compile (top-used = top-level; rarely/never-used = drop or submenu).
-- Categorise the remaining pages — collapse into a submenu or top-level, alphabetically.
-- Remove menu links for pages not used / very rarely used.
-- **Release the menu search to all users** (currently limited) — folded in here.
-
-## Skippable deep-dive
-- Activities can be edited now, but that will change (it affects process management — they can't be adjusted). Is there a quicker way? e.g. Call / Email / Meeting / Task, then pick the exact activity, with call/email/meeting shown top-level via an icon. Better as its own deep-dive; gated on the activities-process direction.
-
-## Needs (Nathan meeting)
-- Confirm the top-level set with Nathan; agree what merges / gets dropped.
-- Activities-process direction (if the process changes, activities change).
-
-## Inputs
-- Page-usage reports: `sales-page-usage-report` + `management-page-usage-report` (last 60 days) — the ranked usage that drives the top-level vs drop/submenu decisions.
+## Design notes (from M-010)
+- Build the menu structure from the CSV Zsolt prepared (rbac-menu-tree.csv).
+- Put the main, constantly-used pages on the **Top Level**.
+- Categorise the remaining pages: collapse into a submenu or top-level, alphabetically.
+- Remove menu links for pages not in use or very rarely used.
+- **Decision:** release the menu search to **everyone**.
+- **Decision:** build a dedicated **contract-checking page** (see previous tickets), then remove the **Website Quotes** page + add a **select-all** and optimise the page. (Pairs with T-0467.)
+- [Possible deep-dive] Activities can currently be edited, which affects process management — we shouldn't allow free edits. Explore a simpler/quicker model: Call/Email/Meeting/Task, then select the exact activity, with the type denoted by an icon.

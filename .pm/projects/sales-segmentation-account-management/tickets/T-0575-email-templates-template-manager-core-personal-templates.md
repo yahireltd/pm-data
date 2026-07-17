@@ -4,7 +4,7 @@ title: Email templates — template manager (core + personal templates)
 type: feature
 state: triaged
 created: 2026-07-15T07:21:36Z
-updated: 2026-07-15T07:21:36Z
+updated: 2026-07-17T06:34:10Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -17,7 +17,12 @@ reporter:
   name: Zsolt
   channel: Nathan phase-1 prep doc
 assignee: null
-acceptance_criteria: []
+acceptance_criteria:
+  - A template manager on the QB with core templates + optional per-salesperson personal templates (add/edit/remove).
+  - Templates surfaced via dropdowns from the QB (and profile / other useful places).
+  - Templates support pulled-through links/items, not just static uploads.
+  - Inbound's email needs (what they send) captured before finalising the core template set.
+  - AI-assisted emails scoped as an explicit later phase.
 out_of_scope: []
 code_anchors: []
 relates: []
@@ -32,23 +37,19 @@ labels:
   - email-templates
   - quote-builder
 attention: null
-version: 1
+version: 2
 ---
 
-## Source
-Sales Phase 1 — "Question prep for Nathan" doc. Placeholder — detail after the meeting.
+## Problem
+The email-template system on the Quote Builder needs an overhaul: a template manager with core templates plus (optionally) personal templates per salesperson.
 
-## Idea
-A **template manager**: core templates + (optionally) individuals creating their own. Not a simple upload — templates pull through links/items, so it needs to be structured (not for the unsavvy). Surfaced on **dropdowns from the QB, possibly the profile, and other convenient places**.
-
-## Notes
-- The template manager currently lives on the QB and needs an **overhaul**.
-- **Phase 1:** personalised templates per salesperson — what they can add / edit / remove.
+## Design notes (M-010)
+- A **template manager** on the QB: **core templates** + optionally individuals create their own — not a dumb upload, since we often pull through links/items, so not for the unsavvy.
+- Templates available on dropdowns from the **QB**, possibly the **profile**, and other convenient places.
+- **Phase 1:** personalised templates per salesperson — what they can add/edit/remove.
 - **Later:** AI-assisted emails.
+- **Ownership:** Zsolt or Austin, or both — TBC.
 
-## Open
-- Ownership — Zsolt / Austin / both? (TBC)
-- Which templates to seed (from sales).
-
-## Not actionable yet
-Gated on the Nathan conversation + ownership decision.
+## Actions
+- Speak to **inbound** about what they send (accounts do some small ones, e.g. venue comms) — Frank / Helio / Sam.
+- **Payment chasers** (Nathan) — noted these will be on different pages; already homed in **T-0418**.

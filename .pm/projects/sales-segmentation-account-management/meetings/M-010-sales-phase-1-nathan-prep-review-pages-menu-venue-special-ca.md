@@ -4,7 +4,7 @@ slug: sales-phase-1-nathan-prep-review-pages-menu-venue-special-ca
 title: Sales Phase 1 — Nathan prep review (pages, menu, venue, special captures, email templates)
 state: held
 created: 2026-07-15T07:41:07Z
-updated: 2026-07-17T05:49:53Z
+updated: 2026-07-17T06:35:16Z
 scheduled_at: 2026-07-16T09:00:00
 duration_minutes: 60
 location: TBD
@@ -139,12 +139,18 @@ attachments:
     size: 19622
     uploaded_by: zsolt@yahire.com
     uploaded_at: 2026-07-15T12:50:14Z
+  - key: meetings/M-010/1784270115093-meeting-recording-2026-07-17-0635.webm
+    filename: meeting-recording-2026-07-17-0635.webm
+    content_type: audio/webm
+    size: 975
+    uploaded_by: zsolt@yahire.com
+    uploaded_at: 2026-07-17T06:35:16Z
 calendar:
   graph_event_id: AAMkADg5NzRlZTFjLTdkZGEtNDZlZS05MWIxLTQ5NzJhNWZkNWFjZgBGAAAAAABRaX1b6YusT7RDYf0iEOMlBwCnphZ2BstsS50BbU5pWRaYAALqCQ1nAACnphZ2BstsS50BbU5pWRaYAAdklJRIAAA=
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: scoping
-version: 23
+version: 24
 ---
 
 **Purpose:** work through the "Question prep for Nathan — sales phase 1" doc to gather the info needed to scope Phase 1 (PH-001 / MS-001).
