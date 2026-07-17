@@ -4,7 +4,7 @@ title: Personal-cohort "golden nugget" spotter + split segments into Personal vs
 type: feature
 state: triaged
 created: 2026-07-17T20:25:44Z
-updated: 2026-07-17T20:25:44Z
+updated: 2026-07-17T22:27:51Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -52,7 +52,7 @@ labels:
   - personal-cohort
   - research
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
@@ -67,3 +67,13 @@ A lot of real corporate demand hides behind **personal (webmail) email addresses
 
 ## Notes / forward
 - The actual ML model is a **follow-up spike**, not this build. Relates to T-0481 (quote-intrinsic white-whale detection).
+
+## Conversation
+
+**2026-07-17 22:27 claude-code:** **Data note discovered while scoring the cohort (affects this ticket's build):**
+
+Personal-email scored rows are keyed by the *discovered corporate domain*, but the customer's actual hire is booked under their **personal email address**. So realised £ must NOT be read off the scored row's domain — it must be computed via the **customer / email link** (match the customer's webmail email against `ya_contracts.email`). Measuring by domain understates their realised spend to ~£0.
+
+Evidence: of 5,923 named-webmail customers, **975 already have realised hire (~£737k)** booked under personal emails — invisible to the original domain-keyed sweep. So the "Personal with company" segment contains a meaningful chunk of *realised* corporate customers, not just leads; the golden-nugget view should surface realised £ (via the customer link) alongside the score/potential.
+
+Add to acceptance criteria: realised £ for personal-email customers is computed via the customer/email link, not the scored-row domain.

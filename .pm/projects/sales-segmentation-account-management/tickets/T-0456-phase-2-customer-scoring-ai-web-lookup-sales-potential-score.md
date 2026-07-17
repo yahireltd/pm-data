@@ -4,7 +4,7 @@ title: Phase 2 · Customer scoring — AI web-lookup sales-potential scores
 type: feature
 state: triaged
 created: 2026-06-22T21:41:31Z
-updated: 2026-07-17T22:15:37Z
+updated: 2026-07-17T22:27:47Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -34,7 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 10
+version: 11
 ---
 
 ## What this is
@@ -129,3 +129,15 @@ Findings worth a look (make the commercial case):
 - ~37% (4,246) correctly disqualified as not event-relevant, so the A/B lists are clean.
 
 New tickets raised off the back of this: **T-0618** (all-customer research view), **T-0619** (personal-cohort golden-nugget spotter + Personal vs Personal-with-company segments), **T-0621** (rewind/perspective-date back-test of score→£). Scores live in the sandbox + a re-runnable export; replayed to live-main manually.
+
+**2026-07-17 22:27 claude-code:** **Correction / important measurement caveat on the findings above.**
+
+The "394 A-tier with £0 realised" figure conflated two things. Realised £ in the score table is keyed by the scored **domain**. For the personal-email ("Personal with company") rows, that domain is the *discovered corporate* domain — but those customers' hire was booked under their **personal email**, so their realised £ reads as £0 by that measure even when they have spent.
+
+Clean split:
+- **329** A-tier rows are corporate domains with a genuine £0 → **true whitespace** (Alexandra Palace, ExCeL, Levy, Goodwood, etc.). Reliable.
+- **40** A-tier rows are personal-email entries whose £0 is **unreliable** (spend hidden under the webmail address).
+
+Separately, and importantly: the named-webmail cohort (5,923 customers) includes **975 who HAVE realised hire — ~£737k booked under personal emails.** These were never in the original 9,074 domain sweep (webmail domains were excluded there), so scoring them is **net-new coverage of realised-but-unscored customers**, not just leads.
+
+**Build rule for the research views:** compute realised £ for personal-email customers via the **customer / email link**, NOT the scored row's domain. Captured on T-0619.

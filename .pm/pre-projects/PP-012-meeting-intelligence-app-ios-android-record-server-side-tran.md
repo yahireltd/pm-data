@@ -1,27 +1,27 @@
 ---
 id: PP-012
 slug: meeting-intelligence-app-ios-android-record-server-side-tran
-title: Meeting Intelligence app (iOS + Android) — record → server-side transcribe + speaker ID → outcomes/tickets, as a standalone productizable module of pm-tool
+title: "The Meet Grinder — meeting intelligence: record → speaker-attributed transcript → decisions/tickets (iOS + Android app + agent MCP tools); flagship module of the pm-tool platform (PP-013)"
 state: planning
 created: 2026-07-17T21:35:13Z
-updated: 2026-07-17T21:46:35Z
+updated: 2026-07-17T22:29:48Z
 stakeholders: []
 source_tickets:
   - T-0614
   - T-0615
   - T-0620
 summary: |-
-  Turn the local meeting-transcription stack (T-0614 diarization, T-0615 voice enrolment, T-0620 ECAPA speaker separation — proven to tell apart sound-alike brothers) into a standalone mobile app that anyone on a team can use to capture meetings and have them become tracked work automatically. Vision (Austin, 2026-07-17): "it really can transform meetings — the modern dev's dream as a package."
+  Solve the MEETING problem specifically — and expose it two ways: (1) MCP TOOLS FOR AGENTS TO DIGEST meetings (first-class) — agents pull speaker-attributed transcripts, decisions and outcomes, so 'what was decided' flows straight into what agents build; and (2) a phone CAPTURE app (iOS/Android) for humans to record. Core loop: record → server-side transcribe + diarize + speaker-attribute (ECAPA voiceprints, per-segment, multi-condition + spoken self-introduction) → draft decisions/outcomes → tracked, owned tickets with the right owners.
 
-  Core loop: phone app records a meeting → uploads audio → SERVER-SIDE transcription + diarization + speaker attribution (named via each person's voiceprint) → draft summary/outcomes → promote to pm-tool tickets/decisions with the right owners. Two personas already validated: Ben (lives in meetings → auto-captured into tracked work) and Austin (non-dev PM → meetings are where direction is set, so meeting→outcome→ticket is how "what we decided" reaches "what agents build").
+  RELATIONSHIP (Austin, 2026-07-17): PP-012 and PP-013 are BOTH built, SHARING RESOURCES. PP-012 = the focused meeting capability + the agent-facing MCP surface. PP-013 = the white-label, multi-tenant productization of the whole tool. They share the transcription/diarization/speaker-ID pipeline and the server-side compute; PP-012's meeting intelligence is one flagship capability of the PP-013 platform.
 
-  KEY ARCHITECTURE SHIFT to decide during planning: today the stack is deliberately LOCAL/OFFLINE (Austin's Mac; no cloud LLM; biometric voiceprints stay on-device). A phone app implies SERVER-SIDE compute (GPU box for whisperx+pyannote+ECAPA) and voiceprints living server-side — which raises real biometric-privacy/consent + multi-tenant-isolation questions that must be designed in, not bolted on. Decisions: (a) where transcription runs (dedicated GPU server vs on-device Core ML), (b) how voiceprints are stored/consented per person and per tenant, (c) cross-platform build (React Native fits Austin's RN dabbling, or native), (d) how it plugs into pm-tool (shared entity model, this becomes a first module of the multi-tenant/agents-as-team-members product vision), (e) transcription quality bar from the T-0620 findings (min ~1.5s windows, clean cross-condition enrolment, sequence smoothing, open-set threshold ~0.75 on ECAPA).
+  Proven today: ECAPA separates sound-alike siblings (0.90 same-voice vs 0.56 siblings) where off-the-shelf tools mislabel. Quality bar: >=1.5s windows, multi-condition enrolment, spoken self-introduction as top-priority identity source, calibrated open-set threshold, sequence smoothing.
 
-  Builds on the meeting-recording loop already live in pm-tool (browser record → S3 → transcribe-meetings worker → pm_attach_meeting_transcript → outcomes). The app is the mobile front of that same pipeline.
+  Shared architecture (with PP-013): server-side GPU compute; biometric voiceprint consent + per-tenant isolation; deploy model (isolated envs vs centralised multi-tenant DB). Builds on the meeting loop already live in pm-tool (browser record → S3 → transcribe worker → attach transcript → outcomes).
 owner:
   kind: human
   name: Austin
-version: 3
+version: 6
 problems:
   - Meetings generate decisions and actions that evaporate — not captured as tracked work, so decisions are lost, work is repeated, and owners are unclear (the core org-coherence failure, at the meeting boundary).
   - Off-the-shelf transcription doesn't reliably attribute WHO said what — especially sound-alike voices — which is fatal for a PM tool whose job is 'who decided what'.
@@ -55,37 +55,45 @@ success_criteria:
   - Biometric voiceprints are stored only with explicit per-person consent and isolated per tenant; passes a privacy review.
 cost_of_inaction: "\"Meeting decisions keep getting lost and re-litigated; Ben's meeting-heavy days produce zero tracked artifacts; Austin's verbal direction doesn't become buildable tickets. The org-coherence aim (aligning people, agents, projects, goals) stalls exactly where most decisions are actually made. And a genuinely differentiating capability — speaker attribution good enough to separate sound-alike siblings, already proven — never ships as a product.\""
 milestones:
-  - title: "Tech spike: production per-segment ECAPA speaker separation"
+  - title: "Tech spike: production per-segment ECAPA speaker separation (largely de-risked 2026-07-17)"
     acceptance_criteria:
       - ECAPA embedding backend replaces the old pyannote embedding
       - Short segments merged into >=1.5s windows before embedding
       - Multi-condition enrolment + best-of-profiles matching
       - Spoken self-introduction parsed as top-priority identity source
-      - Sequence smoothing + calibrated open-set threshold
+      - Cluster-aware per-segment labelling (splits merged sibling clusters) + smoothing + calibrated open-set threshold
       - Proven on a real 3-person meeting including the Ben/Zac sibling case
   - title: "Server pipeline: transcription off the Mac onto a GPU service"
     acceptance_criteria:
       - whisper + pyannote + ECAPA run server-side as a callable service
       - Throughput adequate for a team's daily meeting volume (Ben is the stress test)
-  - title: Commercial model + multi-tenancy architecture (KEY DECISION)
+      - Shared with PP-013's platform compute
+  - title: Agent-facing MCP surface — tools for agents to DIGEST meetings
     acceptance_criteria:
-      - "Deployment model decided: per-customer isolated environments (today's .pm-per-deploy model) vs centralised multi-tenant database"
-      - Subscription tiers defined with compute-cost-driven limits (file size, meeting count)
-      - Tenant data isolation model specified — especially biometric voiceprints
-      - White-label branding approach decided
+      - Agents can pull speaker-attributed transcripts, decisions and outcomes for a meeting via MCP
+      - Decisions/outcomes are structured (who decided, owner, due) so agents can act on them
+      - Extends today's pm_get_meeting / pm_record_outcome surface
   - title: Enrolment + consent + privacy model
     acceptance_criteria:
       - Per-person voice enrolment flow
       - Explicit biometric consent captured and revocable
       - Per-tenant isolation of voiceprints
       - Privacy review passed
-  - title: Mobile app MVP (iOS + Android)
+  - title: Mobile app MVP (iOS + Android, one React Native codebase)
     acceptance_criteria:
-      - Record → upload → review transcript/outcomes → promote to ticket
-      - Works on both platforms
+      - "Home/Meetings: meetings grouped by day with status (recording/transcribing/ready) + decision counts; record hero button"
+      - "Record (live): timer + waveform, 'in the room' attendee chips that light up as each voice is identified, spoken-intro prompt for unknown voices, pause/stop"
+      - "Processing: upload + transcribe + identify-speakers progress; notify when ready; dismissable to background"
+      - "Meeting detail — Transcript: speaker-labelled, [MM:SS] timestamps, audio playback with tap-to-seek, tap a name to correct"
+      - "Meeting detail — Outcomes: AI-drafted decisions + actions as cards (who decided / owner / due), Edit, Promote-to-ticket, Promote-all"
+      - "Fix-speaker sheet: reassign this segment or all of a speaker; correction feeds back as a labelled in-condition voice sample"
+      - "You: profile, your voiceprint (re-record), people & voices roster (add person), plan + minutes-used meter"
+      - "Enrol voice: read-aloud prompt, hold-to-record, explicit revocable consent"
+      - "Offline capture: record without connection, auto-upload when back online"
   - title: Closed-loop pm-tool integration
     acceptance_criteria:
       - Meeting → outcomes → tickets/decisions with correct owners, end to end
+      - Promote-to-ticket from the app creates a real pm-tool ticket with owner
 ---
 
 # PP-012: Meeting Intelligence app (iOS + Android) — record → server-side transcribe + speaker ID → outcomes/tickets, as a standalone productizable module of pm-tool
