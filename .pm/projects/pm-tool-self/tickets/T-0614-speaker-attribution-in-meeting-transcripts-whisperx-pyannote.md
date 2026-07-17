@@ -2,9 +2,9 @@
 id: T-0614
 title: Speaker attribution in meeting transcripts (whisperx + pyannote diarization) — who said what, who decided
 type: feature
-state: triaged
+state: in_progress
 created: 2026-07-17T16:31:45Z
-updated: 2026-07-17T16:31:45Z
+updated: 2026-07-17T16:41:07Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,9 @@ priority: p1
 reporter:
   kind: human
   name: austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - transcribe-speakers <audio> produces a transcript with SPEAKER_NN labels (consecutive lines merged per speaker)
   - transcribe-meetings uses speaker labels for meeting recordings, falling back to the plain pipeline when diarization is unavailable
@@ -34,12 +36,15 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260717-1641
+    started: 2026-07-17T16:41:07Z
+    status: in_progress
 labels:
   - meetings
   - transcription
 attention: null
-version: 1
+version: 3
 ---
 
 ## Problem
