@@ -6,16 +6,17 @@ project: sales-segmentation-account-management
 state: planned
 order: 6144
 created: 2026-06-30T12:39:45Z
-updated: 2026-07-15T10:32:27Z
+updated: 2026-07-17T20:25:55Z
 committed_items:
   - T-0485
   - T-0486
   - T-0488
   - T-0489
   - T-0499
+  - T-0618
 goal: Advance Research Needed
 milestone: MS-012
-version: 6
+version: 7
 ---
 
 # SPR-010: Research Needed — Sprint
