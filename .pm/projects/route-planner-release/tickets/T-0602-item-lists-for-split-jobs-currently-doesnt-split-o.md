@@ -2,10 +2,10 @@
 id: T-0602
 title: "Split jobs: assign item lists per piece at sketch time, not only at finalise"
 type: feature
-state: review
+state: done
 priority: p1
 created: 2026-07-16T17:02:00Z
-updated: 2026-07-16T18:09:25Z
+updated: 2026-07-17T12:32:54Z
 project: route-planner-release
 section: null
 parent: null
@@ -17,10 +17,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Expanding a split piece on the sketch shows its item list (name + qty)
-  - For a plan loaded from a logistics pre-split (preserved split), the item lists match what logistics actually assigned per piece
-  - For solver-made splits the provisional distribution shown at sketch time matches what finalise then writes
-  - Finalise output unchanged (byte-identical run contracts for the same plan)
+  - "[x] Expanding a split piece on the sketch shows its item list (name + qty)"
+  - "[x] For a plan loaded from a logistics pre-split (preserved split), the item lists match what logistics actually assigned per piece"
+  - "[x] For solver-made splits the provisional distribution shown at sketch time matches what finalise then writes"
+  - "[x] Finalise output unchanged (byte-identical run contracts for the same plan)"
 out_of_scope: []
 code_anchors:
   - path: common/services/SketchPlanService.php
@@ -56,11 +56,8 @@ agent_runs:
 labels:
   - route-planner
   - release-blocker
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-16T18:09:25Z
-version: 8
+attention: null
+version: 14
 due: 2026-07-20
 ---
 
@@ -73,3 +70,9 @@ Run the same item-distribution logic used at finalise (pickDeliberateItemDistrib
 ## Conversation
 
 **2026-07-16 18:09 claude-code:** Run run-20260716-1807 completed — Split pieces on the sketch board now show what's actually on each piece. Before, items were only assigned to pieces at finalise, so planners saw two half-stops with weights but no idea which furniture was on which — especially confusing when loading a live plan that logistics had already deliberately split by item. Expanding a split piece now shows that piece's item list with a clear status: green "as split by logistics" when the day's runs already carry the real per-piece assignment (their choices, shown verbatim), or amber "provisional — confirmed at finalise" for solver-made splits, where the list shown is computed by exactly the same distribution routine finalise will run — so what you see at sketch time is what finalise writes. Non-split stops keep showing the full contract item list. Finalise itself is completely untouched.
+
+---
+
+**2026-07-17 12:32 — you**
+
+Done and working
