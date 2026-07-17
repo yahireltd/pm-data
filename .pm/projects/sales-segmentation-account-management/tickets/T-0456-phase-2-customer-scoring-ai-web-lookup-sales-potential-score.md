@@ -4,7 +4,7 @@ title: Phase 2 · Customer scoring — AI web-lookup sales-potential scores
 type: feature
 state: triaged
 created: 2026-06-22T21:41:31Z
-updated: 2026-07-17T15:55:37Z
+updated: 2026-07-17T22:15:37Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -34,7 +34,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 9
+version: 10
 ---
 
 ## What this is
@@ -114,3 +114,18 @@ OUTSTANDING:
 - Storage: sandbox `yahire_db.customer_sales_scores` (protected from the nightly refresh via PRESERVE_TABLES) + durable re-runnable export `runtime/p0018/export/customer_sales_scores_data.sql` (9,074-row upsert) — **Austin replays this to live-main manually** (live currently holds 8,885; needs one more replay to pick up today's 429).
 - The `/segment-research` page (live, commit f31705fd) computes from this table — once live is topped up + its ~10-min cache turns, it will show the complete base.
 - **Remaining scope decision (open):** ~14,142 quote-only corporate leads (never hired). Options: score-on-demand at quote time (matches enrichment-on-demand), top-slice by quote value, or bulk sweep. To discuss with Ben.
+
+**2026-07-17 22:15 claude-code:** **Scoring progress + findings (2026-07-17).**
+
+Where the sweep stands — total scored base now **11,448** domains/companies:
+- **Delivered-hire base:** all 9,074 customers with any hire history — done (earlier).
+- **Quote-only corporate leads** (quoted, never hired), highest-quote-value first: batch 1 (~1,000) + batch 2 (1,008) — done.
+- **"Personal with company" cohort** (enquirers who used a personal/webmail email *but gave a company name*): in progress, ~83% through 1,304 companies. These can't be scored by domain, so each is identified by **company name cross-checked against the customer's real address/quote-delivery location** before we accept a match — no location/identity match = left unscored rather than guessed (~50% match as we get into the obscure tail).
+
+Findings worth a look (make the commercial case):
+- **394 A-tier leads with £0 realised** — high potential, never converted. Top of the list: Alexandra Palace, Levy UK, ExCeL London, BCD M&E, The Jockey Club, Goodwood, Cheltenham Festivals.
+- **54 A-tier corporates found hiding behind personal emails** (e.g. Madhu's, LatinoLife, Blonstein, Lulu's Marquees) — demand that domain-based scoring couldn't see.
+- **216 competitors + 280 "trade"** flagged in the base (worth excluding from sales targeting).
+- ~37% (4,246) correctly disqualified as not event-relevant, so the A/B lists are clean.
+
+New tickets raised off the back of this: **T-0618** (all-customer research view), **T-0619** (personal-cohort golden-nugget spotter + Personal vs Personal-with-company segments), **T-0621** (rewind/perspective-date back-test of score→£). Scores live in the sandbox + a re-runnable export; replayed to live-main manually.

@@ -10,7 +10,7 @@ defaults:
   project:
     state: planning
 id_counters:
-  ticket: 621
+  ticket: 622
   project: 21
   section: 14
   perProject:
@@ -44,7 +44,7 @@ id_counters:
       sprint: 12
       meeting: 13
       decision: 11
-      status_note: 3
+      status_note: 4
     route-planner-release:
       sprint: 1
       meeting: 1

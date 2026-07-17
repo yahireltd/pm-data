@@ -4,8 +4,17 @@ slug: white-label-multi-tenant-pm-tool-productize-the-entire-tool-
 title: White-label, multi-tenant pm-tool — productize the ENTIRE tool as a production-ready SaaS others run under their own brand
 state: draft
 created: 2026-07-17T22:01:41Z
-updated: 2026-07-17T22:11:03Z
-stakeholders: []
+updated: 2026-07-17T22:12:26Z
+stakeholders:
+  - name: Austin
+    channel: email
+    contact: austin@yahire.com
+    internal: true
+    added_by:
+      kind: human
+      name: Austin Pickering
+    added_at: 2026-07-17T22:12:26Z
+    role: Project Manager
 source_tickets: []
 summary: |-
   Not a module — the whole tool. Turn pm-tool itself into a white-label, multi-tenant, production-ready product that other teams / agent-first builders run (potentially under their own brand). The meeting-intelligence app (PP-012) is ONE capability inside this platform, not the product itself.
@@ -20,7 +29,7 @@ summary: |-
 owner:
   kind: human
   name: Austin
-version: 4
+version: 5
 goals:
   - "⭐ MEETING INTELLIGENCE — THE FLAGSHIP. Record a meeting on your phone and it becomes a named, speaker-attributed transcript → draft decisions/outcomes → tracked, owned tickets — automatically. Reliable 'who said what / who DECIDED what', even for sound-alike voices (proven today: separated two brothers who sound alike, where off-the-shelf tools would mislabel them). Meetings are where decisions get made and lost; this turns them from a black hole into a structured, attributed, actionable record — with ZERO discipline required. It's also the on-ramp to every other benefit: the capture that feeds the context ledger happens for free, just by recording."
   - "⭐ UI-BASED AGENT MANAGEMENT, AT THE PROJECT LEVEL — a visual control tower for the agents working a project: see every agent's activity (claimed / in progress / in review), watch live run progress, and dispatch, monitor and review their work from one project dashboard instead of scattered terminal sessions. This is the cockpit for the 'team-scale complexity, solo bandwidth' operator — directing a workforce of agents needs a management surface, and doing it per project keeps each effort's agent activity coherent, visible and reviewable in one place."
