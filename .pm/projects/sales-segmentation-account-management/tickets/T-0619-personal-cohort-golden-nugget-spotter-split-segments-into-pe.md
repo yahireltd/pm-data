@@ -4,7 +4,7 @@ title: Personal-cohort "golden nugget" spotter + split segments into Personal vs
 type: feature
 state: triaged
 created: 2026-07-17T20:25:44Z
-updated: 2026-07-17T22:40:21Z
+updated: 2026-07-17T22:46:10Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -24,6 +24,11 @@ acceptance_criteria:
   - "'Personal' rows are shown but left unscored (labelled as such)"
   - The two new segments appear consistently in the all-customer research view (sibling ticket) and any segment breakdown
   - Read-only, standalone, runnable on master
+  - Realised £ for 'Personal with company' customers is computed via the CUSTOMER/EMAIL link (webmail email -> ya_contracts.email), NOT the scored-row domain (domain-keying understates it to ~£0)
+  - "The Personal explorer covers BOTH sub-cohorts — with AND without realised history — with columns: realised Y/N, order count, realised LTV, first/last order date, months-since-last-order ('not trading since'), repeat flag"
+  - Repeat detection is primarily via customerID (merge-followed through mergedIntoCustomerID) = >=2 delivered orders (contractType=1, unconverted 0/null), with a light OPTIONAL phone/email/name+postcode 'possible duplicate' pass to recover the ~127 fragmented identities — no fuzzy-matching engine needed
+  - "WIN-BACK LIST (dedicated view/tab on the page): Personal (no-company) REPEAT buyers (>=2 delivered orders) who are DORMANT — last delivered order older than an adjustable threshold (default 2 years) — sorted by realised LTV desc, showing name / email / phone / last-known town + last-order date + months-since; with headline count and total lapsed LTV (baseline today ~446 customers). Must be exportable/actionable as a call/email list"
+  - Also expose the still-active repeat base (~1,216 customers / ~£1.33M realised LTV) as its own view
 out_of_scope:
   - ML / pattern-detection model build (forward spike; see T-0481)
   - Bulk enrichment back-fill of the whole personal cohort
@@ -32,11 +37,15 @@ code_anchors:
   - path: customer_sales_scores
     note: segment/classification + source flag (source=personal-email for named-webmail)
   - path: ya_customers
-    note: email_domain, companyName (company-name-set detection), mergedIntoCustomerID
+    note: email_domain, companyName (company-name-set detection), mergedIntoCustomerID (identity merge for repeat), phoneNo for duplicate pass
+  - path: ya_contracts
+    note: "delivered orders for realised-via-customer-link + repeat + dormancy: customerID, email, telNo, hireStartDate, contractTotal (contractType=1, unconverted 0/null)"
+  - path: ya_customer_addr
+    note: last-known town/postcode for the win-back contact list + name+postcode duplicate pass
   - path: quotes
     note: quote value/count for the personal cohort
   - path: runtime/p0018/score_pipeline.php
-    note: extract-quoteonly pattern -> add a named-webmail extract mode (score by company name, store under discovered domain)
+    note: extract-named-webmail mode (Personal with company) already built; reference for the cohort definitions
   - path: backend/controllers/SegmentResearchController.php
     note: reference read-only drillable pattern for the new personal-cohort controller/views
 relates: []
@@ -52,7 +61,7 @@ labels:
   - personal-cohort
   - research
 attention: null
-version: 3
+version: 5
 ---
 
 ## Problem
@@ -97,3 +106,24 @@ Recommended method for the tool:
 4. Headline views to expose: **repeat base (1,216 / £1.33M)** and **dormant-repeater win-back (446)**. The "personal VIP / high-frequency" outliers are the pattern-detection angle Ben raised.
 
 Add to acceptance criteria: repeat detection primarily via customerID with an optional phone/email/name duplicate pass; expose the dormant-repeater win-back list.
+
+**2026-07-17 22:46 claude-code:** **Open items & review checklist for the Personal-analysis tool (recorded per protocol before build).**
+
+**To do (build) — beyond the acceptance criteria:**
+- Decide how the **"Personal" (no-company, unscored) segment is represented in the tool's data source** — these ~50,559 customers are NOT in `customer_sales_scores` (never scored), so the page must read them from `ya_customers` + `ya_contracts` directly, not from the scores table. The scores table only covers scored cohorts.
+- Define the **dormancy threshold control** for the win-back list (default 2y, adjustable) and where "months-since-last-order" is computed (MAX `ya_contracts.hireStartDate` per customerID).
+- Wire the **exportable call/email list** for win-back (CSV/print), including the contact fields (name/email/phone/last town).
+
+**To review / verify (data quality):**
+- **Spot-check the named-webmail identity matches** — sample ~20 of the 629 'Personal with company' scores and confirm the location-corroborated domain is genuinely the right company (guard against a plausible-but-wrong match).
+- **Review the exclusion/junk filters** in `extract-named-webmail` for false-exclusions (e.g. a real company whose whole name equalled a blocklisted word).
+- **Confirm the duplicate-pass is worth building**: fragmentation is small (~127 phone / 19 email identities span >1 customerID). Decide whether to build the phone/email/name pass now or defer as a v2.
+- **Known limitation to verify doesn't mislead a consumer:** `customer_sales_scores.lifetime_spend_at_scoring` is DOMAIN-keyed, so it reads ~£0 for personal-email rows even when they've hired. The `/segment-research` page and any realised-£ display must use the customer/email link for these rows (already an AC).
+
+**Data ops:**
+- Austin replays `runtime/p0018/export/customer_sales_scores_data.sql` to live-main to bring live current (manual).
+- The `extract-named-webmail` mode + `namedwebmail_brief.md` live in gitignored `runtime/p0018/` (one-off). Decide whether to productionise if this becomes a recurring refresh.
+
+**Open questions for the Ben meeting (Tue 21 Jul):**
+- Ben asked for a **specific "gap value"** (potential vs £0) — agree the formula (belongs on T-0618).
+- Whether to build the T-0621 rewind/back-test before or after the meeting.

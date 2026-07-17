@@ -4,7 +4,7 @@ slug: meeting-intelligence-app-ios-android-record-server-side-tran
 title: "The Meet Grinder — meeting intelligence: record → speaker-attributed transcript → decisions/tickets (iOS + Android app + agent MCP tools); flagship module of the pm-tool platform (PP-013)"
 state: planning
 created: 2026-07-17T21:35:13Z
-updated: 2026-07-17T22:29:48Z
+updated: 2026-07-17T22:49:04Z
 stakeholders: []
 source_tickets:
   - T-0614
@@ -21,7 +21,7 @@ summary: |-
 owner:
   kind: human
   name: Austin
-version: 6
+version: 7
 problems:
   - Meetings generate decisions and actions that evaporate — not captured as tracked work, so decisions are lost, work is repeated, and owners are unclear (the core org-coherence failure, at the meeting boundary).
   - Off-the-shelf transcription doesn't reliably attribute WHO said what — especially sound-alike voices — which is fatal for a PM tool whose job is 'who decided what'.
@@ -73,22 +73,24 @@ milestones:
       - Agents can pull speaker-attributed transcripts, decisions and outcomes for a meeting via MCP
       - Decisions/outcomes are structured (who decided, owner, due) so agents can act on them
       - Extends today's pm_get_meeting / pm_record_outcome surface
-  - title: Enrolment + consent + privacy model
+  - title: USER VOICE TRAINING + enrolment + consent + privacy
     acceptance_criteria:
-      - Per-person voice enrolment flow
-      - Explicit biometric consent captured and revocable
-      - Per-tenant isolation of voiceprints
-      - Privacy review passed
+      - "Guided onboarding: read several VARIED phrases (not one) so the initial print is rich"
+      - "Multi-condition training over time (different rooms/mics/phone) — the proven #1 accuracy lever that lifts true-match clear of sound-alikes"
+      - A 'voice strength' meter + prompts to train more when a print is weak
+      - "Passive training: every meeting AND every speaker-correction feeds back as a new labelled sample (accuracy compounds with use)"
+      - Spoken self-introduction at meeting start tops up an in-condition sample automatically
+      - Explicit biometric consent captured + revocable; per-tenant isolation of voiceprints; privacy review passed
   - title: Mobile app MVP (iOS + Android, one React Native codebase)
     acceptance_criteria:
-      - "Home/Meetings: meetings grouped by day with status (recording/transcribing/ready) + decision counts; record hero button"
+      - "Home/Meetings: meetings grouped by day with status + decision counts; record hero button"
       - "Record (live): timer + waveform, 'in the room' attendee chips that light up as each voice is identified, spoken-intro prompt for unknown voices, pause/stop"
-      - "Processing: upload + transcribe + identify-speakers progress; notify when ready; dismissable to background"
+      - "Processing: upload + transcribe + identify-speakers progress; notify when ready"
       - "Meeting detail — Transcript: speaker-labelled, [MM:SS] timestamps, audio playback with tap-to-seek, tap a name to correct"
       - "Meeting detail — Outcomes: AI-drafted decisions + actions as cards (who decided / owner / due), Edit, Promote-to-ticket, Promote-all"
-      - "Fix-speaker sheet: reassign this segment or all of a speaker; correction feeds back as a labelled in-condition voice sample"
-      - "You: profile, your voiceprint (re-record), people & voices roster (add person), plan + minutes-used meter"
-      - "Enrol voice: read-aloud prompt, hold-to-record, explicit revocable consent"
+      - "Fix-speaker sheet: reassign this segment or all of a speaker; correction feeds back as a labelled voice sample"
+      - "You: profile, your voiceprint with a VOICE-STRENGTH meter + 'train more' prompt, people & voices roster, plan + minutes-used meter"
+      - "Enrol/train voice: read-aloud prompts, hold-to-record, explicit revocable consent"
       - "Offline capture: record without connection, auto-upload when back online"
   - title: Closed-loop pm-tool integration
     acceptance_criteria:
