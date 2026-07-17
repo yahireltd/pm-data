@@ -2,9 +2,9 @@
 id: T-0607
 title: £666 on cancelled split contract — cancelled value vs commission paid on team targets
 type: bug
-state: triaged
+state: done
 created: 2026-07-17T06:34:34Z
-updated: 2026-07-17T09:15:41Z
+updated: 2026-07-17T09:57:07Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -19,8 +19,8 @@ assignee:
   kind: human
   name: Zsolt
 acceptance_criteria:
-  - Root cause identified for the £666 showing on Paula's Q2 despite the split contract being cancelled to £0.
-  - Cancelled contracts no longer contribute their value to team target / commission thresholds.
+  - "[x] Root cause identified for the £666 showing on Paula's Q2 despite the split contract being cancelled to £0."
+  - "[x] Cancelled contracts no longer contribute their value to team target / commission thresholds."
 out_of_scope: []
 code_anchors:
   - path: backend/controllers/ManagementController.php
@@ -49,7 +49,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 8
+version: 11
 milestone: MS-001
 defect_status: confirmed
 ---
@@ -84,3 +84,15 @@ Net: cancelled split contract → items still summed → × 50% split → £666 
 **Still a business decision (AC #3):** what cancelled value *should* count toward targets, and the paid-vs-invoiced rule — that's a Nathan/Austin call, separate from this code fix.
 
 Code anchors added to the ticket. Not touched: the code (project is commit-restricted; ticket assigned to Zsolt).
+
+---
+
+**2026-07-17 09:57 — you**
+
+cancelled contract not displaying anymore on the page, not counting towards commissions, still have to do the dev for cancelled but paid later
+
+---
+
+**2026-07-17 09:57 — you**
+
+Records: docs updated (actionMenu.md, actionCommissionThresholds.md, main.md); tech-session none-needed; status-note none-needed.
