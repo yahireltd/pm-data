@@ -2,9 +2,9 @@
 id: T-0608
 title: Sales menu restructure — implement per "sales menu changes" spec (keep/remove/move + new submenus)
 type: feature
-state: triaged
+state: done
 created: 2026-07-17T06:37:50Z
-updated: 2026-07-17T08:02:03Z
+updated: 2026-07-17T08:26:14Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -38,7 +38,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 ---
 
 ## Problem
@@ -92,3 +92,15 @@ Concrete restructure of the **Sales** menu, per the "sales menu changes" spreads
 ## Notes / cross-impact
 - **Delivery Capacity → Logistics** and **Payment Related → Accounts** are cross-area moves — coordinate with those owners and check for overlap/duplication.
 - The contract-value visibility check (Contracts by conversion date, and Sales Person Q/C) is an RBAC concern — verify regular sales roles can't see others' contract values.
+
+## Conversation
+
+**2026-07-17 08:26 — you**
+
+duplicate ticket
+
+---
+
+**2026-07-17 08:26 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

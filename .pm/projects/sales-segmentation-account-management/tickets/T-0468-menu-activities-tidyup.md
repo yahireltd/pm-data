@@ -2,10 +2,10 @@
 id: T-0468
 title: Menu / Activities Tidyup
 type: chore
-state: triaged
+state: done
 priority: p2
 created: 2026-06-23T11:48:35Z
-updated: 2026-07-17T08:05:07Z
+updated: 2026-07-17T08:25:20Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -19,9 +19,14 @@ assignee:
 acceptance_criteria:
   - "[x] Menu rebuilt from the CSV: constantly-used pages on Top Level, the rest in submenus / alphabetical."
   - "[x] Menu links for unused/rarely-used pages removed."
-  - Menu search released to all users.
+  - "[x] Menu search released to all users."
 out_of_scope: []
-code_anchors: []
+code_anchors:
+  - path: backend/views/layouts/main.php
+    lines: 489-496
+    note: Global page-search bar — gate removed so it renders for everyone (results stay RBAC-filtered per user; SuperUsers keep unfiltered via data-super). This is 'release search to all'.
+  - path: backend/views/rbac/menu.php
+    note: RBAC menu manager (/rbac/menu) — used to reorganise top-level/submenu and remove dead menu links; saves via RbacController::actionMenuSaveAll.
 relates:
   - T-0467
   - T-0608
@@ -34,7 +39,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 12
+version: 19
 ---
 
 ## Problem
@@ -46,3 +51,15 @@ The menu/navigation needs tidying: constantly-used pages should be top-level, th
 - Categorise the remaining pages: collapse into a submenu or top-level, alphabetically.
 - Remove menu links for pages not in use or very rarely used.
 - **Decision:** release the menu search to **everyone**.
+
+## Conversation
+
+**2026-07-17 08:25 — you**
+
+sales menu tisy up done, will add new pages to it when they are ready, menu search released to everyone
+
+---
+
+**2026-07-17 08:25 — you**
+
+Records: docs updated (actionMenu.md); tech-session none-needed; status-note none-needed.
