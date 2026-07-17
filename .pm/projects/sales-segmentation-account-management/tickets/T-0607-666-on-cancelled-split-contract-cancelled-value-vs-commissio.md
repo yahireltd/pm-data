@@ -4,7 +4,7 @@ title: £666 on cancelled split contract — cancelled value vs commission paid 
 type: bug
 state: triaged
 created: 2026-07-17T06:34:34Z
-updated: 2026-07-17T06:34:36Z
+updated: 2026-07-17T07:24:22Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -15,7 +15,9 @@ reporter:
   kind: human
   name: Nathan
   channel: meeting M-010
-assignee: null
+assignee:
+  kind: human
+  name: Zsolt
 acceptance_criteria:
   - Root cause identified for the £666 showing on Paula's Q2 despite the split contract being cancelled to £0.
   - Cancelled contracts no longer contribute their value to team target / commission thresholds (per the agreed rule).
@@ -31,7 +33,9 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 5
+milestone: MS-001
+defect_status: confirmed
 ---
 
 ## Problem

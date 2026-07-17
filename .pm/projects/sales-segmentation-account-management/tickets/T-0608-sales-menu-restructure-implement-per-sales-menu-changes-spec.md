@@ -4,7 +4,7 @@ title: Sales menu restructure — implement per "sales menu changes" spec (keep/
 type: feature
 state: triaged
 created: 2026-07-17T06:37:50Z
-updated: 2026-07-17T06:37:55Z
+updated: 2026-07-17T07:23:30Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: sales menu changes.xlsx
-assignee: null
+assignee:
+  kind: human
+  name: Zsolt
 acceptance_criteria:
   - "Sales menu rebuilt to the target structure: removals, keeps, moves and new submenus (My Accounts, Customer related, Sales Management) applied per the spec."
   - "Removed from menu: Leads, Key Account Requests, Add New Customer, Account & ZC Last Year Contracts, Rating Search, Customer Scoring, Account Segmentation, Sales Person Q/C (after verifying its contract logic is covered elsewhere)."
@@ -36,7 +38,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
