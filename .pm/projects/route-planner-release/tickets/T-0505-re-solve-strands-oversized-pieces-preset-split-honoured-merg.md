@@ -2,9 +2,9 @@
 id: T-0505
 title: "Re-solve strands oversized pieces: preset-split honoured merged run-contract rows verbatim (C091282)"
 type: bug
-state: review
+state: done
 created: 2026-07-02T12:57:40Z
-updated: 2026-07-17T15:23:43Z
+updated: 2026-07-17T15:30:28Z
 project: route-planner-release
 section: null
 parent: null
@@ -19,9 +19,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Re-solve of a date whose run contracts contain merged (oversized) split rows re-splits by capacity instead of stranding pieces
-  - Genuine manual splits with fleet-loadable pieces are still honoured verbatim on re-solve
-  - Discarded presets emit a [Jobs][PRESET-SPLIT] warning log naming the contract and piece sizes
+  - "[x] Re-solve of a date whose run contracts contain merged (oversized) split rows re-splits by capacity instead of stranding pieces"
+  - "[x] Genuine manual splits with fleet-loadable pieces are still honoured verbatim on re-solve"
+  - "[x] Discarded presets emit a [Jobs][PRESET-SPLIT] warning log naming the contract and piece sizes"
 out_of_scope: []
 code_anchors:
   - file: common/components/RoutePlannerNew.php
@@ -49,11 +49,8 @@ agent_runs:
 labels:
   - sketch-planner
   - route-planning
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-17T15:23:43Z
-version: 9
+attention: null
+version: 14
 branch: PickingSketchSalesDashFriday
 ---
 
@@ -100,3 +97,9 @@ The fleet-capacity gate from the original fix stays as a safety net for already-
 **Known remaining limitation:** if the contract's items are amended AFTER the manual split (qty increased), the replayed assignment reflects the split-time quantities — same staleness the run planner itself has for manual splits. Not addressed.
 
 **2026-07-17 15:23 claude-code:** Run run-20260717-1523 completed — Retrospective close-out — the fix shipped on 2 July under this very ticket but the run was never recorded (predates the stricter flow). Three commits on the release branch: cf3f4a42 (discard unloadable preset splits — the C091282 stranding fix: oversized merged rows are re-split by capacity instead of fed to the solver verbatim), 07edc907 (preset honouring requires HUMAN intent — manual run-planner split markers or the keep-this-split tick — instead of bare row-count, and the preserve markers now survive the full solve→sketch→finalize round-trip), f78d3fb8 (item-level preservation: logistics' deliberate per-piece item assignments are snapshotted and replayed piece-for-piece through finalize instead of being re-dealt by weight). Unit coverage: PresetSplitSanityTest (18 cases) + DeliberateSplitItemsTest (5 cases), all green at the time; the machinery has since been exercised further by T-0602 (sketch-time item lists reuse the same distribution/preserve logic) and is covered by scenario S2 of the release test plan (ADR-001).
+
+---
+
+**2026-07-17 15:30 — you**
+
+Done
