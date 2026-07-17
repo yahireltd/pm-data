@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-23T11:49:24Z
-updated: 2026-07-15T07:36:59Z
+updated: 2026-07-17T05:38:55Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -26,7 +26,8 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 2
+version: 3
+backlog_status: parked
 ---
 
 ## Problem
