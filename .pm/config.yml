@@ -49,6 +49,7 @@ id_counters:
       sprint: 1
       meeting: 1
       status_note: 1
+      decision: 1
     accounts-integrity:
       decision: 6
       phase: 5
