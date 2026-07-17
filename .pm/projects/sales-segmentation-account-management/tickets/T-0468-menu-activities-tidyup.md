@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-23T11:48:35Z
-updated: 2026-07-17T06:37:55Z
+updated: 2026-07-17T07:55:53Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -15,8 +15,8 @@ order: 3072
 reporter: null
 assignee: null
 acceptance_criteria:
-  - "Menu rebuilt from the CSV: constantly-used pages on Top Level, the rest in submenus / alphabetical."
-  - Menu links for unused/rarely-used pages removed.
+  - "[x] Menu rebuilt from the CSV: constantly-used pages on Top Level, the rest in submenus / alphabetical."
+  - "[x] Menu links for unused/rarely-used pages removed."
   - Menu search released to all users.
   - A contract-checking page exists; Website Quotes retired; select-all + page optimisation added.
   - Activity-editing simplification (Call/Email/Meeting/Task + icon) scoped, or explicitly deferred as a deep-dive.
@@ -32,7 +32,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 5
+version: 7
 ---
 
 ## Problem
