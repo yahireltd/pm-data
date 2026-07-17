@@ -4,7 +4,7 @@ title: Personal-cohort "golden nugget" spotter + split segments into Personal vs
 type: feature
 state: triaged
 created: 2026-07-17T20:25:44Z
-updated: 2026-07-17T22:27:51Z
+updated: 2026-07-17T22:40:21Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -52,7 +52,7 @@ labels:
   - personal-cohort
   - research
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -77,3 +77,23 @@ Personal-email scored rows are keyed by the *discovered corporate domain*, but t
 Evidence: of 5,923 named-webmail customers, **975 already have realised hire (~£737k)** booked under personal emails — invisible to the original domain-keyed sweep. So the "Personal with company" segment contains a meaningful chunk of *realised* corporate customers, not just leads; the golden-nugget view should surface realised £ (via the customer link) alongside the score/potential.
 
 Add to acceptance criteria: realised £ for personal-email customers is computed via the customer/email link, not the scored-row domain.
+
+**2026-07-17 22:40 claude-code:** **Personal (no-company) cohort — exploration + "how to spot repeat within" (analysed 2026-07-17).**
+
+Scope: the ~50,559 personal records (webmail, no company name). Can't be scored (no company to look up), but there's real money hidden in here — the tool is about exploration + repeat detection, not scoring.
+
+What the data shows:
+- **8,347** have realised hire (~16.5%); **10,402** delivered orders total.
+- **1,216 repeat buyers (>=2 delivered orders) worth £1.33M realised LTV** — an invisible loyalty base sitting inside "unscored personal".
+- **446 of those repeaters are dormant** (last order >2y ago) = a ready-made **win-back list**; 770 still active. (This is Ben's "not trading since" sales-intel, and it's separate from any score.)
+- Top repeaters are individuals ordering 8–20 times (e.g. one customer 20 orders, another 12 orders / £19k).
+
+**How to spot repeat — tested four identity keys, they agree to within ~1%:** customerID 1,216 · email 1,207 · phone 1,206 · name 1,205. So the **system's customerID identity already captures repeat reliably** here — no fuzzy-matching engine needed. Fragmentation (same person split across >1 customer record) is small: only **127 phone numbers** and **19 emails** span multiple customerIDs.
+
+Recommended method for the tool:
+1. **Primary repeat key = customerID** (merge-followed via `mergedIntoCustomerID`) — count delivered orders per customer.
+2. **Light "possible duplicate" second pass** on normalised **phone**, then email, then name+postcode, to recover the ~127 fragmented identities. Don't over-build — payoff is small.
+3. Surface both sub-cohorts (with / without realised history), with columns: realised Y/N, order count, realised LTV, first/last order, **months-since-last-order ("not trading since")**, repeat flag.
+4. Headline views to expose: **repeat base (1,216 / £1.33M)** and **dormant-repeater win-back (446)**. The "personal VIP / high-frequency" outliers are the pattern-detection angle Ben raised.
+
+Add to acceptance criteria: repeat detection primarily via customerID with an optional phone/email/name duplicate pass; expose the dormant-repeater win-back list.
