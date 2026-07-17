@@ -2,10 +2,10 @@
 id: T-0601
 title: "Sketch planner: show the full job address (not just postcode) on stop expand"
 type: feature
-state: review
+state: done
 priority: p1
 created: 2026-07-16T17:01:50Z
-updated: 2026-07-16T17:40:40Z
+updated: 2026-07-17T13:56:55Z
 project: route-planner-release
 section: null
 parent: null
@@ -17,9 +17,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Expanding any stop card shows the full address lines for that stop's type (delivery vs collection address, not always delivery)
-  - Works for both pool (unassigned) and on-route stop cards
-  - No extra HTTP round-trip per expand — address rides with the existing contractDetails payload
+  - "[x] Expanding any stop card shows the full address lines for that stop's type (delivery vs collection address, not always delivery)"
+  - "[x] Works for both pool (unassigned) and on-route stop cards"
+  - "[x] No extra HTTP round-trip per expand — address rides with the existing contractDetails payload"
 out_of_scope: []
 code_anchors:
   - path: backend/views/route-planner/sketch-planner.php
@@ -55,11 +55,8 @@ labels:
   - route-planner
   - ui
   - release-blocker
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-16T17:40:40Z
-version: 6
+attention: null
+version: 11
 due: 2026-07-20
 ---
 
@@ -72,3 +69,9 @@ Surface the full delivery/collection address (addr1/addr2, town, postcode) in th
 ## Conversation
 
 **2026-07-16 17:40 claude-code:** Run run-20260716-1732 completed — Made stop addresses impossible to miss on the sketch planner. Investigation first: the full address was ALREADY on the stop expand panel and in the data payload (Austin confirmed the outcome was recorded without checking) — the problem was prominence, not absence. Changes: the first address line now renders bold with a red map-marker icon in the expand panel (both the unassigned pool and route cards), and the map now shows the bold first address line above the postcode in every marker popup (route stops and unassigned). The first line is sent as its own field from the server so the bolding is exact even when addresses contain commas.
+
+---
+
+**2026-07-17 13:56 — you**
+
+done

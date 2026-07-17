@@ -2,7 +2,7 @@
 id: ADR-001
 slug: release-test-plan-sketch-planner-go-live-mon-20-jul-2026
 title: Release test plan — sketch planner go-live (Mon 20 Jul 2026)
-state: proposed
+state: accepted
 decided: 2026-07-17
 decided_by:
   - Austin Pickering
@@ -13,7 +13,7 @@ tickets:
   - T-0611
   - T-0612
 kind: test-plan
-version: 1
+version: 2
 ---
 
 # Context

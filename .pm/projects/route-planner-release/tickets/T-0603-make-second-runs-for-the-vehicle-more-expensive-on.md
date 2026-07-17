@@ -2,10 +2,10 @@
 id: T-0603
 title: Solver prefers a second shift on the same vehicle over an idle same-class vehicle — price second runs properly
 type: bug
-state: review
+state: done
 priority: p1
 created: 2026-07-16T17:04:10Z
-updated: 2026-07-16T17:57:44Z
+updated: 2026-07-17T13:57:32Z
 project: route-planner-release
 section: null
 parent: null
@@ -17,9 +17,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - On a day with a spare same-class vehicle, the solver uses the spare instead of a second run on an already-used vehicle (reproduce logistics' 3.5T case)
-  - Days that genuinely need multi-shift (more runs than vehicles of the class) still solve — 10 Jul replay stays 0 drops
-  - "The preference holds across classes sensibly: a second run on a 3.5T is still allowed if the only idle vehicles are much larger and the job fits the 3.5T better on cost"
+  - "[x] On a day with a spare same-class vehicle, the solver uses the spare instead of a second run on an already-used vehicle (reproduce logistics' 3.5T case)"
+  - "[x] Days that genuinely need multi-shift (more runs than vehicles of the class) still solve — 10 Jul replay stays 0 drops"
+  - "[x] The preference holds across classes sensibly: a second run on a 3.5T is still allowed if the only idle vehicles are much larger and the job fits the 3.5T better on cost"
 out_of_scope: []
 code_anchors:
   - path: backend/assets/RoutePlannerPython/solver_td.py
@@ -54,11 +54,8 @@ labels:
   - solver
   - route-planner
   - release-blocker
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-16T17:57:44Z
-version: 6
+attention: null
+version: 11
 due: 2026-07-20
 ---
 
@@ -74,3 +71,9 @@ Do NOT make second runs infeasible — days genuinely needing 2 shifts per vehic
 ## Conversation
 
 **2026-07-16 17:57 claude-code:** Run run-20260716-1743 completed — Fixed the solver double-running vehicles while identical ones sat idle. Root cause: a second run on the same physical vehicle cost the solver exactly the same as using an idle vehicle (staff and fuel are identical either way), so it picked arbitrarily — and logistics watched a 3.5T go out twice with its twin parked. Two changes on the solver: a £100 "turnaround" charge on every second/third run per vehicle (pricing the rushed warehouse unload-reload a double-run forces), and a deterministic tidy-up pass after the optimiser that moves any remaining second-run onto the cheapest idle vehicle that can take it. Verified on the 10 July replay: second-runs went from 5 to ZERO (16 routes on 16 distinct vehicles), no jobs dropped, and the plan actually got £190 cheaper. The charge is far below the drop penalty, so days genuinely needing a vehicle out twice still solve. Deployed to the solver box and synced to the repo.
+
+---
+
+**2026-07-17 13:57 — you**
+
+done

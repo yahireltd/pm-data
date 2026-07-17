@@ -2,10 +2,10 @@
 id: T-0600
 title: Show open failed collections on the sketch map until completed
 type: feature
-state: review
+state: done
 priority: p1
 created: 2026-07-16T17:01:32Z
-updated: 2026-07-16T18:52:14Z
+updated: 2026-07-17T13:58:16Z
 project: route-planner-release
 section: null
 parent: null
@@ -17,9 +17,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Open failed collections appear on the sketch map with a visually distinct marker and an info popup (contract, postcode, weight, days outstanding)
-  - They appear on every planning date until the collection is completed, then disappear
-  - Map performance unaffected on a normal day (failed set is small; no extra geocoding round-trips for cached addresses)
+  - "[x] Open failed collections appear on the sketch map with a visually distinct marker and an info popup (contract, postcode, weight, days outstanding)"
+  - "[x] They appear on every planning date until the collection is completed, then disappear"
+  - "[x] Map performance unaffected on a normal day (failed set is small; no extra geocoding round-trips for cached addresses)"
 out_of_scope: []
 code_anchors:
   - path: backend/web/js/SketchPlanner.js
@@ -56,11 +56,8 @@ labels:
   - route-planner
   - ui
   - release-blocker
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-16T18:04:51Z
-version: 7
+attention: null
+version: 12
 due: 2026-07-20
 ---
 
@@ -83,3 +80,9 @@ Failed collections (attempted but not completed on an earlier day) are invisible
 2. **Failed-collection pins now exclude dealt-with and self-return cases**: (a) colMethod 11 "Self Return" — customer brings it back to base; (b) at-base rows (depot postcode N8 9DG) as belt-and-braces; (c) contracts already rebooked/extended, using `hasContractBeenExtended()` — the exact check behind the green tick on /logistics/failed-jobs, which catches the W11 2DA case (C093021) that was extended but still pinned.
 
 Verified against today's sandbox data: all four current failed rows are correctly filtered (2 extended incl. W11 2DA, 2 self-return) → 0 pins, matching the page's ticks. New genuinely-open failures will pin as designed.
+
+---
+
+**2026-07-17 13:58 — you**
+
+Done
