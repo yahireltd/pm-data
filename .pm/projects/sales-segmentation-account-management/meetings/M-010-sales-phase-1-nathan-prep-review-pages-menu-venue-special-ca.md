@@ -4,7 +4,7 @@ slug: sales-phase-1-nathan-prep-review-pages-menu-venue-special-ca
 title: Sales Phase 1 — Nathan prep review (pages, menu, venue, special captures, email templates)
 state: held
 created: 2026-07-15T07:41:07Z
-updated: 2026-07-17T05:25:38Z
+updated: 2026-07-17T05:49:53Z
 scheduled_at: 2026-07-16T09:00:00
 duration_minutes: 60
 location: TBD
@@ -99,6 +99,21 @@ outcomes:
     owner:
       kind: human
       name: Zsolt
+  - description: 'CORRECTION — supersedes outcome #1 (which wrongly said T-0468 was "not covered"). T-0468 Menu/Activities Tidy WAS covered: build the menu from the CSV Zsolt prepared; put constantly-used main pages on Top Level; categorise the rest into submenus / top-level alphabetically; drop menu links for unused or rarely-used pages; activity-editing simplification (Call/Email/Meeting/Task + icon) flagged as a possible deeper dive. Decisions taken: (1) release the menu search to everyone — yes; (2) build a dedicated contract-checking page (see previous tickets), then remove the Website Quotes page + add a select-all and optimise the page. (Note: this contract-checking/website-quotes content is what outcome #0 captured — it belongs under T-0468 here, not T-0467.)'
+    recorded_at: 2026-07-17T05:49:35Z
+    owner:
+      kind: human
+      name: Zsolt
+  - description: "CORRECTION — supersedes outcome #5 (which was mis-read). The items \"Leads, Website Quotes, Key Account Requests (and its icon on the QB)\" were Nathan's answers to \"which pages do we NOT need any more\" — i.e. REMOVAL / MERGE candidates under T-0467 Remove Redundant Pages, NOT features to add. The \"possible overlap between Smartest View and the Ledger, specifically on contracts\" is likewise a merge candidate under T-0467. Plan: Zsolt to summarise the sales + management pages vs last-2-months usage, then get Nathan's input on which to merge/retire. The ONLY item from that section that genuinely belongs to T-0470 Main pages is the Ledger fix: it currently shows only quote value (which can be cancelled or change), not contract value — it should show contract value (already captured correctly in outcome #6's sibling / see the main-pages correction)."
+    recorded_at: 2026-07-17T05:49:45Z
+    owner:
+      kind: human
+      name: Zsolt
+  - description: "CORRECTION — supersedes outcome #8 (which wrongly said T-0574 was \"not covered\"). T-0574 Special Captures WAS covered: proposed 3 tiers — Simple (automatable) / Manual (for trained Jr staff) / Expert (trained experienced staff or manager sign-off). Inputs to review before defining them: Nathan's document sent 16/7, the customer-expectation doc, and Zac's spreadsheets. IDEA raised: use ML on outcomes of pricing vs time vs actual, with feedback loops (note: new-ML build is currently a project scope-out, so treat as a future spike). On what constitutes each tier: e.g. lift availability — large items vs lift size matters (this line was mis-filed under Venue in outcome #2; it belongs here). Also: check the logistics + big-jobs page and that the feedback loops are working / better managed as part of the transformation. (This also re-homes the ML idea + reference-docs that outcome #10 logged as cross-cutting — they were written under Special Captures; the roles-&-responsibilities point in #10 remains a valid governance note.)"
+    recorded_at: 2026-07-17T05:49:53Z
+    owner:
+      kind: human
+      name: Zsolt
 attachments:
   - key: meetings/M-010/1784109063870-management-page-usage-report.html
     filename: management-page-usage-report.html
@@ -129,7 +144,7 @@ calendar:
   ics_url: null
   organizer_mailbox: support@yahire.com
 kind: scoping
-version: 20
+version: 23
 ---
 
 **Purpose:** work through the "Question prep for Nathan — sales phase 1" doc to gather the info needed to scope Phase 1 (PH-001 / MS-001).
