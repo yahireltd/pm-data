@@ -4,7 +4,7 @@ slug: meeting-intelligence-app-ios-android-record-server-side-tran
 title: "The Meet Grinder — meeting intelligence: record → speaker-attributed transcript → decisions/tickets (iOS + Android app + agent MCP tools); flagship module of the pm-tool platform (PP-013)"
 state: planning
 created: 2026-07-17T21:35:13Z
-updated: 2026-07-17T22:49:04Z
+updated: 2026-07-19T19:41:28Z
 stakeholders: []
 source_tickets:
   - T-0614
@@ -21,7 +21,7 @@ summary: |-
 owner:
   kind: human
   name: Austin
-version: 7
+version: 8
 problems:
   - Meetings generate decisions and actions that evaporate — not captured as tracked work, so decisions are lost, work is repeated, and owners are unclear (the core org-coherence failure, at the meeting boundary).
   - Off-the-shelf transcription doesn't reliably attribute WHO said what — especially sound-alike voices — which is fatal for a PM tool whose job is 'who decided what'.
@@ -36,11 +36,12 @@ goals:
   - Make it easier to attribute by having each person SAY who they are the first time they speak (spoken self-introduction) — gives a clean in-condition anchor per meeting, auto-enriches enrolment, and seeds sibling-splitting.
 scope_in:
   - "iOS + Android app: record a meeting, upload, review transcript + draft outcomes, promote to tickets/decisions."
-  - "Server-side pipeline: transcription (whisper large-v3) + diarization (pyannote) + speaker attribution (ECAPA voiceprints, per-segment, multi-condition enrolment) — the heavy compute off-device is the core differentiator."
-  - Spoken self-introduction ('this is Ben') as the top-priority identity source, above voiceprints.
-  - Per-person voice enrolment + consent flow; multi-condition prints that improve accuracy every meeting.
+  - "PER-DEVICE (MULTI-MIC) CAPTURE — the strongest attribution path: when attendees each run the app, every phone records its own owner's voice = one clean stream per person. Streams merged server-side with perfect per-speaker labels; no diarization, no sound-alike/sibling problem for anyone with the app. Single-device recording (with diarization + voiceprints) remains the fallback for guests without it."
+  - "Server-side pipeline: transcription (whisper large-v3) + diarization (pyannote) + speaker attribution (ECAPA voiceprints, per-segment, multi-condition enrolment) — heavy compute off-device is the core differentiator; used for single-device capture and for un-enrolled guests."
+  - Spoken self-introduction ('this is Ben') as a top-priority identity source, above voiceprints.
+  - Per-person voice enrolment + training + consent; multi-condition prints that improve accuracy every meeting.
   - "Closed-loop integration with pm-tool entities: meeting → outcomes → tickets/decisions with the right owners."
-  - Subscription tiers with compute-driven usage limits (max audio file size, meetings per month) so lower tiers stay economical — transcription cost scales with minutes.
+  - Subscription tiers with compute-driven usage limits (audio minutes / file size / meetings per month) — transcription cost scales with minutes.
   - Biometric data handled with explicit consent and per-tenant isolation.
 scope_out:
   - Real-time/live transcription (batch first).
