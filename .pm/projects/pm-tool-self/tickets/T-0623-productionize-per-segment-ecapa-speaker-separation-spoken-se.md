@@ -2,9 +2,9 @@
 id: T-0623
 title: Productionize per-segment ECAPA speaker separation + spoken self-introduction
 type: feature
-state: triaged
+state: in_progress
 created: 2026-07-17T22:47:24Z
-updated: 2026-07-19T23:06:56Z
+updated: 2026-07-19T23:13:13Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,9 @@ priority: p1
 reporter:
   kind: human
   name: Austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - transcribe-speakers uses ECAPA per-segment labelling; a merged sound-alike cluster is split into the correct people
   - Spoken self-introduction is parsed and takes priority over voiceprint matching
@@ -37,10 +39,14 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260719-2308
+    model: claude-opus-4-8
+    started: 2026-07-19T23:08:56Z
+    status: in_progress
 labels: []
 attention: null
-version: 3
+version: 6
 ---
 
 ## Problem
@@ -71,3 +77,10 @@ This is PP-012's ("The Meet Grinder") Tech-spike milestone.
 4. **Human matching (the matcher tool)** — the honest safety net for the interleaved-sibling worst case. Crucially, every correction becomes a labelled training sample, so the system self-heals with use.
 
 Bumped to p1 — this determines whether the meeting product is useful at all.
+
+**2026-07-19 23:13 claude-code:** **Overlap is a distinct, harder problem (Austin, 2026-07-20).** The Ben/Rob phone call was the easy case (dissimilar voices, clean turn-taking). M-015 had two SIMILAR speakers sometimes talking AT THE SAME TIME — and that must be handled. Key insight: on a single mic, overlapping words are lost at the *transcription* stage (whisper transcribes the dominant voice), so no amount of labelling recovers them. Strategy, ranked:
+1. **Per-device capture solves overlap completely** (two simultaneous voices = two clean streams, both transcribed) — strengthens the case for it as the primary mode (PP-012).
+2. **Detect + flag honestly** (near-term, this ticket): pyannote overlapped-speech-detection → mark regions "[overlapping — X + Y]" rather than silently mislabelling. Trust over false precision.
+3. **Source separation spike** (later): SepFormer / target-speaker extraction using enrolled ECAPA prints to split 2-speaker mixtures, then transcribe each stream. Research-grade on room audio — trial, don't promise.
+
+Progress this run: ECAPA library rebuilt from clean sources — Austin 153 windows (M-003), Effie 76, Jhuztine 5, Ben 13 (call), Rob 4. Zac next, from his clean solo phone-call stretches in M-015 per Austin's matcher ground truth.
