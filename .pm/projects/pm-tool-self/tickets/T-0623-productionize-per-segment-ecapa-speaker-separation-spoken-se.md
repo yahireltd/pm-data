@@ -4,7 +4,7 @@ title: Productionize per-segment ECAPA speaker separation + spoken self-introduc
 type: feature
 state: in_progress
 created: 2026-07-17T22:47:24Z
-updated: 2026-07-19T23:19:51Z
+updated: 2026-07-19T23:44:51Z
 project: pm-tool-self
 section: null
 parent: null
@@ -47,9 +47,13 @@ agent_runs:
     progress:
       - at: 2026-07-19T23:19:51Z
         note: "Major milestone (commit 2a7a4d2): ECAPA per-segment labelling is live in transcribe-speakers. Library rebuilt from clean sources (Austin/Effie/Jhuztine from M-003; Ben phone + IN-ROOM; Rob; Zac from his ground-truth solo stretches). Benchmarked against Austin's 75-line human-matched M-015 ground truth: raw per-segment accuracy went 49% → 70% held-out after (a) session-mean profiles replaced per-window max (impostor inflation fix) and (b) Ben gained an in-room profile built from the human corrections — Ben's errors went 21 → 0. Confident predictions measure ~94% correct; blind smoothing measured WORSE than nothing on interleaved speech, so the shipped design names confident segments, inherits only in one-voice clusters, and renders uncertain ones as \"Name?:\" for the human matcher (whose corrections feed back into enrolment — the loop that fixed Ben). REMAINING: spoken self-intro parser, loudness + embedding mean-centering/AS-Norm, overlapped-speech flagging, corrections→enrolment automation, second-recording validation for Zac."
+      - at: 2026-07-19T23:41:24Z
+        note: 'Validation sweep over real recordings (commit d79f0b9). Found + fixed a critical bug: the phone system records at 8kHz and ECAPA silently expects 16kHz — every phone-derived profile was garbage (Rob scored -0.08 vs his OWN call). load_wav now always resamples; after re-enrolment the Ben/Rob call labels Ben 22/22 confident + Rob correct. Added an open-set guard: uncertain guesses only render if that person is confidently present elsewhere in the recording — the Francine/Samantha stranger calls went from misleading "Ben?" guesses to fully unnamed (zero false positives). Scorecard: M-013 held-out Austin ✓; Ben/Rob call ✓; Francine call open-set ✓; Samantha call open-set ✓; Thanos↔Nathan call (both unenrolled, strictest open-set) still diarizing. Enrolled Francine + Samantha from their calls — each then named confidently while the OTHER voice on the same call stayed unnamed (correct discrimination). Library: Austin, Effie, Jhuztine, Ben(room+phone), Zac, Rob, Francine, Samantha. NEXT VALIDATION DATA (Austin to pull from the phone system): Effie + Jhuztine calls (true held-out: enrolled in-room, tested on phone = cross-channel), plus fresh calls/recordings of Austin/Ben/Rob/Zac/Francine/Samantha as ongoing held-out tests.'
+      - at: 2026-07-19T23:44:51Z
+        note: "Validation sweep COMPLETE — 5/5 passed. Final: Thanos↔Nathan call (10 min, 122 segments, both voices unenrolled — the strictest open-set test) produced ZERO confidently-named segments: no false positives. Full scorecard: (1) M-013 Austin held-out cross-recording ✓ (2) Ben/Rob call — Ben 22/22 confident, Rob correct ✓ (3) Francine call — Francine named, stranger Rebecca unnamed ✓ (4) Samantha call — Sam named, caller unnamed ✓ (5) Thanos/Nathan — nobody named ✓. The system now demonstrably names enrolled people and refuses to name strangers, across phone and room audio. Awaiting from Austin for the next held-out round: Effie + Jhuztine phone calls (cross-channel test of in-room enrolments), fresh calls of already-enrolled people, and a future Zac recording."
 labels: []
 attention: null
-version: 7
+version: 9
 ---
 
 ## Problem
