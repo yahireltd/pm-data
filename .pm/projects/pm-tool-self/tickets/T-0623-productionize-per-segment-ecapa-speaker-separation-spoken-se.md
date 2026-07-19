@@ -4,7 +4,7 @@ title: Productionize per-segment ECAPA speaker separation + spoken self-introduc
 type: feature
 state: in_progress
 created: 2026-07-17T22:47:24Z
-updated: 2026-07-19T23:13:13Z
+updated: 2026-07-19T23:19:51Z
 project: pm-tool-self
 section: null
 parent: null
@@ -44,9 +44,12 @@ agent_runs:
     model: claude-opus-4-8
     started: 2026-07-19T23:08:56Z
     status: in_progress
+    progress:
+      - at: 2026-07-19T23:19:51Z
+        note: "Major milestone (commit 2a7a4d2): ECAPA per-segment labelling is live in transcribe-speakers. Library rebuilt from clean sources (Austin/Effie/Jhuztine from M-003; Ben phone + IN-ROOM; Rob; Zac from his ground-truth solo stretches). Benchmarked against Austin's 75-line human-matched M-015 ground truth: raw per-segment accuracy went 49% → 70% held-out after (a) session-mean profiles replaced per-window max (impostor inflation fix) and (b) Ben gained an in-room profile built from the human corrections — Ben's errors went 21 → 0. Confident predictions measure ~94% correct; blind smoothing measured WORSE than nothing on interleaved speech, so the shipped design names confident segments, inherits only in one-voice clusters, and renders uncertain ones as \"Name?:\" for the human matcher (whose corrections feed back into enrolment — the loop that fixed Ben). REMAINING: spoken self-intro parser, loudness + embedding mean-centering/AS-Norm, overlapped-speech flagging, corrections→enrolment automation, second-recording validation for Zac."
 labels: []
 attention: null
-version: 6
+version: 7
 ---
 
 ## Problem
