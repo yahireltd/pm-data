@@ -2,9 +2,9 @@
 id: T-0611
 title: Very strong warning (typed confirmation) when finalising TODAY's plan; server-side guard
 type: feature
-state: review
+state: done
 created: 2026-07-17T13:09:41Z
-updated: 2026-07-17T13:14:00Z
+updated: 2026-07-20T13:57:43Z
 project: route-planner-release
 section: null
 parent: null
@@ -19,10 +19,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Finalising a FUTURE date behaves exactly as before (no new friction)
-  - Finalising TODAY shows the red modal; confirm stays disabled until the user types TODAY; cancel backs out cleanly
-  - Bypassing the UI (direct POST without confirm_today=1) is rejected server-side with a clear error for today's date
-  - The same-day finalise is written to sketch-planner.log with user + sketch id
+  - "[x] Finalising a FUTURE date behaves exactly as before (no new friction)"
+  - "[x] Finalising TODAY shows the red modal; confirm stays disabled until the user types TODAY; cancel backs out cleanly"
+  - "[x] Bypassing the UI (direct POST without confirm_today=1) is rejected server-side with a clear error for today's date"
+  - "[x] The same-day finalise is written to sketch-planner.log with user + sketch id"
 out_of_scope: []
 code_anchors:
   - path: backend/web/js/SketchPlanner.js
@@ -57,11 +57,8 @@ labels:
   - route-planner
   - release-blocker
   - ui
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-17T13:14:00Z
-version: 4
+attention: null
+version: 10
 ---
 
 ## Problem
@@ -75,3 +72,9 @@ Austin's top release worry: someone overwriting a good live plan — especially 
 ## Conversation
 
 **2026-07-17 13:14 claude-code:** Run run-20260717-1310 completed — Built the strong same-day finalise protection. Finalising a sketch dated TODAY now opens a red warning dialog stating that it replaces the live run plan drivers are working from, showing the run/stop counts and highlighting any unassigned contracts that would be left off — and the confirm button stays disabled until the user literally types the word TODAY. The server independently refuses a same-day finalise that doesn't carry the confirmation flag, so a stale browser tab or direct API call can't slip past, and both refused and confirmed same-day finalises are written to the sketch-planner log with the user id for the audit trail. Finalising future dates is completely unchanged — no new friction on the normal daily workflow.
+
+---
+
+**2026-07-20 13:57 — you**
+
+done and tested
