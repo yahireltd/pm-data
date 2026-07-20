@@ -4,7 +4,7 @@ title: Supersede overwritten finalized plans; allow re-finalise; staleness guard
 type: feature
 state: review
 created: 2026-07-17T14:00:59Z
-updated: 2026-07-17T14:07:20Z
+updated: 2026-07-20T15:21:46Z
 project: route-planner-release
 section: null
 parent: null
@@ -62,7 +62,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-17T14:07:20Z
-version: 4
+version: 5
 ---
 
 ## Problem (Austin's decision on the T-0612 drift finding)
@@ -76,3 +76,17 @@ When a re-solved candidate is finalized over an already-finalized date, the old 
 ## Conversation
 
 **2026-07-17 14:07 claude-code:** Run run-20260717-1401 completed — Built Austin's decisions on overwritten finalized plans, plus the staleness protection his follow-up questions identified. (1) When a plan is finalized over an already-finalized date, the old plan is now marked SUPERSEDED — a distinct, findable state — with a loud log entry naming both plans and the user; there is only ever one finalized plan per date. (2) Overwritten plans are recoverable: a purple banner on the sketch page lists them with Restore buttons. Restoring deliberately brings the old plan back as the working DRAFT rather than re-finalising it directly — it then passes through the normal load flow, which flags every contract that changed since, and the normal finalize with all its safety checks. (3) The new staleness guard runs on EVERY finalize: stops whose contract has moved date, become self-collection/self-return, or been cancelled are skipped with named warnings; contracts whose weight drifted more than 10%, whose address/postcode changed, whose time window changed, or whose service time increased still finalise — with current details written fresh — but warn explicitly that the route was planned around the old assumptions and suggest a re-solve. Every skip and warning also lands in the sketch-planner log.
+
+**2026-07-20 15:21 claude-code:** **Sandbox test failure (20 Jul, plan 2026-07-21, sketches 686/689): restore didn't work. Root cause found and fixed — three stacked bugs.**
+
+What Austin saw: finalise plan A → Edit Plan → re-solve → finalise plan B. No purple "Restore #A" banner ever appeared.
+
+**Bug 1 — missing migration (the fatal one).** `sketch_plans.status` was `enum('draft','finalized','archived')` — no `superseded` member. The T-0613 code was writing a value the column can't hold (non-strict MySQL coerces it to `''`), so no plan could ever become superseded and the restore banner query always came back empty. Fixed by new migration `m260720_160000_t0613_sketch_status_superseded` (adds the enum member + a `finalized_at` column). **This migration is now part of the Monday live deploy — without it T-0613 is inert.** Release plan updated (9 migrations, was 8).
+
+**Bug 2 — client auto-save wipes the server's plan markers.** Sketch auto-save round-trips only the browser-side plan keys (routes/unassigned/solver_params), and `updatePlan()` replaced `plan_json` wholesale. That destroyed `finalize_baseline_snapshot` — which was both the post-finalise drift baseline AND the "this draft was previously finalised" marker the re-solve protection relied on. Confirmed in the data: sketch 686's plan_json had lost the snapshot entirely. Fix: `updatePlan()` now merge-preserves server-owned keys, and the reopen detection uses the new `finalized_at` DB column, which a plan-json write can't touch.
+
+**Bug 3 — the Edit-Plan detour bypassed supersede.** Reopen flips finalized→draft; the next solve then archived that draft as an ordinary scratch draft, so at finalise time there was no 'finalized' plan left to supersede. Fix: anything with `finalized_at` set is treated as plan history everywhere — the finalise guard supersedes it even if it's sitting as draft/archived, and the draft-archiving sweeps mark ex-finalised drafts superseded (restorable) instead of archived.
+
+Also fixed: restore now redirects to `?id=<plan>` (the `?date=` load prefers the still-finalised newer plan and would have displaced the restored draft straight back), and superseded plans are edit-blocked until restored.
+
+**Sandbox state:** fix deployed (commits c03d7868 + fa6bee33), migration applied, and sketches 686/689 flipped to superseded with their true finalise times from the logs — the 21 Jul sketch page should now show the restore banner offering both. Test plan updated with the Edit-Plan detour scenario and a baseline-survives-autosave check.
