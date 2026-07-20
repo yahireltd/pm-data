@@ -2,9 +2,9 @@
 id: T-0555
 title: "Sale stock: manual add/remove quantity with a reason note (Sold / Binned / contract #) + audit log"
 type: feature
-state: in_progress
+state: review
 created: 2026-07-14T05:32:53Z
-updated: 2026-07-20T11:44:17Z
+updated: 2026-07-20T11:56:20Z
 project: stock-management-development
 section: null
 parent: null
@@ -44,8 +44,11 @@ agent_runs: []
 labels:
   - sale-stock
   - stock
-attention: null
-version: 8
+attention:
+  needed_by: human
+  reason: "Sale-stock manual add/remove + reason + audit log implemented and committed (2c6af253, branch Stock-Management-Development); stock_sale_adjustments table created. Ready for verification/close. RBAC: grant /stock/adjust-sale-item and /stock/view-sale-item-adjustments to Sales Permissions (the /stock/* roles are already covered)."
+  since: 2026-07-20T11:56:20Z
+version: 10
 ---
 
 ## Source
@@ -165,3 +168,11 @@ INSERT IGNORE INTO auth_item_child (parent, child) VALUES
 **Also note — extra scope shipped on this page** beyond the ticket's ACs: a page facelift (matches commission-thresholds design), an image lightbox modal, and Adjust-modal layout/validation polish (Sold ⇒ contract required, Other ⇒ note required, spacing/alignment fixes).
 
 **Remaining to close:** run the RBAC SQL for Sales (if wanted), commit the working-tree code + docs, and verify a real Adjust saves + logs + shows in History.
+
+**2026-07-20 11:56 claude-code:** **Committed & moving to review.** Commit `2c6af253` — "Add sale stock adjustment audit workflow" (branch `Stock-Management-Development`).
+
+RBAC reminder for the reviewer: the two new routes must be granted to **Sales Permissions** for Sales users to use the buttons (the `/stock/*` roles are already covered):
+- `/stock/adjust-sale-item` (Adjust Qty → Save)
+- `/stock/view-sale-item-adjustments` (History)
+
+Verify (once RBAC is in): a Remove/Sold with a contract drops the qty AND logs a row in History; below-zero is blocked; Sold ⇒ contract required; Other ⇒ note required. Table `stock_sale_adjustments` already created via manual DDL.
