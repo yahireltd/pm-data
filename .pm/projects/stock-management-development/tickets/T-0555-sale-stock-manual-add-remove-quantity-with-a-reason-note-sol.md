@@ -4,7 +4,7 @@ title: "Sale stock: manual add/remove quantity with a reason note (Sold / Binned
 type: feature
 state: in_progress
 created: 2026-07-14T05:32:53Z
-updated: 2026-07-14T06:31:20Z
+updated: 2026-07-20T09:44:59Z
 project: stock-management-development
 section: null
 parent: null
@@ -45,7 +45,7 @@ labels:
   - sale-stock
   - stock
 attention: null
-version: 3
+version: 4
 ---
 
 ## Source
@@ -67,3 +67,23 @@ Sale-stock quantity only changes automatically: adding the item to a quote and c
 
 ## Notes
 - Leave the automatic quote→contract deduction path untouched; this is an additive manual override + log.
+
+## Conversation
+
+**2026-07-20 09:44 claude-code:** **Decisions agreed (with Zsolt, 2026-07-20)** — resolves the ticket's open questions:
+1. **Never go below zero.** A removal can't take sale stock negative — it's rejected with an error (negative sale stock makes no sense).
+2. **Audit trail** shown in a per-item **History** modal.
+3. **Reason** = dropdown **Sold / Binned / Other** (+ a free-text note, required when "Other"); **contract number** optional.
+4. Manual Sold/Binned adjustments are logged to the **new audit table only** — they do **not** write a stock-transaction, because an item on the sale list was already transferred off normal stock, so a correction shouldn't move hire stock.
+
+**Implementation plan**
+- **New table `stock_sale_adjustments`** (+ model + migration): `saleItemID`, `stockID`, `delta` (signed +add/−remove), `reason`, `note`, `contractNo`, `qtyBefore`, `qtyAfter`, `userID`, `createdAt`.
+- **Adjust logic** (`StockLevelsForSale::adjustSaleItem`): validate qty>0, reason present (note required for Other), and **new qty ≥ 0** (else reject); in a transaction update the stock level and insert the audit row. No stock-transaction written.
+- **Controller:** `actionAdjustSaleItem` (do the adjust) + `actionViewSaleItemAdjustments` (render the history — mirrors the existing price-changes history modal).
+- **UI (`stock-for-sale.php`):** per-row **Adjust Qty** button (Add/Remove, Qty, Reason, Note, Contract #) + **History** link; two modals + JS. The existing "Add More Qty (transfer from hire)" path and the automatic quote→contract deduction are left untouched.
+- **Access:** both new routes need granting to the sale-stock role in RBAC (mdm AccessControl is deny-by-default for new routes) — flagged so it isn't missed.
+- **Docs** added per the house convention.
+
+**To confirm with Sandor (non-blocking):** (a) the new "Adjust Qty" and the existing "Add More Qty (transfer)" will coexist — OK, or make Adjust the single +/- entry point? (b) contract # as free text vs validated against a real contract — starting with free text.
+
+Building now on branch `Stock-Management-Development`; migration will be written but not run (project no-commit policy) — it'll need `yii migrate` + the RBAC route grant to go live.
