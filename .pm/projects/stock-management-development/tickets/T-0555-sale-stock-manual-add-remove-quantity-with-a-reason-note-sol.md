@@ -4,7 +4,7 @@ title: "Sale stock: manual add/remove quantity with a reason note (Sold / Binned
 type: feature
 state: review
 created: 2026-07-14T05:32:53Z
-updated: 2026-07-20T11:56:20Z
+updated: 2026-07-20T12:32:00Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,8 +20,8 @@ assignee:
   kind: human
   name: Zsolt
 acceptance_criteria:
-  - On the sale-stock screen, a staff member can manually adjust (add OR remove) an item's sale-stock quantity.
-  - Each manual adjustment requires a reason note (e.g. Sold / Binned) and can optionally include a contract number for the record.
+  - "[x] On the sale-stock screen, a staff member can manually adjust (add OR remove) an item's sale-stock quantity."
+  - "[x] Each manual adjustment requires a reason note (e.g. Sold / Binned) and can optionally include a contract number for the record."
   - "Every adjustment is logged: who, when, +/- amount, reason note, contract number — an audit trail viewable against the item."
   - "Existing automatic behaviour is unchanged: quote→contract conversion still deducts the sale-stock qty, and re-adding the item still tops the number up."
   - Validation prevents nonsensical results (e.g. no silent negative stock without an explicit reason).
@@ -48,7 +48,7 @@ attention:
   needed_by: human
   reason: "Sale-stock manual add/remove + reason + audit log implemented and committed (2c6af253, branch Stock-Management-Development); stock_sale_adjustments table created. Ready for verification/close. RBAC: grant /stock/adjust-sale-item and /stock/view-sale-item-adjustments to Sales Permissions (the /stock/* roles are already covered)."
   since: 2026-07-20T11:56:20Z
-version: 10
+version: 12
 ---
 
 ## Source
