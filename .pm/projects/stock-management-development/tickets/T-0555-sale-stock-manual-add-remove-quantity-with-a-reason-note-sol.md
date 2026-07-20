@@ -4,7 +4,7 @@ title: "Sale stock: manual add/remove quantity with a reason note (Sold / Binned
 type: feature
 state: in_progress
 created: 2026-07-14T05:32:53Z
-updated: 2026-07-20T09:44:59Z
+updated: 2026-07-20T10:10:18Z
 project: stock-management-development
 section: null
 parent: null
@@ -45,7 +45,7 @@ labels:
   - sale-stock
   - stock
 attention: null
-version: 4
+version: 5
 ---
 
 ## Source
@@ -87,3 +87,30 @@ Sale-stock quantity only changes automatically: adding the item to a quote and c
 **To confirm with Sandor (non-blocking):** (a) the new "Adjust Qty" and the existing "Add More Qty (transfer)" will coexist — OK, or make Adjust the single +/- entry point? (b) contract # as free text vs validated against a real contract — starting with free text.
 
 Building now on branch `Stock-Management-Development`; migration will be written but not run (project no-commit policy) — it'll need `yii migrate` + the RBAC route grant to go live.
+
+**2026-07-20 10:10 claude-code:** **Implemented (working tree — not committed, per project no-commit policy).** Branch `Stock-Management-Development`. All changed PHP passes `php -l`.
+
+**New files**
+- `console/migrations/m260720_100000_create_stock_sale_adjustments_table.php` — creates `stock_sale_adjustments`.
+- `common/models/StockSaleAdjustment.php` — the audit-log model.
+- Docs: `actionAdjustSaleItem.md`, `actionViewSaleItemAdjustments.md`.
+
+**Edited**
+- `StockLevelsForSale::adjustSaleItem()` — validates, applies +/- delta, **blocks below zero**, and logs the audit row in a transaction. No `stock_transactions` write.
+- `StockController` — `actionAdjustSaleItem` + `actionViewSaleItemAdjustments` (+ `use` import).
+- `views/stock/stock-for-sale.php` — per-row **Adjust Qty** + **History** icons, an Adjust modal (Add/Remove, Qty, Reason Sold/Binned/Other, Note-for-Other, Contract #), a History modal, and their JS.
+
+**⚠️ Two ops steps before it works live** (won't function until both are done):
+1. **Run the migration** — `yii migrate` (creates the table).
+2. **RBAC** — grant the two new routes `stock/adjust-sale-item` and `stock/view-sale-item-adjustments` to the sale-stock role (or confirm they're covered by a `stock/*` wildcard). Deny-by-default, same as the T-0556 gotcha.
+
+**Test plan**
+1. Sale-stock screen → each row has a teal **Adjust** (↔) icon and a grey **History** (clock) icon.
+2. Adjust → **Remove** some qty with reason **Sold** → save → qty drops by that amount; History shows the row (−N, before→after, Sold, user, time).
+3. **Add** with reason **Binned**/**Other** → qty rises; **Other** requires a note (blocked without one).
+4. **Below-zero block:** remove more than current qty → rejected with "Cannot remove N — only X in stock"; qty unchanged; no audit row.
+5. Optional **contract #** is recorded and shown in History.
+6. **Regression:** the existing "Add More Qty (transfer from hire / add off-stock)" in the Edit modal still works and still writes a `StockTransactions` row; automatic quote→contract deduction unaffected.
+7. **RBAC:** a sale-stock user (non-superadmin) can Adjust/History once the routes are granted; before granting, expect 403.
+
+**To confirm with Sandor (non-blocking):** the new Adjust and the existing "Add More Qty (transfer)" coexist; contract # is free text for now.
