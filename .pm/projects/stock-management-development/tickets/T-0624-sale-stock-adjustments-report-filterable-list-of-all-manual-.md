@@ -2,9 +2,9 @@
 id: T-0624
 title: Sale-stock adjustments report — filterable list of all manual adjustments (reason, date, item, user)
 type: feature
-state: in_progress
+state: review
 created: 2026-07-20T12:34:48Z
-updated: 2026-07-20T12:57:53Z
+updated: 2026-07-20T13:06:15Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,19 +46,40 @@ agent_runs:
   - id: run-20260720-1257
     model: claude-opus-4-8
     started: 2026-07-20T12:57:53Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: Stock-Management-Development
       branch_source: project
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-07-20T12:57:53Z
+    ended: 2026-07-20T13:06:15Z
+    summary: Added a Sale-Stock Adjustments report — a single page listing every manual add/remove made to sale stock, filterable by date range, reason (Sold/Binned/Other), item and user, with running totals (added / removed / net change). It's reached from a new "View all adjustments" button on the Stock For Sale screen. Previously adjustments could only be seen one item at a time via the per-item history pop-up; now managers can review all adjustments across items — e.g. everything binned this week, or every change made by a given person — which is the oversight the audit log was created for. Reuses the existing adjustments table, so no data changes are needed.
+    test_plan: |-
+      Prereqs (ops): grant the new route `/stock/sale-stock-adjustments` — add it to **Sales Permissions** if Sales should see the report (the `/stock/*` roles already cover it); then **commit** the working-tree code + docs. No migration — it uses the existing `stock_sale_adjustments` table.
+
+      1. Stock For Sale → click **"View all adjustments"** (top-right) → the report opens.
+      2. It lists all adjustments: When / Item / Change (signed, green +/red −) / Before→After / Reason / Note / Contract / User, newest first, with totals tiles (Adjustments / Added / Removed / Net Change).
+      3. **Date range** From/To → Apply → list + totals update to the range.
+      4. **Reason** (Sold/Binned/Other), **Item**, **User** filters → Apply → results scoped; selections persist in the form.
+      5. **Clear** → all filters reset, full list returns.
+      6. DataTable **search box** + **column sort** work on the filtered set.
+      7. Edge: a filter with no matches → "No adjustments match the current filter."
+      8. Cross-impact: the sale-stock page header now has two buttons (View all adjustments + Add / Transfer Stock) — confirm both still work and the Add/Transfer modal still opens.
+      9. Access: a Sales user (non-superadmin) can open the report only once the route is granted; before granting, expect a 403.
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - sale-stock
   - stock
   - reporting
-attention: null
-version: 4
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-20T13:06:15Z
+version: 5
 ---
 
 ## Problem
@@ -74,3 +95,7 @@ A dedicated **Sale-Stock Adjustments** report page listing every adjustment, fil
 
 ## RBAC
 New report route must be granted like T-0555's actions — the `/stock/*` roles are auto-covered; **Sales Permissions** needs the new route added explicitly if Sales should see it.
+
+## Conversation
+
+**2026-07-20 13:06 claude-code:** Run run-20260720-1257 completed — Added a Sale-Stock Adjustments report — a single page listing every manual add/remove made to sale stock, filterable by date range, reason (Sold/Binned/Other), item and user, with running totals (added / removed / net change). It's reached from a new "View all adjustments" button on the Stock For Sale screen. Previously adjustments could only be seen one item at a time via the per-item history pop-up; now managers can review all adjustments across items — e.g. everything binned this week, or every change made by a given person — which is the oversight the audit log was created for. Reuses the existing adjustments table, so no data changes are needed.
