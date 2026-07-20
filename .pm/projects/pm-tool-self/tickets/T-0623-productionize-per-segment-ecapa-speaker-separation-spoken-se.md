@@ -4,7 +4,7 @@ title: Productionize per-segment ECAPA speaker separation + spoken self-introduc
 type: feature
 state: in_progress
 created: 2026-07-17T22:47:24Z
-updated: 2026-07-20T00:34:00Z
+updated: 2026-07-20T00:51:34Z
 project: pm-tool-self
 section: null
 parent: null
@@ -57,7 +57,7 @@ agent_runs:
         note: 'FULL TREATMENT COMPLETE — human-in-the-loop round trip proven end to end. Austin adjudicated 5 calls in the matcher UI (machine-readable ground truth round-tripped back); 8 unconfirmed "Name?" segments were detected via the human:true flag and EXCLUDED from enrolment (Austin+Ben phone profiles rebuilt from verified-only segments). Library now 11 people, multi-condition: Austin×3, Ben×3, Effie×2, Jhuztine×2, Zac×2, Rob×2, Francine×2, Samantha, + new Nathan, Orfield, Daniel Hannaway. RESULTS vs verified truth: 33% → 94% correct after enrolment; 6 honest misses; 4 confident-wrong (2.3%) — all diagnosed as diarization artifacts, not identity confusion: 3 short greetings merged into the wrong cluster + 1 genuine OVERLAP segment (the Austin/Orfield passage Austin himself flagged). Regressions: benrob PASS, m013 PASS, thanos2005 open-set PASS (0/132). Star result: the old Thanos call now identifies Nathan (ext 2018) 75/75 confident — a TRUE held-out cross-recording detection (enrolled from a different call, different day), with unenrolled Thanos correctly unnamed. Remaining known weaknesses → next work: (a) inherited-confidence policy for short segments in dominated clusters (the 3 greeting errors), (b) overlapped-speech flagging (the Orfield error), (c) next batch of calls = pure held-out re-validation.'
 labels: []
 attention: null
-version: 11
+version: 12
 ---
 
 ## Problem
@@ -95,3 +95,18 @@ Bumped to p1 — this determines whether the meeting product is useful at all.
 3. **Source separation spike** (later): SepFormer / target-speaker extraction using enrolled ECAPA prints to split 2-speaker mixtures, then transcribe each stream. Research-grade on room audio — trial, don't promise.
 
 Progress this run: ECAPA library rebuilt from clean sources — Austin 153 windows (M-003), Effie 76, Jhuztine 5, Ben 13 (call), Rob 4. Zac next, from his clean solo phone-call stretches in M-015 per Austin's matcher ground truth.
+
+**2026-07-20 00:51 claude-code:** **PRE-REGISTERED held-out validation protocol (fixed before data is collected — no goalpost-moving).**
+
+Tonight's 94% is on the enrolment calls (semi-circular). The genuine proof = a FRESH batch of recordings, zero enrolment this round, scored blind against Austin's adjudication. One true held-out pass already exists (Nathan: enrolled from one call, detected 75/75 on a different day's call).
+
+**Test material wanted:** 1–2 NEW calls per enrolled person (Austin, Ben, Zac, Rob, Effie, Jhuztine, Francine, Samantha, Nathan, Orfield, Daniel Hannaway), including at least one fresh Zac AND one fresh Ben call (sibling stress), plus a few stranger/customer calls (open-set). Later: one recorded MEETING (tests the room channel for phone-only profiles).
+
+**Pass criteria (per call, decided now):**
+1. Each enrolled person's talk time is majority-named correctly (confident) on their channel.
+2. ZERO confident-wrong names on segments ≥2s. (Sub-2s greetings are a known diarization weakness — tracked separately, not a pass/fail item.)
+3. Sibling test: fresh Zac call → Zac, fresh Ben call → Ben; neither ever confidently labelled as the other.
+4. Strangers/customers stay unnamed (open-set).
+5. Regression suite (the 9 adjudicated recordings with ground truth) still passes after ANY library or code change.
+
+**Failure handling:** a miss = enrol that condition and retest on the NEXT fresh recording (never the same one). A confident-wrong = stop, diagnose, fix before any further enrolment.
