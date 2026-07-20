@@ -4,7 +4,7 @@ title: All-customer segment/outcome research view — incl. personal & non-hirer
 type: feature
 state: triaged
 created: 2026-07-17T20:25:30Z
-updated: 2026-07-19T20:27:54Z
+updated: 2026-07-20T00:32:29Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -57,7 +57,7 @@ labels:
   - segment-research
   - research
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -85,3 +85,20 @@ The killer segment is **fit-score × repeat-intent**: A/B-tier AND ≥4 quotes A
 - BCD Meetings & Events (A96, 11 quotes), LS Events (A92, 15), White Label Live (A82, 11), The Berkeley (A78, 12), LarMac (A74, 21!), Under Current (A74, 14), Minstry Venues (A77, 11) — event agencies / production companies / venues that quoted **10–21 times** and never converted. That's a sales team's call-list, ordered.
 
 **Add to this view:** a **"quotes"** count column + a filter, and a saved **"hot lead" view = tier A/B + quotes ≥ N + realised £0**, sorted by quote-count. Data source: aggregate `quotes` by email-domain (COUNT(*) + SUM(quoteTotal)); exclude webmail domains — the raw ranking is polluted by typo-webmail aggregation (gmail.con, hotmail.it, etc.), so restrict to *scored* (verified-corporate) domains for the clean list. Complements the "not trading since" dormancy signal already on this ticket — one is lapsed customers, this is never-won repeat prospects.
+
+**2026-07-20 00:32 claude-code:** **2026-07-20 — Built & deployed to the P-0018 server (segmentationtest.yahire.com).**
+
+New page **`/segment-research/outcomes`** — all customers cross-tabbed **segment × outcome**. Live now for Ben.
+
+Acceptance criteria status:
+- ✅ ALL customers represented — every active canonical customer (~80k): Scored corporate / Unscored corporate / **Personal (webmail)** / No-domain, each × Repeat / One-off / **Quoted-never-hired** / No-activity. Personal is labelled but stays in every count & total.
+- ✅ Maturity filter — default **"had ≥2yr to repeat"** (first-seen = earliest quote or hire), adjustable to All/1/2/3yr.
+- ✅ Date-range filter (first-seen from/to) across the whole view.
+- ✅ Every cell drills to the real customers, then corporate rows drill to their contracts.
+- ⚠️ **Potential-vs-realised GAP by segment — partial.** The quote-only cohorts show £0 realised + total **quote £** (the lost-value proxy), but the *modelled* potential (`customer_account_levels.potential_value`) is not yet joined in as an explicit gap column. Easy follow-up.
+- ⚠️ **Personal vs Personal-with-company split — not yet** (waiting on the sibling ticket; today "Personal" = all webmail).
+- ✅ Read-only, standalone.
+
+What the data shows (≥2yr-mature): **28,416 personal + 9,275 scored-corporate customers quoted and never hired** — the win-back universe. Personal repeat-buyers = £1.9M realised; scored-corporate repeat = £14.6M.
+
+Also: consolidated ALL P-0018 web deliverables onto one branch (`p0018-consolidated`) now served by the box — segment-research (correlation/outcomes/leads), fast-track lane, segment profile, account-levels. The correlation page's repeat-share headline is now computed live (87%) instead of hardcoded.
