@@ -4,7 +4,7 @@ title: Supersede overwritten finalized plans; allow re-finalise; staleness guard
 type: feature
 state: review
 created: 2026-07-17T14:00:59Z
-updated: 2026-07-20T15:21:46Z
+updated: 2026-07-20T15:37:22Z
 project: route-planner-release
 section: null
 parent: null
@@ -19,11 +19,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Finalizing a candidate on an already-finalized date flips the old sketch to superseded (log entry with both ids); only one finalized sketch per date exists afterwards
-  - A superseded sketch can be opened and re-finalised; doing so supersedes the newer one and is logged as a restore
-  - "Re-finalising a plan containing a contract moved to another date / cancelled: that stop is SKIPPED with a clear warning naming contract + reason; remaining stops finalize normally; audit passes on the result"
-  - A contract whose weight changed >10% since the sketch produces a warning but still finalises
-  - Same-day typed confirmation (T-0611) still applies to restores
+  - "[x] Finalizing a candidate on an already-finalized date flips the old sketch to superseded (log entry with both ids); only one finalized sketch per date exists afterwards"
+  - "[x] A superseded sketch can be opened and re-finalised; doing so supersedes the newer one and is logged as a restore"
+  - "[x] Re-finalising a plan containing a contract moved to another date / cancelled: that stop is SKIPPED with a clear warning naming contract + reason; remaining stops finalize normally; audit passes on the result"
+  - "[x] A contract whose weight changed >10% since the sketch produces a warning but still finalises"
+  - "[x] Same-day typed confirmation (T-0611) still applies to restores"
 out_of_scope: []
 code_anchors:
   - path: common/services/SketchPlanService.php
@@ -62,7 +62,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-17T14:07:20Z
-version: 5
+version: 12
 ---
 
 ## Problem (Austin's decision on the T-0612 drift finding)
