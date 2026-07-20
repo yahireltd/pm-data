@@ -4,7 +4,7 @@ title: Productionize per-segment ECAPA speaker separation + spoken self-introduc
 type: feature
 state: in_progress
 created: 2026-07-17T22:47:24Z
-updated: 2026-07-20T00:51:34Z
+updated: 2026-07-20T01:47:42Z
 project: pm-tool-self
 section: null
 parent: null
@@ -55,9 +55,11 @@ agent_runs:
         note: "Round-2 validation: caught and fixed the first real sibling FALSE POSITIVE. Zac's phone call ([Zac Leslie]_2010-2048) was labelled \"Ben\" at 0.56 CONFIDENT — because Ben had a phone profile and Zac didn't (channel beat identity, as predicted). Fix: enrolled Zac's phone condition from the call → re-label gives Zac 0.72–0.78 confident on all his segments, other party unnamed. Critical regression PASSED: re-ran Ben's call with Zac's new phone profile in the library — Ben still 22/22 confident, no theft in either direction. Policy confirmed (Austin): \"detect them no matter the media\" = one profile per person per channel/condition; every adjudicated recording feeds the next condition. Remaining: true held-out Zac call (next one he makes); threshold review vs the sibling band (~0.56) once the full round-2 score distribution is in; UI verification bundle zips to Downloads when the batch finishes (jhuztine cross-channel, francine2 held-out, nathan, todays, thanos2005 still processing)."
       - at: 2026-07-20T00:34:00Z
         note: 'FULL TREATMENT COMPLETE — human-in-the-loop round trip proven end to end. Austin adjudicated 5 calls in the matcher UI (machine-readable ground truth round-tripped back); 8 unconfirmed "Name?" segments were detected via the human:true flag and EXCLUDED from enrolment (Austin+Ben phone profiles rebuilt from verified-only segments). Library now 11 people, multi-condition: Austin×3, Ben×3, Effie×2, Jhuztine×2, Zac×2, Rob×2, Francine×2, Samantha, + new Nathan, Orfield, Daniel Hannaway. RESULTS vs verified truth: 33% → 94% correct after enrolment; 6 honest misses; 4 confident-wrong (2.3%) — all diagnosed as diarization artifacts, not identity confusion: 3 short greetings merged into the wrong cluster + 1 genuine OVERLAP segment (the Austin/Orfield passage Austin himself flagged). Regressions: benrob PASS, m013 PASS, thanos2005 open-set PASS (0/132). Star result: the old Thanos call now identifies Nathan (ext 2018) 75/75 confident — a TRUE held-out cross-recording detection (enrolled from a different call, different day), with unenrolled Thanos correctly unnamed. Remaining known weaknesses → next work: (a) inherited-confidence policy for short segments in dominated clusters (the 3 greeting errors), (b) overlapped-speech flagging (the Orfield error), (c) next batch of calls = pure held-out re-validation.'
+      - at: 2026-07-20T01:47:42Z
+        note: "HELD-OUT EXAM COMPLETE — 8 fresh June calls (all predating enrolment data), zero enrolment, scored against the pre-registered criteria. Provisional verdict pending Austin's adjudication (bundle: ~/Downloads/heldout-exam.zip): STRONG PASSES — Austin 111/111 confident across 3 fresh calls; Nathan 42/42 across 2; Ben's side of the brothers call 10/10; strangers/Thanos unnamed throughout; SIBLING SAFETY HELD: zero confident Ben↔Zac cross-labels across 4 sibling-relevant calls (the merged brothers cluster was split majority-correctly with honest ? flags). HONEST MISSES exactly where profiles are thin: Rob absent/missed on Nathan's call, Samantha missed on her own call, Zac missed on the Francine call (but detected as Zac on 2 other fresh calls). ONE anomaly to adjudicate: a 5s confident 'Austin' segment inside Zac's cluster on the 2010-2002 call (genuine cross-talk vs confident-wrong — Austin's ears decide). Per protocol: misses get enrolled from adjudicated segments and retested on the NEXT round; the anomaly is diagnosed before any further enrolment if it's confident-wrong."
 labels: []
 attention: null
-version: 12
+version: 13
 ---
 
 ## Problem
