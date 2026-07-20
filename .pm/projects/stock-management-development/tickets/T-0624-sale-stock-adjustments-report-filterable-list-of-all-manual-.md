@@ -2,9 +2,9 @@
 id: T-0624
 title: Sale-stock adjustments report — filterable list of all manual adjustments (reason, date, item, user)
 type: feature
-state: triaged
+state: in_progress
 created: 2026-07-20T12:34:48Z
-updated: 2026-07-20T12:49:53Z
+updated: 2026-07-20T12:57:53Z
 project: stock-management-development
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: follow-up from T-0555
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - "A dedicated report page lists all stock_sale_adjustments rows with: date/time, product/item, signed +/- delta, before -> after, reason, note, contract #, and user."
   - Filterable by reason (Sold/Binned/Other), date range, item/product, and user; free-text search across the visible columns.
@@ -40,13 +42,23 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260720-1257
+    model: claude-opus-4-8
+    started: 2026-07-20T12:57:53Z
+    status: in_progress
+    policy_ack:
+      branch: Stock-Management-Development
+      branch_source: project
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-20T12:57:53Z
 labels:
   - sale-stock
   - stock
   - reporting
 attention: null
-version: 2
+version: 4
 ---
 
 ## Problem
