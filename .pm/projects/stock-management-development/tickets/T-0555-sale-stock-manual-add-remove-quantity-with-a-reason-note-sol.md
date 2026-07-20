@@ -4,7 +4,7 @@ title: "Sale stock: manual add/remove quantity with a reason note (Sold / Binned
 type: feature
 state: in_progress
 created: 2026-07-14T05:32:53Z
-updated: 2026-07-20T10:10:18Z
+updated: 2026-07-20T10:52:15Z
 project: stock-management-development
 section: null
 parent: null
@@ -45,7 +45,7 @@ labels:
   - sale-stock
   - stock
 attention: null
-version: 5
+version: 7
 ---
 
 ## Source
@@ -114,3 +114,32 @@ Building now on branch `Stock-Management-Development`; migration will be written
 7. **RBAC:** a sale-stock user (non-superadmin) can Adjust/History once the routes are granted; before granting, expect 403.
 
 **To confirm with Sandor (non-blocking):** the new Adjust and the existing "Add More Qty (transfer)" coexist; contract # is free text for now.
+
+**2026-07-20 10:51 claude-code:** **Correction to the ops steps:** the Yii migration was removed — the table will be created by **manual SQL** instead (Zsolt's preference). So step 1 is *run the DDL*, not `yii migrate`. DDL (default `db` connection, same as `stock_levels_for_sale`):
+
+```sql
+CREATE TABLE `stock_sale_adjustments` (
+  `id`         INT          NOT NULL AUTO_INCREMENT,
+  `saleItemID` INT          NOT NULL COMMENT 'stock_levels_for_sale.id',
+  `stockID`    INT          NULL     COMMENT 'ya_products.id',
+  `delta`      INT          NOT NULL COMMENT 'signed: + add, - remove',
+  `qtyBefore`  INT          NOT NULL,
+  `qtyAfter`   INT          NOT NULL,
+  `reason`     VARCHAR(20)  NOT NULL COMMENT 'Sold | Binned | Other',
+  `note`       VARCHAR(255) NULL,
+  `contractNo` VARCHAR(50)  NULL,
+  `userID`     INT          NOT NULL,
+  `createdAt`  DATETIME     NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_stock_sale_adjustments_saleItemID` (`saleItemID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+Step 2 (RBAC route grant) unchanged.
+
+**2026-07-20 10:52 claude-code:** **Progress:** ✅ Step 1 done — `stock_sale_adjustments` table created (DDL run manually by Zsolt).
+
+Remaining before this is verifiable/live:
+- **Step 2 — RBAC:** grant `stock/adjust-sale-item` + `stock/view-sale-item-adjustments` to the sale-stock role (or confirm `stock/*` covers them).
+- **Commit** the code (working tree, no-commit policy).
+- **Verify** against the test plan above (remove-with-reason logs it, below-zero blocked, "Other" needs a note, History modal, existing transfer path unaffected).
