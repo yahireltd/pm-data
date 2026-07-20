@@ -4,7 +4,7 @@ title: Productionize per-segment ECAPA speaker separation + spoken self-introduc
 type: feature
 state: in_progress
 created: 2026-07-17T22:47:24Z
-updated: 2026-07-19T23:44:51Z
+updated: 2026-07-20T00:00:34Z
 project: pm-tool-self
 section: null
 parent: null
@@ -51,9 +51,11 @@ agent_runs:
         note: 'Validation sweep over real recordings (commit d79f0b9). Found + fixed a critical bug: the phone system records at 8kHz and ECAPA silently expects 16kHz — every phone-derived profile was garbage (Rob scored -0.08 vs his OWN call). load_wav now always resamples; after re-enrolment the Ben/Rob call labels Ben 22/22 confident + Rob correct. Added an open-set guard: uncertain guesses only render if that person is confidently present elsewhere in the recording — the Francine/Samantha stranger calls went from misleading "Ben?" guesses to fully unnamed (zero false positives). Scorecard: M-013 held-out Austin ✓; Ben/Rob call ✓; Francine call open-set ✓; Samantha call open-set ✓; Thanos↔Nathan call (both unenrolled, strictest open-set) still diarizing. Enrolled Francine + Samantha from their calls — each then named confidently while the OTHER voice on the same call stayed unnamed (correct discrimination). Library: Austin, Effie, Jhuztine, Ben(room+phone), Zac, Rob, Francine, Samantha. NEXT VALIDATION DATA (Austin to pull from the phone system): Effie + Jhuztine calls (true held-out: enrolled in-room, tested on phone = cross-channel), plus fresh calls/recordings of Austin/Ben/Rob/Zac/Francine/Samantha as ongoing held-out tests.'
       - at: 2026-07-19T23:44:51Z
         note: "Validation sweep COMPLETE — 5/5 passed. Final: Thanos↔Nathan call (10 min, 122 segments, both voices unenrolled — the strictest open-set test) produced ZERO confidently-named segments: no false positives. Full scorecard: (1) M-013 Austin held-out cross-recording ✓ (2) Ben/Rob call — Ben 22/22 confident, Rob correct ✓ (3) Francine call — Francine named, stranger Rebecca unnamed ✓ (4) Samantha call — Sam named, caller unnamed ✓ (5) Thanos/Nathan — nobody named ✓. The system now demonstrably names enrolled people and refuses to name strangers, across phone and room audio. Awaiting from Austin for the next held-out round: Effie + Jhuztine phone calls (cross-channel test of in-room enrolments), fresh calls of already-enrolled people, and a future Zac recording."
+      - at: 2026-07-20T00:00:34Z
+        note: "Round-2 validation: caught and fixed the first real sibling FALSE POSITIVE. Zac's phone call ([Zac Leslie]_2010-2048) was labelled \"Ben\" at 0.56 CONFIDENT — because Ben had a phone profile and Zac didn't (channel beat identity, as predicted). Fix: enrolled Zac's phone condition from the call → re-label gives Zac 0.72–0.78 confident on all his segments, other party unnamed. Critical regression PASSED: re-ran Ben's call with Zac's new phone profile in the library — Ben still 22/22 confident, no theft in either direction. Policy confirmed (Austin): \"detect them no matter the media\" = one profile per person per channel/condition; every adjudicated recording feeds the next condition. Remaining: true held-out Zac call (next one he makes); threshold review vs the sibling band (~0.56) once the full round-2 score distribution is in; UI verification bundle zips to Downloads when the batch finishes (jhuztine cross-channel, francine2 held-out, nathan, todays, thanos2005 still processing)."
 labels: []
 attention: null
-version: 9
+version: 10
 ---
 
 ## Problem
