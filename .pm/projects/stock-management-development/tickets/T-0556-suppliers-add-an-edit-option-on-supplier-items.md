@@ -2,9 +2,9 @@
 id: T-0556
 title: "Suppliers: add an Edit option on supplier items"
 type: feature
-state: in_progress
+state: review
 created: 2026-07-14T05:35:11Z
-updated: 2026-07-20T08:24:32Z
+updated: 2026-07-20T09:03:59Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,10 +20,10 @@ assignee:
   kind: human
   name: Zsolt
 acceptance_criteria:
-  - Each supplier item (StockSupplierItems) on the suppliers page has an Edit control.
-  - Editing opens a form/modal to change the item's fields (confirm exact fields on pickup — e.g. name/description/link/qty/price) and save.
-  - Changes persist and are reflected immediately on the page.
-  - Edit is gated to the same staff role that manages suppliers today.
+  - "[x] Each supplier item (StockSupplierItems) on the suppliers page has an Edit control."
+  - "[x] Editing opens a form/modal to change the item's fields (confirm exact fields on pickup — e.g. name/description/link/qty/price) and save."
+  - "[x] Changes persist and are reflected immediately on the page."
+  - "[x] Edit is gated to the same staff role that manages suppliers today."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/backend/controllers/StockController.php
@@ -41,8 +41,11 @@ agent_runs: []
 labels:
   - suppliers
   - stock
-attention: null
-version: 4
+attention:
+  needed_by: human
+  reason: Inline edit for supplier items implemented and committed (40a71e08, branch Stock-Management-Development). Ready for verification and close against the posted test plan — remaining checks are the two edge cases (already-linked product, clear-both validation) and the added-row Edit-icon cross-impact.
+  since: 2026-07-20T09:01:18Z
+version: 10
 ---
 
 ## Source
@@ -82,3 +85,14 @@ Persists immediately with no page reload. All three files pass `php -l`.
 8. Edge — clear both product and reference → Save returns the validation error.
 9. Cross-impact — `_supplier-item-row.php` is shared with **Add**: confirm newly-added rows also get a working Edit icon, and **Delete** still works.
 10. Confirm a supplier-managing user can edit (same access as Add/Delete).
+
+**2026-07-20 09:01 claude-code:** **Committed & moving to review.**
+
+Committed by Zsolt as `40a71e08` — "Add inline editing for supplier items" (branch `Stock-Management-Development`).
+
+Implementation is complete (see the earlier comment for the full test plan). Edit icon confirmed present and basic save verified. Before closing to **done**, recommend a quick pass on the parts not yet exercised:
+- Link a product **already linked** to the supplier → expect "This product is already linked to the supplier."
+- **Clear both** product and reference → expect the validation error.
+- Confirm a **newly-added** row also gets a working Edit icon (shared `_supplier-item-row` partial — the one real cross-impact).
+
+Handing to a human to verify and close.
