@@ -2,10 +2,10 @@
 id: T-0604
 title: Finalised runs missing start/end/max weight & volume on the run planner
 type: bug
-state: review
+state: done
 priority: p1
 created: 2026-07-16T17:18:29Z
-updated: 2026-07-16T17:56:05Z
+updated: 2026-07-20T14:45:42Z
 project: route-planner-release
 section: null
 parent: null
@@ -17,9 +17,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - After finalising a sketch, each created run shows start, end and max weight AND volume on the run planner
-  - Figures match the sketch board's START/END bars for the same route (same stop order, same maths)
-  - Hand-built (non-sketch) runs are unaffected
+  - "[x] After finalising a sketch, each created run shows start, end and max weight AND volume on the run planner"
+  - "[x] Figures match the sketch board's START/END bars for the same route (same stop order, same maths)"
+  - "[x] Hand-built (non-sketch) runs are unaffected"
 out_of_scope: []
 code_anchors:
   - path: common/services/SketchPlanService.php
@@ -55,11 +55,8 @@ agent_runs:
 labels:
   - route-planner
   - release-blocker
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-16T17:56:05Z
-version: 6
+attention: null
+version: 11
 due: 2026-07-20
 ---
 
@@ -72,3 +69,9 @@ The sketch board already computes exactly this per route (routeMetrics: start/en
 ## Conversation
 
 **2026-07-16 17:56 claude-code:** Run run-20260716-1754 completed — Fixed finalised runs showing no weight/volume figures on the run planner. The run planner header displays the run's peak load (max weight and volume — also used to check the vehicle class is big enough), but the sketch finalise's recalculation only wrote the start and end loads, never the peak — so every run created from a finalised sketch showed 0KG | 0%. The peak is now computed during the same per-stop walk the recalc already does (start fully loaded with deliveries, load rises when collections come aboard mid-route), matching exactly how the run planner's own recalculation works for hand-built runs. Start and end loads were already correct; contracts' accrued at-this-stop figures unchanged.
+
+---
+
+**2026-07-20 14:45 — you**
+
+Working
