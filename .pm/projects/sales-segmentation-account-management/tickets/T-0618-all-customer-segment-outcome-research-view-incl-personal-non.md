@@ -4,7 +4,7 @@ title: All-customer segment/outcome research view — incl. personal & non-hirer
 type: feature
 state: triaged
 created: 2026-07-17T20:25:30Z
-updated: 2026-07-20T00:32:29Z
+updated: 2026-07-20T03:55:42Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -57,7 +57,7 @@ labels:
   - segment-research
   - research
 attention: null
-version: 3
+version: 4
 ---
 
 ## Problem
@@ -102,3 +102,22 @@ Acceptance criteria status:
 What the data shows (≥2yr-mature): **28,416 personal + 9,275 scored-corporate customers quoted and never hired** — the win-back universe. Personal repeat-buyers = £1.9M realised; scored-corporate repeat = £14.6M.
 
 Also: consolidated ALL P-0018 web deliverables onto one branch (`p0018-consolidated`) now served by the box — segment-research (correlation/outcomes/leads), fast-track lane, segment profile, account-levels. The correlation page's repeat-share headline is now computed live (87%) instead of hardcoded.
+
+**2026-07-20 03:55 claude-code:** **⏰ FOR MORNING REVIEW — data fix deployed overnight (segmentationtest.yahire.com).**
+
+**What Austin spotted:** a customer (appgrowthexperts.com) showed **5 delivered orders but only 3 quotes** — impossible if every hire starts as a quote.
+
+**Root cause (verified in the data):** the "orders" count was counting *every* contract row, including **£0 amendment / add-on contracts** created without a fresh quote (e.g. a change to an existing booking, or a comp). appgrowthexperts had 3 real quoted bookings + 2 £0 amendment contracts = 5 rows. So it was never more real demand than quotes — just £0 add-ons inflating the count. (This is the mirror of the quote-dedup we did earlier: re-quotes inflating the quote count.)
+
+**Fix deployed:** "delivered orders" / RFM Frequency now counts **distinct contracts with value > 0**, everywhere it's rolled up (the all-customer dataset → Outcomes, Insights/RFM, Opportunity, the drills; the correlation dataset; the score popup; the win-back list). **Realised £ is unchanged** (£0 rows added nothing anyway). The contracts drill now tags the £0 rows as "£0 amendment" and shows "N contracts · M with value", so summary and detail agree.
+
+**Please verify in the morning:**
+1. appgrowthexperts.com score popup now shows **3 delivered orders** (was 5); realised £ still £16,059.
+2. Its contracts drill shows 5 contracts, **3 with value**, 2 tagged "£0 amendment".
+3. Spot-check RFM Frequency scores look sensible (no one inflated by amendments).
+
+**Open decision for review (not fixed — needs your call):**
+- **Recency / "last hire" date** can still land on a £0 amendment (a £0 change last week shouldn't make a lapsed customer look active). Should recency also ignore £0 rows?
+- Are any £0 contracts **legitimate comped events** we'd want to count as an order? If so we need a real amendment flag, not a £0 proxy.
+
+Live commit: `57d0cd03` on branch `p0018-consolidated`.

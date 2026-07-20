@@ -4,7 +4,7 @@ title: Productionize per-segment ECAPA speaker separation + spoken self-introduc
 type: feature
 state: in_progress
 created: 2026-07-17T22:47:24Z
-updated: 2026-07-20T01:47:42Z
+updated: 2026-07-20T03:50:09Z
 project: pm-tool-self
 section: null
 parent: null
@@ -57,9 +57,11 @@ agent_runs:
         note: 'FULL TREATMENT COMPLETE — human-in-the-loop round trip proven end to end. Austin adjudicated 5 calls in the matcher UI (machine-readable ground truth round-tripped back); 8 unconfirmed "Name?" segments were detected via the human:true flag and EXCLUDED from enrolment (Austin+Ben phone profiles rebuilt from verified-only segments). Library now 11 people, multi-condition: Austin×3, Ben×3, Effie×2, Jhuztine×2, Zac×2, Rob×2, Francine×2, Samantha, + new Nathan, Orfield, Daniel Hannaway. RESULTS vs verified truth: 33% → 94% correct after enrolment; 6 honest misses; 4 confident-wrong (2.3%) — all diagnosed as diarization artifacts, not identity confusion: 3 short greetings merged into the wrong cluster + 1 genuine OVERLAP segment (the Austin/Orfield passage Austin himself flagged). Regressions: benrob PASS, m013 PASS, thanos2005 open-set PASS (0/132). Star result: the old Thanos call now identifies Nathan (ext 2018) 75/75 confident — a TRUE held-out cross-recording detection (enrolled from a different call, different day), with unenrolled Thanos correctly unnamed. Remaining known weaknesses → next work: (a) inherited-confidence policy for short segments in dominated clusters (the 3 greeting errors), (b) overlapped-speech flagging (the Orfield error), (c) next batch of calls = pure held-out re-validation.'
       - at: 2026-07-20T01:47:42Z
         note: "HELD-OUT EXAM COMPLETE — 8 fresh June calls (all predating enrolment data), zero enrolment, scored against the pre-registered criteria. Provisional verdict pending Austin's adjudication (bundle: ~/Downloads/heldout-exam.zip): STRONG PASSES — Austin 111/111 confident across 3 fresh calls; Nathan 42/42 across 2; Ben's side of the brothers call 10/10; strangers/Thanos unnamed throughout; SIBLING SAFETY HELD: zero confident Ben↔Zac cross-labels across 4 sibling-relevant calls (the merged brothers cluster was split majority-correctly with honest ? flags). HONEST MISSES exactly where profiles are thin: Rob absent/missed on Nathan's call, Samantha missed on her own call, Zac missed on the Francine call (but detected as Zac on 2 other fresh calls). ONE anomaly to adjudicate: a 5s confident 'Austin' segment inside Zac's cluster on the 2010-2002 call (genuine cross-talk vs confident-wrong — Austin's ears decide). Per protocol: misses get enrolled from adjudicated segments and retested on the NEXT round; the anomaly is diagnosed before any further enrolment if it's confident-wrong."
+      - at: 2026-07-20T03:50:09Z
+        note: "3CX API integration done + overnight team-capture running. Cracked the 3CX v20 XAPI: token auth (Keychain creds), CallHistoryView query, and Recordings/DownloadRecording — full recording download from the shell, no browser. Committed as pull-3cx-calls. Pulled 27 recorded calls for 15 main users in one hands-free run (incl. jackpots: Ben->Zac 4.5min sibling call, Effie->Ben 8min, Nathan->Samantha, Zac->Rob, Austin->Zac — all two-enrolled-people held-out tests), each with an .expected.json sidecar (who's on it, from the extension map) for self-scoring. Note: CallHistoryView recording links cap ~June 2025 (2026 recent recordings live in the ReportCallLogData/GetCallLogData report function, whose enum params returned 0 rows — a 10-min fix when fresh; a year-old voice sample is fine for enrolment regardless). Overnight job (overnight-capture.sh) diarizes+labels all 27 against the current 11-person library with ZERO enrolment, self-scores against expected, and builds a scorecard + adjudication UI bundle to Downloads (~/Downloads/overnight-capture.zip + -scorecard.html). Morning deliverable: which enrolled people were recognised on fresh held-out calls + new voices (Matthew/Sophie/Kelly/Sam Boulton/Terry/Paula) captured for adjudication+enrolment."
 labels: []
 attention: null
-version: 13
+version: 14
 ---
 
 ## Problem
