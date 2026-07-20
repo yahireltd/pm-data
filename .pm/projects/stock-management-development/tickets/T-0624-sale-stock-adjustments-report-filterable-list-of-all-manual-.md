@@ -4,7 +4,7 @@ title: Sale-stock adjustments report — filterable list of all manual adjustmen
 type: feature
 state: triaged
 created: 2026-07-20T12:34:48Z
-updated: 2026-07-20T12:34:48Z
+updated: 2026-07-20T12:49:53Z
 project: stock-management-development
 section: null
 parent: null
@@ -34,7 +34,8 @@ code_anchors:
     note: add the 'View all adjustments' link (near the Add/Transfer header button)
   - path: ya-hire/backend/views/stock/
     note: NEW view sale-stock-adjustments.php — report page (DataTable + reason/date/item/user filters + totals); match the sfs-page facelift style
-relates: []
+relates:
+  - T-0555
 blocks: []
 blocked_by: []
 duplicates: []
@@ -45,7 +46,7 @@ labels:
   - stock
   - reporting
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem

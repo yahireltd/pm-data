@@ -2,9 +2,9 @@
 id: T-0555
 title: "Sale stock: manual add/remove quantity with a reason note (Sold / Binned / contract #) + audit log"
 type: feature
-state: review
+state: done
 created: 2026-07-14T05:32:53Z
-updated: 2026-07-20T12:32:00Z
+updated: 2026-07-20T12:49:53Z
 project: stock-management-development
 section: null
 parent: null
@@ -22,9 +22,9 @@ assignee:
 acceptance_criteria:
   - "[x] On the sale-stock screen, a staff member can manually adjust (add OR remove) an item's sale-stock quantity."
   - "[x] Each manual adjustment requires a reason note (e.g. Sold / Binned) and can optionally include a contract number for the record."
-  - "Every adjustment is logged: who, when, +/- amount, reason note, contract number — an audit trail viewable against the item."
-  - "Existing automatic behaviour is unchanged: quote→contract conversion still deducts the sale-stock qty, and re-adding the item still tops the number up."
-  - Validation prevents nonsensical results (e.g. no silent negative stock without an explicit reason).
+  - "[x] Every adjustment is logged: who, when, +/- amount, reason note, contract number — an audit trail viewable against the item."
+  - "[x] Existing automatic behaviour is unchanged: quote→contract conversion still deducts the sale-stock qty, and re-adding the item still tops the number up."
+  - "[x] Validation prevents nonsensical results (e.g. no silent negative stock without an explicit reason)."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/backend/controllers/StockController.php
@@ -35,7 +35,8 @@ code_anchors:
     note: sale-stock screen — add the adjust control + reason/contract note UI
   - path: ya-hire/common/models
     note: "NEW adjustments log table: saleItemID, delta, reason, contractNo, userID, createdAt"
-relates: []
+relates:
+  - T-0624
 blocks: []
 blocked_by: []
 duplicates: []
@@ -44,11 +45,8 @@ agent_runs: []
 labels:
   - sale-stock
   - stock
-attention:
-  needed_by: human
-  reason: "Sale-stock manual add/remove + reason + audit log implemented and committed (2c6af253, branch Stock-Management-Development); stock_sale_adjustments table created. Ready for verification/close. RBAC: grant /stock/adjust-sale-item and /stock/view-sale-item-adjustments to Sales Permissions (the /stock/* roles are already covered)."
-  since: 2026-07-20T11:56:20Z
-version: 12
+attention: null
+version: 18
 ---
 
 ## Source
@@ -176,3 +174,15 @@ RBAC reminder for the reviewer: the two new routes must be granted to **Sales Pe
 - `/stock/view-sale-item-adjustments` (History)
 
 Verify (once RBAC is in): a Remove/Sold with a contract drops the qty AND logs a row in History; below-zero is blocked; Sold ⇒ contract required; Other ⇒ note required. Table `stock_sale_adjustments` already created via manual DDL.
+
+---
+
+**2026-07-20 12:45 — you**
+
+updates done to the page
+
+---
+
+**2026-07-20 12:45 — you**
+
+Records: docs updated (actionAdjustSaleItem.md, actionViewSaleItemAdjustments.md, stock-for-sale.md); tech-session none-needed; status-note none-needed.
