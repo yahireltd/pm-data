@@ -4,7 +4,7 @@ title: "Sale stock: manual add/remove quantity with a reason note (Sold / Binned
 type: feature
 state: in_progress
 created: 2026-07-14T05:32:53Z
-updated: 2026-07-20T10:52:15Z
+updated: 2026-07-20T11:44:17Z
 project: stock-management-development
 section: null
 parent: null
@@ -45,7 +45,7 @@ labels:
   - sale-stock
   - stock
 attention: null
-version: 7
+version: 8
 ---
 
 ## Source
@@ -143,3 +143,25 @@ Remaining before this is verifiable/live:
 - **Step 2 — RBAC:** grant `stock/adjust-sale-item` + `stock/view-sale-item-adjustments` to the sale-stock role (or confirm `stock/*` covers them).
 - **Commit** the code (working tree, no-commit policy).
 - **Verify** against the test plan above (remove-with-reason logs it, below-zero blocked, "Other" needs a note, History modal, existing transfer path unaffected).
+
+**2026-07-20 11:44 claude-code:** **RBAC (Step 2) — resolved which grants need the new routes.**
+
+Checked what currently grants the existing sale-stock routes:
+- **8 grants use the `/stock/*` wildcard** (`Product Manager` role, `Warehouse Controller`, `Managers`, `Accounts`, and the individual Gary/Jay/Thanos/Trudy permissions) → they **already auto-cover** `stock/adjust-sale-item` and `stock/view-sale-item-adjustments`. Nothing to do.
+- **`Sales Permissions`** grants **explicit routes** (`stock-for-sale`, `update-sale-item`, `delete-sale-item`), not the wildcard → the two new routes must be added or Sales users 403 on Save/History.
+
+Routes are stored with a leading slash. SQL to add them (safe to re-run):
+```sql
+INSERT IGNORE INTO auth_item (name, type, created_at, updated_at) VALUES
+  ('/stock/adjust-sale-item', 2, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+  ('/stock/view-sale-item-adjustments', 2, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+
+INSERT IGNORE INTO auth_item_child (parent, child) VALUES
+  ('Sales Permissions', '/stock/adjust-sale-item'),
+  ('Sales Permissions', '/stock/view-sale-item-adjustments');
+```
+(If RBAC is cached, clear the auth cache after.) Open question: Sales currently has view/update/delete but **not** `add-sale-item` — confirm adjusting sale-stock qty is acceptable for the Sales role before granting.
+
+**Also note — extra scope shipped on this page** beyond the ticket's ACs: a page facelift (matches commission-thresholds design), an image lightbox modal, and Adjust-modal layout/validation polish (Sold ⇒ contract required, Other ⇒ note required, spacing/alignment fixes).
+
+**Remaining to close:** run the RBAC SQL for Sales (if wanted), commit the working-tree code + docs, and verify a real Adjust saves + logs + shows in History.
