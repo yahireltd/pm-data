@@ -2,9 +2,9 @@
 id: T-0556
 title: "Suppliers: add an Edit option on supplier items"
 type: feature
-state: review
+state: done
 created: 2026-07-14T05:35:11Z
-updated: 2026-07-20T09:03:59Z
+updated: 2026-07-20T09:23:19Z
 project: stock-management-development
 section: null
 parent: null
@@ -41,11 +41,8 @@ agent_runs: []
 labels:
   - suppliers
   - stock
-attention:
-  needed_by: human
-  reason: Inline edit for supplier items implemented and committed (40a71e08, branch Stock-Management-Development). Ready for verification and close against the posted test plan — remaining checks are the two edge cases (already-linked product, clear-both validation) and the added-row Edit-icon cross-impact.
-  since: 2026-07-20T09:01:18Z
-version: 10
+attention: null
+version: 12
 ---
 
 ## Source
@@ -96,3 +93,15 @@ Implementation is complete (see the earlier comment for the full test plan). Edi
 - Confirm a **newly-added** row also gets a working Edit icon (shared `_supplier-item-row` partial — the one real cross-impact).
 
 Handing to a human to verify and close.
+
+---
+
+**2026-07-20 09:23 — you**
+
+function added, tested, working
+
+---
+
+**2026-07-20 09:23 — you**
+
+Records: docs updated (actionSupplierUpdateItem.md); tech-session none-needed; status-note none-needed.
