@@ -4,7 +4,7 @@ title: "Pre-finalise pinned-work check: warn before finalising when locked/loadi
 type: feature
 state: review
 created: 2026-07-20T16:52:11Z
-updated: 2026-07-20T16:52:42Z
+updated: 2026-07-20T18:29:22Z
 project: route-planner-release
 section: null
 parent: null
@@ -73,7 +73,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-20T16:52:42Z
-version: 4
+version: 5
 ---
 
 ## Problem
@@ -89,3 +89,15 @@ Inside the finalise request — before ANY side effect, including the T-0613 sup
 **2026-07-20 16:52 claude-code:** Run run-20260720-1652 completed — When a planner finalises a sketch, jobs that are already committed on the live plan (run locked, pushed to the driver, or loading started in the warehouse) stay exactly where they are — the system has always protected them. The problem was that nobody was told until AFTER the button was pressed, and even then only as a count, not names. So the finalised runs could quietly differ from the picture the planner had just drawn, with no chance to unlock first.
 
 Now, before anything is written, finalise checks every pinned job against where the sketch puts it. If any would not move as drawn, the planner gets a clear warning dialog naming each job, the run it will stay on, what the sketch shows instead, and why it's pinned — with the choice to cancel and unlock those runs first, or knowingly finalise around them. If the sketch already matches the live position of every pinned job (the normal case), there is no dialog and no extra friction. Without this, a planner could believe the sketch layout had been applied when part of it hadn't — the exact overwrite-surprise risk Austin flagged for Monday's go-live.
+
+**2026-07-20 18:29 claude-code:** **Automated service-level test session on the sandbox (20 Jul evening, plan date 2026-07-21) — full supersede/restore/pinned-work matrix executed against the real DB, with `planner-audit` after every finalise. Two REAL bugs found, fixed, and regression-tested.**
+
+**Bug A — partially-pinned split loses pieces (serious, audit-caught).** C091603's collection is a 2-piece split; with one piece's run locked, "Finalise around them" preserved the locked piece but deleted the unlocked sibling row and the per-movement locked-skip never rewrote it — the 2703kg movement shrank to 1319kg (audit FAILed on both items and weights). Fix `c208c127`: finalise now refuses outright — not confirmable — whenever a pinned (contract,type) also has unpinned live rows, naming the contract and piece counts, until the run is unlocked or the loading piece is drawn back on its current vehicle. Regression-tested: blocked with and without the confirm flag, then unlocked → clean finalise → audit PASS with the lost piece restored.
+
+**Bug B — stale sketch weight written to run rows.** A contract whose weight changed after the sketch was drawn finalised with the old figure on the run row (78kg written vs 156kg actual), understating run loads despite the warning saying "finalised with CURRENT details". Fix `fca769e0`: single-piece stops now write the current contract weight/volume; split pieces keep their sketch share. Re-tested: drift warning still fires, audit PASS.
+
+**Everything else PASSED:** pinned-divergence block fires with full named detail and zero side effects on cancel (no supersede, no writes); confirm path completes with the pinned piece untouched and a named warning; Edit-Plan detour (reopen → re-solve) flips the plan back to finalized with the solver output as a candidate — the durable finalized_at detection working; restore → draft → re-finalise supersedes the newer plan; editing a superseded plan is refused; client-shaped saves preserve the finalize baseline snapshot; weight and service-time drift warnings fire accurately (C091603's service time genuinely grew 82→150m on the sandbox); item/weight/orphan conservation PASS on every audit.
+
+**Not covered (needs a browser, still on Austin's checklist):** the amber/purple/typed-TODAY dialogs actually rendering, concurrency between two users, map/pins, and UI drag-drop split flows. All the server behaviour behind those dialogs is now proven.
+
+**Sandbox end state:** 21 Jul has sketch #689 finalized (audit PASS, 0 warnings), #686 and #698 superseded and restorable via the banner, no locked runs. Note #698 deliberately carries a tampered 78kg stop — restoring and finalising it is a ready-made demo of the weight-drift warning.
