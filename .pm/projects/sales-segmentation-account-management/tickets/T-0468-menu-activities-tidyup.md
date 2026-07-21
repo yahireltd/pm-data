@@ -5,7 +5,7 @@ type: chore
 state: done
 priority: p2
 created: 2026-06-23T11:48:35Z
-updated: 2026-07-21T05:51:46Z
+updated: 2026-07-21T06:07:00Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -39,7 +39,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 20
+version: 21
 ---
 
 ## Problem
@@ -72,3 +72,15 @@ Asked how he (and the wider sales team) are finding:
 - and how the rest of the team is getting on with both.
 
 Awaiting reply — will capture any feedback here and fold changes into the next round (new pages still to be added to the menu as they're ready).
+
+**2026-07-21 06:07 claude-code:** **All-staff announcement email sent (2026-07-21)** for the page search (which is now live to everyone, desktop-only).
+
+The email covered:
+- **Where** it is — the 🔍 search box at the top of the page ("Search pages…").
+- **How** to use it — type a couple of letters of a page name; matching pages appear; click / Enter to jump straight there.
+- **Ordering** — pages already in **your menu** come first (☰ menu icon + highlighted), then other accessible pages alphabetically.
+- **Personalised** — only shows pages the user has access to (RBAC-filtered).
+- **Desktop only** for now (hidden on phones/tablets).
+- Support contact: support@yahire.com.
+
+This closes the "released the search but never told staff how it works" gap. (Separate follow-up already sent to Nathan for menu/search feedback.)
