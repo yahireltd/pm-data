@@ -4,7 +4,7 @@ title: "Quality: multiple structured failure points per product (name + note + p
 type: feature
 state: in_progress
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T08:50:15Z
+updated: 2026-07-21T09:40:32Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 9
+version: 10
 ---
 
 ## Source
@@ -134,3 +134,27 @@ The design conclusion is unchanged and does **not** depend on it: there is **no 
 - Badge is now an **icon only** (⚠, amber if any point is stale); **click opens a modal** listing the item's active failure points (name, scope, qty, note, photo).
 - Root cause of "only shows after reload": quote rows are rebuilt by **server-side string-builder blocks duplicated across add/update/remove** (no shared partial), which didn't include the badge. Fixed by applying the icon **client-side** — `fpDecorate()` fetches active points via new endpoint `SalesController::actionItemFailurePoints` (`sales/item-failure-points`) and re-runs on a `MutationObserver` over `#editItemMainDivID`, so it survives add/update/remove.
 - New route `sales/item-failure-points` — sales grant / superuser (add explicitly if per-route). All files lint clean.
+
+**2026-07-21 09:40 claude-code:** **Further Quote Builder refinements (post-review feedback).** All working-tree only, lint clean.
+
+**1. Icon now appears on AJAX add — not just reload (both panels).**
+Root cause: quote rows are rebuilt server-side by *several* duplicated builders with no shared partial, and the summary rows carried no stockID. Fixes:
+- Added `data-stockid` to the read-only summary rows in **every** render path: full-page view (`quote-builder.php`), the two controller builders (`SalesController.php` ~7688 / ~8498), and — the one that was actually missing — the model builder used by add: `QuoteItems::addItemToQuote()` (`common/models/QuoteItems.php:2361`). Edit rows already had it.
+- Client decoration (`fpDecorate`) now targets `data-stockid` directly on both `#editItemMainDivID` and `#qItemsDivID`, with a `MutationObserver` on both so it survives add/update/remove.
+
+**2. Badge is icon-only + click-to-modal.**
+Small ⚠ (amber if any point is stale); click opens a modal listing the item's active failure points (name, scope, qty, note, photo). Details fetched via new endpoint `SalesController::actionItemFailurePoints` (`sales/item-failure-points`).
+
+**3. Add/Edit failure-point modal tidy-up** (product info Quality tab): consistent field spacing, clearer Active row ("show on the Quote Builder"), neater photo/replace layout.
+
+**4. Quote Builder "Hire Items" column layout** (per request), applied across all render paths incl. accessories:
+- Qty - Item → `col-xs-7 col-md-7 text-left`
+- **UnitPrice → "Unit Price"**, `col-xs-2 text-right no-padding`
+- Line Total → `col-xs-3` (kept its right padding to align with the inset values)
+- Header cells given `no-padding` to match the item rows (Unit Price header floated `pull-right` to match the price values).
+
+**Files touched this round:** `backend/views/sales/quote-builder.php`, `backend/controllers/SalesController.php`, `common/models/QuoteItems.php`, `backend/views/stock/view-product-info.php`.
+
+**Extra test steps:**
+- Add an item with an active failure point **without reloading** → ⚠ appears on both the edit builder and the right-hand summary; click either → modal.
+- Check "Hire Items" columns line up (header vs values), including a quote with **package/accessories**.
