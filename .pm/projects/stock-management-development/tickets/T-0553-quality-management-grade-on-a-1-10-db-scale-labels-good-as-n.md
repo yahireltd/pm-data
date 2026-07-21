@@ -4,7 +4,7 @@ title: "Quality Management: grade on a 1–10 DB scale (labels Good as new/Good/
 type: feature
 state: in_progress
 created: 2026-07-14T05:07:50Z
-updated: 2026-07-14T06:49:07Z
+updated: 2026-07-21T11:44:28Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,12 +20,11 @@ assignee:
   kind: human
   name: Zsolt
 acceptance_criteria:
-  - "Quality grade is captured using the labels: Good as new / Good / OK / Needs replaced."
-  - The grade is stored in the DB on a reserved 1–10 numeric scale (the 4 labels map onto fixed points on the 1–10 range), so the scale can be made more granular later without losing or reinterpreting past inputs.
-  - Each grade supports multiple photos — up to 3 (currently 1).
-  - Existing quality data (current grade + single photo) is preserved and maps onto the new scale / multi-photo model with no data loss.
-  - The Quality section on the product info page shows the label (not just the raw number) with its photos.
-  - "Overall-quality notes become one-to-many: staff can add multiple dated, attributed notes about a product's overall quality (replacing the single overwritten `otherNotes` field) — kept simple for now, expandable later."
+  - "The Quality section's 3 fixed reference-image slots (Good / Average / Bad) are replaced by 4 quality cards, one per label, each header showing the label + its score range: Good as new (8–10), Good (6–7), OK (4–5), Needs replaced (1–3)."
+  - The existing 1–10 scoring stays as-is (summary tiles, check cards, Add Check modal all unchanged); the 4 labels map onto fixed ranges of the 1–10 scale (1–3 / 4–5 / 6–7 / 8–10), surfaced in the card headers.
+  - Each quality card supports up to 4 reference photos shown in a 2×2 grid, with add + remove per photo (currently a single photo per slot).
+  - Existing reference images are migrated onto the new cards (Bad → Needs replaced, Average → OK, Good → Good), no data loss.
+  - Layout keeps the same row structure — the Failure Points / Other Notes column plus the 4 quality cards (5 equal-width columns); Other Notes stays unchanged (one-to-many notes split to T-0633).
 out_of_scope: []
 code_anchors:
   - path: ya-hire/backend/controllers/StockController.php
@@ -36,7 +35,8 @@ code_anchors:
     note: quality grade + photo storage — where the 1–10 scale and multi-photo set live
   - path: ya-hire/common/models/StockQualityCheck.php
     note: per-check quality record (dated grade entries)
-relates: []
+relates:
+  - T-0633
 blocks: []
 blocked_by: []
 duplicates: []
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 4
+version: 5
 ---
 
 ## Source
