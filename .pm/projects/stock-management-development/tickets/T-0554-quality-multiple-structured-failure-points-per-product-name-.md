@@ -4,7 +4,7 @@ title: "Quality: multiple structured failure points per product (name + note + p
 type: feature
 state: in_progress
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T08:24:30Z
+updated: 2026-07-21T08:50:15Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 8
+version: 9
 ---
 
 ## Source
@@ -128,3 +128,9 @@ The design conclusion is unchanged and does **not** depend on it: there is **no 
 **Noted gap:** the app has no clean "stock received" moment. If one is introduced later, the batch nudge could fire on that event instead of the timer. Raising as a possible follow-up.
 
 **2026-07-21 08:24 claude-code:** Follow-up spike raised: **T-0631 — "stock received / restocked" event for hire stock** (to discuss with Ben/Sandor). If that event gets built, the batch failure-point review-nudge here can fire on it instead of the 30-day timer.
+
+**2026-07-21 08:50 claude-code:** **Quote Builder surfacing reworked** (feedback: icon-only, click→details, and must show on AJAX add — not just reload).
+
+- Badge is now an **icon only** (⚠, amber if any point is stale); **click opens a modal** listing the item's active failure points (name, scope, qty, note, photo).
+- Root cause of "only shows after reload": quote rows are rebuilt by **server-side string-builder blocks duplicated across add/update/remove** (no shared partial), which didn't include the badge. Fixed by applying the icon **client-side** — `fpDecorate()` fetches active points via new endpoint `SalesController::actionItemFailurePoints` (`sales/item-failure-points`) and re-runs on a `MutationObserver` over `#editItemMainDivID`, so it survives add/update/remove.
+- New route `sales/item-failure-points` — sales grant / superuser (add explicitly if per-route). All files lint clean.
