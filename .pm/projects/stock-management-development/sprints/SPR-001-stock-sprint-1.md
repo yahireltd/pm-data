@@ -6,7 +6,7 @@ project: stock-management-development
 state: in_progress
 order: 1024
 created: 2026-07-14T05:07:50Z
-updated: 2026-07-20T12:49:10Z
+updated: 2026-07-21T06:21:56Z
 committed_items:
   - T-0553
   - T-0554
@@ -14,11 +14,12 @@ committed_items:
   - T-0556
   - T-0557
   - T-0624
+  - T-0630
 goal: Ship the quick-win stock improvements agreed at the kickoff (quality grading + photos, failure points, sale-stock qty edit, supplier item edit, orders view).
 start_date: 2026-07-14
 end_date: 2026-07-28
 milestone: MS-001
-version: 15
+version: 16
 owner:
   kind: human
   name: zsolt
