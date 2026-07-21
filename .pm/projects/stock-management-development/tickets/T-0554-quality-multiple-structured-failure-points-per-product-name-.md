@@ -4,7 +4,7 @@ title: "Quality: multiple structured failure points per product (name + note + p
 type: feature
 state: done
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T10:49:17Z
+updated: 2026-07-21T11:25:31Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 22
+version: 23
 ---
 
 ## Source
@@ -192,3 +192,13 @@ qb updated with icons for items, click to view, view-product-info page done,
 **2026-07-21 10:49 — you**
 
 Records: docs updated (actionDeleteFailurePoint.md, actionSaveFailurePoint.md, actionToggleFailurePoint.md, stock-quality-failure-points.md); tech-session none-needed; status-note none-needed.
+
+**2026-07-21 11:25 claude-code:** **Shipped.** Committed and deployed live by Zsolt. Sales team + Ben/Sandor notified by email.
+
+Final tweaks since the last update:
+- **Quote Builder modal** now has a short explainer strip under the title: *"Failure points are known quality issues recorded against this item, so the team is aware of them when it's on a quote. Only active ones are highlighted."* (centered).
+- **Docs** updated to drop references to the one-off migration SQL (Zsolt applied the table + legacy migration, then removed the script) — docs now note it as "already applied" and record the eventual old-column cleanup.
+
+**Deployment notes:** table + legacy free-text migration already applied on prod; RBAC needs nothing extra (management-tab access implies `stock/*`); old `StockQualityInfo.failurePoints` column retained as a safety-net until verified, then can be dropped (+ remove the two model lines).
+
+Ready for final human sign-off/close.
