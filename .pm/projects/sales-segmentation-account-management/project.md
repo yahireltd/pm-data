@@ -5,7 +5,7 @@ name: Sales Segmentation / Account Management
 state: active
 phase: planning
 created: 2026-06-16T17:34:29Z
-updated: 2026-07-21T15:03:47Z
+updated: 2026-07-21T15:41:05Z
 owner:
   kind: human
   name: Ben
@@ -136,7 +136,7 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:25:30Z
     role: Marketing / Sales Ops
-version: 347
+version: 349
 agent_policy:
   allow_commit: false
   allow_push: false

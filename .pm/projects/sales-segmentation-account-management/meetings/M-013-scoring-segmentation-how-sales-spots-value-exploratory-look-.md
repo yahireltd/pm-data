@@ -4,7 +4,7 @@ slug: scoring-segmentation-how-sales-spots-value-exploratory-look-
 title: Scoring & segmentation — how sales spots value + exploratory look at the suggested processes (Ben / Austin / Nathan)
 state: scheduled
 created: 2026-07-17T16:15:22Z
-updated: 2026-07-21T15:03:46Z
+updated: 2026-07-21T15:41:05Z
 scheduled_at: 2026-07-21T14:15:00+01:00
 duration_minutes: 60
 location: TBD (in person / call)
@@ -67,17 +67,17 @@ attachments:
     size: 6307197
     uploaded_by: austin@yahire.com
     uploaded_at: 2026-07-21T14:56:26Z
-  - key: meetings/M-013/1784646225723-meeting-recording-2026-07-21-1426-small.m4a
-    filename: meeting-recording-2026-07-21-1426-small.m4a
+  - key: meetings/M-013/1784648446636-meeting-recording-2026-07-21-1426.m4a
+    filename: meeting-recording-2026-07-21-1426.m4a
     content_type: audio/x-m4a
-    size: 8669310
+    size: 18154190
     uploaded_by: austin@yahire.com
-    uploaded_at: 2026-07-21T15:03:46Z
+    uploaded_at: 2026-07-21T15:40:47Z
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 8
+version: 10
 ---
 
 ## When / who
