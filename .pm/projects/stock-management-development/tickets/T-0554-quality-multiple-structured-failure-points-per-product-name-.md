@@ -2,9 +2,9 @@
 id: T-0554
 title: "Quality: multiple structured failure points per product (name + note + photo + active toggle) with affected in-stock qty"
 type: feature
-state: in_progress
+state: review
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T10:07:16Z
+updated: 2026-07-21T10:20:09Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,12 +20,12 @@ assignee:
   kind: human
   name: Zsolt
 acceptance_criteria:
-  - A product can have multiple failure points (replacing today's single free-text field on StockQualityInfo.failurePoints).
-  - "Each failure point has: name, note, a photo, and an Active on/off status."
-  - Active failure points can be flagged/surfaced where relevant — e.g. on the Quote Builder for sales and other views (confirm exact surfaces on pickup).
-  - Each failure point shows the 'active in stock' quantity affected (how many units this exists on).
-  - Existing free-text failurePoints content is preserved / migrated (not silently dropped).
-  - The Quality section on the product info page lets staff add/edit/remove failure points and toggle each active.
+  - "[x] A product can have multiple failure points (replacing today's single free-text field on StockQualityInfo.failurePoints)."
+  - "[x] Each failure point has: name, note, a photo, and an Active on/off status."
+  - "[x] Active failure points can be flagged/surfaced where relevant — e.g. on the Quote Builder for sales and other views (confirm exact surfaces on pickup)."
+  - "[x] Each failure point shows the 'active in stock' quantity affected (how many units this exists on)."
+  - "[x] Existing free-text failurePoints content is preserved / migrated (not silently dropped)."
+  - "[x] The Quality section on the product info page lets staff add/edit/remove failure points and toggle each active."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/common/models/StockQualityInfo.php
@@ -45,8 +45,11 @@ agent_runs: []
 labels:
   - quality-management
   - stock
-attention: null
-version: 13
+attention:
+  needed_by: human
+  reason: Build complete and lint-clean (structured failure points on the Quality tab + Quote Builder icon/modal surfacing + image lightbox + card layout). Migration + table already applied by Zsolt; RBAC covered by stock/* (management access). Working-tree only — commit/deploy pending on Zsolt's side. Ready for human verification against the test plan in the ticket, then close.
+  since: 2026-07-21T10:14:59Z
+version: 20
 ---
 
 ## Source

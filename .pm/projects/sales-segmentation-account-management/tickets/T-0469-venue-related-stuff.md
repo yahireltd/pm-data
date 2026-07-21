@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-06-23T11:49:24Z
-updated: 2026-07-17T06:34:25Z
+updated: 2026-07-21T10:17:19Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -28,7 +28,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 4
+version: 5
 backlog_status: parked
 ---
 
@@ -61,3 +61,36 @@ Venue-related improvements across the Venue DB, quoting, commission and booking.
 
 ## Status
 **Parked** — revisit with sales + logistics users before splitting threads 2 (commission) and 3 (booking-system) into their own tickets, and deciding whether booking-system belongs here or in logistics (P-0019).
+
+## Conversation
+
+**2026-07-21 10:17 — Zsolt**
+
+FYI 1 Marylebone wanted us to upload invoices, however this could be a sensitive GDPR issue. \
+As such I suggest we manually redact sensitive info that we upload using a free PDF editor. \
+I’ve added Zsolt in who will put this on the venue part of the project so you can have a redacted PDF pre-made for you
+
+* *
+
+*Redact a customer name where it is a sole trader, partnership named after individuals, or anything that effectively identifies a private person. A named employee and their direct work email or mobile are also personal data. *
+
+*For your purpose, I’d leave visible:*
+
+* *Company name*
+* *Invoice/contract number*
+* *Venue and event date*
+* *Relevant goods value*
+* *VAT and totals, where needed to verify commission*
+* *Invoice status*
+
+*Redact personal names, private addresses, direct contact details, payment information and unnecessary notes. You might also redact your item-level pricing if the venue only needs the commissionable total—not for GDPR, but for commercial confidentiality.*
+
+***Best free Windows option***
+
+***PDF24 Creator** is probably the easiest fit. It is free, works offline and says files remain on the PC. Use its actual **Redact PDF** function, rather than simply drawing black rectangles. *
+
+*Alternative: **LibreOffice Draw** has dedicated rectangle and free-form redaction tools and can export the redacted copy back to PDF. *
+
+*Important: do not cover text with a normal shape, highlight or black box. The underlying text can remain selectable or recoverable. Use an actual redaction tool, apply the redactions, save as a new PDF, then test by trying to select/search/copy the hidden text. *
+
+*For repeated venue statements, the better long-term answer is probably a system-generated **commission evidence PDF**, rather than manually redacting every invoice.*
