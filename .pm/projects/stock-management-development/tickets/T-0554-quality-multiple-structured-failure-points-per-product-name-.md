@@ -4,7 +4,7 @@ title: "Quality: multiple structured failure points per product (name + note + p
 type: feature
 state: in_progress
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T07:45:30Z
+updated: 2026-07-21T07:48:57Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 4
+version: 5
 ---
 
 ## Source
@@ -90,3 +90,5 @@ Decisions with Zsolt:
 7. RBAC + docs.
 
 **Next:** Zsolt to run the two process choices (scope + restock nudge) past Ben/Sandor before build.
+
+**2026-07-21 07:48 claude-code:** **Correction:** the design decisions above are Zsolt's calls — **not pending any external sign-off**. Proceeding to build now; it'll be presented to Ben/Sandor for **review on completion**, not before. (Disregard the earlier "pending Ben/Sandor confirm / run past them before build" line.)
