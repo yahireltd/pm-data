@@ -4,7 +4,7 @@ slug: scoring-segmentation-how-sales-spots-value-exploratory-look-
 title: Scoring & segmentation — how sales spots value + exploratory look at the suggested processes (Ben / Austin / Nathan)
 state: held
 created: 2026-07-17T16:15:22Z
-updated: 2026-07-21T17:09:58Z
+updated: 2026-07-21T17:10:31Z
 scheduled_at: 2026-07-21T14:15:00+01:00
 duration_minutes: 60
 location: TBD (in person / call)
@@ -61,7 +61,59 @@ agenda:
     duration_min: 10
   - topic: "Next steps: prototype process design keeping existing workflow similarity; visible for interrogation/confirmation by Nathan, Taran, Sam + wider team (implementation not before Nathan returns from leave)"
     duration_min: 5
-outcomes: []
+outcomes:
+  - description: "DECIDED — Qualify customers on 'regular NEED / requirement of our products', NOT 'do you do regular events' (Nathan, Head of Sales): a company can run events constantly without needing furniture, so the recurring *requirement* is the true lifetime-value signal. The system should prompt sales to capture this on quotes; a 'not really' answer becomes captured truth that can rescore/downgrade the customer's potential."
+    recorded_at: 2026-07-21T17:10:31Z
+    owner:
+      kind: human
+      name: Ben
+  - description: "DECIDED — Capture structured company intel on the FRONT PAGE of the customer profile (company type/industry; need cadence: regular / ad-hoc / rare; whether we're on their supplier list / how many suppliers they use), centralised and easy to record — not ephemeral in personal chase dashboards or Google Docs. Much of this is already scraped from company websites and can be surfaced."
+    recorded_at: 2026-07-21T17:10:31Z
+    owner:
+      kind: human
+      name: Austin
+  - description: DECIDED — Strategic accounts get a richer profile pulled from the strategic account plan (stakeholders, who orders, relationship notes + relevant history) plus a first-class 'Pain Points' tab, categorised (stock / service / response-time). Pain points are currently not logged well and are lost when people leave.
+    recorded_at: 2026-07-21T17:10:31Z
+    owner:
+      kind: human
+      name: Austin
+  - description: DECIDED — System hygiene is a stewardship obligation of account ownership, not optional ('you don't own the account, the company does' — Axel). Earning and keeping account ownership is judged on hygiene + account-plan completion + touchpoint monitoring, alongside capacity, performance, segment specialisation and skill-set fit. Reflected in the new Sales-Exec role description Ben has drafted.
+    recorded_at: 2026-07-21T17:10:31Z
+    owner:
+      kind: human
+      name: Ben
+  - description: DECIDED — Strategic segment focus must be backed by real resources/materials (e.g. the exhibitor portal, an offer/discount structure) plus per-segment growth targets and emerging segment specialists — not unsupported 'go target caterers/venues/exhibition-organisers' ('fishing without bait / sent into the desert without water'). The company must learn from what each segment actually needs and adjust.
+    recorded_at: 2026-07-21T17:10:31Z
+    owner:
+      kind: human
+      name: Ben
+  - description: ACTION — Nathan to send Ben the diluted account plan he built for the new-business team (Sophie/Sam).
+    recorded_at: 2026-07-21T17:10:31Z
+    owner:
+      kind: human
+      name: Nathan
+  - description: ACTION — Austin to stand up the exhibitor portal on a test server for Sophie/Sam to trial, using one of Nathan's past events (it's 'pretty much there').
+    recorded_at: 2026-07-21T17:10:31Z
+    owner:
+      kind: human
+      name: Austin
+  - description: ACTION — Austin to surface the already-scraped company data (company type, scoring/placement, next-event date) on the profile, and add a 'VIP items' flag so sales can highlight items that signal value (e.g. a black modular sofa is a strong non-industry indicator; folding chairs are a weak 'dog item').
+    recorded_at: 2026-07-21T17:10:31Z
+    owner:
+      kind: human
+      name: Austin
+  - description: ACTION — Austin to build a per-venue event calendar (past + upcoming events per venue, each marked quoted / won / never-contacted — red/amber/green) to drive proactive targeting of exhibition organisers; and overhaul the customer activity/history view (grouped notes / cases / showcases history, and add proper phone & email activity types — currently everything is lumped as a 'chase').
+    recorded_at: 2026-07-21T17:10:31Z
+    owner:
+      kind: human
+      name: Austin
+  - description: ACTION — Ben + Nathan to meet Sophie to align the new-business process and move it on-system (off Google Docs, which has no timestamps and can be lost). Nathan is on ~1 month's leave from late July and needs to prepare account-handover docs (BDC etc.) — currently handover is 'look at previous orders / it's a vibe', which is a gap.
+    recorded_at: 2026-07-21T17:10:31Z
+    owner:
+      kind: human
+      name: Ben
+  - description: "NOT RESOLVED — carried forward to process + scoring design: (1) incubation-account / process-level thresholds (~£3K floated — 'start reasonably and adjust'); (2) the potential-vs-current-spend scoring method (the data-trust spectrum was agreed — accounts-shown > customer-told > extrapolated [events/yr × avg order value] > guesstimated > AI segment score — but the formula isn't finalised); (3) a numeric framework for account maturity / 'banked trust' (discussed, no framework settled — 'learning on the job'). Deliberately NOT to over-optimise for outliers like Abellio."
+    recorded_at: 2026-07-21T17:10:31Z
 attachments:
   - key: meetings/M-013/1784645782925-meeting-recording-2026-07-21-1456.m4a
     filename: meeting-recording-2026-07-21-1456.m4a
@@ -91,7 +143,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 16
+version: 27
 ---
 
 ## When / who
