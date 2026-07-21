@@ -2,9 +2,9 @@
 id: T-0616
 title: Empty/silent meeting recordings stick in the transcription queue and retry forever
 type: bug
-state: review
+state: done
 created: 2026-07-17T19:27:11Z
-updated: 2026-07-21T17:30:55Z
+updated: 2026-07-21T17:31:30Z
 project: pm-tool-self
 section: null
 parent: null
@@ -47,11 +47,8 @@ labels:
   - meetings
   - transcription
   - dogfood-finding
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-17T19:27:52Z
-version: 7
+attention: null
+version: 9
 ---
 
 ## Problem
@@ -69,3 +66,9 @@ The Record button uploaded a 975-byte empty recording as if valid. Client-side g
 ## Conversation
 
 **2026-07-17 19:27 claude-code:** Run run-20260717-1927 completed — A broken or silent meeting recording no longer jams the transcription queue. While testing the real end-to-end process, the worker found a recording on a sales meeting that was only 975 bytes — effectively an empty file from a Record button that fired and stopped with nothing captured. Transcription rightly found no words, but the old behaviour treated that as a failure and left the recording in the queue, so it would have failed again on every future run — quietly clogging the pipeline. Now, when transcription runs successfully but finds no speech, the tool attaches a short note ("no audible speech in this recording") to the meeting so the item clears the queue; a real transcription crash still stays queued to retry later. One follow-up noted for later: the Record button itself should refuse to upload an empty recording so duds never reach the queue in the first place. Benefit: one bad recording can't silently block everyone else's transcripts.
+
+---
+
+**2026-07-21 17:31 — you**
+
+done
