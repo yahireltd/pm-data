@@ -4,7 +4,7 @@ title: "Quality: multiple structured failure points per product (name + note + p
 type: feature
 state: in_progress
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T09:57:21Z
+updated: 2026-07-21T10:07:16Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 12
+version: 13
 ---
 
 ## Source
@@ -171,3 +171,12 @@ All lint clean; JS syntax-checked. Working-tree only.
 - **Quality tab:** standalone image lightbox kept, but **shrink-wrapped to the image** (`display:inline-block; width:auto; max-width:92vw` — same technique as `/stock/stock-for-sale`'s `#imageViewerModalID`) so there's no oversized empty modal. Single modal there, so no stacking concern.
 
 Lint + JS syntax checked. Working-tree only.
+
+**2026-07-21 10:07 claude-code:** **Failure-point card layout redesigned** (Quality tab, `renderFailurePointCard`).
+
+Moved from the stacked layout (tiny 60px thumb near the bottom) to a **media layout**:
+- **Image left** — 120×120 framed thumbnail (`object-fit:cover`), click opens the lightbox.
+- **Details right** — name + Scope/Active/Needs-review badges on top, then Qty affected and note. Details take full width if there's no photo.
+- **Actions row** — Edit / Deactivate / Delete on their own row below a light divider, **right-aligned**.
+
+Cosmetic only (`StockController::renderFailurePointCard`); lint clean, working-tree only.
