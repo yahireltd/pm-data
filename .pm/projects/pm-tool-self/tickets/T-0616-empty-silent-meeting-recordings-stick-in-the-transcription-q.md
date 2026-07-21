@@ -4,7 +4,7 @@ title: Empty/silent meeting recordings stick in the transcription queue and retr
 type: bug
 state: review
 created: 2026-07-17T19:27:11Z
-updated: 2026-07-17T19:27:52Z
+updated: 2026-07-21T17:30:55Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,9 +18,9 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - A silent/empty recording dequeues with a clear 'no audible speech' note instead of erroring forever
-  - A genuine transcription crash (non-zero exit) still stays queued for retry
-  - "Follow-up noted: the Record button should guard against uploading empty/near-empty recordings"
+  - "[x] A silent/empty recording dequeues with a clear 'no audible speech' note instead of erroring forever"
+  - "[x] A genuine transcription crash (non-zero exit) still stays queued for retry"
+  - "[x] Follow-up noted: the Record button should guard against uploading empty/near-empty recordings"
 out_of_scope: []
 code_anchors:
   - path: mcp-server/scripts/transcribe-meetings.ts
@@ -51,7 +51,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-17T19:27:52Z
-version: 4
+version: 7
 ---
 
 ## Problem
