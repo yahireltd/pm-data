@@ -4,7 +4,7 @@ title: Sale-stock adjustments report — filterable list of all manual adjustmen
 type: feature
 state: review
 created: 2026-07-20T12:34:48Z
-updated: 2026-07-20T13:06:15Z
+updated: 2026-07-21T05:33:18Z
 project: stock-management-development
 section: null
 parent: null
@@ -79,7 +79,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-20T13:06:15Z
-version: 5
+version: 6
 ---
 
 ## Problem
@@ -99,3 +99,14 @@ New report route must be granted like T-0555's actions — the `/stock/*` roles 
 ## Conversation
 
 **2026-07-20 13:06 claude-code:** Run run-20260720-1257 completed — Added a Sale-Stock Adjustments report — a single page listing every manual add/remove made to sale stock, filterable by date range, reason (Sold/Binned/Other), item and user, with running totals (added / removed / net change). It's reached from a new "View all adjustments" button on the Stock For Sale screen. Previously adjustments could only be seen one item at a time via the per-item history pop-up; now managers can review all adjustments across items — e.g. everything binned this week, or every change made by a given person — which is the oversight the audit log was created for. Reuses the existing adjustments table, so no data changes are needed.
+
+**2026-07-21 05:33 claude-code:** **Folded in: Item filter → log-scoped autocomplete (scales to 100s of items).**
+
+The Item filter is now a **search-as-you-type** control instead of a `<select>`:
+- New endpoint `actionSearchAdjustedItems($term)` (route `stock/search-adjusted-items`) returns only products that **have** adjustments matching the term (capped 20) — so the typeahead never surfaces zero-history items (unlike `ajax/all-items-search`).
+- View: jQuery-UI autocomplete on `#itemSearch` → writes the picked id into hidden `#stockID`; pre-filled from `selectedItemName` after reload; clearing the box resets to "all items".
+- **User stays a plain select** (small set).
+
+**Extra RBAC route** to grant (in addition to `stock/sale-stock-adjustments`): **`stock/search-adjusted-items`** — `/stock/*` roles already cover it; add to **Sales Permissions** if Sales use the report.
+
+Docs updated (action doc + new `actionSearchAdjustedItems.md` + view doc). Lint-clean, working tree (no-commit policy). Ticket stays in review.
