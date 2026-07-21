@@ -4,7 +4,7 @@ title: "Quality Management: grade on a 1–10 DB scale (labels Good as new/Good/
 type: feature
 state: in_progress
 created: 2026-07-14T05:07:50Z
-updated: 2026-07-21T11:44:28Z
+updated: 2026-07-21T11:53:12Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 5
+version: 7
 ---
 
 ## Source
@@ -67,3 +67,41 @@ Quality grading today is fixed **good / average / bad** with **one photo each**,
 
 ## Out of scope (separate tickets)
 - Failure points rework, the all-stock quality overview page, and quality-over-time views — those are their own tickets in this milestone.
+
+## Conversation
+
+**2026-07-21 11:47 claude-code:** **Design finalised with Zsolt — resolves the open questions. Building now.**
+
+Decisions:
+- **Keep the 1–10 scoring exactly as-is** (summary tiles, check cards "X/10", Add Check modal). No change to scoring/capture.
+- The **3 reference-image slots (Good/Average/Bad) become 4 grade cards**, one per label, header = **label + score range**: Good as new (8–10) · Good (6–7) · OK (4–5) · Needs replaced (1–3).
+- **Each card holds up to 4 photos in a 2×2 grid** (add up to 4, remove per photo).
+- **Layout unchanged** — same row, now **5 equal-width columns**: Failure Points/Other Notes column + the 4 grade cards.
+- **Other Notes stays a single box** here; the one-to-many notes rework is split to **T-0633** (same sprint).
+
+Plan:
+1. New child table `stock_quality_grade_photos` (`stockID, grade [good_as_new|good|ok|needs_replaced], photoUrl, createdBy, createdAt`) + model `StockQualityGradePhoto` (manual DDL). Keep the 3 legacy `*QualityImageUrl` columns as a dormant safety-net; migrate their values in (**Bad→needs_replaced, Average→ok, Good→good**; Good as new starts empty).
+2. Rework `buildQualitySectionContent` image section → loop the 4 grades; each card = "Label (range)" + 2×2 photo grid + Add Image tile (while <4) + per-photo remove.
+3. `actionUploadGradePhoto` (cap 4/grade) + `actionDeleteGradePhoto`; same `quality` edit permission gate + `stock-quality-info` asset bucket as today.
+4. JS wiring; grade photos reuse the existing click-to-enlarge lightbox.
+5. RBAC (`stock/*`) + docs.
+
+**2026-07-21 11:53 claude-code:** **Built (working tree, not committed).** 3 reference-image slots → 4 grade cards with up to 4 photos each.
+
+**New / changed**
+- Table `stock_quality_grade_photos` + model `StockQualityGradePhoto` — DDL **and** legacy-image migration in `sql/stock_quality_grade_photos.sql` (run once). Grades in `StockQualityGradePhoto::grades()`: Good as new (8–10) / Good (6–7) / OK (4–5) / Needs replaced (1–3). Cap 4/grade.
+- `buildQualitySectionContent` — the good/average/bad loop is replaced by 4 grade cards, each a **2×2 photo grid** + per-photo **×** remove + **Add** tile (while <4). Row stays 5 equal-width columns (Failure Points/Other Notes + 4 grade cards). Photos reuse the existing lightbox.
+- `actionUploadGradePhoto` (caps at 4) + `actionDeleteGradePhoto`; same `quality` edit gate + `stock-quality-info` bucket. JS `uploadGradePhoto`/`deleteGradePhoto` in `view-product-info.php`.
+- **Scoring untouched** (tiles, check cards, Add Check). Old `*QualityImageUrl` columns kept (dormant); values migrated in (Bad→needs_replaced, Average→ok, Good→good). Legacy `actionUpload/DeleteQualityImage` now dormant.
+- Docs: feature doc + 2 action docs.
+
+**RBAC:** `stock/upload-grade-photo`, `stock/delete-grade-photo` — covered by `stock/*` (management access) + the quality-edit perm.
+
+**Test plan (human review):**
+1. Run `sql/stock_quality_grade_photos.sql`. Products that had good/avg/bad images show them as the first photo in **Good / OK / Needs replaced** cards respectively; **Good as new** empty.
+2. Quality tab shows **4 grade cards** with headers **Good as new (8–10) / Good (6–7) / OK (4–5) / Needs replaced (1–3)**, in 5 equal columns.
+3. **Add** up to 4 photos to a card (2×2). At 4, the Add tile disappears; a 5th upload is blocked server-side.
+4. **×** on a photo (confirm) removes it + its asset; the Add tile reappears.
+5. Click any grade photo → opens the lightbox (Open in new tab works).
+6. Non-quality-edit user: sees the cards read-only (no Add/×); the two endpoints 403.
+7. Cross-impact: scoring tiles, check cards ("X/10"), Add Check, Failure Points panel, and Other Notes all still work as before.
