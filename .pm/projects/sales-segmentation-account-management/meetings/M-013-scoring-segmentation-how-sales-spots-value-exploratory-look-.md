@@ -4,7 +4,7 @@ slug: scoring-segmentation-how-sales-spots-value-exploratory-look-
 title: Scoring & segmentation — how sales spots value + exploratory look at the suggested processes (Ben / Austin / Nathan)
 state: scheduled
 created: 2026-07-17T16:15:22Z
-updated: 2026-07-21T16:17:43Z
+updated: 2026-07-21T16:37:26Z
 scheduled_at: 2026-07-21T14:15:00+01:00
 duration_minutes: 60
 location: TBD (in person / call)
@@ -81,11 +81,17 @@ attachments:
     size: 71553
     uploaded_by: transcribe-worker
     uploaded_at: 2026-07-21T16:17:43Z
+  - key: meetings/M-013/1784651846450-meeting-recording-2026-07-21-1456-transcript.txt
+    filename: meeting-recording-2026-07-21-1456-transcript.txt
+    content_type: text/plain
+    size: 24752
+    uploaded_by: transcribe-worker
+    uploaded_at: 2026-07-21T16:37:26Z
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 12
+version: 13
 ---
 
 ## When / who
@@ -879,3 +885,179 @@ _Part 1 of 2 (recorded 14:26). Speaker labels: names are best-effort from the vo
 [1:09:10] Nathan?: This is what I'm saying.
 
 [1:09:11] Nathan: I feel sometimes you're just getting told to go into the desert without a bar.
+
+## Transcript — meeting-recording-2026-07-21-1456.m4a
+
+_Transcribed 2026-07-21T16:37:26Z on-device._
+
+_Part 2 of 2 (recorded 14:56). Speaker labels: names are best-effort from the voice library — `?` = uncertain (Ben/Nathan enrolled mainly from phone audio, this is in-room). Adjudicate to firm up + bank their in-room voices._
+
+[00:00] Ben?: I'm going to skip sales approach by customer type. The purpose of that is to understand does our approach change depending on the customer value and potential? I think the answer to that is yes.
+
+[00:18] Ben: But the question specifically, we're asked about small order, low repeat likelihood, small order, high repeat likelihood, large order, like repeat, large order, high repeat likelihood.
+
+[00:30] SPEAKER_01: covered that a little bit yeah we're there just talking about denominations which could be quite difficult for us to say yeah like you know again if you're a small order and you do 300 pound but you do it 10 times a year you spend 30 grand for three grand should you be an incubation account should you not should still be in your membership yeah i think that's more about denominations cool um all right so let's just get that rubbish questions customer knowledge um
+
+[00:56] Ben?: Any particular information that the system should capture or should be captured in that system?
+
+[01:01] Ben: So if you inherited an account, what information would help you immediately?
+
+[01:05] Ben?: What information is absolutely essential? What information is useful but not essential? And if a salesperson after I kind of asked this question before, what knowledge would be lost?
+
+[01:15] SPEAKER_01: Okay, yeah, really good. So obviously, depending on the type of company they are, but... A lot of this can be found on the system, but is it done in a very good way? I'm not too sure. In regards to information that is definitely needed, you would need to know who the main stakeholders are there. So who works there? What are their roles? Who does the ordering? Who's in charge of certain what is also important which is only now starting to realistically get noted and would be something that would have get lost and would still get lost if some people left now is pain points what are the customers pain points um what would a pain point look like you know for example um they yeah so you know it could be one that um matt has up with is that when we deliver it we need to half the chairs they don't want it to be you know something quite innocuous but this is information that does need to be locked um yeah pain points could be um you know even response time when i was having a meeting with unit x and you know i said to him it was like what are your pain points when it comes to your suppliers and he basically said um you guys are brilliant at responding we've got some people that uh for you who's a furniture company. So, you know, they come here quite a lot, but that might take days, a week to respond to the question. So yeah, that's a pain point. Now, are these logged on our system?
+
+[02:51] Ben?: Yeah. You know, not very well. Yeah.
+
+[02:53] SPEAKER_01: Obviously when you do a strategic account plan, it's locked. Yeah. You know, other stuff, obviously venue, venue information, very important operation information, operational information for venues and potentially others, like caterers, doesn't need to have cages, all that kind of stuff. Discounts, commissions, that's kind of already noted down there. so yeah i would say like there's where we've made this strategic account plan a lot of the information on there kind of needs to even though it's great it's not a document it should also be some of it should be like filtered onto the system where it's you know straight in eyesight okay yeah i was thinking about this the and again we're talking about high level strategic account think in terms of you know smaller accounts you still want to know who the decision makers are and who does the ordering etc um but i do like the idea of a different type of customer profile for strategic accounts yes of course yeah um specifically for strategic or you know even managed accounts i do think managed accounts it doesn't need to be as in-depth i'm not too sure but um things like um pain points is a perfect example that could be like a tab what are the pain points of this company? So, you know, it's the same to our menu on the side where it's like sales, logistics. One of them just says pain points. You know, you're on the Hurlingham Club thing and you click on pain points. Do, do, do, do, do, do, do, do.
+
+[04:19] Austin: Try and categorise them as well as possible if we're going to have them there.
+
+[04:22] SPEAKER_01: 100%.
+
+[04:23] Austin: Is that pain point stock? Is it service?
+
+[04:25] SPEAKER_00: Is it, you know?
+
+[04:26] SPEAKER_01: For sure. Yeah, yeah. Stock, service. You know, response time is service. So, yes, yeah. It would usually fall into those two brackets, I guess. Yeah.
+
+[04:35] UNKNOWN: Yeah.
+
+[04:35] Ben: And that's part of our accounts plans now, is that right?
+
+[04:37] Ben?: Yeah, yeah. Cool, so it'd be good to... Actually, I've already got five or six of them, actually. It'd be good to start to aggregate what these things are and how we can categorise them. 100%. But you know what?
+
+[04:54] SPEAKER_01: The amount of conversations between them and customer service, we know that somebody has stopped using us because of that. Because after every single thing you're telling me about all these missing ones, things that are not even directly related to sales can be big pain points for clients.
+
+[05:09] Ben?: So if someone's on leave, then what do they tell them about their account? So someone's going to look after the BDC? for them to download from you?
+
+[05:19] SPEAKER_01: Yeah, so realistically, depends how long you're off for. I probably should have done a lot more now because I'm going to be off for a month. But it's tricky because if a new one comes in, there are quite a lot of information that to cover it, a BDC, you would need to cover it in a massive document. Yeah. I don't think... As bad as it sounds, sometimes it's a bit like, look at the previous orders. It's kind of a vibe, which we use a lot. Yeah, it's probably not noted very well.
+
+[05:54] Ben?: It's not noted very well. Yeah.
+
+[05:56] Ben: So I think you want that sort of role in relevant history, if you like.
+
+[06:00] Ben?: You know what I mean? Which might be derived from the account plan.
+
+[06:03] SPEAKER_02: What is it that's been going on here?
+
+[06:05] Ben?: What matters?
+
+[06:08] SPEAKER_01: So if you go on a profile, you know, you can look at view all activities. I think it's not presented well.
+
+[06:16] Ben: So it's just strewn between all the different activities.
+
+[06:18] SPEAKER_01: Yeah. I think that needs a massive overhaul.
+
+[06:20] Ben: They're nice themselves a lot, aren't they?
+
+[06:22] Ben?: A lot of it.
+
+[06:23] SPEAKER_01: But then there's, you know, stuff like, you know, commission expiry or case, you know, or... Sometimes it's really hard to go and find it.
+
+[06:34] Austin: I think it's the activity types even on there.
+
+[06:36] Austin?: They don't cover everything.
+
+[06:37] Austin: There's no activity type for a phone call or an email, for example.
+
+[06:40] SPEAKER_01: Yeah, we just class that as a chase. This is it, or a meeting. Definitely a whole overhaul. And the way I would look at it is, say you go into BDC, you should just click on it and go, okay, these are the lists of all the different ones. And you can just then easily see Showcase. You click on it and it shows the dates that Showcase was done, rather than having to scroll through.
+
+[07:01] Ben?: all that so that was the salesperson's notes about the history what's the sort of activity history what's the cases history what's the showcase history etc etc you want that all visible basically yeah one of the big issues we've got is um how people use the system and how whether they use it correctly whether they use it and so
+
+[07:28] SPEAKER_01: and it's very hard to, you know, it's the same, like, I'm assuming you were a gamer, I don't think you're a gamer anymore, but like, yeah, so, World of Warcraft, you change your UI to have, some people have the map down here, some people have the map up here, you know what I mean, like, sticky key, you know, keybinds and all this, you use it differently. The issue that we've got sometimes is, you know, even not using it. So, you know, someone like Paola barely uses the system. Yeah. Barely uses it. You look on her dashboard, it looks like she's done fuck all, but she has chased them, she just doesn't log it.
+
+[07:57] Ben?: out to air and might as well start a world war three kind of thing yeah we do have systems that are going down this road it needs to be moved it needs to be recorded it's useless yeah it's there's definitely got to be a level of hygiene that the you know because you don't own that account, the company does. That's what Axel says, right? And I think that's a very good thing, right? So yes, it is your account, but you're a steward of this account now on behalf of the company, right? And so the company doesn't just require you to have great relationships. It also needs you to plan in such a way that it's going to maximise it. And if anything was to happen and that account was transferred for whatever reason, that we'd not lose all of that knowledge because you've got a Google Docs on them or it's all up there. Yeah, exactly.
+
+[08:43] SPEAKER_02: Yeah.
+
+[08:44] Ben?: Cool.
+
+[08:45] Ben: And definitely continuity relationships.
+
+[08:48] Ben?: I'm sure that once these things start to pan out that we're going to start to think about, you know, look, it's not just the stakeholders, it's about what they know and what experiences these guys have had together and how do we, you know, if you were going to hand over a business design centre in six months, I'm sure you're going to speak to...
+
+[09:05] SPEAKER_01: whoever you intend to hand it over and bring them down to site and meet people and go out on nights out or whatever it is right so that's the other thing so obviously we've got one on the system so we're talking about you know in-depth strategic account plans where the moment you go on the system you click on one of the tabs that say profile and but you know hopefully more people more people keep doing that but it doesn't save you any qualitative information about that person what is your relationship so obviously when we've done the strategic account plans yeah um the document then will show you their name their thing what relationship you've got any notes yeah um so you know that is something that would be great to be pulled through because that's very important um yeah you have the and introduce someone you don't know what they're like like when I pass over when I've passed over my accounts before say an example would be Draco Morgan to Kelly I say correct this is Gabby she's going to be the main thing she's a Brazilian fiery lass as long as you do well you know it's all good but that is important information if I had just you know dropped down dead Kelly wouldn't know certain things you know so There's a hell of a lot of information you can learn.
+
+[10:11] Ben?: No job done dead until we sort that shit out. Cool. Yeah.
+
+[10:18] Ben: There's lots of food for thought in customer knowledge and stuff and not making it too onerous on sales, but at the same time, telling them that this is part of the job.
+
+[10:26] Ben?: Now, I think it's got to come, right?
+
+[10:28] SPEAKER_02: I think it's got to come.
+
+[10:29] SPEAKER_01: Yeah, I do think that the push and pull of... You open up a commission structure where you get more money, the more bookings you have. her strength is innovation. But then she's messaged me to say, oh, Taryn said that I can have this account. Taryn's like, yeah, I've given her. I'm like, she's struggling.
+
+[10:58] Ben?: Like, she's not doing system hygiene. Yeah, don't give more work. Yeah, yeah, yeah.
+
+[11:02] SPEAKER_01: And then she would be the best person to handle that account. But even so, like, you know, if someone's not doing it, then you have other people that really do great system hygiene, but then actually how much of that gets put through into actual innovation work probably does more than some other people. But if you look at the system, it looks like one person's done an unbelievable amount of work. Yeah, yeah. And there needs to be a middle ground. Yeah.
+
+[11:20] Ben: And yeah, I think if you have a look at the role description that I've sent you, it's similar format to the other three.
+
+[11:27] Ben?: So it's a service exec, but similar format to the other three. And there is like, this is what the expectations are kind of thing. And this is, you know, why you'd get a new account and be trusted with moving up a phase to senior account manager or whatnot. Account maturity. Okay.
+
+[11:44] Ben: So the idea of account maturity is that It's a spectrum, right?
+
+[11:50] Ben?: A company that you've had a decades relationship with and you've got most of their spend is a very mature account and a company that's brand new is not the same.
+
+[12:02] Ben: So its purpose is to understand how relationships evolve and so how we could look at our accounts and say, yeah, look, these are very well-developed accounts in terms of their maturity and these aren't. What stages does an account go through? How would you describe that from you to mature?
+
+[12:20] SPEAKER_01: Really poor at documenting it realistically and a lot of it, similar to what Austin said a bit earlier, it's like... don't really know how this happened you know they did have definitely quite a lot of you know i can tell you some of the ones that we've got a great relationship with and i can kind of pinpoint certain points where that definitely furthered it but it's not been documented in that fashion you know um so if i said we did have all the logs of what Incipio Group would be a perfect example. If we don't have it, then they won't use us. But if we have it, then they use us 100%. And obviously, we've got a very close relationship with them. Not just Matt, who's obviously really close to them, but quite a wide range. We've gone to a lot of their events with a wider team. And we've invited them to stuff as well. The social side of it would be very important. But if we weren't good, then we won't get it. So it's... But there are many factors. I actually did want to go through with Taryn and actually kind of list... you know a never-ending list of different things you can do there is a point where it's like there's only certain amount of things you can do even if it's like 30 different things there is like you know okay go down with your delivery team or invite them to a social you know after a certain amount of time there isn't you know give them a present exactly yeah and there's not you know there isn't a never-ending things you can do you know we're not going to send them to the grand prix or anything you know you can even list that as a gift the activities i think there should also be a thing as okay innovation what are the different things that you can offer um but where we i think have been very poor i said the documentation is actually getting to the uh itty gritty so it's hippie a group we've never really spoken to them about their pain points they had a need they started using us they liked us they use us we've never discussed about you know why we haven't just growing up truly ever really very grown
+
+[14:23] Ben?: good infrastructure or something.
+
+[14:25] Ben: So describe that as the type of sales activities or sales activity milestones.
+
+[14:30] Ben?: So if you have a meaningful conversation with them, then that's essentially a milestone. If you have a history of meaningful conversations, like eventually they're showing your accounts and saying, look, we are the only people that you guys use or there is 20% left, but that's because you don't have this item, right?
+
+[14:45] Ben: Then that's a high level of maturity. So it's definitely new and mature.
+
+[14:51] Ben?: I'm not sure if there is an extramillionaire but in between there's different things as well as in there for example we had Tate who they were an account where that was six seven years ago but they probably hardly used us and they've come back again so yeah this is this we're starting from scratch but yeah I don't know I'm just trying to sort of work out how we would grade maturity and and link that into milestones and things that happen yeah in a way it's kind of we're learning on the job now Tate is a perfect example of building through milestones obviously they're going to come to be
+
+[15:39] SPEAKER_01: so yeah but yeah I don't know it's hard to actually put information into that in terms of like how do you make it mature so another concept we were talking about was we were talking about in the bank percentage right so what makes a customer ours right yeah I guess the only thing with that is fallibility so obviously you have banked trust wrong we have fucked up an incipient drug or our team were really rude or something like that so overcoming a problem is a sign of maturity massive yeah do you also have bank trust if that if we didn't have a relationship with them that could have mean that we never use it withdrawal from the we make withdrawals from these relationships basically but how do you put a number on that yeah well issue resolution potential issue severity like banked trust if i say to you incipio that would be a lot of bank trust how would you put a number on that because once if if she left if any left successful orders we're doing something along the way of getting feedback on the orders right successful yeah clone uh so it's banked in terms of every time you do a successful yeah yeah are you happy with us yeah yeah because yeah i mean this is where we're talking about in terms of um overhauling the dashboard we could spend fucking hours on that you know a big thing you know do an event yeah i call or email them and say you know how it'll go and then you know they say it went really well yeah and what i do because it seems the most logical thing is i copy and paste their answer into it yeah so then if i'm going back to it the next year when i'm doing a repeat event i can just read their answer obviously just look at the email um but the system won't the system logs it but it doesn't log it as good or bad it's just qualitative information
+
+[17:35] Ben?: or just a neutral face if it was like yeah this is really good but this was a great kind of thing so you know so one day you should be able to walk into a meeting with an accountant and say look the last year we've had 24 orders with you there was two of them which didn't go well the rest seemed to go well what I noticed about those two was yes we have come and given the refund and everything that this was the problem that's happened this is what's happening in our organization to change that do you know what I mean and that sort of builds the the longer term trust as well kind of thing like this is how we're growing together and
+
+[18:03] SPEAKER_01: yeah and whatnot that'd be really good because that's the thing like moving venues i do jobs for them all the time i'll have no end of post event feedbacks in there but i'd have to go through them all just to see how it went like even if i said the team that if you said to me oh there's that one order that wasn't very good sometime last year i wouldn't know where to find it like i'd have to go through so this this this becomes an essential part of account management then if we if we're listening yeah
+
+[18:30] Ben?: I'm back to going to another meeting. Ownership. What should ownership of an account actually mean?
+
+[18:44] SPEAKER_01: Yeah. So you're talking about an account manager. Yeah. Yeah. So I think aligned with Yaha's values that is, you know, trying to... get as much money as possible or potential value as possible whilst keeping the customer happy. I think for too long we kind of focused on the latter without the former or the tools to understand how to do the former.
+
+[19:12] Ben: So what should someone do to own ownership of a customer?
+
+[19:16] SPEAKER_02: Like, what should someone do to own ownership?
+
+[19:20] Ben?: Yeah, to earn ownership, sorry.
+
+[19:21] SPEAKER_01: Oh, earn ownership, customer. As in, what should someone do to get a new account? Yeah. Okay, well, I think the first one that, yeah, multifaceted, how the resource is to do it. If someone can't handle any more accounts, then they shouldn't have any more accounts. That's something that would come through. Yeah. Exactly, competition. people are not doing the hygiene or whatever people are not doing the tasks so that's one prerequisite two is doing well on the others so if you're doing really badly with all yours then you shouldn't really get new ones potentially three would be I think in the future specialisation should I say industry segment yeah I love the idea of Kelly being our catering yeah account manager for experienced enough experienced enough okay yeah and any particular work on that account or that customer yeah I would say yeah if they know him perfectly before but the other thing I would say is not necessarily just experience but skill set I think sometimes we pretend that, because we have one account manager role. Well, technically we've got two with Frankie. But they are three wildly different people. You know the Matt and Paola will be well matched for certain accounts and not well matched for other accounts.
+
+[20:52] Ben?: Okay. So there's a fit as well, yeah? 100%.
+
+[20:56] Austin: That's more of the human sort of feeling, isn't it?
+
+[20:59] Ben?: Yeah, I'm going to give you an account that this suits you and you're on top of your shit.
+
+[21:03] SPEAKER_02: Exactly, yeah.
+
+[21:07] SPEAKER_01: And skill set, sometimes it doesn't necessarily refer to just bad. It might be they excel at certain things that is actually very needed. You know, a BDC is very... that i wouldn't want to give that to someone who is a relatively system illiterate um if someone was extremely system illiterate i'd rather give it to that person than someone else okay so kelly's better at system than paula it's interesting for me becomes part of the say you know your skill set you'll hit your four out of six on this hex graph um yeah um the only thing i would say like because it definitely is i do think that some people can only improve to certain levels of certain things and other people will never get to that do you know yeah um so for example like actual innovation kelly and matt will never be as good as what power is now but all three of them can improve how it can improve um writing really, really good professional emails, there's someone that would really struggle to do that. Like that, you know, you can't take someone back to school and like fucking, you know, go through year five and six of English, year 10 and 11 of English. So there are still, even though it could be a development thing, there are still ceilings.
+
+[22:27] SPEAKER_02: Yeah.
+
+[22:28] Ben?: Cool.
+
+[22:30] Ben: So once they've got ownership of the customer, what do they need to do to justify continued ownership?
+
+[22:35] SPEAKER_02: Sorry, repeat that one again.
+
+[22:37] Ben?: With their customers, what do they need to do to... You've got a meeting in France.
+
+[22:40] SPEAKER_02: That's right, just one more.
+
+[22:42] Ben?: What do they need to do to justify continuing the ownership? Keeping that account.
+
+[22:48] SPEAKER_01: Yeah, I mean, where it needs to be improved now is system hygiene and understanding the customer. kind of goes hand in hand you know do we have understanding it's just not on the system or it's on the system that we don't have understanding you kind of need both um so fill in their accounts plans as well fill in their accounts plans yeah i mean you sometimes wish that you know there was like a you know football when they have like a a have our quiet season but you actually have like a whole pre-season or you know you're not actually working yeah if we actually just weren't doing any work now and we're just doing all the stuff we could get on with it but it's never really the case um but yeah and um obviously uh touch points monitoring you know if they haven't done anything on there for three months then what are we doing here yeah kind of like yeah so that's going to come down to the manager's cadence and visibility that you have to see what they've actually done as you
+
+[23:49] SPEAKER_02: Thank you, Nathan.
+
+[23:50] Ben?: Yeah? Yeah. Well, there's a little bit more, but whenever you've got the chance. We'll see. Yeah, yeah. Thanks, man. Good.
