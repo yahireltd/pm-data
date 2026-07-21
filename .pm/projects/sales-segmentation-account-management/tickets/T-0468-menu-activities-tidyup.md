@@ -5,7 +5,7 @@ type: chore
 state: done
 priority: p2
 created: 2026-06-23T11:48:35Z
-updated: 2026-07-21T06:07:00Z
+updated: 2026-07-21T08:24:45Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -39,7 +39,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 21
+version: 22
 ---
 
 ## Problem
@@ -84,3 +84,27 @@ The email covered:
 - Support contact: support@yahire.com.
 
 This closes the "released the search but never told staff how it works" gap. (Separate follow-up already sent to Nathan for menu/search feedback.)
+
+---
+
+**2026-07-21 08:24 — Zsolt**
+
+Nathan replied to the follow up email.
+
+<br />
+
+Morning Good Sir,
+
+ 
+
+Yes all positives for the menu layout; especially as a few of them were not visible before.
+
+ 
+
+I have to say I haven’t used the search much, maybe twice? Both times it worked well though, so I don’t have any negative feedback.
+
+Now it’s live and others will be using it, I’ll share any feedback I get from the team.
+
+ 
+
+Kind regards,

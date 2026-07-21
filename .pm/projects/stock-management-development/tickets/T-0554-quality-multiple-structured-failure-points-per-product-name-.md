@@ -4,7 +4,7 @@ title: "Quality: multiple structured failure points per product (name + note + p
 type: feature
 state: in_progress
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T08:13:06Z
+updated: 2026-07-21T08:24:30Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 6
+version: 8
 ---
 
 ## Source
@@ -120,3 +120,11 @@ Decisions with Zsolt:
 9. No-quality-edit user: sees list read-only, no buttons; the 3 endpoints 403.
 10. **Quote Builder**: quote with an affected product → red badge by item name (builder + read-only), tooltip lists points, amber if stale; unaffected / inactive-only product → no badge; quote loads normally.
 11. Cross-impact: good/avg/bad quality images still upload/delete fine (shared re-render + same asset bucket).
+
+**2026-07-21 08:22 claude-code:** **Correction to the earlier "synced from Insphire" note.** That was my inference from the code, not the live process — Zsolt confirms **InspHire is not used**. The codebase does contain a dormant InspHire-shaped `Stock`/`StkTrans` integration (an "Update Stock Qty From Insphire" button on `view-all-products`), which is what I wrongly read as the current stock sync. Disregard that line.
+
+The design conclusion is unchanged and does **not** depend on it: there is **no discrete "stock received / restocked" event** in the app to hook the batch review-nudge onto, so staleness is **time-based** (active batch points not reviewed in 30 days → "Needs review"; any add/edit/toggle counts as a review). Feature doc wording fixed.
+
+**Noted gap:** the app has no clean "stock received" moment. If one is introduced later, the batch nudge could fire on that event instead of the timer. Raising as a possible follow-up.
+
+**2026-07-21 08:24 claude-code:** Follow-up spike raised: **T-0631 — "stock received / restocked" event for hire stock** (to discuss with Ben/Sandor). If that event gets built, the batch failure-point review-nudge here can fire on it instead of the 30-day timer.
