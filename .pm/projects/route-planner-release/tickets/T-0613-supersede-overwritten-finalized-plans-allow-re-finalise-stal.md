@@ -2,9 +2,9 @@
 id: T-0613
 title: Supersede overwritten finalized plans; allow re-finalise; staleness guard on finalize
 type: feature
-state: review
+state: done
 created: 2026-07-17T14:00:59Z
-updated: 2026-07-20T15:37:22Z
+updated: 2026-07-21T12:31:22Z
 project: route-planner-release
 section: null
 parent: null
@@ -58,11 +58,8 @@ agent_runs:
 labels:
   - route-planner
   - release-blocker
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-17T14:07:20Z
-version: 12
+attention: null
+version: 14
 ---
 
 ## Problem (Austin's decision on the T-0612 drift finding)
@@ -90,3 +87,9 @@ What Austin saw: finalise plan A → Edit Plan → re-solve → finalise plan B.
 Also fixed: restore now redirects to `?id=<plan>` (the `?date=` load prefers the still-finalised newer plan and would have displaced the restored draft straight back), and superseded plans are edit-blocked until restored.
 
 **Sandbox state:** fix deployed (commits c03d7868 + fa6bee33), migration applied, and sketches 686/689 flipped to superseded with their true finalise times from the logs — the 21 Jul sketch page should now show the restore banner offering both. Test plan updated with the Edit-Plan detour scenario and a baseline-survives-autosave check.
+
+---
+
+**2026-07-21 12:31 — you**
+
+DOne

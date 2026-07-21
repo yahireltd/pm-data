@@ -2,9 +2,9 @@
 id: T-0626
 title: "Pre-finalise pinned-work check: warn before finalising when locked/loading jobs won't move as drawn"
 type: feature
-state: review
+state: done
 created: 2026-07-20T16:52:11Z
-updated: 2026-07-20T18:29:22Z
+updated: 2026-07-21T12:32:18Z
 project: route-planner-release
 section: null
 parent: null
@@ -18,12 +18,12 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Finalising a sketch that places a locked-run job on a different vehicle is refused with needs_lock_confirm and a named list (contract no, movement, run it stays on, sketch placement, reason)
-  - Amber dialog shows the list; Cancel leaves everything untouched (no supersede, no runs written); 'Finalise around them' completes the finalise with the pinned jobs left as they are
-  - No dialog when every pinned job's sketch placement matches its live run/vehicle (zero added friction in the normal mirrored case)
-  - Warehouse-touched jobs moved to a different vehicle in the sketch trigger the dialog with reason 'warehouse loading has started'; same-vehicle touched jobs do not
-  - Same-day sketches show the typed-TODAY dialog first, then the lock dialog; confirming both finalises exactly once
-  - Locked skips appear as named warnings in the post-finalise summary
+  - "[x] Finalising a sketch that places a locked-run job on a different vehicle is refused with needs_lock_confirm and a named list (contract no, movement, run it stays on, sketch placement, reason)"
+  - "[x] Amber dialog shows the list; Cancel leaves everything untouched (no supersede, no runs written); 'Finalise around them' completes the finalise with the pinned jobs left as they are"
+  - "[x] No dialog when every pinned job's sketch placement matches its live run/vehicle (zero added friction in the normal mirrored case)"
+  - "[x] Warehouse-touched jobs moved to a different vehicle in the sketch trigger the dialog with reason 'warehouse loading has started'; same-vehicle touched jobs do not"
+  - "[x] Same-day sketches show the typed-TODAY dialog first, then the lock dialog; confirming both finalises exactly once"
+  - "[x] Locked skips appear as named warnings in the post-finalise summary"
 out_of_scope: []
 code_anchors:
   - path: common/services/SketchPlanService.php
@@ -69,11 +69,8 @@ labels:
   - sketch-planner
   - finalize
   - safety
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-20T16:52:42Z
-version: 5
+attention: null
+version: 13
 ---
 
 ## Problem
@@ -101,3 +98,9 @@ Now, before anything is written, finalise checks every pinned job against where 
 **Not covered (needs a browser, still on Austin's checklist):** the amber/purple/typed-TODAY dialogs actually rendering, concurrency between two users, map/pins, and UI drag-drop split flows. All the server behaviour behind those dialogs is now proven.
 
 **Sandbox end state:** 21 Jul has sketch #689 finalized (audit PASS, 0 warnings), #686 and #698 superseded and restorable via the banner, no locked runs. Note #698 deliberately carries a tampered 78kg stop — restoring and finalising it is a ready-made demo of the weight-drift warning.
+
+---
+
+**2026-07-21 12:32 — you**
+
+Done
