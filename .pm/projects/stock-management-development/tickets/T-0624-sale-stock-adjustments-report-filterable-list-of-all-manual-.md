@@ -2,9 +2,9 @@
 id: T-0624
 title: Sale-stock adjustments report — filterable list of all manual adjustments (reason, date, item, user)
 type: feature
-state: review
+state: done
 created: 2026-07-20T12:34:48Z
-updated: 2026-07-21T05:33:18Z
+updated: 2026-07-21T05:44:50Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,12 +20,12 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "A dedicated report page lists all stock_sale_adjustments rows with: date/time, product/item, signed +/- delta, before -> after, reason, note, contract #, and user."
-  - Filterable by reason (Sold/Binned/Other), date range, item/product, and user; free-text search across the visible columns.
-  - "Shows summary totals for the current filter (at least: number of adjustments and net qty change)."
-  - A 'View all adjustments' link/button on the Stock For Sale screen opens the report.
-  - Access is gated by RBAC on the same basis as the sale-stock screen (new route granted; Sales Permissions added if Sales should have it).
-  - "Out of scope: a unified cross-system audit hub (merges/price-changes/stock-transactions) — that's a separate spike."
+  - "[x] A dedicated report page lists all stock_sale_adjustments rows with: date/time, product/item, signed +/- delta, before -> after, reason, note, contract #, and user."
+  - "[x] Filterable by reason (Sold/Binned/Other), date range, item/product, and user; free-text search across the visible columns."
+  - "[x] Shows summary totals for the current filter (at least: number of adjustments and net qty change)."
+  - "[x] A 'View all adjustments' link/button on the Stock For Sale screen opens the report."
+  - "[x] Access is gated by RBAC on the same basis as the sale-stock screen (new route granted; Sales Permissions added if Sales should have it)."
+  - "[x] Out of scope: a unified cross-system audit hub (merges/price-changes/stock-transactions) — that's a separate spike."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/backend/controllers/StockController.php
@@ -71,15 +71,13 @@ agent_runs:
       docs: updated
       tech_session: none-needed
       status_note: none-needed
+      docs_note: actionAdjustSaleItem.md, actionViewSaleItemAdjustments.md, stock-for-sale.md
 labels:
   - sale-stock
   - stock
   - reporting
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-20T13:06:15Z
-version: 6
+attention: null
+version: 15
 ---
 
 ## Problem
@@ -110,3 +108,16 @@ The Item filter is now a **search-as-you-type** control instead of a `<select>`:
 **Extra RBAC route** to grant (in addition to `stock/sale-stock-adjustments`): **`stock/search-adjusted-items`** — `/stock/*` roles already cover it; add to **Sales Permissions** if Sales use the report.
 
 Docs updated (action doc + new `actionSearchAdjustedItems.md` + view doc). Lint-clean, working tree (no-commit policy). Ticket stays in review.
+
+**2026-07-21 05:42 claude-code:** **Committed** as `d95a56e9` — "Add sale-stock adjustments report and filters" (branch `Stock-Management-Development`), incl. the Item log-scoped autocomplete + UI fixes (button alignment/hover, item-field width).
+
+Ready to close. Reminder before you do — grant the two report routes so non-superadmin users (esp. Sales) can use it:
+- `/stock/sale-stock-adjustments`
+- `/stock/search-adjusted-items`
+(The `/stock/*` roles already cover both.)
+
+---
+
+**2026-07-21 05:44 — you**
+
+done

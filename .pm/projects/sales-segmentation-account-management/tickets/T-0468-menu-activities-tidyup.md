@@ -5,7 +5,7 @@ type: chore
 state: done
 priority: p2
 created: 2026-06-23T11:48:35Z
-updated: 2026-07-17T08:25:20Z
+updated: 2026-07-21T05:51:46Z
 project: sales-segmentation-account-management
 section: null
 parent: null
@@ -39,7 +39,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 19
+version: 20
 ---
 
 ## Problem
@@ -63,3 +63,12 @@ sales menu tisy up done, will add new pages to it when they are ready, menu sear
 **2026-07-17 08:25 — you**
 
 Records: docs updated (actionMenu.md); tech-session none-needed; status-note none-needed.
+
+**2026-07-21 05:51 claude-code:** **Follow-up feedback email sent to Nathan (2026-07-21)** — the follow-up flagged as an M-010 outcome.
+
+Asked how he (and the wider sales team) are finding:
+- the **menu layout** — constantly-used pages on top level, rest in submenus, dead links removed; anything mis-placed or that should be promoted back to top level;
+- the **page search** now released to everyone — is it surfacing what they expect;
+- and how the rest of the team is getting on with both.
+
+Awaiting reply — will capture any feedback here and fold changes into the next round (new pages still to be added to the menu as they're ready).
