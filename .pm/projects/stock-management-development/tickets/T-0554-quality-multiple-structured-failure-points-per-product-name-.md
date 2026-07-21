@@ -4,7 +4,7 @@ title: "Quality: multiple structured failure points per product (name + note + p
 type: feature
 state: in_progress
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T07:48:57Z
+updated: 2026-07-21T08:13:06Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 5
+version: 6
 ---
 
 ## Source
@@ -92,3 +92,31 @@ Decisions with Zsolt:
 **Next:** Zsolt to run the two process choices (scope + restock nudge) past Ben/Sandor before build.
 
 **2026-07-21 07:48 claude-code:** **Correction:** the design decisions above are Zsolt's calls — **not pending any external sign-off**. Proceeding to build now; it'll be presented to Ben/Sandor for **review on completion**, not before. (Disregard the earlier "pending Ben/Sandor confirm / run past them before build" line.)
+
+**2026-07-21 08:13 claude-code:** **Built (working tree, not committed).** Structured failure points replace the single free-text textarea.
+
+**New / changed**
+- Table `stock_quality_failure_points` + model `StockQualityFailurePoint` — DDL **and** legacy migration in `sql/stock_quality_failure_points.sql` (run once).
+- `buildQualitySectionContent` → Failure Points panel is now a list (`renderFailurePointsList` / `renderFailurePointCard`): name, note, photo, qty affected, scope badge (Whole stock / Batch: ref), Active/Inactive, "Needs review" pill. Qty **display-capped to current stock**.
+- CRUD: `actionSaveFailurePoint` (create/update + optional photo, reuses `uploadStockAsset` `stock-quality-info` bucket), `actionToggleFailurePoint`, `actionDeleteFailurePoint` — all re-render the section (`qualityDivBodyID`).
+- `actionSaveQualityInfo` no longer writes the old `failurePoints` column; "Save Notes" now saves **Other Notes** only. Old column kept.
+- Modal + JS in `views/stock/view-product-info.php`.
+- **Quote Builder** (`views/sales/quote-builder.php`): read-only warning badge per item with active failure points (edit builder + read-only view), tooltip lists them, amber when stale. One indexed query keyed by the quote's item stock IDs.
+- Docs: 3 action docs + `docs/features/stock-quality-failure-points.md`.
+
+**Decision to note — "restock nudge" → time-based staleness.** Hire-stock qty is synced from Insphire; there is **no discrete restock event** in this module to hook. So staleness is time-based: `isStale()` flags active **batch** points not reviewed in 30 days (whole-stock never nag). Any add/edit/toggle stamps `lastReviewedAt` = reviewed. True auto-clear on batch turnover would need real batch/lot tracking (separate project).
+
+**RBAC:** new routes `stock/save-failure-point`, `stock/toggle-failure-point`, `stock/delete-failure-point` — grant to the stock/quality role if it uses per-route grants (covered by `stock/*` / superuser).
+
+**Test plan (human review):**
+1. Run `sql/stock_quality_failure_points.sql`. Products with old free text show one "Imported note" whole-stock active card.
+2. Quality tab → **+ Add**: name (required), qty, scope=Whole stock → Save → card appears.
+3. Add scope=**Specific batch** → batch-ref field reveals; save → red "Batch: <ref>" badge.
+4. Photo on add/edit → thumb shows, click opens full; replace works; delete removes asset.
+5. **Edit** prefills modal; **Deactivate/Activate** greys/restores; **Delete** (confirm) removes.
+6. Set qtyAffected > current stock → card shows "(entered N, capped to stock)".
+7. Batch point with `lastReviewedAt` >30d back → amber **Needs review** pill.
+8. **Save Notes** saves Other Notes only and does NOT blank the legacy `failurePoints` column.
+9. No-quality-edit user: sees list read-only, no buttons; the 3 endpoints 403.
+10. **Quote Builder**: quote with an affected product → red badge by item name (builder + read-only), tooltip lists points, amber if stale; unaffected / inactive-only product → no badge; quote loads normally.
+11. Cross-impact: good/avg/bad quality images still upload/delete fine (shared re-render + same asset bucket).
