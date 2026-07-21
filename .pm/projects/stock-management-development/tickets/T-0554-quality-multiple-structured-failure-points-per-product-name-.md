@@ -2,9 +2,9 @@
 id: T-0554
 title: "Quality: multiple structured failure points per product (name + note + photo + active toggle) with affected in-stock qty"
 type: feature
-state: review
+state: done
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T10:20:09Z
+updated: 2026-07-21T10:49:17Z
 project: stock-management-development
 section: null
 parent: null
@@ -45,11 +45,8 @@ agent_runs: []
 labels:
   - quality-management
   - stock
-attention:
-  needed_by: human
-  reason: Build complete and lint-clean (structured failure points on the Quality tab + Quote Builder icon/modal surfacing + image lightbox + card layout). Migration + table already applied by Zsolt; RBAC covered by stock/* (management access). Working-tree only — commit/deploy pending on Zsolt's side. Ready for human verification against the test plan in the ticket, then close.
-  since: 2026-07-21T10:14:59Z
-version: 20
+attention: null
+version: 22
 ---
 
 ## Source
@@ -183,3 +180,15 @@ Moved from the stacked layout (tiny 60px thumb near the bottom) to a **media lay
 - **Actions row** — Edit / Deactivate / Delete on their own row below a light divider, **right-aligned**.
 
 Cosmetic only (`StockController::renderFailurePointCard`); lint clean, working-tree only.
+
+---
+
+**2026-07-21 10:49 — you**
+
+qb updated with icons for items, click to view, view-product-info page done,
+
+---
+
+**2026-07-21 10:49 — you**
+
+Records: docs updated (actionDeleteFailurePoint.md, actionSaveFailurePoint.md, actionToggleFailurePoint.md, stock-quality-failure-points.md); tech-session none-needed; status-note none-needed.
