@@ -2,9 +2,9 @@
 id: T-0553
 title: "Quality Management: grade on a 1–10 DB scale (labels Good as new/Good/OK/Needs replaced) + up to 3 photos per grade"
 type: feature
-state: in_progress
+state: done
 created: 2026-07-14T05:07:50Z
-updated: 2026-07-21T11:53:12Z
+updated: 2026-07-21T12:41:17Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,11 +20,11 @@ assignee:
   kind: human
   name: Zsolt
 acceptance_criteria:
-  - "The Quality section's 3 fixed reference-image slots (Good / Average / Bad) are replaced by 4 quality cards, one per label, each header showing the label + its score range: Good as new (8–10), Good (6–7), OK (4–5), Needs replaced (1–3)."
-  - The existing 1–10 scoring stays as-is (summary tiles, check cards, Add Check modal all unchanged); the 4 labels map onto fixed ranges of the 1–10 scale (1–3 / 4–5 / 6–7 / 8–10), surfaced in the card headers.
-  - Each quality card supports up to 4 reference photos shown in a 2×2 grid, with add + remove per photo (currently a single photo per slot).
-  - Existing reference images are migrated onto the new cards (Bad → Needs replaced, Average → OK, Good → Good), no data loss.
-  - Layout keeps the same row structure — the Failure Points / Other Notes column plus the 4 quality cards (5 equal-width columns); Other Notes stays unchanged (one-to-many notes split to T-0633).
+  - "[x] The Quality section's 3 fixed reference-image slots (Good / Average / Bad) are replaced by 4 quality cards, one per label, each header showing the label + its score range: Good as new (8–10), Good (6–7), OK (4–5), Needs replaced (1–3)."
+  - "[x] The existing 1–10 scoring stays as-is (summary tiles, check cards, Add Check modal all unchanged); the 4 labels map onto fixed ranges of the 1–10 scale (1–3 / 4–5 / 6–7 / 8–10), surfaced in the card headers."
+  - "[x] Each quality card supports up to 4 reference photos shown in a 2×2 grid, with add + remove per photo (currently a single photo per slot)."
+  - "[x] Existing reference images are migrated onto the new cards (Bad → Needs replaced, Average → OK, Good → Good), no data loss."
+  - "[x] Layout keeps the same row structure — the Failure Points / Other Notes column plus the 4 quality cards (5 equal-width columns); Other Notes stays unchanged (one-to-many notes split to T-0633)."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/backend/controllers/StockController.php
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 7
+version: 15
 ---
 
 ## Source
@@ -105,3 +105,15 @@ Plan:
 5. Click any grade photo → opens the lightbox (Open in new tab works).
 6. Non-quality-edit user: sees the cards read-only (no Add/×); the two endpoints 403.
 7. Cross-impact: scoring tiles, check cards ("X/10"), Add Check, Failure Points panel, and Other Notes all still work as before.
+
+---
+
+**2026-07-21 12:41 — you**
+
+updated the quality photos
+
+---
+
+**2026-07-21 12:41 — you**
+
+Records: docs updated (actionDeleteGradePhoto.md, actionUploadGradePhoto.md, stock-quality-grade-photos.md); tech-session none-needed; status-note none-needed.
