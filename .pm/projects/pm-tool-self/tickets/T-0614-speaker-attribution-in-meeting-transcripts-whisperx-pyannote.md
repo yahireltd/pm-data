@@ -2,9 +2,9 @@
 id: T-0614
 title: Speaker attribution in meeting transcripts (whisperx + pyannote diarization) — who said what, who decided
 type: feature
-state: review
+state: done
 created: 2026-07-17T16:31:45Z
-updated: 2026-07-17T17:44:23Z
+updated: 2026-07-21T17:55:35Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,11 +18,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - transcribe-speakers <audio> produces a transcript with SPEAKER_NN labels (consecutive lines merged per speaker)
-  - transcribe-meetings uses speaker labels for meeting recordings, falling back to the plain pipeline when diarization is unavailable
-  - HF token is read from the macOS Keychain (or HF_TOKEN env) at runtime — never stored in repo/files
-  - AGENTS.md §4 tells agents to attribute outcomes by speaker (mapped to attendees from context) and flag uncertain attributions
-  - "Verified on a real multi-speaker recording (e.g. the Ben→Rob call): labels are usable and attribution lands on outcomes"
+  - "[x] transcribe-speakers <audio> produces a transcript with SPEAKER_NN labels (consecutive lines merged per speaker)"
+  - "[x] transcribe-meetings uses speaker labels for meeting recordings, falling back to the plain pipeline when diarization is unavailable"
+  - "[x] HF token is read from the macOS Keychain (or HF_TOKEN env) at runtime — never stored in repo/files"
+  - "[x] AGENTS.md §4 tells agents to attribute outcomes by speaker (mapped to attendees from context) and flag uncertain attributions"
+  - "[x] Verified on a real multi-speaker recording (e.g. the Ben→Rob call): labels are usable and attribution lands on outcomes"
 out_of_scope: []
 code_anchors:
   - path: mcp-server/scripts/transcribe-meetings.ts
@@ -51,11 +51,8 @@ agent_runs:
 labels:
   - meetings
   - transcription
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-17T17:44:23Z
-version: 4
+attention: null
+version: 11
 ---
 
 ## Problem
@@ -72,3 +69,9 @@ Whisper transcripts are one undifferentiated stream — no speakers. Attribution
 ## Conversation
 
 **2026-07-17 17:44 claude-code:** Run run-20260717-1641 completed — Meeting transcripts now separate who is speaking, so decisions can be attributed to a person. Plain transcription turned every meeting into one undifferentiated wall of text — you couldn't tell whose words were whose, which matters when (say) Ben's call overrides someone else's. This adds local speaker separation ("diarization") on your Mac: the transcriber now labels each turn with a speaker, and consecutive lines from the same person are grouped. Proven on the real Ben→Rob phone call — the two voices came out cleanly separated across the whole conversation on noisy 8kHz phone audio. The meeting worker uses this automatically and quietly falls back to plain transcription if the speaker tools aren't available, so a transcript is never blocked. The agents' rulebook was also updated: when a transcript has speaker labels, map speakers to the real attendees from context and attribute each decision to a person (noting when one person's call overrides another), flagging any uncertain mapping rather than guessing. Follow-on T-0615 (shipped alongside) makes those speaker labels turn into actual names automatically. Everything runs offline on your Mac — no cloud, no cost, audio never leaves the machine.
+
+---
+
+**2026-07-21 17:55 — you**
+
+done

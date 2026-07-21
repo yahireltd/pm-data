@@ -2,9 +2,9 @@
 id: T-0634
 title: Large meeting-recording uploads fail — middleware 10MB body limit (fixed) + "Unexpected end of form" on very large multipart (needs direct-to-S3)
 type: bug
-state: review
+state: done
 created: 2026-07-21T15:03:55Z
-updated: 2026-07-21T15:34:27Z
+updated: 2026-07-21T17:52:55Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,11 +18,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - middleware body limit raised so uploads aren't capped at 10MB (done, deployed)
-  - Meeting-recording upload uses a direct-to-S3 presigned PUT, bypassing the auth middleware + app buffering
-  - S3 bucket CORS allows PUT from the app origin
-  - A 60+ minute (>17MB) recording uploads successfully end to end
-  - Attachment metadata still recorded on the meeting; the transcription worker still picks it up
+  - "[x] middleware body limit raised so uploads aren't capped at 10MB (done, deployed)"
+  - "[x] Meeting-recording upload uses a direct-to-S3 presigned PUT, bypassing the auth middleware + app buffering"
+  - "[x] S3 bucket CORS allows PUT from the app origin"
+  - "[x] A 60+ minute (>17MB) recording uploads successfully end to end"
+  - "[x] Attachment metadata still recorded on the meeting; the transcription worker still picks it up"
 out_of_scope: []
 code_anchors:
   - path: web/next.config.ts
@@ -58,11 +58,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-21T15:34:27Z
-version: 4
+attention: null
+version: 11
 ---
 
 ## Problem
@@ -83,3 +80,9 @@ Compress long recordings under ~8MB before upload, or transcribe locally + attac
 ## Conversation
 
 **2026-07-21 15:34 claude-code:** Run run-20260721-1529 completed — Fixed the bug that stopped long meeting recordings from being attached to a meeting. The uploader ran through the login-security layer, which quietly choked on large files (a 69-minute recording is ~17MB) and failed with a confusing error. The upload now goes through a dedicated path that skips that layer, so big recordings attach cleanly — with the same login checks still enforced. Without this, anyone recording a real meeting (the flagship feature) would hit a dead end on anything over a few minutes and have to compress the file by hand. Two-part fix: first a config limit was raised (already live), and now the upload takes a route that avoids the layer that was truncating the file.
+
+---
+
+**2026-07-21 17:52 — you**
+
+done

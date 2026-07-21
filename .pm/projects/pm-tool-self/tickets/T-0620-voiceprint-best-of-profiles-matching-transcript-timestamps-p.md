@@ -2,9 +2,9 @@
 id: T-0620
 title: Voiceprint best-of-profiles matching + transcript timestamps (proven on the "brothers" sound-alike test)
 type: feature
-state: review
+state: done
 created: 2026-07-17T21:10:06Z
-updated: 2026-07-17T21:11:19Z
+updated: 2026-07-21T17:54:37Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,11 +18,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - match scores each speaker against every enrolment per name and takes the best (not the mean)
-  - transcribe-speakers output prefixes each turn with [MM:SS] from the segment start
-  - Austin's cross-recording M-015 score rises above the 0.55 threshold after rich re-enrolment (measured 0.709)
-  - "No false positive: unenrolled/other voices are not named; sound-alike Zac resolves to Zac once enrolled"
-  - Reference copies in scripts/mac-transcription/ match the deployed /opt/homebrew/bin + ~/Models/whisper versions
+  - "[x] match scores each speaker against every enrolment per name and takes the best (not the mean)"
+  - "[x] transcribe-speakers output prefixes each turn with [MM:SS] from the segment start"
+  - "[x] Austin's cross-recording M-015 score rises above the 0.55 threshold after rich re-enrolment (measured 0.709)"
+  - "[x] No false positive: unenrolled/other voices are not named; sound-alike Zac resolves to Zac once enrolled"
+  - "[x] Reference copies in scripts/mac-transcription/ match the deployed /opt/homebrew/bin + ~/Models/whisper versions"
 out_of_scope: []
 code_anchors:
   - path: scripts/mac-transcription/voiceprint.py
@@ -56,11 +56,8 @@ agent_runs:
       tech_session: none-needed
       status_note: none-needed
 labels: []
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-17T21:11:19Z
-version: 4
+attention: null
+version: 11
 ---
 
 ## Problem
@@ -82,3 +79,9 @@ After: Austin **0.315 → 0.709** on M-015 (cross-recording — the honest proof
 ## Conversation
 
 **2026-07-17 21:11 claude-code:** Run run-20260717-2110 completed — We made the meeting voice-recognition noticeably more reliable and made transcripts easier to use. Two changes: (1) when the system decides who a voice belongs to, it now compares against each saved sample of a person and picks the best match, instead of blending all their samples into one average — averaging a phone recording with an in-room recording used to produce a blurry reference that matched neither well. (2) Every line of a transcript now shows a timestamp, so you can jump to that moment in the recording and cite when something was said. We proved it on a real meeting with two brothers who sound alike (Austin and Zac, Zac being unenrolled): beforehand Austin's own voice was only weakly recognised (and the unenrolled brother came dangerously close to being mistaken for Ben); after re-recording Austin's voice profile properly, his recognition score more than doubled and crossed the confidence line, while nobody was mislabelled. Without this, the feature would keep failing to recognise people across different recordings and — worse — risk putting the wrong person's name against a decision, which is exactly what the "who decided what" feature must never do. The benefit: reliable, safe attribution that improves as we add more voice samples.
+
+---
+
+**2026-07-21 17:54 — you**
+
+done
