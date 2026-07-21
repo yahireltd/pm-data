@@ -4,7 +4,7 @@ title: "Quality: multiple structured failure points per product (name + note + p
 type: feature
 state: in_progress
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-14T06:31:17Z
+updated: 2026-07-21T07:45:30Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 3
+version: 4
 ---
 
 ## Source
@@ -68,3 +68,25 @@ Failure points today are a **single free-text textarea** (`StockQualityInfo.fail
 
 ## Depends on / relates
 - Shares the Quality section with **T-0553**; coordinate the two so the section rework is consistent.
+
+## Conversation
+
+**2026-07-21 07:45 claude-code:** **Design finalised (pending Ben/Sandor confirm) — resolves the open questions.**
+
+Decisions with Zsolt:
+- **Qty affected = a manual number** per failure point (no per-unit/batch tracking — that'd be a separate big project).
+- **Scope** per failure point: **Whole stock** (persists) vs **Specific batch** (one-off; note batch + qty). NB: the system has **no batch/lot tracking** (stock is one running qty via `StockLevels`/`StockTransactions`), so "batch" is a label + manual number, not auto-tracked.
+- **Staleness handling:** on **restock** of a product, prompt review of its active *batch* failure points ("still present? update/clear"); whole-stock ones don't nag. Display guard: show `min(qtyAffected, current stock)`.
+- **Surfaces:** Quote Builder only for now (Q2).
+- Independent of T-0553 (shared Quality *section* / render function, but separate panels — coordinate edits to `buildQualitySectionContent`, and reuse one photo mechanism).
+
+**Plan:**
+1. New table `stock_quality_failure_points` (`stockID, name, note, photo, qtyAffected, scope, batchRef, active, lastReviewedAt, createdBy, createdAt`) + model `StockQualityFailurePoint` (manual DDL).
+2. Rework the Failure Points panel → add/edit/remove list (name, note, photo, qty, scope, active toggle, needs-review flag).
+3. AJAX add/update/delete/toggle (mirror T-0555/56); photo upload reuses the quality-image mechanism.
+4. Migrate existing free-text `failurePoints` → one whole-stock point/product (keep old column until verified).
+5. Restock review-nudge for batch points + staleness flag.
+6. Quote-Builder flag of active points.
+7. RBAC + docs.
+
+**Next:** Zsolt to run the two process choices (scope + restock nudge) past Ben/Sandor before build.
