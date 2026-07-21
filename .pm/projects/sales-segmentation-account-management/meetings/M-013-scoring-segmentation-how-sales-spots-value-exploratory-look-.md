@@ -4,7 +4,7 @@ slug: scoring-segmentation-how-sales-spots-value-exploratory-look-
 title: Scoring & segmentation — how sales spots value + exploratory look at the suggested processes (Ben / Austin / Nathan)
 state: scheduled
 created: 2026-07-17T16:15:22Z
-updated: 2026-07-21T15:41:05Z
+updated: 2026-07-21T15:58:17Z
 scheduled_at: 2026-07-21T14:15:00+01:00
 duration_minutes: 60
 location: TBD (in person / call)
@@ -44,6 +44,8 @@ stakeholders:
     channel: email
     contact: nathan@yahire.com
     internal: true
+    notify_on:
+      - outcome_recorded
 agenda:
   - topic: "Where we are: segments & scoring (Phase-2 milestone 1) — full hired base scored (9,074 domains, segment + tier), segment-research findings: segment/sub-type × repeat predicts £ far better than score"
     ticket: T-0456
@@ -77,7 +79,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 10
+version: 11
 ---
 
 ## When / who
