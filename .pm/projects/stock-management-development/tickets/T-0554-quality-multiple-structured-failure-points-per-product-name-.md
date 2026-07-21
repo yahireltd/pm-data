@@ -4,7 +4,7 @@ title: "Quality: multiple structured failure points per product (name + note + p
 type: feature
 state: in_progress
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T09:40:32Z
+updated: 2026-07-21T09:57:21Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 10
+version: 12
 ---
 
 ## Source
@@ -158,3 +158,16 @@ Small ⚠ (amber if any point is stale); click opens a modal listing the item's 
 **Extra test steps:**
 - Add an item with an active failure point **without reloading** → ⚠ appears on both the edit builder and the right-hand summary; click either → modal.
 - Check "Hire Items" columns line up (header vs values), including a quote with **package/accessories**.
+
+**2026-07-21 09:52 claude-code:** **Failure-point image viewing improved.** Clicking a failure-point photo now opens a **lightbox modal** (image scaled to viewport) with an **"Open in new tab"** button for the original/full-size, instead of jumping straight to a new tab.
+
+- **Quality tab** (`view-product-info.php`): new `#fpImageModalID` + `openFailurePointImage(url)`; card image onclick updated in `renderFailurePointCard` (`StockController.php`).
+- **Quote Builder** (`quote-builder.php`): new `#fpImageModal` + `window.openFailurePointImage`; the failure-points modal's image onclick now opens it. Handled the Bootstrap 3 modal-on-modal stacking (z-index bump + restore `modal-open` on close) so the lightbox sits above the failure-points list.
+
+All lint clean; JS syntax-checked. Working-tree only.
+
+**2026-07-21 09:57 claude-code:** **Image-view follow-up (replaces the stacked-modal approach).**
+- **Quote Builder:** the stacked/nested image modal caused a stuck backdrop after closing (double-modal bug). Reworked so the image now **swaps inside the existing failure-points modal** (Open in new tab + ← Back) — single modal, no backdrop issue.
+- **Quality tab:** standalone image lightbox kept, but **shrink-wrapped to the image** (`display:inline-block; width:auto; max-width:92vw` — same technique as `/stock/stock-for-sale`'s `#imageViewerModalID`) so there's no oversized empty modal. Single modal there, so no stacking concern.
+
+Lint + JS syntax checked. Working-tree only.
