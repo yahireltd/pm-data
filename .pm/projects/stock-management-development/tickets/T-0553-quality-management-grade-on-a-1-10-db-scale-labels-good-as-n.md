@@ -4,7 +4,7 @@ title: "Quality Management: grade on a 1–10 DB scale (labels Good as new/Good/
 type: feature
 state: done
 created: 2026-07-14T05:07:50Z
-updated: 2026-07-21T12:41:17Z
+updated: 2026-07-22T06:40:26Z
 project: stock-management-development
 section: null
 parent: null
@@ -37,6 +37,7 @@ code_anchors:
     note: per-check quality record (dated grade entries)
 relates:
   - T-0633
+  - T-0637
 blocks: []
 blocked_by: []
 duplicates: []
@@ -46,7 +47,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 15
+version: 16
 ---
 
 ## Source
