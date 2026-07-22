@@ -2,9 +2,9 @@
 id: T-0642
 title: Redeliveries and re-collections are invisible to the auto route planner
 type: bug
-state: review
+state: done
 created: 2026-07-22T15:53:46Z
-updated: 2026-07-22T18:50:12Z
+updated: 2026-07-22T19:43:18Z
 project: route-planner-release
 section: null
 parent: null
@@ -18,10 +18,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - A rebooked redelivery whose runDate = the planning date appears as a job in the sketch solve with its window and weight
-  - Finalising assigns the existing redelivery row to the chosen run (no duplicate rows; planner-audit PASS)
-  - Contracts due normally on the date are unaffected
-  - A redelivery completed or deactivated after the sketch was drawn is skipped with a named warning at finalize
+  - "[x] A rebooked redelivery whose runDate = the planning date appears as a job in the sketch solve with its window and weight"
+  - "[x] Finalising assigns the existing redelivery row to the chosen run (no duplicate rows; planner-audit PASS)"
+  - "[x] Contracts due normally on the date are unaffected"
+  - "[x] A redelivery completed or deactivated after the sketch was drawn is skipped with a named warning at finalize"
 out_of_scope: []
 code_anchors:
   - path: common/components/RoutePlannerNew.php
@@ -61,11 +61,8 @@ labels:
   - sketch-planner
   - solver
   - redelivery
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-22T18:18:09Z
-version: 5
+attention: null
+version: 13
 ---
 
 ## Problem
@@ -89,3 +86,9 @@ Now every unplanned rebooked job appears in the solve for its new date, clearly 
 2. **syncPlanFromRuns stripped the marker** (c080848d): loading a finalized sketch rebuilds stops from run rows with sync's own field list, which dropped redelivery_rc_id and the (REDEL) label — so the REMOVED flag came back on every load (hard refresh couldn't help) and a later finalize would have lost the row link. Sync now stamps the marker and label from the row itself.
 
 Also noted during review: the simulated fixture's dates were unrealistic (redelivery a week after the hire ended) — an artifact of test-data selection, not product behaviour; the rebooking UI owns date choice. Fixture retired via the death-path (row deactivated → finalize skipped it loudly → audit PASS). The remaining review step is unchanged: one REAL rebooking through the failed-jobs UI on a sensible date, solve → finalise → run planner.
+
+---
+
+**2026-07-22 19:43 — you**
+
+Done

@@ -2,9 +2,9 @@
 id: T-0648
 title: Extended-original collections leaked into the contract-driven builders (extensions are collection-only)
 type: bug
-state: review
+state: done
 created: 2026-07-22T19:03:16Z
-updated: 2026-07-22T19:08:07Z
+updated: 2026-07-22T19:41:51Z
 project: route-planner-release
 section: null
 parent: null
@@ -63,11 +63,8 @@ labels:
   - solver
   - extensions
   - data-integrity
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-22T19:03:51Z
-version: 9
+attention: null
+version: 11
 ---
 
 ## Problem
@@ -83,3 +80,9 @@ Shared SketchPlanService::fullyExtendedCollectionIds(date) — active C rows wit
 **2026-07-22 19:03 claude-code:** Run run-20260722-1903 completed — When a hire is extended, the customer keeps the goods — but the original booking still carries its old end date, and the automatic planner (which works from booking dates) didn't know the extension had cancelled that day's collection. It would have sent a vehicle to collect furniture the customer is keeping: a real live case existed the day we found it (a 254kg collection due that day, extended to the next day). The old manual run planner was immune because the extension process flags the collection at a lower level the manual screen respects — the new automatic planner never saw that flag.
 
 Now the automatic planner, the sketch board's job list, and the daily conservation audit all honour the same rule: a fully-extended collection is skipped (and named in the "skipped" panel so planners can see why), while a PARTIAL extension — where some items come back and some stay — still gets its reduced collection as before. Also blocked: a rebooked delivery against an extension booking (extensions never deliver — the customer already has everything). Verified against today's live-copied data: the affected collection is now skipped by name and absent from the solve.
+
+---
+
+**2026-07-22 19:41 — you**
+
+done
