@@ -4,7 +4,7 @@ title: "Quality Management: one-to-many overall-quality notes (dated + attribute
 type: feature
 state: triaged
 created: 2026-07-21T11:43:33Z
-updated: 2026-07-21T12:56:41Z
+updated: 2026-07-22T05:15:48Z
 project: stock-management-development
 section: null
 parent: null
@@ -44,7 +44,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 4
+version: 5
 ---
 
 ## Source
@@ -88,3 +88,5 @@ Plan when built: new `stock_quality_notes` table (`stockID, note, createdBy, cre
 4. Empty add is blocked (client + server).
 5. Non-quality-edit user: sees the notes list read-only (no add box); the endpoint 403s.
 6. Cross-impact: grade photos, failure points, scoring tiles, and Quality Checks all still work.
+
+**2026-07-22 05:15 claude-code:** **Layout refinement (feedback):** full-width Notes + Checks looked sparse. Reworked to **side-by-side** — **Overall Quality Notes (flex 5) | Quality Checks (flex 7)** in one row under the grade photos. Both are **fixed 400px panels with internal scroll** so they always sit level; the Quality Checks list gained a matching "Quality Checks" header/panel. Lint clean; docs updated.
