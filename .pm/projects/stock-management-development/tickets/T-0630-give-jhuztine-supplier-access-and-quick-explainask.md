@@ -5,7 +5,7 @@ type: feature
 state: triaged
 priority: p2
 created: 2026-07-21T06:21:55Z
-updated: 2026-07-21T12:35:21Z
+updated: 2026-07-22T06:06:34Z
 project: stock-management-development
 section: null
 parent: null
@@ -26,7 +26,7 @@ duplicate_of: null
 agent_runs: []
 labels: []
 attention: null
-version: 3
+version: 5
 ---
 
 ## Problem
@@ -127,3 +127,9 @@ Suppliers Items
 3.         How should we know how many items received, returned and damaged on arrival?
 
 4.         Is it possible to Add the labour cost/hours spent and who are involved for bulk orders, or we can add this under employees report? I need to see the rates as well.
+
+**2026-07-22 06:02 claude-code:** **Moved to the product backlog (out of SPR-001) — 22 Jul.** The original "give Jhuztine access + explain" half is done; Effie's reply (21 Jul) turned the rest into a **substantial batch of supplier-page changes + process questions** (monthly/yearly reports, restructured supplier-view + order-entry, order→stock-transaction recording, bundled-item handling, damaged/missing/returned tracking, labour-cost capture, and workflow questions). That needs a **meeting to scope** before it's sprint-ready — the current acceptance criterion ("have a talk") reflects that.
+
+**Next:** hold the scoping meeting on Effie's list, then break the agreed items into their own tickets (likely several) — this ticket becomes the parent/placeholder for that discussion rather than a single build.
+
+**2026-07-22 06:06 claude-code:** **Scoping meeting created: M-002** ("Supplier pages scoping — Effie/Jhuztine feedback"). Agenda built from Effie's reply (UI tweaks → supplier-view restructure → orders/stock integration → process/workflow decisions → wrap-up/ticket breakdown), all items linked back here. Attendees: Jhuztine, Effie, Zsolt, Ben (+ suggest Sandor, who owns the page). **Date/time TBD — no invites sent yet** (emails not attached); set a date then add emails to send invites.

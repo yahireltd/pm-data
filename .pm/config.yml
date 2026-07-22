@@ -58,7 +58,7 @@ id_counters:
       tech_session: 2
     stock-management-development:
       milestone: 5
-      meeting: 1
+      meeting: 2
       sprint: 2
       phase: 5
       decision: 3
