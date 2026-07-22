@@ -4,7 +4,7 @@ title: Contract stuck at 'Partially Delivered' (49) after a failed delivery is s
 type: bug
 state: triaged
 created: 2026-07-22T15:54:04Z
-updated: 2026-07-22T15:58:03Z
+updated: 2026-07-22T17:58:21Z
 project: route-planner-release
 section: null
 parent: null
@@ -37,7 +37,7 @@ labels:
   - status-flow
   - redelivery
 attention: null
-version: 2
+version: 3
 ---
 
 ## Problem
@@ -59,3 +59,9 @@ Consequence: the born-clean clone fix (5c845d42) most likely resolves this ticke
 **Remaining to verify before closing:** why C093283's actual redelivery completion didn't move the row 49→50 on the day — either the driver never marked it in the app (completed off-app), or the completion path refuses/skips rows already at ≥49. Suggest testing one real redelivery cycle on the test box post-5c845d42: create redelivery from a failed job → confirm row born at 0 → complete via the driver flow → row 50, contract 50, failed-jobs page clear. If that passes, close as resolved-by-5c845d42.
 
 Also noted while in there: the afterSave reads Yii::$app->controller->action — any console-context status write would fatal. Finalize only inserts rows or updates without status changes, so it's not currently reachable, but worth knowing.
+
+**2026-07-22 17:58 claude-code:** **Verification complete (test box, 22 Jul evening) — recommend closing as resolved by T-0646's born-clean fix.**
+
+Exercised the full lifecycle through the real model machinery: cloned a redelivery row exactly as the endpoint does post-fix → born at status 0 with no arrival/driver stamps (CHECK 1 PASS); marked the original failed, then completed the redelivery (status → 50 via a validated save so the afterSave aggregation ran) → the CONTRACT advanced to 50 Delivered/Awaiting Col (CHECK 2 PASS). The failed original is correctly excluded from the sibling aggregation, so nothing drags the contract back to 49. Simulation cleaned up after itself.
+
+Remaining real-world spot check (no code needed): next genuine failed delivery on live, watch the redelivery complete and the contract land at 50 — then close.
