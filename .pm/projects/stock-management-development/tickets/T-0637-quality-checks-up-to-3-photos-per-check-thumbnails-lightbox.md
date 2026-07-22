@@ -4,7 +4,7 @@ title: "Quality checks: up to 3 photos per check (thumbnails + lightbox)"
 type: feature
 state: done
 created: 2026-07-22T06:40:16Z
-updated: 2026-07-22T08:32:48Z
+updated: 2026-07-22T11:02:45Z
 project: stock-management-development
 section: null
 parent: null
@@ -38,6 +38,7 @@ code_anchors:
 relates:
   - T-0553
   - T-0639
+  - T-0640
 blocks: []
 blocked_by: []
 duplicates: []
@@ -71,7 +72,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 14
+version: 15
 ---
 
 ## Source

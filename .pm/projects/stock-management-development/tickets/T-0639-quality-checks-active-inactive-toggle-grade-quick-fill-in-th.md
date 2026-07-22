@@ -4,7 +4,7 @@ title: "Quality checks: active/inactive toggle + grade quick-fill in the Add Che
 type: feature
 state: review
 created: 2026-07-22T08:32:41Z
-updated: 2026-07-22T10:14:53Z
+updated: 2026-07-22T11:02:45Z
 project: stock-management-development
 section: null
 parent: null
@@ -37,6 +37,7 @@ code_anchors:
 relates:
   - T-0553
   - T-0637
+  - T-0640
 blocks: []
 blocked_by: []
 duplicates: []
@@ -73,7 +74,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-22T10:11:50Z
-version: 11
+version: 12
 ---
 
 ## Source
