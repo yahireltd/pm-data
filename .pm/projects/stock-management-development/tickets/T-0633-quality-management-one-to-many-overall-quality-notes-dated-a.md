@@ -2,9 +2,9 @@
 id: T-0633
 title: "Quality Management: one-to-many overall-quality notes (dated + attributed)"
 type: feature
-state: triaged
+state: done
 created: 2026-07-21T11:43:33Z
-updated: 2026-07-22T05:42:21Z
+updated: 2026-07-22T05:54:42Z
 project: stock-management-development
 section: null
 parent: null
@@ -18,11 +18,11 @@ reporter:
   channel: split from T-0553
 assignee: null
 acceptance_criteria:
-  - Staff can add multiple overall-quality notes to a product (replacing the single overwritten otherNotes field).
-  - Each note records who added it and when (attributed + dated).
-  - Notes display in the Other Notes area of the product info Quality section, newest first.
-  - Existing otherNotes text is preserved / migrated in as the first note (no data loss).
-  - "Kept simple for now: add + list is enough; edit/delete can come later."
+  - "[x] Staff can add multiple overall-quality notes to a product (replacing the single overwritten otherNotes field)."
+  - "[x] Each note records who added it and when (attributed + dated)."
+  - "[x] Notes display in the Other Notes area of the product info Quality section, newest first."
+  - "[x] Existing otherNotes text is preserved / migrated in as the first note (no data loss)."
+  - "[x] Kept simple for now: add + list is enough; edit/delete can come later."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/common/models/StockQualityInfo.php
@@ -44,7 +44,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 7
+version: 20
 ---
 
 ## Source
@@ -94,3 +94,17 @@ Plan when built: new `stock_quality_notes` table (`stockID, note, createdBy, cre
 **2026-07-22 05:20 claude-code:** **Notes panel polish (feedback):** each note now renders in a **subtle bubble** (light fill, soft rounded border) instead of a plain divider line; the add-note **textarea is fixed size** (`resize:none`). Lint clean.
 
 **2026-07-22 05:42 claude-code:** **Final notes-panel styling:** each note is a light-blue bubble — `background:#f0f6ff; border:1px solid #b3d1ff; border-radius:8px` — chosen to tie in with the Quality Checks score tiles (same `#f0f6ff`) beside it. Name · date is **right-aligned** inside the bubble; the add-note textarea is fixed size (`resize:none`). Lint clean; working-tree only.
+
+**2026-07-22 05:49 claude-code:** **Add-note textarea:** height now controlled by `rows="3"` (dropped the `min-height:44px`), giving a clean 3-line box; still `resize:none`. Lint clean.
+
+---
+
+**2026-07-22 05:54 — you**
+
+done
+
+---
+
+**2026-07-22 05:54 — you**
+
+Records: docs updated (actionAddQualityNote.md, stock-quality-notes.md); tech-session none-needed; status-note none-needed.
