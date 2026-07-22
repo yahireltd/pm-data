@@ -2,9 +2,9 @@
 id: T-0646
 title: "Born-clean run-contract clones: rescheduled/rebooked/split rows inherited status and driver stamps"
 type: bug
-state: review
+state: done
 created: 2026-07-22T16:20:27Z
-updated: 2026-07-22T16:21:01Z
+updated: 2026-07-22T16:38:05Z
 project: route-planner-release
 section: null
 parent: null
@@ -18,11 +18,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Moving a contract's hire date creates holding rows at status 0 with no arrival/driver stamps
-  - Creating a re-delivery from a failed job creates the new row at status 0 with no inherited stamps
-  - The split-collection copy creates the collection row clean
-  - Sale-contract date moves behave the same
-  - Driver completing a redelivery advances row and contract to 50 (verifies T-0643)
+  - "[x] Moving a contract's hire date creates holding rows at status 0 with no arrival/driver stamps"
+  - "[x] Creating a re-delivery from a failed job creates the new row at status 0 with no inherited stamps"
+  - "[x] The split-collection copy creates the collection row clean"
+  - "[x] Sale-contract date moves behave the same"
+  - "[x] Driver completing a redelivery advances row and contract to 50 (verifies T-0643)"
 out_of_scope: []
 code_anchors:
   - path: common/models/YaRunContracts.php
@@ -65,11 +65,8 @@ labels:
   - logistics
   - status-flow
   - data-integrity
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-22T16:21:01Z
-version: 4
+attention: null
+version: 11
 ---
 
 ## Problem
@@ -87,3 +84,9 @@ Austin hand-corrected the two live contracts. Related: T-0643 (stuck-at-49 — l
 **2026-07-22 16:21 claude-code:** Run run-20260722-1620 completed — When a booking is rescheduled, a failed delivery is rebooked, or a split collection is created, the system builds the new job row by copying the old one — and it was copying too much: the old attempt's "delivered" status, driver arrival times and GPS stamps came along for the ride. That produced jobs that looked already-delivered before a vehicle ever left (one rescheduled contract read "Done" with May's timestamps on its July delivery; a redelivery was born carrying the failed attempt's arrival time and stuck the whole contract at "Partially Delivered"). The warehouse works off these statuses, so a job born "delivered" can silently skip picking.
 
 Every one of the seven copy paths now wipes the per-attempt history at creation: new rows start at "Planning" with no inherited stamps, whichever door they come through — reschedule, rebooking, or split. Austin corrected the two affected live contracts by hand; this stops the factory producing more. Without it, every date change made by sales kept minting poisoned rows daily.
+
+---
+
+**2026-07-22 16:38 — you**
+
+done
