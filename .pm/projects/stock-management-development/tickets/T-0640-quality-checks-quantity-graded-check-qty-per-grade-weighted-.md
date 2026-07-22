@@ -4,7 +4,7 @@ title: "Quality checks: quantity-graded check (qty per grade, weighted average, 
 type: feature
 state: triaged
 created: 2026-07-22T11:02:37Z
-updated: 2026-07-22T11:03:53Z
+updated: 2026-07-22T11:33:54Z
 project: stock-management-development
 section: null
 parent: null
@@ -18,13 +18,13 @@ reporter:
   channel: Ben feedback + notes + mockup (22 Jul)
 assignee: null
 acceptance_criteria:
-  - A quality check records the product's total stock (today's count) plus a quantity at each grade (Good as new / Good / OK / Needs replaced), with the remainder shown as 'Unchecked'.
-  - Each grade (and Unchecked) supports optional photo(s); one note per check. Entry is a bigger modal and can be submitted partially (some stock left unchecked).
-  - The check's score is the quantity-weighted average over graded items only (points 10/7/5/3); the unchecked count is tracked separately and not in the score.
-  - The Quality tab shows the weighted average, the total stock, and graded-vs-unchecked counts.
-  - "Clicking a check opens a detailed view: qty per grade, photos, and the note."
-  - This replaces the single-score check entry (T-0637/T-0639); existing single-score checks are retained as legacy history.
-  - The total stock is snapshotted onto each check so historical checks keep their own denominator.
+  - A quality check records the product's total stock (snapshotted at the check's date/time) plus a quantity at each grade (Good as new / Good / OK / Needs replaced); the remainder shows as 'Unchecked' (auto = total − graded, no photo).
+  - Each of the 4 grades supports up to 3 optional evidence photos; one note per check. Entry is a bigger modal and can be submitted partially (stock left unchecked is fine).
+  - "The check's score is the quantity-weighted average over graded items only (points: Good as new 10, Good 7, OK 5, Needs replaced 3); the unchecked count is tracked separately and not in the score."
+  - "The Quality-tab summary tiles are driven by the LATEST check: weighted average, total stock, and graded-vs-unchecked; older checks are openable as history."
+  - "Clicking a check opens a detailed view: qty per grade, evidence photos, and the note."
+  - A check can be edited, deactivated/reactivated (inactive is excluded from the tiles), and deleted.
+  - Replaces the single-score check entry (T-0637/T-0639); existing single-score checks are kept as legacy history. The grade-card reference photos (T-0553) are separate guidance and unchanged.
 out_of_scope: []
 code_anchors:
   - path: ya-hire/backend/controllers/StockController.php
@@ -48,7 +48,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 3
+version: 6
 ---
 
 ## Source
@@ -101,3 +101,16 @@ Reworks the check entry from **T-0637** (photos per check → per grade) and **T
 5. **Snapshot the total stock** (the qty at the check's date/time) onto each check.
 
 **Still open:** (2) which check the summary tiles reflect — latest vs blend; (6) photos per grade — one, or up to a few.
+
+**2026-07-22 11:32 claude-code:** **More answers (Zsolt):**
+2. **Latest check drives the summary tiles** (headline = the most recent full check's weighted average; total stock + graded/unchecked alongside; older checks openable as history).
+
+**Photo clarification (important):** two separate photo sets —
+- **Grade-card reference photos** (T-0553) = *guidance* ("what each grade should look like"), static, unchanged per check.
+- **Check per-grade photos** = *evidence* for that specific check (the cam icons in the mockup). New per check, independent of the guidance photos.
+
+**Only #6 left:** how many evidence photos per grade in a check (one, or up to a few).
+
+**2026-07-22 11:33 claude-code:** 6. **Evidence photos per grade in a check: up to 3, optional.** (Unchecked has none.)
+
+All open questions resolved — acceptance criteria finalised above. Ticket is fully specced and build-ready.
