@@ -4,7 +4,7 @@ title: "Quality: multiple structured failure points per product (name + note + p
 type: feature
 state: done
 created: 2026-07-14T05:11:11Z
-updated: 2026-07-21T11:25:31Z
+updated: 2026-07-22T10:11:21Z
 project: stock-management-development
 section: null
 parent: null
@@ -46,7 +46,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 23
+version: 24
 ---
 
 ## Source
@@ -202,3 +202,9 @@ Final tweaks since the last update:
 **Deployment notes:** table + legacy free-text migration already applied on prod; RBAC needs nothing extra (management-tab access implies `stock/*`); old `StockQualityInfo.failurePoints` column retained as a safety-net until verified, then can be dropped (+ remove the two model lines).
 
 Ready for final human sign-off/close.
+
+**2026-07-22 10:11 claude-code:** **Failure-points card polish** (working tree — deploy alongside the current quality batch; cosmetic only, no logic change):
+- Scope + status pills now sit **on one line** (`nowrap`).
+- **Tighter padding** — card `6px`, panel column `8px`, image/details gap `10px`.
+- Removed the **redundant inner box** (border/background/padding) on the list — now one clean panel with cards inside.
+- Fixed the list to **scroll** (it was expanding): `max-height:360px` + `scrollbar-gutter:stable`, with the scrollbar pulled **flush to the panel's right edge** (negative margin cancels the panel padding).
