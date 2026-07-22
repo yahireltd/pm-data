@@ -2,9 +2,9 @@
 id: T-0637
 title: "Quality checks: up to 3 photos per check (thumbnails + lightbox)"
 type: feature
-state: triaged
+state: review
 created: 2026-07-22T06:40:16Z
-updated: 2026-07-22T07:05:00Z
+updated: 2026-07-22T07:31:56Z
 project: stock-management-development
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: follow-up from T-0553
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - A quality check can have up to 3 photos (minimum 1 still required, max 3), uploaded in the Add Check modal.
   - Check cards show the check's photos as small thumbnails on the right (replacing the 'View Photo Evidence' link).
@@ -39,12 +41,39 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260722-0731
+    started: 2026-07-22T07:31:33Z
+    status: completed
+    policy_ack:
+      branch: Stock-Management-Development
+      branch_source: project
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-22T07:31:33Z
+    ended: 2026-07-22T07:31:56Z
+    summary: Quality checks can now carry up to three photos each instead of just one. Staff attach 1–3 photos when logging a check, and they appear as thumbnails on the check card; clicking a thumbnail opens it full-size like the other photos on the page. Existing single photos were carried over with no loss. This gives a fuller visual record of each quality assessment.
+    test_plan: |-
+      1. Run the migration (sql/stock_quality_check_photos.sql). Existing checks show their photo as the first thumbnail.
+      2. Add Check with 1 photo → saves; one thumbnail on the right; click → opens the shared lightbox.
+      3. Add Check with 3 photos → all three show as thumbnails (fixed 3-wide area).
+      4. Try 0 photos → blocked (client + server); try 4 photos → blocked (client + server).
+      5. Oversize (>15MB) or non-image file → rejected with a message.
+      6. Non-quality-edit user: cannot add checks (403); thumbnails read-only.
+      7. Cross-impact (shared Quality section): scoring tiles, grade cards, failure points, and overall notes all still work.
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
+      docs_note: docs/features/stock-quality-check-photos.md
 labels:
   - quality-management
   - stock
-attention: null
-version: 3
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-22T07:31:56Z
+version: 6
 ---
 
 ## Source
@@ -84,3 +113,5 @@ A Quality Check stores a **single** photo (`StockQualityCheck.photoUrl`, require
 5. Oversize/invalid file rejected with a message.
 6. Non-quality-edit user: can't add checks (403), thumbnails read-only.
 7. Cross-impact: scoring/tiles, grade cards, failure points, notes all unchanged.
+
+**2026-07-22 07:31 claude-code:** Run run-20260722-0731 completed — Quality checks can now carry up to three photos each instead of just one. Staff attach 1–3 photos when logging a check, and they appear as thumbnails on the check card; clicking a thumbnail opens it full-size like the other photos on the page. Existing single photos were carried over with no loss. This gives a fuller visual record of each quality assessment.
