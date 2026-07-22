@@ -4,7 +4,7 @@ title: "Quality Management: one-to-many overall-quality notes (dated + attribute
 type: feature
 state: triaged
 created: 2026-07-21T11:43:33Z
-updated: 2026-07-22T05:20:05Z
+updated: 2026-07-22T05:42:21Z
 project: stock-management-development
 section: null
 parent: null
@@ -44,7 +44,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 6
+version: 7
 ---
 
 ## Source
@@ -92,3 +92,5 @@ Plan when built: new `stock_quality_notes` table (`stockID, note, createdBy, cre
 **2026-07-22 05:15 claude-code:** **Layout refinement (feedback):** full-width Notes + Checks looked sparse. Reworked to **side-by-side** — **Overall Quality Notes (flex 5) | Quality Checks (flex 7)** in one row under the grade photos. Both are **fixed 400px panels with internal scroll** so they always sit level; the Quality Checks list gained a matching "Quality Checks" header/panel. Lint clean; docs updated.
 
 **2026-07-22 05:20 claude-code:** **Notes panel polish (feedback):** each note now renders in a **subtle bubble** (light fill, soft rounded border) instead of a plain divider line; the add-note **textarea is fixed size** (`resize:none`). Lint clean.
+
+**2026-07-22 05:42 claude-code:** **Final notes-panel styling:** each note is a light-blue bubble — `background:#f0f6ff; border:1px solid #b3d1ff; border-radius:8px` — chosen to tie in with the Quality Checks score tiles (same `#f0f6ff`) beside it. Name · date is **right-aligned** inside the bubble; the add-note textarea is fixed size (`resize:none`). Lint clean; working-tree only.
