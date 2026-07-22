@@ -2,9 +2,9 @@
 id: T-0642
 title: Redeliveries and re-collections are invisible to the auto route planner
 type: bug
-state: triaged
+state: ready
 created: 2026-07-22T15:53:46Z
-updated: 2026-07-22T15:53:46Z
+updated: 2026-07-22T18:17:43Z
 project: route-planner-release
 section: null
 parent: null
@@ -37,7 +37,7 @@ labels:
   - solver
   - redelivery
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem
