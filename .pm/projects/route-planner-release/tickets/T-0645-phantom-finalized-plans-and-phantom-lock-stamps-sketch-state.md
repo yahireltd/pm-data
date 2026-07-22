@@ -2,9 +2,9 @@
 id: T-0645
 title: "Phantom finalized plans and phantom lock stamps: sketch state must be backed by real runs"
 type: bug
-state: review
+state: done
 created: 2026-07-22T16:19:32Z
-updated: 2026-07-22T16:20:08Z
+updated: 2026-07-22T19:07:15Z
 project: route-planner-release
 section: null
 parent: null
@@ -18,11 +18,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - A finalized sketch whose runs were all deleted is demoted to superseded on load, with the purple banner offering it back, and the date loads as a normal draft/mirror
-  - A date replanned from scratch on the run planner releases the sketch the same way; an edited-in-place plan stays finalized and syncs
-  - Routes whose runs are gone lose their padlock/ON-ROAD badge within one poll cycle or on reload, and their jobs are replannable by the solver
-  - Re-solving after reopening a phantom does NOT flip it back to finalized
-  - The Date Already Finalized dialog only appears when the finalized plan's own runs are active
+  - "[x] A finalized sketch whose runs were all deleted is demoted to superseded on load, with the purple banner offering it back, and the date loads as a normal draft/mirror"
+  - "[x] A date replanned from scratch on the run planner releases the sketch the same way; an edited-in-place plan stays finalized and syncs"
+  - "[x] Routes whose runs are gone lose their padlock/ON-ROAD badge within one poll cycle or on reload, and their jobs are replannable by the solver"
+  - "[x] Re-solving after reopening a phantom does NOT flip it back to finalized"
+  - "[x] The Date Already Finalized dialog only appears when the finalized plan's own runs are active"
 out_of_scope: []
 code_anchors:
   - path: common/models/SketchPlan.php
@@ -64,11 +64,8 @@ labels:
   - sketch-planner
   - state-machine
   - T-0613-family
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-22T16:20:08Z
-version: 4
+attention: null
+version: 11
 ---
 
 ## Problem (found by Austin's 28 Jul testing, 22 Jul)
@@ -86,3 +83,9 @@ Sketch 626 was finalized on 16 Jul in sandbox testing; its runs were later delet
 **2026-07-22 16:20 claude-code:** Run run-20260722-1619 completed — Austin found a date that claimed to be finalised, showed a vehicle "on the road", and blocked every attempt to replan it — while the run planner showed a completely empty day. The cause: a week-old test plan whose runs had since been deleted kept its "finalised" label and its frozen lock badges, and the system trusted the label over reality. Every fresh solve got hidden behind the ghost, so the date was effectively unplannable.
 
 Now the sketch's claims must be backed by reality: a finalised plan whose own runs are gone (deleted, or replaced by a manual replan on the run planner) steps aside automatically — it becomes restorable history and the date opens up for normal planning. Padlock and "on road" badges disappear within seconds when the run behind them no longer exists, making those jobs editable and replannable again. Plans merely edited on the run planner keep working exactly as before. Without this, any date whose runs were deleted after finalising would have become a trap: looking planned to the office while being empty for the drivers.
+
+---
+
+**2026-07-22 19:07 — you**
+
+done
