@@ -4,7 +4,7 @@ title: "Quality checks: up to 3 photos per check (thumbnails + lightbox)"
 type: feature
 state: done
 created: 2026-07-22T06:40:16Z
-updated: 2026-07-22T08:09:04Z
+updated: 2026-07-22T08:32:48Z
 project: stock-management-development
 section: null
 parent: null
@@ -37,6 +37,7 @@ code_anchors:
     note: Add Check modal photo input + saveQualityCheck JS
 relates:
   - T-0553
+  - T-0639
 blocks: []
 blocked_by: []
 duplicates: []
@@ -70,7 +71,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 13
+version: 14
 ---
 
 ## Source
