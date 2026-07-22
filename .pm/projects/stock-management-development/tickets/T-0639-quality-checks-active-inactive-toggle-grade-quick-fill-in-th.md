@@ -4,7 +4,7 @@ title: "Quality checks: active/inactive toggle + grade quick-fill in the Add Che
 type: feature
 state: review
 created: 2026-07-22T08:32:41Z
-updated: 2026-07-22T11:02:45Z
+updated: 2026-07-22T11:51:50Z
 project: stock-management-development
 section: null
 parent: null
@@ -24,8 +24,8 @@ acceptance_criteria:
   - "[x] Inactive checks are excluded from all quality summary stats — Average Score, Last 3 Months, Last Check, and Total Checks all count active only."
   - "[x] Inactive check cards remain in the list, greyed with an 'Inactive' badge and a control to reactivate."
   - "[x] The Add Check modal shows 4 grade quick-select buttons; each shows the grade label + score range + the number it fills, and clicking it auto-fills the score (Good as new 10 / Good 7 / OK 5 / Needs replaced 3). The number field stays manually editable."
-  - No in-place edit of a check's score/notes — corrections are done by deactivating and adding a new check.
-  - Everything gated by the same quality-edit permission as today.
+  - "[x] No in-place edit of a check's score/notes — corrections are done by deactivating and adding a new check."
+  - "[x] Everything gated by the same quality-edit permission as today."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/backend/controllers/StockController.php
@@ -74,7 +74,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-22T10:11:50Z
-version: 12
+version: 14
 ---
 
 ## Source

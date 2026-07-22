@@ -4,7 +4,7 @@ title: "Quality checks: quantity-graded check (qty per grade, weighted average, 
 type: feature
 state: triaged
 created: 2026-07-22T11:02:37Z
-updated: 2026-07-22T11:33:54Z
+updated: 2026-07-22T11:50:21Z
 project: stock-management-development
 section: null
 parent: null
@@ -21,7 +21,7 @@ acceptance_criteria:
   - A quality check records the product's total stock (snapshotted at the check's date/time) plus a quantity at each grade (Good as new / Good / OK / Needs replaced); the remainder shows as 'Unchecked' (auto = total − graded, no photo).
   - Each of the 4 grades supports up to 3 optional evidence photos; one note per check. Entry is a bigger modal and can be submitted partially (stock left unchecked is fine).
   - "The check's score is the quantity-weighted average over graded items only (points: Good as new 10, Good 7, OK 5, Needs replaced 3); the unchecked count is tracked separately and not in the score."
-  - "The Quality-tab summary tiles are driven by the LATEST check: weighted average, total stock, and graded-vs-unchecked; older checks are openable as history."
+  - "The Quality-tab tiles are driven by the LATEST check: four wide tiles — (1) Average Score (weighted), (2) Checked = graded / unchecked against the check's snapshot total, (3) Stock Now = current live stock, flagged if it has drifted from the snapshot ('was X at last check'), (4) Last Check (date + who) — plus one small Total Checks tile. Older checks open as history. (Replaces the old Last 3 Months Score + Total Checks tiles.)"
   - "Clicking a check opens a detailed view: qty per grade, evidence photos, and the note."
   - A check can be edited, deactivated/reactivated (inactive is excluded from the tiles), and deleted.
   - Replaces the single-score check entry (T-0637/T-0639); existing single-score checks are kept as legacy history. The grade-card reference photos (T-0553) are separate guidance and unchanged.
@@ -48,7 +48,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 6
+version: 8
 ---
 
 ## Source
@@ -114,3 +114,5 @@ Reworks the check entry from **T-0637** (photos per check → per grade) and **T
 **2026-07-22 11:33 claude-code:** 6. **Evidence photos per grade in a check: up to 3, optional.** (Unchecked has none.)
 
 All open questions resolved — acceptance criteria finalised above. Ticket is fully specced and build-ready.
+
+**2026-07-22 11:50 claude-code:** **Tiles locked (Option A + small Total Checks):** four wide tiles — **Average Score** (weighted, latest) · **Checked** (graded / unchecked vs snapshot) · **Stock Now** (live, flags drift from snapshot) · **Last Check** (date + who) — plus **one small tile for Total Checks** at the end. Drops the old *Last 3 Months Score*. Layout: 4 × `flex:1` + one narrow fixed-width tile. AC #4 updated.
