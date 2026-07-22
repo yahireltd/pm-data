@@ -4,7 +4,7 @@ title: "Quality checks: up to 3 photos per check (thumbnails + lightbox)"
 type: feature
 state: triaged
 created: 2026-07-22T06:40:16Z
-updated: 2026-07-22T06:40:26Z
+updated: 2026-07-22T07:05:00Z
 project: stock-management-development
 section: null
 parent: null
@@ -44,7 +44,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 2
+version: 3
 ---
 
 ## Source
@@ -62,3 +62,25 @@ A Quality Check stores a **single** photo (`StockQualityCheck.photoUrl`, require
 - **Storage:** new child table `stock_quality_check_photos` (one row per photo), consistent with the grade-photos pattern. Migrate the existing single `photoUrl` in as the first photo; keep the old column dormant.
 - **Add-time only** — no editing photos on existing checks.
 - Assets stay in the `stock-quality-checks` bucket.
+
+## Conversation
+
+**2026-07-22 07:05 claude-code:** **Built (working tree, not committed).** Up to 3 photos per check.
+
+**New / changed**
+- Table `stock_quality_check_photos` + model `StockQualityCheckPhoto` (`MAX_PER_CHECK=3`) + `StockQualityCheck::getPhotos()` relation. DDL + migration of the existing single `photoUrl` in `sql/stock_quality_check_photos.sql` (run once). Old `photoUrl` column kept (dormant; still holds the first photo on new checks for back-compat).
+- **Add Check modal**: photo input now `multiple` — "Photo Evidence (1–3, at least one)". JS `saveQualityCheck` validates 1–3 files (JPG/PNG/GIF/WEBP, ≤15MB each) and posts `qualityPhotoFile[]`.
+- `actionSaveQualityCheck`: requires ≥1, caps at 3, uploads each (`stock-quality-checks` bucket), saves the check + a photo row per file.
+- `renderQualityCheckCard`: `[ score ][ notes + who·date ][ up to 3 thumbnails → ]`; thumbnails (50×50) open the shared lightbox (`openFailurePointImage`). "View Photo Evidence" link removed. Falls back to legacy `photoUrl` pre-migration.
+- Docs: feature doc.
+
+**RBAC:** unchanged — same `quality` edit gate as before (`save-quality-check`).
+
+**Test plan (human review):**
+1. Run `sql/stock_quality_check_photos.sql`. Existing checks show their photo as the first thumbnail.
+2. Add Check → attach **1 photo** → saves; card shows one 50×50 thumbnail on the right; click → lightbox.
+3. Add Check → attach **3 photos** → all three show as thumbnails.
+4. **0 photos** blocked (client + server); **>3** blocked (client + server).
+5. Oversize/invalid file rejected with a message.
+6. Non-quality-edit user: can't add checks (403), thumbnails read-only.
+7. Cross-impact: scoring/tiles, grade cards, failure points, notes all unchanged.
