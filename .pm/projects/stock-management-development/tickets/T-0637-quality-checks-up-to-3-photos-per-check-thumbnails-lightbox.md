@@ -2,9 +2,9 @@
 id: T-0637
 title: "Quality checks: up to 3 photos per check (thumbnails + lightbox)"
 type: feature
-state: review
+state: done
 created: 2026-07-22T06:40:16Z
-updated: 2026-07-22T07:31:56Z
+updated: 2026-07-22T08:09:04Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,11 +20,11 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - A quality check can have up to 3 photos (minimum 1 still required, max 3), uploaded in the Add Check modal.
-  - Check cards show the check's photos as small thumbnails on the right (replacing the 'View Photo Evidence' link).
-  - Clicking a thumbnail opens the shared image lightbox (same as the rest of the Quality page).
-  - Existing single-photo checks are preserved / migrated (the photo shows as the first thumbnail).
-  - Add-time only — no editing photos on existing checks.
+  - "[x] A quality check can have up to 3 photos (minimum 1 still required, max 3), uploaded in the Add Check modal."
+  - "[x] Check cards show the check's photos as small thumbnails on the right (replacing the 'View Photo Evidence' link)."
+  - "[x] Clicking a thumbnail opens the shared image lightbox (same as the rest of the Quality page)."
+  - "[x] Existing single-photo checks are preserved / migrated (the photo shows as the first thumbnail)."
+  - "[x] Add-time only — no editing photos on existing checks."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/backend/controllers/StockController.php
@@ -69,11 +69,8 @@ agent_runs:
 labels:
   - quality-management
   - stock
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-22T07:31:56Z
-version: 6
+attention: null
+version: 13
 ---
 
 ## Source
@@ -115,3 +112,9 @@ A Quality Check stores a **single** photo (`StockQualityCheck.photoUrl`, require
 7. Cross-impact: scoring/tiles, grade cards, failure points, notes all unchanged.
 
 **2026-07-22 07:31 claude-code:** Run run-20260722-0731 completed — Quality checks can now carry up to three photos each instead of just one. Staff attach 1–3 photos when logging a check, and they appear as thumbnails on the check card; clicking a thumbnail opens it full-size like the other photos on the page. Existing single photos were carried over with no loss. This gives a fuller visual record of each quality assessment.
+
+---
+
+**2026-07-22 08:09 — you**
+
+done
