@@ -33,6 +33,9 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-06T01:25:30Z
     role: Marketing / Sales Ops
+    notify_on:
+      - meeting_held
+      - meeting_scheduled
   - name: ben
     channel: email
     contact: ben@yahire.com
@@ -111,6 +114,9 @@ stakeholders:
       name: Austin Pickering
     added_at: 2026-06-10T00:37:05Z
     role: Sales & Marketing Director (SME)
+    notify_on:
+      - meeting_scheduled
+      - meeting_held
   - name: Zsolt Turu
     channel: email
     contact: zsolt@yahire.com

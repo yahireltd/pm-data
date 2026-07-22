@@ -2,9 +2,9 @@
 id: T-0639
 title: "Quality checks: active/inactive toggle + grade quick-fill in the Add Check modal"
 type: feature
-state: review
+state: done
 created: 2026-07-22T08:32:41Z
-updated: 2026-07-22T11:51:50Z
+updated: 2026-07-22T11:52:12Z
 project: stock-management-development
 section: null
 parent: null
@@ -70,11 +70,8 @@ agent_runs:
 labels:
   - quality-management
   - stock
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-22T10:11:50Z
-version: 14
+attention: null
+version: 16
 ---
 
 ## Source
@@ -124,3 +121,9 @@ Ben's feedback on the shipped quality changes (email, 22 Jul). Two of his asks, 
 - **Grade quick-fill buttons** redesigned: **label** + **(range)** under it + the **score it fills in the top-right corner** (blue, slightly larger). Clicking **highlights the button blue** and fills the score; ranges are no longer crammed onto the button.
 
 **2026-07-22 10:11 claude-code:** Run run-20260722-1011 completed — Two improvements to quality checks, from Ben's feedback. First, a check can now be switched off ("inactive") instead of deleted — it stays on the record as a log but stops counting toward the product's average score; a confirmation spells out the effect, and active/inactive is clear at a glance (green/red pill, greyed score). Second, when logging a check you can now click a grade (Good as new / Good / OK / Needs replaced) to auto-fill the score, so scoring lines up with the grades while still allowing a manual number. Without this, checks were add-only with a bare 1–10 number, and old/irrelevant checks would drag the average with no way to set them aside.
+
+---
+
+**2026-07-22 11:52 — you**
+
+done, re-doing it, ticket 640
