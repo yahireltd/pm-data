@@ -4,7 +4,7 @@ title: "Quality checks: active/inactive toggle + grade quick-fill in the Add Che
 type: feature
 state: triaged
 created: 2026-07-22T08:32:41Z
-updated: 2026-07-22T08:32:48Z
+updated: 2026-07-22T08:43:26Z
 project: stock-management-development
 section: null
 parent: null
@@ -44,7 +44,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 2
+version: 3
 ---
 
 ## Source
@@ -62,3 +62,28 @@ Ben's feedback on the shipped quality changes (email, 22 Jul). Two of his asks, 
 ## Out of scope (separate / needs scoping)
 - **Quantity-weighted grades** (Ben's bigger ask — record qty at each grade, weight the average). New concept, not in the notes/tickets — to be scoped separately, not bolted on here.
 - **Actions → decision board** (future; ties to the Orders/decision-board spike).
+
+## Conversation
+
+**2026-07-22 08:43 claude-code:** **Built (working tree, not committed).**
+
+**Active / inactive checks**
+- `active` column on `stock_quality_checks` (default 1) — `sql/stock_quality_checks_active.sql` (run once; existing checks stay active). Added to `StockQualityCheck` rules.
+- Summary tiles (Average, Last 3 Months, Last Check, Total Checks) now compute from **active checks only**; the list still shows **all** checks.
+- Inactive cards greyed + **"Inactive" badge**; **Activate/Deactivate** button (when quality-editable). New `actionToggleQualityCheckActive` (`stock/toggle-quality-check-active`), re-renders the section. No in-place edit.
+
+**Grade quick-fill in Add Check modal**
+- 4 grade buttons above the score — each shows **label + range + the number it fills**; click auto-fills the Score (still editable). Points on `StockQualityGradePhoto::grades()`: Good as new 10 / Good 7 / OK 5 / Needs replaced 3.
+
+**Out of scope (parked):** quantity-weighted grades; decision-board actions.
+
+**RBAC:** `stock/toggle-quality-check-active` — same `quality` edit gate + `stock/*`.
+
+**Test plan (human review):**
+1. Run `sql/stock_quality_checks_active.sql`. Existing checks unaffected (active); tiles unchanged.
+2. Add Check → click a **grade** button (e.g. Good = 6–7 → 7) → Score fills 7; can still type a different number; save works.
+3. On a check → **Deactivate** → card greys + "Inactive" badge; **Average Score / Last 3 Months / Last Check / Total Checks all recalc excluding it**; the card still shows in the list.
+4. **Activate** it again → tiles revert.
+5. A product with only inactive checks → tiles show "—"/0 but the list still shows the (greyed) checks.
+6. Non-quality-edit user: no Activate/Deactivate button; endpoint 403s.
+7. Cross-impact: check photos (T-0637), grade cards, failure points, notes all still work.

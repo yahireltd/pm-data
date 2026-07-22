@@ -2,9 +2,9 @@
 id: T-0638
 title: 'Suppliers: "View All Suppliers" link on the product page suppliers section'
 type: chore
-state: review
+state: done
 created: 2026-07-22T07:29:28Z
-updated: 2026-07-22T07:32:00Z
+updated: 2026-07-22T08:35:41Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,10 +20,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - The product info page's Suppliers section header has a 'View All Suppliers' button that opens /stock/suppliers in a new tab.
-  - It's styled distinctly (blue, darkens on hover) so it reads as a page link, not an edit action.
-  - It's always visible — including when no suppliers are linked, and on read-only views.
-  - The existing per-supplier 'View' buttons and 'Add Supplier' edit are unchanged.
+  - "[x] The product info page's Suppliers section header has a 'View All Suppliers' button that opens /stock/suppliers in a new tab."
+  - "[x] It's styled distinctly (blue, darkens on hover) so it reads as a page link, not an edit action."
+  - "[x] It's always visible — including when no suppliers are linked, and on read-only views."
+  - "[x] The existing per-supplier 'View' buttons and 'Add Supplier' edit are unchanged."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/backend/controllers/StockController.php
@@ -59,11 +59,8 @@ agent_runs:
 labels:
   - suppliers
   - stock
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-22T07:32:00Z
-version: 4
+attention: null
+version: 10
 ---
 
 ## What
@@ -78,3 +75,9 @@ Each linked supplier already has a per-row "View" (→ its own supplier-view), b
 ## Conversation
 
 **2026-07-22 07:32 claude-code:** Run run-20260722-0731 completed — Added a "View All Suppliers" button on the product page's Suppliers section that opens the full suppliers list in a new tab. Before, you could only jump to an individual linked supplier — there was no route to the overall suppliers page (which isn't in the main menu yet). This makes the suppliers page easy to reach, including when a product has no suppliers linked.
+
+---
+
+**2026-07-22 08:35 — you**
+
+done
