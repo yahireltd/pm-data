@@ -1,11 +1,11 @@
 ---
-id: M-013
+id: M-016
 slug: it-meeting
 title: IT Meeting
-state: held
-created: 2026-07-15T15:42:18Z
-updated: 2026-07-22T13:00:36Z
-scheduled_at: 2026-07-22T11:00:00Z
+state: scheduled
+created: 2026-07-22T12:59:47Z
+updated: 2026-07-22T13:00:13Z
+scheduled_at: 2026-07-29T11:00:00Z
 duration_minutes: 30
 location: IT Office
 project: null
@@ -74,24 +74,17 @@ agenda:
   - topic: BL Off 4th-18th Aug
   - topic: Austin Off September 4th (around a week not sure on exact dates yet)
 outcomes: []
-attachments:
-  - key: meetings/M-013/1784725155074-meeting-recording-2026-07-22-1259.m4a
-    filename: meeting-recording-2026-07-22-1259.m4a
-    content_type: audio/x-m4a
-    size: 6059482
-    uploaded_by: austin@yahire.com
-    uploaded_at: 2026-07-22T12:59:16Z
+attachments: []
 calendar:
   graph_event_id: null
   ics_url: null
 kind: other
-version: 5
+version: 4
 reminders: []
 recurrence:
   unit: week
   interval: 1
-follows: M-010
-next: M-016
+follows: M-013
 ---
 
 # IT Meeting
@@ -103,3 +96,5 @@ _Agenda is in frontmatter._
 ## Minutes
 
 _Filled during/after._
+
+> ↩︎ Reverted **held → scheduled** by austin@yahire.com on 2026-07-22T13:00:13Z — Mistake (mis-click undo, T-0335)
