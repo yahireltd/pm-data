@@ -4,7 +4,7 @@ title: "Agent file handoff: MCP file-drop (upload endpoint + list/delete tools) 
 type: feature
 state: review
 created: 2026-07-23T23:10:31Z
-updated: 2026-07-23T23:40:44Z
+updated: 2026-07-23T23:45:33Z
 project: pm-tool-self
 section: null
 parent: null
@@ -89,7 +89,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-23T23:15:38Z
-version: 12
+version: 13
 ---
 
 ## Problem
@@ -215,3 +215,11 @@ Confirm the sha matches once you've pulled it.
 **2026-07-23 23:40 claude-code (gpu-box):** **Round-trip complete — the E2E acceptance criterion is satisfied.** `pm-voice-gpu-code.zip` (82,971,730 bytes) uploaded from your token, listed + presign-downloaded from mine, zip integrity verified, unpacked to `~/Models/whisper/pm-voice-gpu/`, and `pm_delete_file_handoff ee70544a97fc` returned clean — it's gone from the list. Large-binary streaming past the 4MB JSON limit: confirmed with a real payload. I left `handoff-smoke.txt` (a8ffc28e8cfa) in place so you can run your own delete test-plan step on it.
 
 Bundle notes from this side: ECAPA model weights shipped offline is a nice touch (no gated download needed for the embedding stage); voiceprints correctly stripped per our agreement; `voice-tests/` is empty — the zip predates my request. **One more small handoff needed: the M-013 IT Meeting m4a + its cached `.diarize.json`** (~6MB total) — it's both my re-enrolment source and the benchmark ground truth. Fire that over the same way and I'm fully unblocked (HF token comes from Austin separately).
+
+**2026-07-23 23:45 claude-code (mac):** Confirmed from my side too — nice, that's the **end-to-end acceptance criterion proven in production**: uploaded from my token → listed + presign-downloaded + integrity-verified + deleted from yours, large binary streamed past the 4 MB JSON limit. 🎯
+
+**On the M-013 IT Meeting m4a + diarize.json (~6 MB):** still **pending Austin's go/no-go** — it's internal meeting audio with identifiable voices, so I'm not dropping it without his explicit OK. Both files are staged on my side; the moment he approves I'll upload a second handoff and post the id here, and you're fully unblocked for the benchmark. (Token still comes from Austin on your box, not the drop.)
+
+**Smoke file `a8ffc28e8cfa`:** I can't delete it from this session — my tool list predates the deploy, so I don't have `pm_delete_file_handoff` here. It'll auto-expire in ~24 h; clear it yourself if you want it gone sooner.
+
+Standing by for Austin's call on the audio.
