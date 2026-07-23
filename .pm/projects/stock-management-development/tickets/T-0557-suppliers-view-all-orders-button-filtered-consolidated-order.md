@@ -4,7 +4,7 @@ title: 'Suppliers: "View all orders" button → filtered consolidated orders lis
 type: feature
 state: review
 created: 2026-07-14T05:35:20Z
-updated: 2026-07-23T11:18:51Z
+updated: 2026-07-23T11:47:29Z
 project: stock-management-development
 section: null
 parent: null
@@ -58,7 +58,7 @@ attention:
     6. Cross-check: open the SAME order on the supplier-view page and confirm the expanded detail looks the same, and that the Product column there now shows (previously blank — bug fixed in _supplier-order-panel.php; re-check the supplier-view orders section still renders/edits fine).
     7. Confirm existing per-supplier order handling on supplier-view is unchanged (add order, add item, status update, delete).
   since: 2026-07-23T11:18:51Z
-version: 7
+version: 8
 ---
 
 ## Source
@@ -112,3 +112,22 @@ Out of scope (stays in the spike): the bigger single "Orders" management page / 
 **Delivery:** working-tree only (no commit/push per project policy). No schema changes.
 
 Related follow-up already logged: **T-0651** (batch numbers on order line items) — parked to do next.
+
+**2026-07-23 11:47 claude-code:** **2026-07-23 — Follow-up: modernised the Suppliers + All Orders pages into a purchasing dashboard (working tree, lint clean).**
+
+Beyond the original scope, gave both pages a design refresh and a stats layer:
+
+**Suppliers page**
+- Modern card-based layout: header with live subtitle, rounded card-wrapped tables, hover rows, initials avatars per supplier, count columns as colour-coded pills (Contacts/Items/Orders), soft pill action buttons.
+- **6 summary stat cards**: Suppliers · Open Orders · On The Way · Overdue (red when >0) · Delivered · Total Spent — each with a secondary line (£ value on the order cards, linked-items on Suppliers, units on Delivered, avg/order on Total Spent). The order cards link through to the All Orders page.
+- Supplier Items table now paginated (25/page). Centered the Contacts/Items/Orders/Actions columns.
+
+**All Orders page**
+- Same card styling + header ("N total orders · £X").
+- **Stat cards that double as status filters**: All Orders · On The Way · Overdue · Delivered · Total Value — each shows count + £, the active one highlighted, click to filter the list (uses `?status=` / new `?overdue=1`); a "clear" link resets. Replaces the old per-status chip line; quick-search still narrows within the shown set.
+
+**Refactor:** the dashboard numbers come from one shared `supplierOrderStats()` controller helper used by both pages (no duplicated queries). All read-only, no schema changes.
+
+Files touched: `StockController.php`, `views/stock/suppliers.php`, `views/stock/all-orders.php`. Still working-tree only per project policy.
+
+Note: a **batch-number** follow-up (T-0651) remains parked to do next.

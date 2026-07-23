@@ -4,7 +4,7 @@ title: Extended-original collections leaked into the contract-driven builders (e
 type: bug
 state: done
 created: 2026-07-22T19:03:16Z
-updated: 2026-07-22T19:41:51Z
+updated: 2026-07-23T11:46:09Z
 project: route-planner-release
 section: null
 parent: null
@@ -64,7 +64,7 @@ labels:
   - extensions
   - data-integrity
 attention: null
-version: 11
+version: 13
 ---
 
 ## Problem
