@@ -2,7 +2,7 @@
 id: ADR-011
 slug: account-level-banding-criteria-are-runtime-parameter-sets-on
 title: Account-level banding criteria are runtime parameter sets; ONE pure engine shared by recompute and simulator
-state: accepted
+state: superseded
 decided: 2026-07-03
 decided_by:
   - Austin
@@ -13,7 +13,7 @@ tickets:
   - T-0479
   - T-0457
   - T-0497
-version: 1
+version: 2
 ---
 
 ## Context

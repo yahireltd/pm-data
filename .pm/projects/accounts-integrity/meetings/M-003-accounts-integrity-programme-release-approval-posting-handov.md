@@ -4,7 +4,7 @@ slug: accounts-integrity-programme-release-approval-posting-handov
 title: Accounts Integrity Programme — release approval & posting handover
 state: held
 created: 2026-07-10T22:41:30Z
-updated: 2026-07-17T19:56:32Z
+updated: 2026-07-23T14:50:48Z
 scheduled_at: 2026-07-16T14:30:00Z
 duration_minutes: 50
 location: TBD (Austin to schedule with accounts + director; Fran needed for item 7)
@@ -106,6 +106,7 @@ outcomes:
       kind: human
       name: Austin
     due: 2026-07-27
+    follow_up_ticket: T-0655
   - description: "ACTION — Effie & Jhuztine reorganise the accounts improvement-notes doc into categories/pages; then a follow-up working meeting on the test system to walk through and demo the items. Also agreed direction: raise issues as tickets (flag urgent when urgent) so there's a log, instead of direct asks only."
     recorded_at: 2026-07-16T14:02:02Z
     owner:
@@ -146,7 +147,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: progress
-version: 27
+version: 28
 ---
 
 \
