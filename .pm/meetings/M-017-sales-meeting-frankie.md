@@ -4,7 +4,7 @@ slug: sales-meeting-frankie
 title: Sales meeting - Frankie
 state: scheduled
 created: 2026-07-23T12:08:01Z
-updated: 2026-07-23T12:09:19Z
+updated: 2026-07-23T12:38:57Z
 scheduled_at: 2026-07-23T13:10:00Z
 duration_minutes: 30
 location: Box
@@ -35,12 +35,18 @@ stakeholders:
     role: Director
 agenda: []
 outcomes: []
-attachments: []
+attachments:
+  - key: meetings/M-017/1784810336330-meeting-recording-2026-07-23-1238.m4a
+    filename: meeting-recording-2026-07-23-1238.m4a
+    content_type: audio/x-m4a
+    size: 7619491
+    uploaded_by: austin@yahire.com
+    uploaded_at: 2026-07-23T12:38:57Z
 calendar:
   graph_event_id: null
   ics_url: null
 kind: scoping
-version: 2
+version: 3
 ---
 
 # Sales meeting - Frankie
