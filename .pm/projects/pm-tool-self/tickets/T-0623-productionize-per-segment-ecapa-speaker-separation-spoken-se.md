@@ -2,9 +2,9 @@
 id: T-0623
 title: Productionize per-segment ECAPA speaker separation + spoken self-introduction
 type: feature
-state: in_progress
+state: review
 created: 2026-07-17T22:47:24Z
-updated: 2026-07-21T13:21:52Z
+updated: 2026-07-23T17:30:19Z
 project: pm-tool-self
 section: null
 parent: null
@@ -63,7 +63,7 @@ agent_runs:
         note: "Speaker-separation improvement shipped (commit 372945f): the label pass now RE-CLUSTERS each pyannote cluster by ECAPA embedding and identifies each sub-group from its pooled embedding, undoing pyannote's merges. Founding problem SOLVED: the Ben->Zac call (pyannote merged into one cluster) now names both — Ben 19 + Zac 15 confident. Regressions pass (Ben/Rob correct; true open-set Thanos->Sophie 0 named). Also added an overlap advisory flag (segment matching two people within 0.06). Also ingested Austin's first 6 adjudicated groundtruth files -> library up to 13 people (Francine now 4 profiles; new voices Kelly, Zsolt captured). Honest ceiling confirmed on the Orfield/Francine call: one loud/near speaker + one faint, overlapping speaker aren't separable in the AUDIO itself (re-clustering left it unsplit) — the per-device-capture case (PP-012), not an algorithm gap. Also learned: extension != speaker (people borrow phones — the Nathan-ext call was actually Matthew+Samantha; system correctly named Samantha + left Matthew unnamed, beating the metadata). Next: pyannote overlapped-speech-detection model for proper overlap regions; wire overlap flag into transcript render."
 labels: []
 attention: null
-version: 15
+version: 16
 ---
 
 ## Problem
