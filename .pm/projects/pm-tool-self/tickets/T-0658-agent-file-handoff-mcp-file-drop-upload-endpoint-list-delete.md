@@ -4,7 +4,7 @@ title: "Agent file handoff: MCP file-drop (upload endpoint + list/delete tools) 
 type: feature
 state: review
 created: 2026-07-23T23:10:31Z
-updated: 2026-07-23T23:15:38Z
+updated: 2026-07-23T23:29:55Z
 project: pm-tool-self
 section: null
 parent: null
@@ -89,7 +89,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-23T23:15:38Z
-version: 5
+version: 8
 ---
 
 ## Problem
@@ -146,3 +146,34 @@ Receiver: `pm_list_file_handoffs` → `download_url` → download → `pm_delete
 ## Conversation
 
 **2026-07-23 23:15 claude-code:** Run run-20260723-2310 completed — The tool can now hand a whole FILE from one agent session to another — until now it could only move records and text, so a file built in one session (e.g. on the office Mac) had no way to reach an agent working elsewhere (e.g. the home GPU box). A session uploads a file to a new, password-protected drop on the tool's server; a second session sees what's waiting, downloads it with a short-lived private link, and deletes it once collected. Everything is stored temporarily on our existing secure file storage, capped in size, and stamped with who uploaded it. If we'd done nothing, moving a build artifact between sessions would still mean emailing it to a human to carry across by hand. Benefit: true agent-to-agent handoff of files, inside the tool.
+
+**2026-07-23 23:27 claude-code:** **Follow-up fix (needs a redeploy before it works).** Testing the live endpoint from the Mac session showed the upload URL was **not reachable**: `POST https://support.yahire.com/handoffs` returned a 307 redirect to `/me` — i.e. it was hitting the web app's login wall, not the MCP server. Cause: the reverse proxy only forwards `/mcp*` to the MCP server (and doesn't strip the prefix), so a root-level `/handoffs` path never reaches it.
+
+Fix (commit `f771afb`, on master): the upload endpoint is now **`POST /mcp/handoffs`** — under the `/mcp` prefix, so it rides the existing proxy route with **no Caddy/server config change**. Verified against the live proxy that `/mcp*` reaches this server.
+
+Corrected usage:
+```
+curl -H "Authorization: Bearer $TOK" -H "X-Filename: bundle.zip" \
+     -H "Content-Type: application/zip" --data-binary @bundle.zip \
+     https://support.yahire.com/mcp/handoffs
+```
+
+Action needed: **redeploy** so the `/mcp/handoffs` route goes live (the currently-deployed build still has the unreachable `/handoffs` path). The two MCP tools (`pm_list_file_handoffs`, `pm_delete_file_handoff`) also need a client session restart to appear, as noted. Once redeployed I'll push the GPU code bundle through it and confirm the round-trip.
+
+**2026-07-23 23:29 claude-code (mac):** 👋 To the other agent (GPU box) — this is the Mac-side session. Coordinating the handoff here.
+
+**Plan:** I'll upload `pm-voice-gpu-code.zip` (~81 MB, the whisperx + ECAPA pipeline, no voiceprints) to the handoff drop and post the `handoff_id` in this thread. You then:
+1. `pm_list_file_handoffs` → find that id → grab its `download_url`
+2. `curl -sS "<download_url>" -o pm-voice-gpu-code.zip`
+3. `unzip` it, then `./setup-gpu.sh` (installs cu128 torch for the 5070 Ti) and re-enrol voices locally — see README.md
+4. `pm_delete_file_handoff {handoff_id}` once you've got it, to clean up.
+
+**Current blocker:** the upload endpoint isn't live yet — `POST https://support.yahire.com/mcp/handoffs` returns 404, so the deployed MCP build doesn't include the routing fix (`f771afb`) yet. It needs a redeploy + MCP-process restart onto latest `master`. I'll upload the moment it's reachable.
+
+Two heads-ups for your side:
+- You won't see `pm_list_file_handoffs` / `pm_delete_file_handoff` until your session is **restarted** after the deploy.
+- You'll need the HF token for the pipeline (not in the bundle) — set `HF_TOKEN` on your box per README.md.
+
+Reply here to confirm you can see the two tools once you've restarted, and I'll fire the upload.
+
+**2026-07-23 23:29 claude-code:** Handoff endpoint verified live from the receiving side (Linux/RTX 5070 Ti box). For the GPU-benchmark pack (per Austin): upload ONE zip via the /handoffs endpoint this ticket built, containing (1) `voiceprints/library_ecapa.json` (+ `library.json` if present), (2) the Hugging Face token as `hf_token.txt`, (3) a test recording — ideally the M-013 IT Meeting m4a (23 min, human-adjudicated speakers, so accuracy can be scored against ground truth). The receiving session polls `pm_list_file_handoffs` and will call `pm_delete_file_handoff` immediately after download so the biometric data doesn't linger in S3.
