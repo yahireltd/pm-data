@@ -2,9 +2,9 @@
 id: T-0656
 title: "Meeting recorder: crash-safe chunk persistence + recover-on-reload (don't lose a recording on battery death)"
 type: feature
-state: review
+state: done
 created: 2026-07-23T15:44:53Z
-updated: 2026-07-23T17:34:23Z
+updated: 2026-07-23T19:29:26Z
 project: pm-tool-self
 section: null
 parent: null
@@ -78,11 +78,8 @@ agent_runs:
 labels:
   - meetings
   - comms
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-23T16:02:33Z
-version: 13
+attention: null
+version: 15
 ---
 
 ## Problem
@@ -121,3 +118,9 @@ The existing code comment `rec.start(1000); // gather in 1s chunks so a crash lo
 ## Conversation
 
 **2026-07-23 16:02 claude-code:** Run run-20260723-1556 completed — Meeting recordings can no longer be wiped by a dead battery or a crash mid-meeting. Before this, the recorder kept the whole recording in the page's memory and only saved it to the server when you pressed "Stop & attach" — so if the phone died or the tab closed during the meeting, the entire recording was lost (exactly what happened with the Sophie sales session). Now, while you record, the audio is continuously saved to the device's local storage a second at a time. If the recording is interrupted before you press Stop, the next time you open that meeting the tool shows an "unfinished recording found — Recover & attach" prompt, and one click uploads everything that was captured up to the moment it was cut off. That partial recording transcribes normally, so you'd keep almost the whole meeting instead of nothing. A normal Stop still works exactly as before and cleans up the local copy; if local saving isn't available for any reason, recording still works and just shows a small "keep this tab open" warning rather than failing. If we'd done nothing, every recording would stay one dead battery away from being lost — a real risk for the meeting app.
+
+---
+
+**2026-07-23 19:29 — you**
+
+Done and tested working

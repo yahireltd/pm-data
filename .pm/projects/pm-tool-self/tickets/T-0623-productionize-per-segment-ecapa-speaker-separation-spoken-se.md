@@ -2,9 +2,9 @@
 id: T-0623
 title: Productionize per-segment ECAPA speaker separation + spoken self-introduction
 type: feature
-state: review
+state: done
 created: 2026-07-17T22:47:24Z
-updated: 2026-07-23T17:30:19Z
+updated: 2026-07-23T19:32:37Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,14 +18,14 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - transcribe-speakers uses ECAPA per-segment labelling; a merged sound-alike cluster is split into the correct people
-  - Spoken self-introduction is parsed and takes priority over voiceprint matching
-  - Everyone re-enrolled on ECAPA from clean sources; the contaminated Zac print is replaced
-  - ECAPA open-set threshold calibrated; unenrolled voices correctly stay SPEAKER_NN
-  - "Audio front-end normalisation: resample to 16kHz mono + loudness (EBU-R128/RMS) normalise before embedding"
-  - "Embedding/score-space normalisation for cross-condition robustness: per-recording embedding mean-centering + AS-Norm score normalisation against a cohort"
-  - Human-matching corrections feed back as labelled training samples (self-healing)
-  - Proven on M-015 (Ben separated from Zac) and ideally a second recording where both brothers clearly speak
+  - "[x] transcribe-speakers uses ECAPA per-segment labelling; a merged sound-alike cluster is split into the correct people"
+  - "[x] Spoken self-introduction is parsed and takes priority over voiceprint matching"
+  - "[x] Everyone re-enrolled on ECAPA from clean sources; the contaminated Zac print is replaced"
+  - "[x] ECAPA open-set threshold calibrated; unenrolled voices correctly stay SPEAKER_NN"
+  - "[x] Audio front-end normalisation: resample to 16kHz mono + loudness (EBU-R128/RMS) normalise before embedding"
+  - "[x] Embedding/score-space normalisation for cross-condition robustness: per-recording embedding mean-centering + AS-Norm score normalisation against a cohort"
+  - "[x] Human-matching corrections feed back as labelled training samples (self-healing)"
+  - "[x] Proven on M-015 (Ben separated from Zac) and ideally a second recording where both brothers clearly speak"
 out_of_scope: []
 code_anchors:
   - path: scripts/mac-transcription/voiceprint_ecapa.py
@@ -61,9 +61,13 @@ agent_runs:
         note: "3CX API integration done + overnight team-capture running. Cracked the 3CX v20 XAPI: token auth (Keychain creds), CallHistoryView query, and Recordings/DownloadRecording — full recording download from the shell, no browser. Committed as pull-3cx-calls. Pulled 27 recorded calls for 15 main users in one hands-free run (incl. jackpots: Ben->Zac 4.5min sibling call, Effie->Ben 8min, Nathan->Samantha, Zac->Rob, Austin->Zac — all two-enrolled-people held-out tests), each with an .expected.json sidecar (who's on it, from the extension map) for self-scoring. Note: CallHistoryView recording links cap ~June 2025 (2026 recent recordings live in the ReportCallLogData/GetCallLogData report function, whose enum params returned 0 rows — a 10-min fix when fresh; a year-old voice sample is fine for enrolment regardless). Overnight job (overnight-capture.sh) diarizes+labels all 27 against the current 11-person library with ZERO enrolment, self-scores against expected, and builds a scorecard + adjudication UI bundle to Downloads (~/Downloads/overnight-capture.zip + -scorecard.html). Morning deliverable: which enrolled people were recognised on fresh held-out calls + new voices (Matthew/Sophie/Kelly/Sam Boulton/Terry/Paula) captured for adjudication+enrolment."
       - at: 2026-07-21T13:21:52Z
         note: "Speaker-separation improvement shipped (commit 372945f): the label pass now RE-CLUSTERS each pyannote cluster by ECAPA embedding and identifies each sub-group from its pooled embedding, undoing pyannote's merges. Founding problem SOLVED: the Ben->Zac call (pyannote merged into one cluster) now names both — Ben 19 + Zac 15 confident. Regressions pass (Ben/Rob correct; true open-set Thanos->Sophie 0 named). Also added an overlap advisory flag (segment matching two people within 0.06). Also ingested Austin's first 6 adjudicated groundtruth files -> library up to 13 people (Francine now 4 profiles; new voices Kelly, Zsolt captured). Honest ceiling confirmed on the Orfield/Francine call: one loud/near speaker + one faint, overlapping speaker aren't separable in the AUDIO itself (re-clustering left it unsplit) — the per-device-capture case (PP-012), not an algorithm gap. Also learned: extension != speaker (people borrow phones — the Nathan-ext call was actually Matthew+Samantha; system correctly named Samantha + left Matthew unnamed, beating the metadata). Next: pyannote overlapped-speech-detection model for proper overlap regions; wire overlap flag into transcript render."
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels: []
 attention: null
-version: 16
+version: 26
 ---
 
 ## Problem
@@ -116,3 +120,9 @@ Tonight's 94% is on the enrolment calls (semi-circular). The genuine proof = a F
 5. Regression suite (the 9 adjudicated recordings with ground truth) still passes after ANY library or code change.
 
 **Failure handling:** a miss = enrol that condition and retest on the NEXT fresh recording (never the same one). A confident-wrong = stop, diagnose, fix before any further enrolment.
+
+---
+
+**2026-07-23 19:32 — you**
+
+Done
