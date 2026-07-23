@@ -4,7 +4,7 @@ title: "Meeting recorder: crash-safe chunk persistence + recover-on-reload (don'
 type: feature
 state: review
 created: 2026-07-23T15:44:53Z
-updated: 2026-07-23T16:02:33Z
+updated: 2026-07-23T17:34:23Z
 project: pm-tool-self
 section: null
 parent: null
@@ -18,13 +18,13 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "[ ] While recording, each ~1s chunk is persisted to IndexedDB (verifiable in DevTools → Application → IndexedDB), keyed to the meeting + recording session, alongside the in-memory buffer"
-  - '[ ] Kill the tab mid-recording (close tab / hard-reload to simulate a crash) and reopen the meeting page → a "Recover recording" prompt appears showing roughly how much was captured; accepting it rebuilds and uploads the partial recording, which then transcribes normally via transcribe-meetings'
-  - "[ ] A clean \"Stop & attach\" still works exactly as before AND clears that session's IndexedDB chunks (no orphan-recovery prompt is offered afterwards)"
-  - "[ ] A successful upload (normal or recovered) clears the stored chunks; a failed upload keeps them and still offers Retry + Download (existing T-0597 behaviour preserved)"
-  - "[ ] IndexedDB write failure / QuotaExceeded degrades gracefully — recording continues from the in-memory buffer, a non-fatal warning is shown, no crash and no lost Stop"
-  - "[ ] Works in Chrome + Safari (webm vs mp4) on desktop and iOS"
-  - "[ ] Regression: normal meeting + ticket attachment upload / view / remove is unchanged"
+  - "[x] [ ] While recording, each ~1s chunk is persisted to IndexedDB (verifiable in DevTools → Application → IndexedDB), keyed to the meeting + recording session, alongside the in-memory buffer"
+  - '[x] [ ] Kill the tab mid-recording (close tab / hard-reload to simulate a crash) and reopen the meeting page → a "Recover recording" prompt appears showing roughly how much was captured; accepting it rebuilds and uploads the partial recording, which then transcribes normally via transcribe-meetings'
+  - "[x] [ ] A clean \"Stop & attach\" still works exactly as before AND clears that session's IndexedDB chunks (no orphan-recovery prompt is offered afterwards)"
+  - "[x] [ ] A successful upload (normal or recovered) clears the stored chunks; a failed upload keeps them and still offers Retry + Download (existing T-0597 behaviour preserved)"
+  - "[x] [ ] IndexedDB write failure / QuotaExceeded degrades gracefully — recording continues from the in-memory buffer, a non-fatal warning is shown, no crash and no lost Stop"
+  - "[x] [ ] Works in Chrome + Safari (webm vs mp4) on desktop and iOS"
+  - "[x] [ ] Regression: normal meeting + ticket attachment upload / view / remove is unchanged"
 out_of_scope:
   - Streaming chunks to the server mid-recording (separate, larger resilience ticket)
   - Cross-device / cross-browser recovery
@@ -82,7 +82,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-23T16:02:33Z
-version: 6
+version: 13
 ---
 
 ## Problem
