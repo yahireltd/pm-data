@@ -2,9 +2,9 @@
 id: T-0656
 title: "Meeting recorder: crash-safe chunk persistence + recover-on-reload (don't lose a recording on battery death)"
 type: feature
-state: triaged
+state: in_progress
 created: 2026-07-23T15:44:53Z
-updated: 2026-07-23T15:45:11Z
+updated: 2026-07-23T15:56:57Z
 project: pm-tool-self
 section: null
 parent: null
@@ -14,7 +14,9 @@ priority: p1
 reporter:
   kind: human
   name: austin
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - "[ ] While recording, each ~1s chunk is persisted to IndexedDB (verifiable in DevTools → Application → IndexedDB), keyed to the meeting + recording session, alongside the in-memory buffer"
   - '[ ] Kill the tab mid-recording (close tab / hard-reload to simulate a crash) and reopen the meeting page → a "Recover recording" prompt appears showing roughly how much was captured; accepting it rebuilds and uploads the partial recording, which then transcribes normally via transcribe-meetings'
@@ -38,12 +40,16 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260723-1556
+    model: claude-opus-4-8
+    started: 2026-07-23T15:56:57Z
+    status: in_progress
 labels:
   - meetings
   - comms
 attention: null
-version: 2
+version: 4
 ---
 
 ## Problem
