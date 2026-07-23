@@ -4,7 +4,7 @@ title: "Quality checks: quantity-graded check (qty per grade, weighted average, 
 type: feature
 state: done
 created: 2026-07-22T11:02:37Z
-updated: 2026-07-23T08:55:14Z
+updated: 2026-07-23T09:29:45Z
 project: stock-management-development
 section: null
 parent: null
@@ -98,7 +98,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 23
+version: 24
 ---
 
 ## Source
@@ -208,3 +208,5 @@ Note for review: these touch the same two files already in scope (StockControlle
 **2026-07-23 08:55 — you**
 
 updated the check, using the new logic
+
+**2026-07-23 09:29 claude-code:** **2026-07-23 — Update email sent to Ben and Sandor** (by Zsolt, from his own email client). Summarised the switch to quantity-based grading now on the dev environment: qty per grade instead of a single score, total-stock snapshot, automatic Unchecked, quantity-weighted score, up to 3 photos per grade + a note, the refreshed Quality-tab tiles + detailed view, and edit/deactivate/delete with one current check at a time (older kept as history). Invited feedback / a walkthrough call.
