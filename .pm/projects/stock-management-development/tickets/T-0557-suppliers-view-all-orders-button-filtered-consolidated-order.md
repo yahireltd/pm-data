@@ -2,9 +2,9 @@
 id: T-0557
 title: 'Suppliers: "View all orders" button → filtered consolidated orders list'
 type: feature
-state: in_progress
+state: review
 created: 2026-07-14T05:35:20Z
-updated: 2026-07-23T09:38:33Z
+updated: 2026-07-23T11:18:51Z
 project: stock-management-development
 section: null
 parent: null
@@ -44,8 +44,21 @@ labels:
   - suppliers
   - orders
   - stock
-attention: null
-version: 5
+attention:
+  needed_by: human
+  reason: |-
+    Built and iterated with Zsolt: Suppliers page "View all orders" button → new /stock/all-orders page (status-grouped, expandable rows matching the supplier-view detail, single quick-search box). Working-tree only, lint clean, no schema changes. Test plan below. Ready for review + close.
+
+    Test plan:
+    1. Suppliers page → click "View all orders" → lands on /stock/all-orders.
+    2. Confirm orders are grouped by status (In Transit → Ordered → Pending → Received → Cancelled), each group with a colour band + column headers; rows uniform height with a status-coloured left stripe.
+    3. Click an order row → it expands; header takes a faded tint of its own status colour, body white; detail shows Order/Arrival dates + Subtotal/Grand Total, Notes, and the Description/Product/Qty/Unit Price/Line Total table (matches the supplier-view panel for the same order).
+    4. Quick-search box: type an order number, a company, a status (e.g. "received"), an item name, a date ("may 2026"), and a total both ways ("1500" and "1,500") — each should filter correctly and hide empty status groups.
+    5. Resize/filter and confirm column widths stay fixed (don't jump).
+    6. Cross-check: open the SAME order on the supplier-view page and confirm the expanded detail looks the same, and that the Product column there now shows (previously blank — bug fixed in _supplier-order-panel.php; re-check the supplier-view orders section still renders/edits fine).
+    7. Confirm existing per-supplier order handling on supplier-view is unchanged (add order, add item, status update, delete).
+  since: 2026-07-23T11:18:51Z
+version: 7
 ---
 
 ## Source
@@ -79,3 +92,23 @@ The bigger single **"Orders" management page / product-decision board** (edit-in
 - **Permissions:** gate with the same access as the Suppliers page.
 
 Out of scope (stays in the spike): the bigger single "Orders" management page / decision board, edit-in-place, merging with upcoming/buffer. This ticket = button + filtered read-only list only.
+
+**2026-07-23 11:18 claude-code:** **2026-07-23 — Built (working tree, lint clean). Moving to review.**
+
+**What shipped**
+- New **"View all orders"** button on the Suppliers page → new dedicated page `/stock/all-orders` (`actionAllOrders`).
+- Read-only consolidated list of every supplier order, **grouped by status** (In Transit → Ordered → Pending → Received → Cancelled), each group with a colour band + its own column-header row (Order No · Company · Status · Order Date · Arrival Date · Items · Total).
+- **Expandable rows** — click an order to reveal its detail; the detail now **matches the supplier-view panel exactly** (Order/Arrival dates + Subtotal/Grand Total, Notes, and a Description · Product · Qty · Unit Price · Line Total table).
+- **One quick-search box** (client-side) matching order #, company, status, item (description + product), dates, and the order total — replacing the original heavy server-side filter bar per your steer.
+
+**UI polish from review passes**
+- Left status-colour stripe per row (white rows for readability); expanded order highlighted with a faded version of *its own* status colour (green/blue/etc, not always blue) and a white detail body.
+- Inactive-check styling untouched (separate feature).
+- Fixed column widths (table-layout:fixed + colgroup) so columns don't jump when filtering; Status/Order Date/Arrival Date centered.
+- Uniform 34px row height — root cause was the `—` em-dash placeholder pulling a taller fallback font; swapped to a plain dash.
+
+**Bug fixed along the way:** the supplier-view order panel showed a blank **Product** column (its partial called `Html::encode()` with no `echo`) — corrected in `_supplier-order-panel.php`, so both views now show the product.
+
+**Delivery:** working-tree only (no commit/push per project policy). No schema changes.
+
+Related follow-up already logged: **T-0651** (batch numbers on order line items) — parked to do next.
