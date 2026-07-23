@@ -4,7 +4,7 @@ title: "Quality checks: active/inactive toggle + grade quick-fill in the Add Che
 type: feature
 state: done
 created: 2026-07-22T08:32:41Z
-updated: 2026-07-22T11:52:12Z
+updated: 2026-07-23T05:36:29Z
 project: stock-management-development
 section: null
 parent: null
@@ -71,7 +71,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 16
+version: 17
 ---
 
 ## Source
@@ -127,3 +127,5 @@ Ben's feedback on the shipped quality changes (email, 22 Jul). Two of his asks, 
 **2026-07-22 11:52 — you**
 
 done, re-doing it, ticket 640
+
+**2026-07-23 05:36 claude-code:** **Superseded by T-0640** (quantity-graded checks): the single-score entry + grade quick-fill is replaced by **qty-per-grade** entry. Active/inactive + edit/delete carry into T-0640. This ticket stays shipped; existing checks kept as legacy history.

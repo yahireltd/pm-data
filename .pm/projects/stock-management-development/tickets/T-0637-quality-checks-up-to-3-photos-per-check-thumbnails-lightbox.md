@@ -4,7 +4,7 @@ title: "Quality checks: up to 3 photos per check (thumbnails + lightbox)"
 type: feature
 state: done
 created: 2026-07-22T06:40:16Z
-updated: 2026-07-22T11:02:45Z
+updated: 2026-07-23T05:36:27Z
 project: stock-management-development
 section: null
 parent: null
@@ -72,7 +72,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 15
+version: 16
 ---
 
 ## Source
@@ -120,3 +120,5 @@ A Quality Check stores a **single** photo (`StockQualityCheck.photoUrl`, require
 **2026-07-22 08:09 — you**
 
 done
+
+**2026-07-23 05:36 claude-code:** **Superseded by T-0640** (quantity-graded checks): the per-check photo model is replaced by **per-grade evidence photos**. This ticket's work stays shipped; existing single-score checks are kept as legacy history, and new checks use T-0640's model.

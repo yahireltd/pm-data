@@ -2,9 +2,9 @@
 id: T-0640
 title: "Quality checks: quantity-graded check (qty per grade, weighted average, unchecked, detailed view)"
 type: feature
-state: triaged
+state: in_progress
 created: 2026-07-22T11:02:37Z
-updated: 2026-07-22T11:50:21Z
+updated: 2026-07-23T05:36:35Z
 project: stock-management-development
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: Ben feedback + notes + mockup (22 Jul)
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - A quality check records the product's total stock (snapshotted at the check's date/time) plus a quantity at each grade (Good as new / Good / OK / Needs replaced); the remainder shows as 'Unchecked' (auto = total − graded, no photo).
   - Each of the 4 grades supports up to 3 optional evidence photos; one note per check. Entry is a bigger modal and can be submitted partially (stock left unchecked is fine).
@@ -43,12 +45,21 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260723-0536
+    started: 2026-07-23T05:36:35Z
+    status: in_progress
+    policy_ack:
+      branch: Stock-Management-Development
+      branch_source: project
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-23T05:36:35Z
 labels:
   - quality-management
   - stock
 attention: null
-version: 8
+version: 10
 ---
 
 ## Source
