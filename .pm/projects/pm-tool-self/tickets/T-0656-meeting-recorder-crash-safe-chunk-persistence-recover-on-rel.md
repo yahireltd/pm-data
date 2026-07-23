@@ -2,9 +2,9 @@
 id: T-0656
 title: "Meeting recorder: crash-safe chunk persistence + recover-on-reload (don't lose a recording on battery death)"
 type: feature
-state: in_progress
+state: review
 created: 2026-07-23T15:44:53Z
-updated: 2026-07-23T15:56:57Z
+updated: 2026-07-23T16:02:33Z
 project: pm-tool-self
 section: null
 parent: null
@@ -44,12 +44,45 @@ agent_runs:
   - id: run-20260723-1556
     model: claude-opus-4-8
     started: 2026-07-23T15:56:57Z
-    status: in_progress
+    status: completed
+    progress:
+      - at: 2026-07-23T16:01:36Z
+        note: 'Implemented crash-safe recording: new IndexedDB helper (recordingStore.ts) persists each ~1s chunk; MeetingRecorder opens a session on start, flushes chunks, clears on successful upload, and offers a "Recover & attach" prompt on reload for any orphaned recording. Typecheck + production build both pass. About to commit + push (Austin deploys).'
+    ended: 2026-07-23T16:02:33Z
+    summary: Meeting recordings can no longer be wiped by a dead battery or a crash mid-meeting. Before this, the recorder kept the whole recording in the page's memory and only saved it to the server when you pressed "Stop & attach" — so if the phone died or the tab closed during the meeting, the entire recording was lost (exactly what happened with the Sophie sales session). Now, while you record, the audio is continuously saved to the device's local storage a second at a time. If the recording is interrupted before you press Stop, the next time you open that meeting the tool shows an "unfinished recording found — Recover & attach" prompt, and one click uploads everything that was captured up to the moment it was cut off. That partial recording transcribes normally, so you'd keep almost the whole meeting instead of nothing. A normal Stop still works exactly as before and cleans up the local copy; if local saving isn't available for any reason, recording still works and just shows a small "keep this tab open" warning rather than failing. If we'd done nothing, every recording would stay one dead battery away from being lost — a real risk for the meeting app.
+    test_plan: |-
+      Deploy first, then on a meeting page (Attachments area):
+
+      HAPPY PATH (recovery)
+      1. Click "Record meeting", speak for ~20–30s. In DevTools → Application → IndexedDB → "pm-meeting-recordings", confirm a `sessions` row and growing `chunks` rows appear while recording.
+      2. Simulate a crash: WITHOUT pressing Stop, close the tab (or hard-reload the page). Reopen the same meeting.
+      3. Expect a banner: "Unfinished recording found (~MM:SS) …" with "Recover & attach" + "Discard". Click Recover & attach → it uploads; the meeting gets a `meeting-recording-….m4a/webm` attachment that plays back. Run `transcribe-meetings` on the Mac → a transcript lands (a truncated file transcribes fine).
+
+      NORMAL PATH (unchanged)
+      4. Record and click "Stop & attach" as usual → attaches and plays back. Reopen the meeting → NO recovery banner (the session was cleared on success). Check IndexedDB → the session's chunks are gone.
+
+      DISCARD
+      5. Repeat step 1–2 to get the banner, then click "Discard" → banner clears, IndexedDB session removed, no attachment created.
+
+      EDGE CASES
+      6. Failed upload still safe (T-0597 preserved): if an upload fails, you still get Retry + Download, and the recording isn't lost. A recovered recording that fails to upload should also land in that Retry/Download state.
+      7. Graceful degrade: in a context without IndexedDB (or private-mode quota block), recording still works from memory and shows the small "Can't save a local backup — keep this tab open" note; Stop & attach still uploads.
+      8. Browsers: verify Chrome (webm) and Safari incl. iOS (mp4) both record, persist, and recover.
+
+      CROSS-IMPACT
+      9. MeetingRecorder is the only changed component; regression-check normal meeting attachment upload/view/remove AND ticket attachments (shared AttachmentsPanel) still work. No server/MCP changes — the /api upload route and transcription worker are untouched.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - meetings
   - comms
-attention: null
-version: 4
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-23T16:02:33Z
+version: 6
 ---
 
 ## Problem
@@ -84,3 +117,7 @@ The existing code comment `rec.start(1000); // gather in 1s chunks so a crash lo
 
 - Follows T-0588 (the recorder this hardens).
 - Prompted by meeting M-014 (Sophie) — recording lost to battery death; see that meeting's failure-point outcome.
+
+## Conversation
+
+**2026-07-23 16:02 claude-code:** Run run-20260723-1556 completed — Meeting recordings can no longer be wiped by a dead battery or a crash mid-meeting. Before this, the recorder kept the whole recording in the page's memory and only saved it to the server when you pressed "Stop & attach" — so if the phone died or the tab closed during the meeting, the entire recording was lost (exactly what happened with the Sophie sales session). Now, while you record, the audio is continuously saved to the device's local storage a second at a time. If the recording is interrupted before you press Stop, the next time you open that meeting the tool shows an "unfinished recording found — Recover & attach" prompt, and one click uploads everything that was captured up to the moment it was cut off. That partial recording transcribes normally, so you'd keep almost the whole meeting instead of nothing. A normal Stop still works exactly as before and cleans up the local copy; if local saving isn't available for any reason, recording still works and just shows a small "keep this tab open" warning rather than failing. If we'd done nothing, every recording would stay one dead battery away from being lost — a real risk for the meeting app.
