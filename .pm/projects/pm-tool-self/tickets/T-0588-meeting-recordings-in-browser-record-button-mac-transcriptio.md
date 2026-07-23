@@ -4,7 +4,7 @@ title: "Meeting recordings: in-browser Record button + Mac transcription worker 
 type: feature
 state: done
 created: 2026-07-15T13:55:53Z
-updated: 2026-07-15T15:25:15Z
+updated: 2026-07-23T15:45:11Z
 project: pm-tool-self
 section: null
 parent: null
@@ -31,7 +31,8 @@ code_anchors:
     symbol: pm_list_meeting_audio / pm_attach_meeting_transcript
   - path: scripts/transcribe-meetings.ts
     symbol: Mac worker
-relates: []
+relates:
+  - T-0656
 blocks: []
 blocked_by: []
 duplicates: []
@@ -51,7 +52,7 @@ labels:
   - meetings
   - comms
 attention: null
-version: 11
+version: 12
 ---
 
 ## Problem
