@@ -4,7 +4,7 @@ title: "Quality checks: quantity-graded check (qty per grade, weighted average, 
 type: feature
 state: review
 created: 2026-07-22T11:02:37Z
-updated: 2026-07-23T08:35:11Z
+updated: 2026-07-23T08:50:37Z
 project: stock-management-development
 section: null
 parent: null
@@ -101,7 +101,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-23T08:35:11Z
-version: 13
+version: 14
 ---
 
 ## Source
@@ -194,3 +194,14 @@ Next: Phase 2 — bigger entry modal + save.
 **Delivery:** working-tree only (no commit/push, per project policy) — Zsolt runs the DDL and deploys.
 
 **2026-07-23 08:35 claude-code:** Run run-20260723-0536 completed — Reworked the product quality check so it's now a full snapshot of stock condition instead of a single 1–10 score. When someone runs a check, the system records how many units are at each grade (Good as new / Good / OK / Needs replacing) with up to three optional photos per grade and one note, and it captures the total stock count at that moment. The overall score is a quantity-weighted average of the graded units, and anything not looked at shows as "Unchecked" — so a check can be done partially. The Quality tab's summary tiles now reflect the most recent check (average score, how much was checked vs unchecked, current stock with a flag if it has changed since the check, and who checked it, plus a running total of all checks). Clicking a check opens a clear visual breakdown with a grade-distribution bar and the photos. Checks can be edited, deactivated (kept as history) and deleted. Saving a new check automatically retires the previous one so there's one current check at a time. Why: Ben asked to grade stock by quantity at each condition level rather than one blanket score, giving a far more accurate and actionable picture of a product's real condition. Without it, a single number hid how much stock was actually good vs needing replacement. Existing older single-score checks are preserved as history.
+
+**2026-07-23 08:50 claude-code:** **2026-07-23 — Post-review follow-ups (working tree, lint clean):**
+
+- **Photo-count indicator:** each grade's photo picker now shows "N files selected" as you choose (Add + Edit modals), turning red with "— max 3" if you overshoot.
+- **Photo limit hardened to 3 per grade at every layer** (was: client error on save + server *silently* capping to 3):
+  - **Live:** the Save button now disables (with a red message) the moment any grade would exceed 3 photos — counting kept existing + newly selected in the Edit modal — alongside the existing graded-over-stock guard.
+  - **Click-time:** the SweetAlert block on save remains.
+  - **Server:** both save and edit now **hard-reject** with a 400 if a grade exceeds 3, instead of silently dropping the extras.
+- **Modal header fix:** opening "Add Check" now reads **"Add Quality Check"** (previously mislabelled "Edit Quality Check"); the Edit modal still reads "Edit Quality Check".
+
+Note for review: these touch the same two files already in scope (StockController.php, view-product-info.php) — no new files.
