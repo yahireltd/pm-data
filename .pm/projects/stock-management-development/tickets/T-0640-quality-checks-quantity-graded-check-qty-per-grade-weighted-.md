@@ -4,7 +4,7 @@ title: "Quality checks: quantity-graded check (qty per grade, weighted average, 
 type: feature
 state: in_progress
 created: 2026-07-22T11:02:37Z
-updated: 2026-07-23T05:36:35Z
+updated: 2026-07-23T06:06:12Z
 project: stock-management-development
 section: null
 parent: null
@@ -59,7 +59,7 @@ labels:
   - quality-management
   - stock
 attention: null
-version: 10
+version: 11
 ---
 
 ## Source
@@ -127,3 +127,8 @@ Reworks the check entry from **T-0637** (photos per check → per grade) and **T
 All open questions resolved — acceptance criteria finalised above. Ticket is fully specced and build-ready.
 
 **2026-07-22 11:50 claude-code:** **Tiles locked (Option A + small Total Checks):** four wide tiles — **Average Score** (weighted, latest) · **Checked** (graded / unchecked vs snapshot) · **Stock Now** (live, flags drift from snapshot) · **Last Check** (date + who) — plus **one small tile for Total Checks** at the end. Drops the old *Last 3 Months Score*. Layout: 4 × `flex:1` + one narrow fixed-width tile. AC #4 updated.
+
+**2026-07-23 06:06 claude-code:** **Build started (run-20260723-0536). Phase 1/6 — data + models — done (working tree, lint clean).**
+- DDL `sql/stock_quality_check_qty_graded.sql`: `totalStock` on `stock_quality_checks` + new `stock_quality_check_grades` + `stock_quality_check_grade_photos`. Legacy checks untouched.
+- New models `StockQualityCheckGrade`, `StockQualityCheckGradePhoto`; `StockQualityCheck` gains `totalStock`, `gradeRows`/`gradePhotos` relations, and `gradedQty()`/`uncheckedQty()`/`weightedScore()` helpers.
+Next: Phase 2 — bigger entry modal + save.
