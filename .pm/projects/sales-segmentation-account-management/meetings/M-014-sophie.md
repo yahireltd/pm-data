@@ -2,9 +2,9 @@
 id: M-014
 slug: sophie
 title: Sophie
-state: scheduled
+state: held
 created: 2026-07-23T12:42:04Z
-updated: 2026-07-23T14:34:10Z
+updated: 2026-07-23T14:34:15Z
 scheduled_at: 2026-07-23T13:45:00Z
 duration_minutes: 30
 location: TBD
@@ -58,7 +58,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: progress
-version: 6
+version: 7
 ---
 
 # Sophie
