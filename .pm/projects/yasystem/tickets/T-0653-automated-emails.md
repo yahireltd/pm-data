@@ -5,7 +5,7 @@ type: feature
 state: review
 priority: p2
 created: 2026-07-23T14:37:31Z
-updated: 2026-07-23T15:30:51Z
+updated: 2026-07-23T16:55:15Z
 project: yasystem
 section: null
 parent: null
@@ -57,7 +57,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-23T15:30:51Z
-version: 8
+version: 9
 ---
 
 Hi Austin,
@@ -101,3 +101,13 @@ Please feel free to contact us if you have any queries”
 **2026-07-23 15:30 claude:** Run run-20260723-1438 completed — Built the reusable automated-email framework for logistics and the first email — "No Legal Parking" — scoped per Austin to just that template for now. Email wording now lives in the database, editable on a new Logistics → Automated Emails page, so customer service can revise it any time without a developer; every template has a "Send test to me" button that emails the staff member a true-to-life render (real order number, name and time window) so formatting can be checked before anything goes near a customer. Real sends always carry the order number in the subject for later searching, are sent from logistics@yahire.com, and are logged against the contract in the same audit trail as other customer emails.
 
 The driver-app trigger needs NO app update: the app fetches its issue list from the server, so a new "Parking → No legal parking" issue was seeded, and logging it automatically emails the customer — with two safety layers: the template ships DISABLED (drivers can log the issue immediately, but no customer email goes out until it's enabled on the new page after wording review), and an email problem can never break the driver's sync. The trigger mechanism is generic — any future issue option can be wired to any template by setting one field, no code. Failed-job scenario emails and a run-planner button were deliberately deferred per Austin's scoping.
+
+**2026-07-23 16:55 claude-code:** **Revisions per Austin + full deployment (23 Jul):**
+
+1. **Parking is a standalone button, not an issue type.** The seeded Parking issue was removed; the driver app instead gets dedicated endpoints: POST /api/drivers/customer-email {runContractId, templateKey} (app confirms, then sends immediately) and GET /api/drivers/customer-email-status (so the app can grey the button). The app-side button itself is app-team work — server contract is ready.
+
+2. **No-spam rule is once per JOB** (contract + movement): the delivery and the collection each get one send — parking trouble at delivery usually repeats at collection. Tracked as separate send-log events ("Logistics: No Legal Parking (Delivery)"/"(Collection)"); repeat attempts get a named refusal; a genuine mail failure withdraws the log entry so retries aren't permanently blocked.
+
+3. **Run-planner trigger added**: job-row buttons slimmed (Contract / Split / Call / Comment / PDF) and a new amber "Emails" dropdown with Parking as the first option (failed-job + 15-minute emails to join later). Confirm dialog, immediate send, same service and gates as the driver button — so the once-per-job rule holds across both surfaces.
+
+**Deployed to the routing test box AND live**; both migrated. The template remains DISABLED everywhere — test sends work for wording review, real sends refuse with a named reason until it's enabled on Logistics → Automated Emails. Also shipped alongside: the sandbox nightly refresh now preserves auth_assignment (test-box access grants survive; re-grant yesterday's tester once, tonight onward it sticks).
