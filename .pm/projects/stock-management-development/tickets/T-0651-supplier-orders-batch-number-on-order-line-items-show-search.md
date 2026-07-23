@@ -4,7 +4,7 @@ title: "Supplier orders: batch number on order line items (+ show/search)"
 type: feature
 state: triaged
 created: 2026-07-23T10:58:21Z
-updated: 2026-07-23T10:58:21Z
+updated: 2026-07-23T12:55:16Z
 project: stock-management-development
 section: null
 parent: null
@@ -37,7 +37,8 @@ code_anchors:
     note: "order-items table — add a Batch # column"
   - path: ya-hire/backend/views/stock/all-orders.php
     note: "order-items table — add Batch # column; include batch in the quick-search data-search string"
-relates: []
+relates:
+  - T-0652
 blocks: []
 blocked_by: []
 duplicates: []
@@ -49,7 +50,7 @@ labels:
   - stock
   - quality-management
 attention: null
-version: 1
+version: 2
 ---
 
 ## Problem

@@ -4,7 +4,7 @@ title: 'Suppliers: "View all orders" button → filtered consolidated orders lis
 type: feature
 state: review
 created: 2026-07-14T05:35:20Z
-updated: 2026-07-23T11:47:29Z
+updated: 2026-07-23T12:55:24Z
 project: stock-management-development
 section: null
 parent: null
@@ -34,7 +34,8 @@ code_anchors:
     note: suppliers page — add 'View all orders' button at top next to 'Add Supplier' (~L24).
   - path: ya-hire/backend/views/stock/all-orders.php
     note: NEW page — filter bar (status/supplier/date/order#) + consolidated orders table with expandable line-item rows, grouped by status priority.
-relates: []
+relates:
+  - T-0652
 blocks: []
 blocked_by: []
 duplicates: []
@@ -58,7 +59,7 @@ attention:
     6. Cross-check: open the SAME order on the supplier-view page and confirm the expanded detail looks the same, and that the Product column there now shows (previously blank — bug fixed in _supplier-order-panel.php; re-check the supplier-view orders section still renders/edits fine).
     7. Confirm existing per-supplier order handling on supplier-view is unchanged (add order, add item, status update, delete).
   since: 2026-07-23T11:18:51Z
-version: 8
+version: 10
 ---
 
 ## Source
@@ -131,3 +132,5 @@ Beyond the original scope, gave both pages a design refresh and a stats layer:
 Files touched: `StockController.php`, `views/stock/suppliers.php`, `views/stock/all-orders.php`. Still working-tree only per project policy.
 
 Note: a **batch-number** follow-up (T-0651) remains parked to do next.
+
+**2026-07-23 12:55 claude-code:** **2026-07-23 — The broader UI modernisation (Suppliers + Supplier View pages, modal conversions, shared stat helper) has been split out to its own ticket T-0652** so this one stays scoped to the "View all orders" feature. T-0557's own work (the All Orders page + its stat/filter cards) is unchanged and still in review. See T-0652 for the full done/remaining list.
