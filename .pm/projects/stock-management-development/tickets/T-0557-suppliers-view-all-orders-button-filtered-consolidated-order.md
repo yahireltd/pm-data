@@ -4,7 +4,7 @@ title: 'Suppliers: "View all orders" button → filtered consolidated orders lis
 type: feature
 state: in_progress
 created: 2026-07-14T05:35:20Z
-updated: 2026-07-14T06:31:26Z
+updated: 2026-07-23T09:38:33Z
 project: stock-management-development
 section: null
 parent: null
@@ -26,12 +26,14 @@ acceptance_criteria:
   - Existing per-supplier order handling is unchanged; this is an additional cross-supplier view.
 out_of_scope: []
 code_anchors:
-  - path: ya-hire/backend/views/stock/suppliers.php
-    note: suppliers page — add the 'View all orders' button
+  - path: ya-hire/common/models/StockSupplierOrders.php
+    note: "the placed-orders model (table stock_supplier_orders) — status values Pending/Ordered/In Transit/Received/Cancelled; supplier FK, order_date, arrival_date, totals. Line items: StockSupplierOrderItems (stock_supplier_order_items)."
   - path: ya-hire/backend/controllers/StockController.php
-    note: actionSuppliers (~L8345) — add a consolidated-orders action + filter query
-  - path: ya-hire/backend/views/stock/upcoming-stock.php
-    note: current source of order/upcoming data — where placed orders live today
+    note: actionSuppliers (~L8507) renders the suppliers page; add new actionAllOrders() (consolidated filtered list). serializeSupplierOrder() + order status options + colour map already exist to reuse.
+  - path: ya-hire/backend/views/stock/suppliers.php
+    note: suppliers page — add 'View all orders' button at top next to 'Add Supplier' (~L24).
+  - path: ya-hire/backend/views/stock/all-orders.php
+    note: NEW page — filter bar (status/supplier/date/order#) + consolidated orders table with expandable line-item rows, grouped by status priority.
 relates: []
 blocks: []
 blocked_by: []
@@ -43,7 +45,7 @@ labels:
   - orders
   - stock
 attention: null
-version: 3
+version: 5
 ---
 
 ## Source
@@ -58,3 +60,22 @@ The bigger single **"Orders" management page / product-decision board** (edit-in
 ## Open questions (confirm on pickup)
 - Where "orders" live today (upcoming-stock vs a supplier-orders table) and their status values.
 - Which filters matter most (status / supplier / date).
+
+## Conversation
+
+**2026-07-23 09:38 claude-code:** **2026-07-23 — Open questions resolved + build decisions (Zsolt):**
+
+**Where orders live:** `stock_supplier_orders` (model `StockSupplierOrders`) + line items in `stock_supplier_order_items`, linked to `stock_suppliers`. NOT upcoming-stock (that page is a separate stock-forecasting tool and holds no placed orders) — correcting that code-anchor.
+
+**Status values (fixed):** Pending · Ordered · In Transit · Received · Cancelled (colours already defined in `_supplier-order-panel.php`).
+
+**Decisions:**
+- **Presentation:** a dedicated new page (`/stock/all-orders`) opened by the button — not a modal/inline section.
+- **Order detail:** expandable rows (click a row to reveal its line items inline).
+- **Filters:** all four — Status, Supplier, Date range (order date From/To), and Search by order number.
+- **Grouping/sort:** status priority **In Transit → Ordered → Pending → Received → Cancelled**, newest first within each.
+- **Filtering mechanism:** server-side via a GET form (bookmarkable URL); row expand is client-side.
+- **Button:** top of the Suppliers page next to "Add Supplier".
+- **Permissions:** gate with the same access as the Suppliers page.
+
+Out of scope (stays in the spike): the bigger single "Orders" management page / decision board, edit-in-place, merging with upcoming/buffer. This ticket = button + filtered read-only list only.
