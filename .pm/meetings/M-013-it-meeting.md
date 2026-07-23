@@ -4,7 +4,7 @@ slug: it-meeting
 title: IT Meeting
 state: held
 created: 2026-07-15T15:42:18Z
-updated: 2026-07-22T14:22:45Z
+updated: 2026-07-23T07:52:52Z
 scheduled_at: 2026-07-22T11:00:00Z
 duration_minutes: 30
 location: IT Office
@@ -79,6 +79,7 @@ outcomes:
     owner:
       kind: human
       name: Austin
+    follow_up_ticket: T-0650
   - description: Automate certificate renewals (currently manual — saves a few hours each quarter).
     recorded_at: 2026-07-22T14:22:04Z
     owner:
@@ -143,7 +144,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: other
-version: 18
+version: 19
 reminders: []
 recurrence:
   unit: week
