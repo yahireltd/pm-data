@@ -26,7 +26,7 @@ id_counters:
       tech_session: 2
       status_note: 2
     org:
-      meeting: 17
+      meeting: 18
       pre_project: 13
     stock-predictions-engine:
       milestone: 16
