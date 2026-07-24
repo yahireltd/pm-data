@@ -4,7 +4,7 @@ title: "Supplier orders: batch number on order line items (+ show/search)"
 type: feature
 state: in_progress
 created: 2026-07-23T10:58:21Z
-updated: 2026-07-24T08:05:06Z
+updated: 2026-07-24T08:10:52Z
 project: stock-management-development
 section: null
 parent: null
@@ -62,13 +62,36 @@ agent_runs:
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-07-24T08:05:06Z
+    progress:
+      - at: 2026-07-24T08:10:52Z
+        note: |-
+          Built the full batch-number feature incl. edit-on-existing (working tree, all files php -l clean). No commit per policy.
+
+          Data: new `sql/stock_supplier_order_items_batch_number.sql` — ALTER adds `batch_number VARCHAR(50) NULL` after `description`. **User runs it once** (legacy rows stay NULL).
+
+          Model (StockSupplierOrderItems): batch_number added to @property, rules (string max 50), attributeLabels ('Batch #'), and beforeSave ('' -> null).
+
+          Controller (StockController):
+          - serializeSupplierOrder now includes batch_number in each item payload (feeds the Edit Order modal table).
+          - actionSupplierAddOrderItem needed NO change — it load()s the model, so batch saves automatically now it's a safe rule (covers both add forms).
+          - NEW actionSupplierUpdateOrderItemBatch — validates the item belongs to the supplier, sets batch (blank->null), save(false, ['batch_number']), returns orderPanelHtml + orderId + serialized order (same shape as delete-order-item) so panel + modal both refresh.
+
+          Views:
+          - _supplier-order-panel.php + all-orders.php: Batch # column (after Product) in the order-items tables; all-orders also adds batch to each row's data-search so quick-search matches batch numbers.
+          - supplier-view.php: Batch # input on BOTH add forms (header order-item-form + in-Edit-Order modal-order-item-form); Batch # column in the edit-order items table; renderOrderItemsTable renders the Batch cell as an inline <input> pre-filled from item.batch_number; new delegated change handler on .modal-order-item-batch posts to updateOrderItemBatch (wired into supplierAjaxConfig) and refreshes on save. Column widths rebalanced in all three tables.
+
+          TWO MANUAL STEPS before it works for everyone:
+          1. Run the SQL (adds the column).
+          2. RBAC: stock/* is gated by mdm/admin AccessControl (not in allowActions), so the new route `stock/supplier-update-order-item-batch` must be registered + granted to the same role(s) as stock/suppliers / stock/supplier-add-order-item, else non-superadmins 403. (Superusers work immediately.)
+
+          Not yet verified live (needs the column + auth). Add/existing-edit paths + quick-search covered in the test plan.
 labels:
   - suppliers
   - orders
   - stock
   - quality-management
 attention: null
-version: 5
+version: 6
 ---
 
 ## Problem
