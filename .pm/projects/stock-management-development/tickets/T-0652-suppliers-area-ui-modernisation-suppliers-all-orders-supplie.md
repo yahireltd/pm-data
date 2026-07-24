@@ -2,9 +2,9 @@
 id: T-0652
 title: Suppliers area UI modernisation (Suppliers, All Orders, Supplier View)
 type: chore
-state: in_progress
+state: review
 created: 2026-07-23T12:55:09Z
-updated: 2026-07-24T05:43:22Z
+updated: 2026-07-24T05:51:13Z
 project: stock-management-development
 section: null
 parent: null
@@ -49,7 +49,7 @@ agent_runs:
   - id: run-20260724-0427
     model: claude-opus-4-8
     started: 2026-07-24T04:27:38Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: Stock-Management-Development
       branch_source: project
@@ -112,13 +112,48 @@ agent_runs:
           Behaviour unchanged — same edit-*/delete-* classes, data-* attrs, and inline onclick. All touched files php -l clean.
 
           Ticket: items 1,2,3 done; item 4 (Edit Item modal help-text) still open.
+    ended: 2026-07-24T05:51:13Z
+    summary: |-
+      Finished modernising the suppliers area so the Suppliers, Supplier View and All Orders screens all look like one consistent purchasing dashboard instead of three differently-styled pages. In this run we tackled the last rough edges on the Supplier View screen: the dated per-order boxes were rebuilt as clean cards with a colour-coded status stripe; the Contacts and Supplier Items lists were given the same tidy modern table style as everywhere else; the little Edit/Delete controls on each row became proper buttons that match the rest of the page (same size, shape and right-hand placement); the Supplier Items list was re-proportioned so long supplier product descriptions have room to show; a couple of summary tiles that were showing blank icons (Orders, Delivered, Open Orders) now show their icons again; and the "Edit Item" pop-up help text was reworded to match the "Link Product" pop-up so staff aren't given two slightly different explanations of the same thing.
+
+      Why it matters: the suppliers area is used daily to check orders and manage supplier products. The inconsistent styling and the blank icons made it look unfinished and made a few things (like long product references) harder to read. Left as-is it would have stayed visually disjointed and slightly confusing; now it reads as one coherent, polished area. No data, permissions or behaviour changed — this is presentation only.
+    test_plan: |-
+      All changes are visual/copy only, working tree, no schema or behaviour changes. Verify on the **Supplier View** page for a supplier that has orders, contacts and linked items (plus a quick cross-check of Suppliers and All Orders).
+
+      1. **Order panels (Supplier View → Orders):**
+         - Each order shows as a white rounded card with a left colour stripe matching its status (Pending=amber, Ordered=blue, In Transit=teal, Received=green, Cancelled=red).
+         - Header shows chevron + bold order number + a status pill, with Ordered/Arrival dates; an "Edit Order" pill sits on the right.
+         - Click the header → it expands to a labelled summary (Order Date / Arrival / Subtotal / Grand Total), Notes (if any), and a clean borderless Order Items table. Click again → collapses; chevron flips.
+         - Click "Edit Order" → the edit modal opens (it must NOT also toggle the collapse). Change something and save → the panel re-renders in the new style. Add an order item and delete an order item from the modal → panel re-renders correctly each time.
+
+      2. **Contacts + Supplier Items tables:** both render in the new borderless + hover style (no heavy gridlines/zebra). Headers are the small grey uppercase labels.
+
+      3. **Row Edit/Delete buttons:** text-only "Edit" (blue) / "Delete" (red) pills, right-aligned in the Actions column, and the SAME height as the header buttons (Add Contact, Link Product, Create Order, Add Order Item, Edit Supplier).
+         - Contacts: Edit opens the contact modal pre-filled; Delete asks to confirm then removes the row.
+         - Items: Edit opens the item modal pre-filled; Delete asks to confirm then removes the row.
+         - Add a new contact and a new item → the freshly inserted rows show the same new pill buttons (they're AJAX-rendered from the same partials).
+
+      4. **Supplier Items columns:** Supplier Reference has more width now; long descriptions/SKUs wrap less. Product/Price/Actions still readable.
+
+      5. **Stat-card icons (previously blank):** Supplier View "Orders" and "Delivered" tiles show icons; the "Edit Supplier" button shows a pencil. On the **Suppliers** page, "Open Orders" (folder) and "Delivered" (check) tiles show icons. On **All Orders**, the "Delivered" tile shows an icon. (Root cause was FontAwesome outline `-o` glyphs needing a font weight that isn't loaded; swapped to solid.)
+
+      6. **Edit Item modal copy:** open the pencil on a Supplier Item → the help text under "Link to YA Product (optional)" now reads like the Link Product modal ("Optional — link… Not a YA product? Leave this blank; the Supplier Reference below is what identifies the item."), not the old "rely on the supplier reference below".
+
+      7. **Cross-impact:** the order panel markup is shared (`partials/_supplier-order-panel.php`) and is also re-rendered by StockController over AJAX (add/update/delete order, delete order-item) — all covered in step 1. The row partials (`_supplier-contact-row.php`, `_supplier-item-row.php`) are used both on initial load and after AJAX add — covered in step 3. No controller/model changes.
+    records:
+      docs: none-needed
+      tech_session: none-needed
+      status_note: none-needed
 labels:
   - suppliers
   - orders
   - stock
   - ui
-attention: null
-version: 8
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-24T05:51:13Z
+version: 9
 ---
 
 ## Goal
@@ -140,3 +175,9 @@ All read-only / layout only. **No schema changes.** Working-tree only (no commit
 
 ## Source
 Chat 23 Jul (Zsolt) — iterative design pass alongside T-0557.
+
+## Conversation
+
+**2026-07-24 05:51 claude-code:** Run run-20260724-0427 completed — Finished modernising the suppliers area so the Suppliers, Supplier View and All Orders screens all look like one consistent purchasing dashboard instead of three differently-styled pages. In this run we tackled the last rough edges on the Supplier View screen: the dated per-order boxes were rebuilt as clean cards with a colour-coded status stripe; the Contacts and Supplier Items lists were given the same tidy modern table style as everywhere else; the little Edit/Delete controls on each row became proper buttons that match the rest of the page (same size, shape and right-hand placement); the Supplier Items list was re-proportioned so long supplier product descriptions have room to show; a couple of summary tiles that were showing blank icons (Orders, Delivered, Open Orders) now show their icons again; and the "Edit Item" pop-up help text was reworded to match the "Link Product" pop-up so staff aren't given two slightly different explanations of the same thing.
+
+Why it matters: the suppliers area is used daily to check orders and manage supplier products. The inconsistent styling and the blank icons made it look unfinished and made a few things (like long product references) harder to read. Left as-is it would have stayed visually disjointed and slightly confusing; now it reads as one coherent, polished area. No data, permissions or behaviour changed — this is presentation only.
