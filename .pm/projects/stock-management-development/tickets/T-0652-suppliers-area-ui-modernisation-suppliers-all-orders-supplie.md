@@ -4,7 +4,7 @@ title: Suppliers area UI modernisation (Suppliers, All Orders, Supplier View)
 type: chore
 state: in_progress
 created: 2026-07-23T12:55:09Z
-updated: 2026-07-24T04:27:38Z
+updated: 2026-07-24T04:46:43Z
 project: stock-management-development
 section: null
 parent: null
@@ -56,13 +56,28 @@ agent_runs:
       allow_commit: false
       allow_push: false
       acknowledged_at: 2026-07-24T04:27:38Z
+    progress:
+      - at: 2026-07-24T04:46:43Z
+        note: |-
+          Remaining item 3 (modernise individual order panels) done — working tree, lint clean.
+
+          Rewrote `partials/_supplier-order-panel.php` from the old status-tinted Bootstrap `panel panel-default` into a modern card matching the All Orders aesthetic:
+          - White card, rounded, soft shadow, left status-colour stripe (::before) instead of a fully-tinted heading.
+          - Clean clickable header: chevron caret + bold order number + status pill (tinted with the status colour); dates shown as small labelled Ordered/Arrival; Edit Order button restyled to the shared `sv-hbtn sv-hbtn-edit` pill (also knocks out part of remaining item 2).
+          - Expanded body: labelled summary strip (Order/Arrival/Subtotal/Grand Total), notes, and a borderless + hover Order Items table (`.svo-items`) replacing `table-bordered table-condensed`.
+
+          Preserved every JS contract: root `#order-panel-<id>` + `.supplier-order-panel` class (count + replaceWith), `.edit-order-btn` data-order/data-supplier (+ stopPropagation), `.panel-collapse` with `data-order-id`, and `#order-collapse-icon-<id>` chevron toggle. Same partial is AJAX-injected by StockController (add/update/delete order + delete order-item), so all those paths get the new look with no controller change.
+
+          Replaced the old `.order-panel-heading` / `.order-heading-*` / unused `.panel-heading-purple` CSS in supplier-view.php with the new `.svo-*` styles. Both files `php -l` clean; grep confirms no stray references to the removed classes.
+
+          Still open on this ticket: item 1 (Contacts + Items tables → borderless+hover), item 2 (row Edit/Delete buttons → pill style), item 4 (Edit Item modal help-text copy).
 labels:
   - suppliers
   - orders
   - stock
   - ui
 attention: null
-version: 4
+version: 5
 ---
 
 ## Goal
