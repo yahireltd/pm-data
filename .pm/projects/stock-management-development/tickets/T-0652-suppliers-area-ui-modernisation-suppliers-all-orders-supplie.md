@@ -4,7 +4,7 @@ title: Suppliers area UI modernisation (Suppliers, All Orders, Supplier View)
 type: chore
 state: in_progress
 created: 2026-07-23T12:55:09Z
-updated: 2026-07-24T05:15:45Z
+updated: 2026-07-24T05:43:22Z
 project: stock-management-development
 section: null
 parent: null
@@ -86,13 +86,39 @@ agent_runs:
           All 5 touched files `php -l` clean. No schema/behaviour changes.
 
           Remaining on this ticket: item 4 only (Edit Item modal help-text copy alignment).
+      - at: 2026-07-24T05:38:54Z
+        note: |-
+          Review-feedback tweaks from Zsolt (screenshots) — working tree, lint clean.
+
+          1. Row Edit/Delete pills made compact: added `.sv-row-actions .sv-hbtn { padding:3px 9px; font-size:11px; gap:5px; }` so row actions are smaller than the header pills.
+          2. Supplier Items column widths rebalanced (Product was crowding Supplier Reference into a wrap): Product 40%→24%, Supplier Reference 20%→46%, Price 15%→10%, Actions 10%→20%.
+          3. Fixed blank stat-card / button icons across the whole suppliers area — root cause: FontAwesome outline (`-o`) glyphs need the regular-weight font, which isn't loaded (only solid is), so they rendered empty. Swapped to solid variants:
+             - supplier-view: Orders `fa-file-text-o`→`fa-file-text`, Delivered `fa-check-circle-o`→`fa-check-circle`, Edit Supplier button `fa-pencil-square-o`→`fa-pencil`.
+             - all-orders: Delivered `fa-check-circle-o`→`fa-check-circle`.
+             - suppliers: Open Orders `fa-folder-open-o`→`fa-folder-open`, Delivered `fa-check-circle-o`→`fa-check-circle`.
+             Grep confirms zero `-o` outline icons remain across the three pages + partials.
+
+          Touched: suppliers.php, supplier-view.php, all-orders.php (+ the two row partials earlier). All `php -l` clean. No schema/behaviour changes.
+
+          Ticket status: items 1, 2, 3 done; item 4 (Edit Item modal help-text copy) still open.
+      - at: 2026-07-24T05:43:22Z
+        note: |-
+          Row-button follow-up (Zsolt): match the Suppliers-page .sp-btn exactly + right-align + narrower Actions.
+
+          - Row Edit/Delete buttons: removed the fa icons (the icon width was what made them read bigger than the reference) and set `.sv-row-actions .sv-hbtn { display:inline-block; padding:5px 12px; font-size:12px; }` to mirror `.sp-btn` exactly. Colours already matched (sv-hbtn-edit == sp-btn-view, sv-hbtn-del == sp-btn-del). Now text-only "Edit"/"Delete", identical to the Suppliers page.
+          - Right-aligned: `.sv-row-actions` → justify-content:flex-end; both row partials' Actions `<td>` and both tables' Actions `<th>` switched text-center → text-right.
+          - Supplier Items columns: Actions 20%→14%, Supplier Reference 46%→52% (Product 24%, Price 10% unchanged) so long SKUs get more room.
+
+          Behaviour unchanged — same edit-*/delete-* classes, data-* attrs, and inline onclick. All touched files php -l clean.
+
+          Ticket: items 1,2,3 done; item 4 (Edit Item modal help-text) still open.
 labels:
   - suppliers
   - orders
   - stock
   - ui
 attention: null
-version: 6
+version: 8
 ---
 
 ## Goal
