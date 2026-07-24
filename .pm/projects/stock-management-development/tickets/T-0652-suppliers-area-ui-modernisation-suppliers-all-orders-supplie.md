@@ -2,9 +2,9 @@
 id: T-0652
 title: Suppliers area UI modernisation (Suppliers, All Orders, Supplier View)
 type: chore
-state: triaged
+state: in_progress
 created: 2026-07-23T12:55:09Z
-updated: 2026-07-23T12:55:16Z
+updated: 2026-07-24T04:27:38Z
 project: stock-management-development
 section: null
 parent: null
@@ -16,7 +16,9 @@ reporter:
   kind: human
   name: Zsolt
   channel: chat 23 Jul
-assignee: null
+assignee:
+  kind: agent
+  name: claude-code
 acceptance_criteria:
   - Suppliers, All Orders and Supplier View pages share a consistent modern card design (rounded cards, soft shadow, clean headers).
   - Purchasing stat cards on Suppliers + All Orders (+ per-supplier on Supplier View); order cards link through to All Orders with the right filter (status / overdue / supplier).
@@ -43,14 +45,24 @@ blocks: []
 blocked_by: []
 duplicates: []
 duplicate_of: null
-agent_runs: []
+agent_runs:
+  - id: run-20260724-0427
+    model: claude-opus-4-8
+    started: 2026-07-24T04:27:38Z
+    status: in_progress
+    policy_ack:
+      branch: Stock-Management-Development
+      branch_source: project
+      allow_commit: false
+      allow_push: false
+      acknowledged_at: 2026-07-24T04:27:38Z
 labels:
   - suppliers
   - orders
   - stock
   - ui
 attention: null
-version: 2
+version: 4
 ---
 
 ## Goal
