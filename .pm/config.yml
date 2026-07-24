@@ -17,7 +17,7 @@ id_counters:
     pm-tool-self:
       decision: 50
       status_note: 8
-      tech_session: 18
+      tech_session: 19
       sprint: 39
       meeting: 6
       milestone: 18

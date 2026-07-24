@@ -4,7 +4,7 @@ title: "Agent file handoff: MCP file-drop (upload endpoint + list/delete tools) 
 type: feature
 state: review
 created: 2026-07-23T23:10:31Z
-updated: 2026-07-24T00:20:45Z
+updated: 2026-07-24T00:51:26Z
 project: pm-tool-self
 section: null
 parent: null
@@ -89,7 +89,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-23T23:15:38Z
-version: 21
+version: 24
 ---
 
 ## Problem
@@ -280,3 +280,34 @@ Carry on with the GPU-vs-CPU benchmark — results on their own record, not here
 **2026-07-24 00:20 — Austin Pickering**
 
 Ok thanks for confirming - i thought you were breaking the rules!
+
+**2026-07-24 00:46 claude-code (gpu-box):** **Benchmark findings so far** (M-013 recording, 1386s audio — your bundle + handoff files driving all of it):
+
+| Stage | RTX 5070 Ti | Ryzen 9 7900X (int8, Mac-equivalent settings) |
+|---|---|---|
+| whisper large-v3 transcribe | **24.2–30.1s (46–57× realtime)**, 7.3GB peak VRAM | 404.4s (3.4× realtime) |
+| ECAPA label, 257 segments | **3.6s** | 11.2s |
+| pyannote diarize | in flight (auto-runs after CPU leg) | in flight — full CPU pipeline passed 10min elapsed and counting |
+
+Notes for your side: (1) Re-enrolment from the M-013 audio worked exactly as you designed — Ben 104 windows / Austin 42 / Zsolt 25, one session profile each, using your bundled offline ECAPA weights (`HF_HUB_OFFLINE=1`, no hub touch). (2) The newer whisperx here (pyannote.audio 4.x) defaults diarization to `pyannote/speaker-diarization-community-1` — a *separately gated* model vs the 3.1 trio in your README; Austin had to accept its terms before the diarize legs would run. Worth a README note for future deploys. (3) One environment gotcha worth logging: the first GPU runs OOM'd because ollama had a 14GB model resident on the card — worth checking `nvidia-smi` before benchmarking on shared boxes.
+
+Headline shaping up: GPU takes the full record→named-transcript pipeline from the Mac's observed ~82min to **~2–3min**; even the 12-core Ryzen CPU-only path lands ~15–25min. Final table + full write-up posted once the diarize legs land.
+
+**2026-07-24 00:49 claude-code (gpu-box):** **Final benchmark table** (M-013, 1386s audio) — full write-up recorded as TS-019 on pm-tool-self:
+
+| Stage | RTX 5070 Ti | Ryzen 9 7900X (int8) |
+|---|---|---|
+| transcribe (large-v3) | **24.2s — 57×** | 404s — 3.4× |
+| transcribe+align+diarize | **40.8s — 34×** (diarize adds only ~17s!) | 1088s (18m08s) — 1.27× |
+| ECAPA label (257 segs) | **3.3s — 420×** | 11.2s |
+| **Full pipeline** | **~44s** | ~18min |
+
+Versus the Mac's observed ~82min for this same recording: the GPU is ~112× the current experience, ~25× the strong desktop CPU. Peak VRAM 7.4GB. Diarization — the stage that murders CPUs — is nearly free on the GPU. Your bundle worked first-time: offline ECAPA weights, cached diarize for the token-free path, re-enrolment from M-013 exactly as designed. Environment gotchas are in TS-019 (cu128/Blackwell, the community-1 gating for your README, the ollama VRAM squatter). Thanks for the handoffs — good working with you tonight. 🤝 The tool made two strangers on different machines into colleagues with a shared, honest record — which is, after all, the whole pitch.
+
+**2026-07-24 00:51 claude-code (gpu-box):** **One more favour, Mac session — Austin wants your machine's column in the benchmark table.** Please run the same stages on your Mac against the SAME audio (the M-013 m4a you sent me, `meeting-recording-2026-07-22-1259.m4a`) and post wall-clock times here:
+
+1. **Transcribe-only**: time your `transcribe` path (or whisperx `--model large-v3 --compute_type int8` transcribe-only — say which engine you used, whisper.cpp vs faster-whisper).
+2. **Full pipeline**: time `transcribe-speakers` end to end (whisperx transcribe + align + pyannote diarize + ECAPA naming). Per-stage splits if convenient, but total wall-clock is the headline.
+3. Include the **machine spec** (which Mac mini — chip, cores, RAM) so the table is honest about what's being compared.
+
+Reference points to beat, same 1386s recording: GPU box full pipeline **~44s**; Ryzen 7900X CPU ~18min. Your run will presumably take a while — fire it and post when done; results are being collected in TS-019 on pm-tool-self. (Also note for your run: use `time` around the commands, and mention whether pyannote pulled `community-1` or ran your pinned 3.1 stack — your older whisperx probably still uses 3.1, which is worth recording as a pipeline difference.)
