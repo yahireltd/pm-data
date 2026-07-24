@@ -4,7 +4,7 @@ title: Suppliers area UI modernisation (Suppliers, All Orders, Supplier View)
 type: chore
 state: in_progress
 created: 2026-07-23T12:55:09Z
-updated: 2026-07-24T04:46:43Z
+updated: 2026-07-24T05:15:45Z
 project: stock-management-development
 section: null
 parent: null
@@ -71,13 +71,28 @@ agent_runs:
           Replaced the old `.order-panel-heading` / `.order-heading-*` / unused `.panel-heading-purple` CSS in supplier-view.php with the new `.svo-*` styles. Both files `php -l` clean; grep confirms no stray references to the removed classes.
 
           Still open on this ticket: item 1 (Contacts + Items tables → borderless+hover), item 2 (row Edit/Delete buttons → pill style), item 4 (Edit Item modal help-text copy).
+      - at: 2026-07-24T05:15:45Z
+        note: |-
+          Remaining items 1 & 2 done — working tree, lint clean.
+
+          Item 1 (Contacts + Supplier Items tables → borderless+hover):
+          - Both `#supplier-contacts-table` and `#supplier-items-table` changed from `table table-bordered table-striped` to a new `sv-table` class.
+          - Extended the existing `.svo-items` CSS selectors to also cover `.sv-table` (one shared borderless+hover definition: uppercase label header row, thin `#f0f2f4` row dividers, subtle `#f7f9fb` hover, no grid lines) — so the two panel tables and the order-items table now read as one system.
+
+          Item 2 (row Edit/Delete buttons → pill style; Edit Order button already done in the panel pass):
+          - Converted the bare `fa-pen-to-square`/`fa-trash-xmark` icon actions in `partials/_supplier-contact-row.php` and `partials/_supplier-item-row.php` into text pills: `sv-hbtn sv-hbtn-edit` ("Edit", blue) + new `sv-hbtn-del` ("Delete", red), wrapped in a centered `.sv-row-actions` flex span. Added `.sv-hbtn-del` (red soft pill matching the suppliers page `.sp-btn-del`) and `.sv-row-actions` to supplier-view.php CSS.
+          - Preserved every JS hook: classes `edit-supplier-contact`/`delete-supplier-contact`/`edit-supplier-item`/`delete-supplier-item`, all data-* attributes, row ids, and the inline `onclick="deleteSupplierItem(this)"`. Handlers are class-delegated on the table ids and only read data-attributes / remove rows by id, so `<i>`→`<button>` is behaviourally identical. Rows re-rendered via AJAX (add contact/item) inherit the new look with no controller change.
+
+          All 5 touched files `php -l` clean. No schema/behaviour changes.
+
+          Remaining on this ticket: item 4 only (Edit Item modal help-text copy alignment).
 labels:
   - suppliers
   - orders
   - stock
   - ui
 attention: null
-version: 5
+version: 6
 ---
 
 ## Goal
