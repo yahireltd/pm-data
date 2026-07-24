@@ -2,9 +2,9 @@
 id: T-0652
 title: Suppliers area UI modernisation (Suppliers, All Orders, Supplier View)
 type: chore
-state: review
+state: done
 created: 2026-07-23T12:55:09Z
-updated: 2026-07-24T06:52:41Z
+updated: 2026-07-24T07:33:24Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,10 +20,10 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - Suppliers, All Orders and Supplier View pages share a consistent modern card design (rounded cards, soft shadow, clean headers).
-  - Purchasing stat cards on Suppliers + All Orders (+ per-supplier on Supplier View); order cards link through to All Orders with the right filter (status / overdue / supplier).
-  - Add Contact, Link Product, Create Order and Add Order Item are modals opened from panel-header buttons; the panels themselves just show the lists.
-  - Consistent tables (borderless + hover), pill count badges, pill action buttons, and plain-text empty states across the three pages.
+  - "[x] Suppliers, All Orders and Supplier View pages share a consistent modern card design (rounded cards, soft shadow, clean headers)."
+  - "[x] Purchasing stat cards on Suppliers + All Orders (+ per-supplier on Supplier View); order cards link through to All Orders with the right filter (status / overdue / supplier)."
+  - "[x] Add Contact, Link Product, Create Order and Add Order Item are modals opened from panel-header buttons; the panels themselves just show the lists."
+  - "[x] Consistent tables (borderless + hover), pill count badges, pill action buttons, and plain-text empty states across the three pages."
 out_of_scope:
   - Batch numbers on order items (separate ticket T-0651).
   - Functional/behavioural changes to orders/contacts/items beyond layout + modal wrapping.
@@ -147,19 +147,17 @@ agent_runs:
 
       7. **Cross-impact:** the order panel markup is shared (`partials/_supplier-order-panel.php`) and is also re-rendered by StockController over AJAX (add/update/delete order, delete order-item) — all covered in step 1. The row partials (`_supplier-contact-row.php`, `_supplier-item-row.php`) are used both on initial load and after AJAX add — covered in step 3. No controller/model changes.
     records:
-      docs: none-needed
+      docs: updated
       tech_session: none-needed
       status_note: none-needed
+      docs_note: stock-suppliers-ui-modernisation.md
 labels:
   - suppliers
   - orders
   - stock
   - ui
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-24T05:51:13Z
-version: 11
+attention: null
+version: 18
 ---
 
 ## Goal
@@ -171,13 +169,14 @@ Modernise the whole suppliers area so Suppliers, All Orders and Supplier View re
 - **Supplier View page**: Bootstrap panels restyled to cards; modern header; per-supplier stat cards (link to `all-orders?supplier_id=`); Supplier Details slimmed to Email/Phone (50/50) + Notes; Products Linked moved to a top card, Contacts count shown in its panel header; **Add Contact, Link Product, Create Order, Add Order Item all converted to modals** with header buttons (counts refresh + modals close on save); plain-text empty states.
 - **Shared**: `supplierOrderStats()` controller helper; fixed a blank Product column bug in the order-panel partial.
 
-All read-only / layout only. **No schema changes.** Working-tree only (no commit/push per project policy).
+All read-only / layout only. **No schema changes.**
 
-## Remaining (pick up next)
-- Unify the **Contacts + Items tables** on Supplier View to the cleaner borderless+hover style (still `table-bordered table-striped`).
-- Match the **row Edit/Delete buttons + "Edit Order" button** to the new pill button style.
-- Modernise the **individual order panels** (the purple-accented per-order panels are the most dated area).
-- Align the **Edit Item modal** help text with the corrected Link Product copy ("we'll use the typed name" is still slightly misleading there).
+## Remaining — all DONE (2026-07-24, run run-20260724-0427, committed 07660975)
+- ✅ Contacts + Items tables on Supplier View unified to the borderless + hover style (`.sv-table`, shared CSS with the order-items table).
+- ✅ Row Edit/Delete + the "Edit Order" button matched to the pill button style (text-only, right-aligned, heights matched via `.sv-hbtn` line-height).
+- ✅ Individual order panels modernised — rewritten as `.svo-*` cards with a left status stripe + status pill (the old purple-accented panels are gone).
+- ✅ Edit Item modal help text realigned to the corrected Link Product copy.
+- ✅ **Plus (same run):** blank stat-card icons fixed across all three pages (FontAwesome outline `-o` → solid), and **all 8 Supplier View modals modernised** (page-scoped chrome/field styling, pencil title icons, rounded Save/Cancel) — see the 2026-07-24 06:52 comment. Feature doc: `docs/features/stock-suppliers-ui-modernisation.md`.
 
 ## Source
 Chat 23 Jul (Zsolt) — iterative design pass alongside T-0557.
@@ -199,3 +198,11 @@ After the four "Remaining" items were done and this ticket moved to review, Zsol
 **Docs:** captured the whole refresh (pages, order panels, tables, row buttons, the blank-icon fix, and the modals) in a new feature doc — `docs/features/stock-suppliers-ui-modernisation.md`.
 
 This modal pass was requested directly and not tracked as its own ticket (Zsolt's call). Everything is under this ticket's scope of "one consistent modern suppliers area", so noting it here for the record ahead of final close.
+
+**2026-07-24 (committed):** Zsolt committed the work as `07660975` "Modernize stock suppliers UI views" (7 files incl. the feature doc). Ticket body's Remaining list updated to reflect completion. Ready for final human confirm + close.
+
+---
+
+**2026-07-24 07:33 — you**
+
+design updated

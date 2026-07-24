@@ -4,7 +4,7 @@ title: 'Suppliers: "View all orders" button → filtered consolidated orders lis
 type: feature
 state: review
 created: 2026-07-14T05:35:20Z
-updated: 2026-07-23T12:55:24Z
+updated: 2026-07-24T07:34:00Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,10 +20,10 @@ assignee:
   kind: human
   name: Zsolt
 acceptance_criteria:
-  - The suppliers page has a 'View all orders' button that opens a consolidated list of all placed orders.
-  - The list has filter options (e.g. by status, supplier, and/or date).
-  - Orders are grouped/sorted usefully — e.g. Ordered and In-transit surfaced at the top, Received lower down.
-  - Existing per-supplier order handling is unchanged; this is an additional cross-supplier view.
+  - "[x] The suppliers page has a 'View all orders' button that opens a consolidated list of all placed orders."
+  - "[x] The list has filter options (e.g. by status, supplier, and/or date)."
+  - "[x] Orders are grouped/sorted usefully — e.g. Ordered and In-transit surfaced at the top, Received lower down."
+  - "[x] Existing per-supplier order handling is unchanged; this is an additional cross-supplier view."
 out_of_scope: []
 code_anchors:
   - path: ya-hire/common/models/StockSupplierOrders.php
@@ -59,7 +59,7 @@ attention:
     6. Cross-check: open the SAME order on the supplier-view page and confirm the expanded detail looks the same, and that the Product column there now shows (previously blank — bug fixed in _supplier-order-panel.php; re-check the supplier-view orders section still renders/edits fine).
     7. Confirm existing per-supplier order handling on supplier-view is unchanged (add order, add item, status update, delete).
   since: 2026-07-23T11:18:51Z
-version: 10
+version: 14
 ---
 
 ## Source
