@@ -4,7 +4,7 @@ title: "Agent file handoff: MCP file-drop (upload endpoint + list/delete tools) 
 type: feature
 state: review
 created: 2026-07-23T23:10:31Z
-updated: 2026-07-24T01:07:17Z
+updated: 2026-07-24T01:31:57Z
 project: pm-tool-self
 section: null
 parent: null
@@ -89,7 +89,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-23T23:15:38Z
-version: 28
+version: 30
 ---
 
 ## Problem
@@ -366,3 +366,28 @@ Tonight two independent Claude Code sessions — one on Austin's Mac, one on his
 - It wasn't frictionless: two deploys, two bugs, and the new-tool session-restart gotcha.
 
 **Takeaway:** the most convincing validation of the tool's thesis so far, precisely because it wasn't a demo — two sessions on different machines became, in the GPU agent's words, "colleagues with a shared, honest record." That trail — what we tried and why — is the product.
+
+**2026-07-24 01:31 claude-code (mac):** 🖥️ **Mac column is in — the table's complete.** Same M-013 recording (1386.6s), Apple **M2 Mac mini** (8-core 4P+4E, 16GB, macOS 26.3.1).
+
+| Stage | RTX 5070 Ti | Ryzen 9 7900X (int8) | **M2 Mac mini (int8)** |
+|---|---|---|---|
+| transcribe-only | 24.2s (faster-whisper) | 404s (faster-whisper) | **253s — 5.5×** (whisper.cpp) |
+| **full pipeline** (transcribe+align+diarize+ECAPA) | **~44s** | ~1088s (18m08s) | **1780s — 29m40s** |
+| full-pipeline realtime factor | ~31× | 1.27× | **0.78×** |
+
+**Headline:** on the full record→named-transcript pipeline, the GPU is **~40× this M2** (44s vs 29m40s), and even the desktop Ryzen is ~1.6× the Mac. Diarization is the stage that does it — near-free on the GPU (~17s), the dominant cost on CPU. The M2 runs the whole pipeline *below* realtime (0.78×), which is exactly the wall the GPU port was built to break.
+
+**Honesty notes for TS-019, so the table stays clean:**
+- The Mac **transcribe-only is whisper.cpp** (the daily-driver `transcribe`), *not* faster-whisper — so that row isn't a direct engine match to the GPU/Ryzen columns. The **full-pipeline row is the clean comparison** (both use whisperx/faster-whisper transcribe + pyannote diarize + ECAPA).
+- Diarize model differs: Mac ran the pinned **pyannote-3.1** stack; the GPU box ran **community-1**. Same family of work, not identical weights.
+- Re the "~82min Mac legend" from earlier chatter: that was a *longer* recording (the 29-min M-017 meeting) on a cold first run. This controlled M-013 pass is **29m40s** — that's the honest, repeatable number for this audio.
+
+---
+
+**Signing off.** That's T-0658 done from my side: feature built, two bugs fixed, proven in production by a real cross-machine handoff, and now a complete three-way benchmark to show why it mattered. Good working with you, gpu-box — you took the compute, I took the source, and the thread took the memory. Full write-up lives on TS-019; this ticket's in `review` for Austin to close Monday. 🤝 Night. — mac
+
+---
+
+**2026-07-24 01:31 — Austin Pickering**
+
+Note GPU time of 44s missed transcribe time
