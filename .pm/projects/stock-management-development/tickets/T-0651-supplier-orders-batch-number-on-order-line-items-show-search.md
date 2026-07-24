@@ -2,9 +2,9 @@
 id: T-0651
 title: "Supplier orders: batch number on order line items (+ show/search)"
 type: feature
-state: in_progress
+state: review
 created: 2026-07-23T10:58:21Z
-updated: 2026-07-24T08:10:52Z
+updated: 2026-07-24T08:27:07Z
 project: stock-management-development
 section: null
 parent: null
@@ -55,7 +55,7 @@ agent_runs:
   - id: run-20260724-0805
     model: claude-opus-4-8
     started: 2026-07-24T08:05:06Z
-    status: in_progress
+    status: completed
     policy_ack:
       branch: Stock-Management-Development
       branch_source: project
@@ -85,13 +85,46 @@ agent_runs:
           2. RBAC: stock/* is gated by mdm/admin AccessControl (not in allowActions), so the new route `stock/supplier-update-order-item-batch` must be registered + granted to the same role(s) as stock/suppliers / stock/supplier-add-order-item, else non-superadmins 403. (Superusers work immediately.)
 
           Not yet verified live (needs the column + auth). Add/existing-edit paths + quick-search covered in the test plan.
+    ended: 2026-07-24T08:27:07Z
+    summary: |-
+      Added the ability to record a batch (lot) number against each item on a supplier order. Until now received stock couldn't be traced back to a specific batch — the quality failure-points already had a free-text batch reference, but there was no actual batch number captured anywhere on the orders themselves.
+
+      Now, when someone adds an item to a supplier order they can type an optional Batch #, and it's shown alongside that item wherever the order is viewed — on the supplier's page and on the consolidated All Orders page. Staff can also fill in or change the batch on items that were already recorded, straight from the order's edit pop-up, so existing orders can be back-filled. The All Orders search box also finds orders by batch number.
+
+      Why it matters: batch numbers are the link between a delivery and any quality issue found later. Capturing them here is the foundation for tracing problems back to a specific batch. It's an optional field — existing orders are completely unaffected and simply show blank until a batch is entered. Nothing about prices, quantities or stock levels changed.
+    test_plan: |-
+      Two setup steps first, then the checks. Working tree only; no commit.
+
+      SETUP (required — the feature is invisible until both are done):
+      1. Run the SQL once: `sql/stock_supplier_order_items_batch_number.sql` (adds the `batch_number` column).
+      2. RBAC: grant the new route `stock/supplier-update-order-item-batch` to the same role(s) that can manage suppliers (Admin → Route Access), mirroring `stock/supplier-add-order-item`. Superusers work without this; other roles will 403 on the inline batch-edit until granted. (Ask claude-code to identify the exact role if unsure.)
+
+      CHECKS (on Supplier View for a supplier with an order, + All Orders):
+      1. Add via header modal: Suppliers → open a supplier → "Add Order Item" → fill an item incl. a Batch # → Save. The order panel expands to show the new item with its Batch # in the Batch column.
+      2. Add via Edit Order: open an order's "Edit Order" → "Add Item to Order" → include a Batch # → Add. Same result.
+      3. Edit existing item's batch: in the Edit Order modal, the items list shows each batch as an editable box. Type/clear a batch and click away (blur). It saves; the order panel behind refreshes and shows the new value. Reopen the order to confirm it persisted.
+      4. Blank case: an item with no batch shows an empty Batch cell everywhere (supplier panel + All Orders detail).
+      5. All Orders column: open an order row on /stock/all-orders → the detail table shows the Batch # column.
+      6. All Orders search: type a batch number into the quick-search box → orders containing that batch stay visible, others hide.
+      7. Legacy safety: existing items (pre-SQL) show blank batch and are otherwise unchanged; order subtotals/grand totals are unchanged throughout.
+      8. Cross-impact: the order panel partial is shared + AJAX-rendered (add/delete item, batch edit) — confirm add item, delete item, and status/order edits still work normally.
+
+      Docs: docs/features/stock-supplier-order-batch-numbers.md.
+    records:
+      docs: updated
+      tech_session: none-needed
+      status_note: none-needed
+      docs_note: New feature doc docs/features/stock-supplier-order-batch-numbers.md (T-0651); also cleared a TODO in stock-suppliers-ui-modernisation.md by adding the All Orders filtered-summary section + cross-link.
 labels:
   - suppliers
   - orders
   - stock
   - quality-management
-attention: null
-version: 6
+attention:
+  needed_by: human
+  reason: Agent finished — confirm and close, or send back
+  since: 2026-07-24T08:27:07Z
+version: 7
 ---
 
 ## Problem
@@ -109,3 +142,11 @@ Add an optional **Batch #** to supplier order **line items** (a batch is per-pro
 
 ## Source
 Chat 23 Jul (Zsolt) — spun out of the All Orders work (T-0557).
+
+## Conversation
+
+**2026-07-24 08:27 claude-code:** Run run-20260724-0805 completed — Added the ability to record a batch (lot) number against each item on a supplier order. Until now received stock couldn't be traced back to a specific batch — the quality failure-points already had a free-text batch reference, but there was no actual batch number captured anywhere on the orders themselves.
+
+Now, when someone adds an item to a supplier order they can type an optional Batch #, and it's shown alongside that item wherever the order is viewed — on the supplier's page and on the consolidated All Orders page. Staff can also fill in or change the batch on items that were already recorded, straight from the order's edit pop-up, so existing orders can be back-filled. The All Orders search box also finds orders by batch number.
+
+Why it matters: batch numbers are the link between a delivery and any quality issue found later. Capturing them here is the foundation for tracing problems back to a specific batch. It's an optional field — existing orders are completely unaffected and simply show blank until a batch is entered. Nothing about prices, quantities or stock levels changed.
