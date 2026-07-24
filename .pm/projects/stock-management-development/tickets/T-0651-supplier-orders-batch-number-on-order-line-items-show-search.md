@@ -2,9 +2,9 @@
 id: T-0651
 title: "Supplier orders: batch number on order line items (+ show/search)"
 type: feature
-state: review
+state: done
 created: 2026-07-23T10:58:21Z
-updated: 2026-07-24T08:27:07Z
+updated: 2026-07-24T11:47:41Z
 project: stock-management-development
 section: null
 parent: null
@@ -20,13 +20,13 @@ assignee:
   kind: agent
   name: claude-code
 acceptance_criteria:
-  - "Supplier order line items have an optional Batch # field (new nullable column batch_number on stock_supplier_order_items)."
-  - "The Add Order Item form on the supplier page captures an optional Batch #, saved with the item (both the header modal and the in-Edit-Order add form)."
-  - "The order-items table shows a Batch # column in BOTH the supplier-view order panel and the All Orders detail view; items without one display blank."
-  - The All Orders quick-search box also matches batch numbers.
-  - Existing orders/items are unaffected (batch is optional, blank on legacy rows).
-  - "Batch # on EXISTING line items can be set/edited inline from the Edit Order modal, saved via a new endpoint (supplier-update-order-item-batch); the on-page order panel + the modal list refresh on save."
-  - The new edit endpoint is registered in mdm/admin RBAC and granted to the same role(s) that can manage the Suppliers page (otherwise non-superadmins 403).
+  - "[x] Supplier order line items have an optional Batch # field (new nullable column batch_number on stock_supplier_order_items)."
+  - "[x] The Add Order Item form on the supplier page captures an optional Batch #, saved with the item (both the header modal and the in-Edit-Order add form)."
+  - "[x] The order-items table shows a Batch # column in BOTH the supplier-view order panel and the All Orders detail view; items without one display blank."
+  - "[x] The All Orders quick-search box also matches batch numbers."
+  - "[x] Existing orders/items are unaffected (batch is optional, blank on legacy rows)."
+  - "[x] Batch # on EXISTING line items can be set/edited inline from the Edit Order modal, saved via a new endpoint (supplier-update-order-item-batch); the on-page order panel + the modal list refresh on save."
+  - "[x] The new edit endpoint is registered in mdm/admin RBAC and granted to the same role(s) that can manage the Suppliers page (otherwise non-superadmins 403)."
 out_of_scope:
   - Per-batch stock quantity tracking / FIFO depletion (aggregate total_stock stays as-is) — separate spike.
   - Linking quality failure points / quality checks to a specific batch — follow-up once batch numbers exist.
@@ -120,11 +120,8 @@ labels:
   - orders
   - stock
   - quality-management
-attention:
-  needed_by: human
-  reason: Agent finished — confirm and close, or send back
-  since: 2026-07-24T08:27:07Z
-version: 7
+attention: null
+version: 19
 ---
 
 ## Problem
@@ -150,3 +147,9 @@ Chat 23 Jul (Zsolt) — spun out of the All Orders work (T-0557).
 Now, when someone adds an item to a supplier order they can type an optional Batch #, and it's shown alongside that item wherever the order is viewed — on the supplier's page and on the consolidated All Orders page. Staff can also fill in or change the batch on items that were already recorded, straight from the order's edit pop-up, so existing orders can be back-filled. The All Orders search box also finds orders by batch number.
 
 Why it matters: batch numbers are the link between a delivery and any quality issue found later. Capturing them here is the foundation for tracing problems back to a specific batch. It's an optional field — existing orders are completely unaffected and simply show blank until a batch is entered. Nothing about prices, quantities or stock levels changed.
+
+---
+
+**2026-07-24 11:47 — you**
+
+done
