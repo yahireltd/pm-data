@@ -4,7 +4,7 @@ title: Suppliers area UI modernisation (Suppliers, All Orders, Supplier View)
 type: chore
 state: review
 created: 2026-07-23T12:55:09Z
-updated: 2026-07-24T05:51:13Z
+updated: 2026-07-24T06:52:41Z
 project: stock-management-development
 section: null
 parent: null
@@ -28,16 +28,22 @@ out_of_scope:
   - Batch numbers on order items (separate ticket T-0651).
   - Functional/behavioural changes to orders/contacts/items beyond layout + modal wrapping.
 code_anchors:
-  - path: ya-hire/backend/views/stock/suppliers.php
-    note: "DONE: 6 stat cards (+ sub-lines, order cards link to all-orders), modern card table, initials avatars, count pills, pill action buttons, paginated Supplier Items (25/pg), centered Contacts/Items/Orders/Actions"
-  - path: ya-hire/backend/views/stock/all-orders.php
-    note: "DONE: card styling + header, stat cards that double as status filters (All/On The Way/Overdue/Delivered/Total Value), quick-search, left status stripe rows"
-  - path: ya-hire/backend/views/stock/supplier-view.php
-    note: "DONE: panels->cards CSS, modern header, per-supplier stat cards (linked to all-orders?supplier_id=), Email/Phone 50/50 details grid + Notes, Contacts/Products-Linked moved out, Add Contact + Link Product + Create Order + Add Order Item now MODALS with header buttons; counts update + modals close on save"
-  - path: ya-hire/backend/controllers/StockController.php
-    note: "DONE: shared supplierOrderStats() helper (used by suppliers + all-orders); actionAllOrders supports ?overdue=1 and ?supplier_id filters"
-  - path: ya-hire/backend/views/stock/partials/_supplier-order-panel.php
-    note: "DONE: fixed blank Product column (missing echo)"
+  - path: backend/views/stock/suppliers.php
+    note: "DONE: 6 stat cards (order cards link to all-orders), .sp-* card table, initials avatars, count pills, pill row buttons; blank icons fixed (folder-open, check-circle)"
+  - path: backend/views/stock/all-orders.php
+    note: "DONE: .ao-* card + header, stat cards that double as status filters (?status/?overdue), quick-search, status-striped expandable rows; Delivered icon fixed (check-circle)"
+  - path: backend/views/stock/supplier-view.php
+    note: "DONE: .sv-* header + per-supplier stat cards, card panels, modern .svo-* order panels, borderless .sv-table Contacts/Items, right-aligned pill row buttons, blank icons fixed; ALL 8 modals modernised (page-scoped .modal-* + form-control overrides, pencil title icons via span, rounded/aligned Save vs Cancel); Edit Item help-text realigned to Link Product copy"
+  - path: backend/views/stock/partials/_supplier-order-panel.php
+    note: "DONE: rewritten as .svo-panel card (left status stripe, status pill, borderless items table); JS contracts preserved; also AJAX-rendered by StockController"
+  - path: backend/views/stock/partials/_supplier-contact-row.php
+    note: "DONE: bare icon actions -> text-only sv-hbtn Edit/Delete pills, right-aligned; edit-*/delete-* classes + data-* preserved"
+  - path: backend/views/stock/partials/_supplier-item-row.php
+    note: "DONE: bare icon actions -> text-only sv-hbtn Edit/Delete pills, right-aligned; onclick=deleteSupplierItem(this) preserved"
+  - path: backend/controllers/StockController.php
+    note: shared supplierOrderStats() helper (suppliers + all-orders); actionAllOrders supports ?overdue=1 and ?supplier_id (pre-existing; unchanged by the UI passes)
+  - path: docs/features/stock-suppliers-ui-modernisation.md
+    note: "DONE: feature doc capturing the whole refresh (pages, order panels, tables, row buttons, blank-icon fix, modals)"
 relates:
   - T-0557
   - T-0651
@@ -153,7 +159,7 @@ attention:
   needed_by: human
   reason: Agent finished — confirm and close, or send back
   since: 2026-07-24T05:51:13Z
-version: 9
+version: 11
 ---
 
 ## Goal
@@ -181,3 +187,15 @@ Chat 23 Jul (Zsolt) — iterative design pass alongside T-0557.
 **2026-07-24 05:51 claude-code:** Run run-20260724-0427 completed — Finished modernising the suppliers area so the Suppliers, Supplier View and All Orders screens all look like one consistent purchasing dashboard instead of three differently-styled pages. In this run we tackled the last rough edges on the Supplier View screen: the dated per-order boxes were rebuilt as clean cards with a colour-coded status stripe; the Contacts and Supplier Items lists were given the same tidy modern table style as everywhere else; the little Edit/Delete controls on each row became proper buttons that match the rest of the page (same size, shape and right-hand placement); the Supplier Items list was re-proportioned so long supplier product descriptions have room to show; a couple of summary tiles that were showing blank icons (Orders, Delivered, Open Orders) now show their icons again; and the "Edit Item" pop-up help text was reworded to match the "Link Product" pop-up so staff aren't given two slightly different explanations of the same thing.
 
 Why it matters: the suppliers area is used daily to check orders and manage supplier products. The inconsistent styling and the blank icons made it look unfinished and made a few things (like long product references) harder to read. Left as-is it would have stayed visually disjointed and slightly confusing; now it reads as one coherent, polished area. No data, permissions or behaviour changed — this is presentation only.
+
+**2026-07-24 06:52 claude-code:** **2026-07-24 — Follow-on after review sign-off of the panels/tables/buttons: modernised the Supplier View modals + wrote a feature doc.**
+
+After the four "Remaining" items were done and this ticket moved to review, Zsolt asked to also modernise the pop-up dialogs so they match the refreshed page. Done (working tree, lint clean, still no schema/behaviour changes):
+
+- **All eight Supplier View modals** (Add Contact, Link Product, Create Order, Add Order Item, Edit Contact, Edit Item, Edit Supplier, Edit Order) now share one modern style: borderless rounded card with a soft shadow, a clean white header with a subtle close ✕, a light footer bar, and tidy form fields (small uppercase labels + rounded inputs with the blue focus ring). Styling is **scoped to this page** so no other screens' pop-ups change.
+- Edit dialogs gained a pencil header icon to match the Add/Create ones. For the three whose titles are updated live (they show the order number / contact / item name), the dynamic text was moved into its own span so the icon isn't wiped when the name is filled in.
+- Footer buttons: Cancel/Close is a soft outlined pill and the green Save buttons were rounded and vertically aligned to sit level with Cancel (a couple of small alignment fixes from Zsolt's eye).
+
+**Docs:** captured the whole refresh (pages, order panels, tables, row buttons, the blank-icon fix, and the modals) in a new feature doc — `docs/features/stock-suppliers-ui-modernisation.md`.
+
+This modal pass was requested directly and not tracked as its own ticket (Zsolt's call). Everything is under this ticket's scope of "one consistent modern suppliers area", so noting it here for the record ahead of final close.
