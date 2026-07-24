@@ -4,7 +4,7 @@ slug: it-meeting
 title: IT Meeting
 state: held
 created: 2026-07-15T15:42:18Z
-updated: 2026-07-23T07:52:52Z
+updated: 2026-07-24T12:06:24Z
 scheduled_at: 2026-07-22T11:00:00Z
 duration_minutes: 30
 location: IT Office
@@ -144,7 +144,7 @@ calendar:
   graph_event_id: null
   ics_url: null
 kind: other
-version: 19
+version: 21
 reminders: []
 recurrence:
   unit: week
