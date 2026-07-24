@@ -2,9 +2,9 @@
 id: T-0557
 title: 'Suppliers: "View all orders" button → filtered consolidated orders list'
 type: feature
-state: review
+state: done
 created: 2026-07-14T05:35:20Z
-updated: 2026-07-24T07:34:00Z
+updated: 2026-07-24T07:57:37Z
 project: stock-management-development
 section: null
 parent: null
@@ -45,21 +45,8 @@ labels:
   - suppliers
   - orders
   - stock
-attention:
-  needed_by: human
-  reason: |-
-    Built and iterated with Zsolt: Suppliers page "View all orders" button → new /stock/all-orders page (status-grouped, expandable rows matching the supplier-view detail, single quick-search box). Working-tree only, lint clean, no schema changes. Test plan below. Ready for review + close.
-
-    Test plan:
-    1. Suppliers page → click "View all orders" → lands on /stock/all-orders.
-    2. Confirm orders are grouped by status (In Transit → Ordered → Pending → Received → Cancelled), each group with a colour band + column headers; rows uniform height with a status-coloured left stripe.
-    3. Click an order row → it expands; header takes a faded tint of its own status colour, body white; detail shows Order/Arrival dates + Subtotal/Grand Total, Notes, and the Description/Product/Qty/Unit Price/Line Total table (matches the supplier-view panel for the same order).
-    4. Quick-search box: type an order number, a company, a status (e.g. "received"), an item name, a date ("may 2026"), and a total both ways ("1500" and "1,500") — each should filter correctly and hide empty status groups.
-    5. Resize/filter and confirm column widths stay fixed (don't jump).
-    6. Cross-check: open the SAME order on the supplier-view page and confirm the expanded detail looks the same, and that the Product column there now shows (previously blank — bug fixed in _supplier-order-panel.php; re-check the supplier-view orders section still renders/edits fine).
-    7. Confirm existing per-supplier order handling on supplier-view is unchanged (add order, add item, status update, delete).
-  since: 2026-07-23T11:18:51Z
-version: 14
+attention: null
+version: 16
 ---
 
 ## Source
@@ -134,3 +121,15 @@ Files touched: `StockController.php`, `views/stock/suppliers.php`, `views/stock/
 Note: a **batch-number** follow-up (T-0651) remains parked to do next.
 
 **2026-07-23 12:55 claude-code:** **2026-07-23 — The broader UI modernisation (Suppliers + Supplier View pages, modal conversions, shared stat helper) has been split out to its own ticket T-0652** so this one stays scoped to the "View all orders" feature. T-0557's own work (the All Orders page + its stat/filter cards) is unchanged and still in review. See T-0652 for the full done/remaining list.
+
+---
+
+**2026-07-24 07:57 — you**
+
+done
+
+---
+
+**2026-07-24 07:57 — you**
+
+Records: docs none-needed; tech-session none-needed; status-note none-needed.

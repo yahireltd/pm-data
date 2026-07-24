@@ -4,7 +4,7 @@ title: Suppliers area UI modernisation (Suppliers, All Orders, Supplier View)
 type: chore
 state: done
 created: 2026-07-23T12:55:09Z
-updated: 2026-07-24T07:33:24Z
+updated: 2026-07-24T07:52:22Z
 project: stock-management-development
 section: null
 parent: null
@@ -31,7 +31,7 @@ code_anchors:
   - path: backend/views/stock/suppliers.php
     note: "DONE: 6 stat cards (order cards link to all-orders), .sp-* card table, initials avatars, count pills, pill row buttons; blank icons fixed (folder-open, check-circle)"
   - path: backend/views/stock/all-orders.php
-    note: "DONE: .ao-* card + header, stat cards that double as status filters (?status/?overdue), quick-search, status-striped expandable rows; Delivered icon fixed (check-circle)"
+    note: "DONE: .ao-* card + header, stat cards that double as status filters (?status/?overdue), quick-search, status-striped expandable rows; Delivered icon fixed (check-circle); FILTERED SUMMARY — when a server-side filter is active, a header (filter label + Clear) over a row of shorter cards mirroring the top 5 (Orders/On The Way/Overdue/Delivered/Total Value) for the filtered subset, computed in-view from loaded $orders (no extra query)"
   - path: backend/views/stock/supplier-view.php
     note: "DONE: .sv-* header + per-supplier stat cards, card panels, modern .svo-* order panels, borderless .sv-table Contacts/Items, right-aligned pill row buttons, blank icons fixed; ALL 8 modals modernised (page-scoped .modal-* + form-control overrides, pencil title icons via span, rounded/aligned Save vs Cancel); Edit Item help-text realigned to Link Product copy"
   - path: backend/views/stock/partials/_supplier-order-panel.php
@@ -43,7 +43,7 @@ code_anchors:
   - path: backend/controllers/StockController.php
     note: shared supplierOrderStats() helper (suppliers + all-orders); actionAllOrders supports ?overdue=1 and ?supplier_id (pre-existing; unchanged by the UI passes)
   - path: docs/features/stock-suppliers-ui-modernisation.md
-    note: "DONE: feature doc capturing the whole refresh (pages, order panels, tables, row buttons, blank-icon fix, modals)"
+    note: "DONE: feature doc capturing the whole refresh (pages, order panels, tables, row buttons, blank-icon fix, modals). TODO: add the All Orders filtered-summary strip"
 relates:
   - T-0557
   - T-0651
@@ -157,7 +157,7 @@ labels:
   - stock
   - ui
 attention: null
-version: 18
+version: 20
 ---
 
 ## Goal
@@ -206,3 +206,17 @@ This modal pass was requested directly and not tracked as its own ticket (Zsolt'
 **2026-07-24 07:33 — you**
 
 design updated
+
+**2026-07-24 07:52 claude-code:** **2026-07-24 — Follow-on (Zsolt): filtered-order summary on the All Orders page.**
+
+When you jump from a supplier into All Orders (or click one of the status cards), the page is now filtered to that subset — but the big cards at the top still showed the company-wide totals, so there was no at-a-glance total for what you were actually looking at.
+
+Added a **filtered summary** that appears only when a filter is active (supplier, status, overdue, date or order-number) and disappears again on the plain All Orders view:
+- A small header line showing what's filtered (e.g. "Supplier: Flexfurn") on the left and a **Clear filter** link on the right.
+- Below it, a row of shorter cards **mirroring the top cards for just the filtered orders** — Orders (count + £ total), On The Way, Overdue (turns red when there are any), Delivered, and Total Value.
+
+So you immediately see, say, "this supplier: 2 orders, £119,045, all delivered" without doing the maths yourself. It's worked out from the orders already on screen (no extra database work) and is display-only — no data or behaviour changed.
+
+Small caveat: the quick-search box narrows the visible rows on the client side and doesn't recalculate this summary (the summary reflects the main filter, same as the existing "N shown" count). Easy to wire up live if wanted.
+
+This All Orders enhancement relates to T-0557 (the original "View all orders" feature); logging it here since it was built as part of this suppliers-area design pass. Still uncommitted / working tree.
